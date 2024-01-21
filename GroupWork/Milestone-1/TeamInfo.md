@@ -20,7 +20,7 @@ We did not schedule specific meetings yet as we are waiting for our third member
 
 ## Resumes
 - [Resume - Alice](Resumes/Team_Resume_Alice.pdf)
-- [Resume - Tommy](Resumes/link) 
+- [Resume - Tommy](Resumes/Team_Resume_Tommy.pdf) 
 
 ## Team Materials
 Templates for team materials are stored on Canva.
