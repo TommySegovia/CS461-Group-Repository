@@ -11,13 +11,15 @@ An app to allow users to track and quantify their strengths, weaknesses, and ach
 ## 2: Initial Vision Discussion with Stakeholders
     A web app that allows users to track and view their strengths, weaknesses, achievements, and view a variety of climbs with comparative data from the community. By comparing a user's individual statistics to others, they will have the context to view themselves as a climber accurately and be able to improve efficently with that knowledge. The app will allow users to log their climbing attempts on a wide range of climbs, measure their performance on their attempts, and compare the stats gained from the previous two and compare them with others who attempted the same climb — as well as comparing them with friends that you can make on the app. This app is aimed to fill a need for climbers to track their own rock climbing skills, allow them to find climbs at their level, and have a way to compare themselves to others accurately. For tracking and comparing data for rock climbing, there isn't a lot of data that's open source and available to the public. For example, OpenBeta has tons of routes, but it doesn't have much in the way of giving context with personal and community data. 
 
+    [Rock Climbing App Mindmap](https://miro.com/app/board/uXjVN4Aend4=/)
+
 ### Description of Clients/Users
 
 ### List of Stakeholders and their Positions (if applicable)
     Who are they? Why are they a stakeholder?
 
 ## 3a: Initial Requirements Elaboration and Elicitation
-    1. It is required for user's to log their day and for it persist.
+    1. It is required for user's to log their climbs and for it to persist.
     2. It is required for the user to see climbing locations.
     3.
 
@@ -69,7 +71,7 @@ An app to allow users to track and quantify their strengths, weaknesses, and ach
     Diagrams, UI wireframes, page flows, ...
 
 ## Identify Non-Functional Requirements
-    1.
+    1. 
     2.
     3.
 
@@ -87,7 +89,7 @@ T: Task
         a. [T]
 
 ## 4: Initial Architecture Envisioning
-    Diagrams and drawings, lists of components
+    [Rough architecture diagram](https://miro.com/app/board/uXjVN3ILmfA=/)
 
 ## Agile Data Modeling
     Diagrams, SQL modeling (dbdiagram.io), UML diagrams
