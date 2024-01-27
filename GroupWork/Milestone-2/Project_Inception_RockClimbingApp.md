@@ -9,11 +9,19 @@ An app to allow users to track and quantify their strengths, weaknesses, and ach
     What are we choosing to do, how will we do it and at what level of detail or extent?
 
 ## 2: Initial Vision Discussion with Stakeholders
+<<<<<<< HEAD
     A web app that allows users to track and view their strengths, weaknesses, achievements, and view a variety of climbs with comparative data from the community. By comparing a user's individual statistics to others, they will have the context to view themselves as a climber accurately and be able to improve efficently with that knowledge. The app will allow users to log their climbing attempts on a wide range of climbs, measure their performance on their attempts, and compare the stats gained from the previous two and compare them with others who attempted the same climb — as well as comparing them with friends that you can make on the app. This app is aimed to fill a need for climbers to track their own rock climbing skills, allow them to find climbs at their level, and have a way to compare themselves to others accurately. For tracking and comparing data for rock climbing, there isn't a lot of data that's open source and available to the public. For example, OpenBeta has tons of routes, but it doesn't have much in the way of giving context with personal and community data. 
+=======
+    A web app that allows users to track and view their strengths, weaknesses, achievements, and view a variety of climbs with comparative data from the community. By comparing a user's individual statistics to others, they will have the context to view themselves as a climber accurately and be able to improve efficently with that knowledge. Giving objective, comparative data points to climbers that will allow them to observe how their performance and objective measurements may align and differ relative to what may be expected of someone in their demographic, skill, and experience level. The app will allow users to log their climbing attempts on a wide range of climbs, measure their performance on their attempts, and compare the stats gained from the previous two and compare them with others who attempted the same climb — as well as comparing them with friends that you can make on the app. This app is aimed to fill a need for climbers to track their own rock climbing skills, allow them to find climbs at their level, and have a way to compare themselves to others accurately. The ability to compare objective measurements that are indicitive of a climbers performance, for not only general demographic, skill, and experience level. But as for comparisons down to such specifics as climbers on the very same routes, becomes an exceptionally important tool for measuring progress and performance of individuals across all levels of the sport. For tracking and comparing data for rock climbing, there isn't a lot of data that's open source and available to the public. For example, OpenBeta has tons of routes, but it doesn't have much in the way of giving context with personal and community data. This app seeks to bring the contextual and objective measurements that can help give guidance to an indivudals choices when it comes to training and climbing, to each individual, through building a strong community. As this system becomes more refined and detailed as the community size and diversity increases.
+>>>>>>> tommy-feature-branch-1
 
     [Rock Climbing App Mindmap](https://miro.com/app/board/uXjVN4Aend4=/)
 
 ### Description of Clients/Users
+<<<<<<< HEAD
+=======
+    [Persona 1](/Persona_1.md)
+>>>>>>> tommy-feature-branch-1
 
 ### List of Stakeholders and their Positions (if applicable)
     Who are they? Why are they a stakeholder?
