@@ -45,23 +45,28 @@ An app to allow users to track and quantify their strengths, weaknesses, and ach
     As needed
 
 ## 3b: List of Needs and Features
-    1. Log climbing attempts
-    2. View individual locations
-    3. View data for each climb
-    4. Compare a user's stats compared to others
-    5. Compare with people who completed the same climb
-    6. View a leaderboard of recent climbing activities
-    7. Account/Login system
-    8. Friending System
-    9. Community Group System
-    10. See a user's statistics
-    11. User's get an analysis based on their attempts
-    12. Responsive webpages with fast-load times.
-    13. Intuitive UI/UX
-    14. User's can easily log their information
-    15. User's can identify and analyze thier own stats.
-    16. Accounts and identity information are secure.
-    17.
+### Needs:
+1. Eva is a busy, tech-adverse mother that needs a easy to get connected to her local rock-climbing community so that she can fulfill her desire to rock climb with others.
+2. Alex is a skilled software engineer and an rock climbing enthusiast that needs to get accurate statistical analyitics of his climbing attempts so that he can take his climbing skill to the next level.
+3. Emily is an environmental scientist and community leader who needs an intuitive way to get information about climbs in her area so that she can find new challenges to take with her community.
+4. Alex as someone who wishes to push his climbing to the next level needs a way to compare his statistics to other climbers so that he can optimizatize his training.
+### Features:
+1. Log climbing attempts
+2. View individual locations
+3. View data for each climb
+4. Compare a user's stats compared to others
+5. Compare with people who completed the same climb
+6. View a leaderboard of recent climbing activities
+7. Account/Login system
+8. Friending System
+9. Community Group System
+10. See a user's statistics
+11. User's get an analysis based on their attempts
+12. Responsive webpages with fast-load times.
+13. Intuitive UI/UX
+14. User's can easily log their information
+15. User's can identify and analyze thier own stats.
+16. Accounts and identity information are secure.
 
 ## Initial Modeling
 
