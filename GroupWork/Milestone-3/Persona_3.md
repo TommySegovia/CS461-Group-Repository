@@ -7,7 +7,7 @@
     28
 
 ## Image:
-<img src="https://imgur.com/FRZc1pN.png" width="256">
+<img src="Persona_3.png" width="256">
 <!-- image sourced from this-person-does-not-exist.com -->
 
 ## Occupation:

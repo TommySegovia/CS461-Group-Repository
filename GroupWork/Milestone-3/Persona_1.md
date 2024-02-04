@@ -4,7 +4,8 @@
 ## Age: 
     27
 
-## [Image](https://www.canva.com/design/DAF7DLpkitE/BcDfoWTYP2LO_Fket4Tleg/edit?utm_content=DAF7DLpkitE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+## Image:
+<img src="Persona_3.png" width="256">
 
 ## Occupation:
     Software Engineer and Rock Climbing Instructor
