@@ -6,7 +6,8 @@
 ## Age: 
     48
 
-## [Image](https://drive.google.com/file/d/17PtgFSnCMY5c3fC3AAb2218xy30i4QUb/view?usp=sharing)
+## Image:
+<img src="Persona_2.png" width="256">
 
 ## Occupation:
     Personal Care and Service Worker
