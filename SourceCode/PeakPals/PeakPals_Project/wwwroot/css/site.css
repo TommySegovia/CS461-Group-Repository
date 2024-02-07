@@ -20,3 +20,30 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#navbar-options {
+  height: 6em;
+  display: flex;
+}
+
+#navbar-nav-options {
+  justify-content: flex-end;
+}
+
+.navbar-brand {
+  margin-left: 8em;
+}
+
+#nav-item {
+  margin-left: 3em;
+}
+
+#nav-item-custom {
+  margin-left: 5em;
+}
+
+#index-body {
+  background-image: url('../images/rockclimbing2.jpg'); /* Replace with the path to your image */
+  background-size: cover; /* This will stretch the image to cover the entire element */
+  background-repeat: no-repeat; /* This will prevent the image from repeating */
+}
