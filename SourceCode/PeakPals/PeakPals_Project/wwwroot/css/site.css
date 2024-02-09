@@ -15,8 +15,120 @@ html {
 html {
   position: relative;
   min-height: 100%;
+  margin: 0;
+  border: 0;
 }
 
 body {
   margin-bottom: 60px;
+  margin: 0;
+  border: 0;
+}
+
+#navbar-options {
+  height: 6em;
+  display: flex;
+}
+
+#navbar-nav-options {
+  justify-content: flex-end;
+}
+
+.navbar-brand {
+  margin-left: 7em;
+  font-family:"Rock Salt", cursive;
+  font-size: xx-large;
+}
+
+#nav-item {
+  margin-right: 3em;
+  font-family: "Sriracha", cursive;
+  font-size: large;
+}
+
+#nav-item-custom {
+  margin-left: 1.5em;
+  margin-right: 0.5em;
+}
+
+.nav-link-color {
+  color: #ffa500 !important;
+
+}
+
+
+.box1{
+  background-color: #ffa500; /* Change this to the color you want for the box */
+  padding: 10px; /* Adjust this value to change the size of the box */
+  margin: 5px 0; /* This adds some space above and below the box */
+  box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
+  border-radius: 10px;
+  
+}
+
+.box2{
+  background-color: #ffa500; /* Change this to the color you want for the box */
+  padding: 10px; /* Adjust this value to change the size of the box */
+  margin: 5px 0; /* This adds some space above and below the box */
+  box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
+  border-radius: 10px;
+}
+
+#index-body {
+  background-image: url('../images/rockclimbing2.jpg'); /* Replace with the path to your image */
+  background-size: cover; /* This will stretch the image to cover the entire element */
+  background-repeat: no-repeat; /* This will prevent the image from repeating */
+}
+
+.welcome {
+  /*font-style:oblique; */
+  font-family:"Rock Salt", cursive;
+  font-weight: 400;
+  font-style: normal;
+  margin-top: 2.75em;
+  margin-bottom: 6cm;
+  font-size: 6.5em;
+}
+
+.welcome-text {
+    font-family: "Sriracha", cursive;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 2em;
+}
+
+
+@media (max-height: 768px)
+{
+  .welcome {
+    font-size: 3.5em;
+    margin-top: 2.25em;
+    margin-bottom: 4cm;
+  }
+  .welcome-text {
+    font-size: 1.75em;
+  }
+}
+
+@media (max-height: 1080px)
+{
+  @media (min-height: 769px)
+  {
+    .welcome {
+      font-size: 4.5em;
+      margin-top: 2.5em;
+      margin-bottom: 5cm;
+    }
+    .welcome-text {
+      font-size: 1.75em;
+    }
+  }
+}
+
+@media (max-width: 990px)
+{
+  .navbar-brand {
+    margin-left: 0;
+    font-size: x-large;
+  }
 }
