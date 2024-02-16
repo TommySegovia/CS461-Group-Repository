@@ -39,9 +39,10 @@ body {
 }
 
 .navbar-brand {
-  margin-left: 7em;
+  margin-left: 6em;
   font-family: "Rock Salt", cursive;
   font-size: xx-large;
+  
 }
 
 #nav-item {
@@ -57,13 +58,20 @@ body {
 
 .nav-link-color {
   color: #ffa500 !important;
+}
 
+.nav-link-color:hover {
+  color: rgb(255, 217, 175) !important; 
 }
 
 .nav-link-box-text {
   color: #ffffff !important;
   font-family: "Sriracha";
   font-size: x-large;
+}
+
+.nav-link-box-text:hover {
+  color: rgb(255, 217, 175) !important;
 }
 
 
@@ -87,7 +95,7 @@ body {
 .box3 {
   background-color: #ffa500;
   padding: 3px;
-  margin: 5px ;
+  margin: 2px;
   box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
   border-radius: 10px;
 }
@@ -106,6 +114,7 @@ body {
   margin-top: 2.75em;
   margin-bottom: 6cm;
   font-size: 6.5em;
+  text-shadow: black 2px 2px 2px;
 }
 
 .welcome-text {
@@ -113,14 +122,20 @@ body {
   font-weight: 500;
   font-style: normal;
   font-size: 2em;
+  text-shadow: black 3px 3px 3px;
 }
 
-#partial-nav-toggle-display
-  {
-    display:flex;
-    flex-direction: row;
-  }
- 
+#partial-nav-toggle-display {
+  display: flex;
+  flex-direction: row;
+}
+
+.icon-class {
+  width: 1.5em;
+  height: 1.5em;
+  fill: white;
+}
+
 
 @media (min-width: 1921px)
 /* This is for resolutions for any devices above 1080p */
@@ -128,6 +143,7 @@ body {
   #navbar-options {
     height: 7em;
   }
+
   .navbar-brand {
     font-size: 2.5em;
   }
@@ -136,9 +152,9 @@ body {
 @media (max-width: 1920px)
 /* This is for monitors of resolution between 769p to 1080p */
   {
-    #navbar-options {
-      height: 6.5em;
-    }
+  #navbar-options {
+    height: 6.5em;
+  }
 
 
   @media (min-width: 1365px) {
@@ -154,7 +170,7 @@ body {
   }
 }
 
-@media (max-width: 1364px)
+@media (max-width: 1650px)
 /* This is for monitors of resolution that aren't mobile but are no greater 768p  */
   {
   .welcome {
@@ -179,10 +195,10 @@ body {
 
 }
 
-@media (max-width: 1100px)
-/* This is for mobile devices */
+@media (max-width: 1400px)
+/* This is for sizes below 1110px. */
   {
-    
+
   .navbar-brand {
     margin-left: 0;
     font-size: x-large;
@@ -198,22 +214,39 @@ body {
     margin-left: 0.5em;
     margin-right: 0.5em;
   }
-  
-  
-  @media (max-width: 800px) 
-  {
+
+  @media (max-width: 850px)
+
+  /* This is for larger mobile sizes */
+    {
     #navbar-options {
       height: 8em;
     }
 
     #nav-item {
-      font-size: large;
+      font-size: small !important;
     }
 
-    
+    .nav-link-box-text {
+      font-size: small !important;
+    }
+
   }
-  
+
+  @media (max-width: 454px)
+  /* This is for smalll mobile sizes */
+  {
+    #nav-item {
+      font-size: x-small !important;
+    }
+
+    .nav-link-box-text {
+      font-size: xx-small !important;
+    }
+
+    .navbar-brand {
+      font-size: large;
+    }
+  }
 
 }
-
-
