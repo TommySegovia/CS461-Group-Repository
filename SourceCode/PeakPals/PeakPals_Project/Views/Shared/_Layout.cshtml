@@ -16,27 +16,26 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-md navbar-dark bg-black box-shadow mb-3" id="navbar-options">
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-dark bg-black box-shadow mb-3" id="navbar-options">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Peak Pals</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex">
-                    <ul class="navbar-nav flex-grow-1" id="navbar-nav-options">
+                    <ul class="navbar-nav flex-grow-1" id="navbar-nav-options" style="display: flex; flex-direction: row;">
                         <li class="nav-item" id="nav-item">
                             <a class="nav-link nav-link-color" asp-area="" asp-controller="Home" asp-action="Index">Record</a>
+                            <div class="box3 d-block d-sm-none"></div>
                         </li>
                         <li class="nav-item" id="nav-item">
                             <a class="nav-link nav-link-color" asp-area="" asp-controller="Home" asp-action="Index">Report</a>
+                            <div class="box3 d-block d-sm-none"></div>
                         </li>
+                        
                         <li class="nav-item" id="nav-item">
                             <a class="nav-link nav-link-color" asp-area="" asp-controller="Home" asp-action="Index">Locations</a>
+                            <div class="box3 d-block d-sm-none"></div>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
-                </div>
             </div>
         </nav>
     </header>

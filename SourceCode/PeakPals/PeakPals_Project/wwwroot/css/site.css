@@ -8,7 +8,11 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -36,14 +40,14 @@ body {
 
 .navbar-brand {
   margin-left: 7em;
-  font-family:"Rock Salt", cursive;
+  font-family: "Rock Salt", cursive;
   font-size: xx-large;
 }
 
 #nav-item {
   margin-right: 3em;
   font-family: "Sriracha", cursive;
-  font-size: large;
+  font-size: x-large;
 }
 
 #nav-item-custom {
@@ -56,33 +60,47 @@ body {
 
 }
 
-
-.box1{
-  background-color: #ffa500; /* Change this to the color you want for the box */
-  padding: 10px; /* Adjust this value to change the size of the box */
-  margin: 5px 0; /* This adds some space above and below the box */
-  box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
-  border-radius: 10px;
-  
+.nav-link-box-text {
+  color: #ffffff !important;
+  font-family: "Sriracha";
+  font-size: x-large;
 }
 
-.box2{
-  background-color: #ffa500; /* Change this to the color you want for the box */
-  padding: 10px; /* Adjust this value to change the size of the box */
-  margin: 5px 0; /* This adds some space above and below the box */
+
+.box1 {
+  background-color: #ffa500;
+  padding: 10px;
+  margin: 5px 0;
+  box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
+  border-radius: 10px;
+
+}
+
+.box2 {
+  background-color: #ffa500;
+  padding: 10px;
+  margin: 5px 0;
+  box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
+  border-radius: 10px;
+}
+
+.box3 {
+  background-color: #ffa500;
+  padding: 3px;
+  margin: 5px ;
   box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
   border-radius: 10px;
 }
 
 #index-body {
-  background-image: url('../images/rockclimbing2.jpg'); /* Replace with the path to your image */
-  background-size: cover; /* This will stretch the image to cover the entire element */
-  background-repeat: no-repeat; /* This will prevent the image from repeating */
+  background-image: url('../images/rockclimbing2.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .welcome {
   /*font-style:oblique; */
-  font-family:"Rock Salt", cursive;
+  font-family: "Rock Salt", cursive;
   font-weight: 400;
   font-style: normal;
   margin-top: 2.75em;
@@ -91,44 +109,111 @@ body {
 }
 
 .welcome-text {
-    font-family: "Sriracha", cursive;
-    font-weight: 500;
-    font-style: normal;
-    font-size: 2em;
+  font-family: "Sriracha", cursive;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 2em;
 }
 
-
-@media (max-height: 768px)
-{
-  .welcome {
-    font-size: 3.5em;
-    margin-top: 2.25em;
-    margin-bottom: 4cm;
-  }
-  .welcome-text {
-    font-size: 1.75em;
-  }
-}
-
-@media (max-height: 1080px)
-{
-  @media (min-height: 769px)
+#partial-nav-toggle-display
   {
+    display:flex;
+    flex-direction: row;
+  }
+ 
+
+@media (min-width: 1921px)
+/* This is for resolutions for any devices above 1080p */
+  {
+  #navbar-options {
+    height: 7em;
+  }
+  .navbar-brand {
+    font-size: 2.5em;
+  }
+}
+
+@media (max-width: 1920px)
+/* This is for monitors of resolution between 769p to 1080p */
+  {
+    #navbar-options {
+      height: 6.5em;
+    }
+
+
+  @media (min-width: 1365px) {
     .welcome {
       font-size: 4.5em;
       margin-top: 2.5em;
       margin-bottom: 5cm;
     }
+
     .welcome-text {
       font-size: 1.75em;
     }
   }
 }
 
-@media (max-width: 990px)
-{
+@media (max-width: 1364px)
+/* This is for monitors of resolution that aren't mobile but are no greater 768p  */
+  {
+  .welcome {
+    font-size: 3.5em;
+    margin-top: 2.25em;
+    margin-bottom: 4cm;
+  }
+
+  .welcome-text {
+    font-size: 1.75em;
+  }
+
+  #nav-item {
+    margin-right: 2em;
+    font-size: large;
+  }
+
+  .nav-link-box-text {
+    color: #ffffff !important;
+    font-size: medium;
+  }
+
+}
+
+@media (max-width: 1100px)
+/* This is for mobile devices */
+  {
+    
   .navbar-brand {
     margin-left: 0;
     font-size: x-large;
   }
+
+  .navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  #nav-item-custom {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+  }
+  
+  
+  @media (max-width: 800px) 
+  {
+    #navbar-options {
+      height: 8em;
+    }
+
+    #nav-item {
+      font-size: large;
+    }
+
+    
+  }
+  
+
 }
+
+
