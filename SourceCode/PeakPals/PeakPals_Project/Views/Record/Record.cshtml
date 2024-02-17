@@ -1,0 +1,86 @@
+@{
+    ViewData["Title"] = "Record Page";
+}
+
+<body id="record-body">
+    <div class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1 class="display-4 text-white welcome">Record Your Tests</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="confirmation-popup" id="record-confirmation-popup" style="display: none;">
+                        <p>Test Successfully Logged</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-white welcome-text"> Keep track of your performance</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="accordion" id="test-accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne">
+                                    20mm Hang Test (7 seconds)
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <form id="hang-test-form">
+                                        <div class="input-group mb-3">
+                                            <input type="number" required id="hang-test-input" class="form-control"
+                                                placeholder="Added Weight">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">lbs</span>
+                                            </div>
+                                            <input type="number" required min="1" id="hang-test-bodyweight-input"
+                                                class="form-control" placeholder="Body Weight">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">lbs</span>
+                                            </div>
+                                            <button class="btn btn-outline-secondary" type="submit"
+                                                id="hang-test-submit-button">Record</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                    <h1 class="text-white welcome-text"> See Your Testing History Report</h1>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <a class="record-to-report-button" asp-area="" asp-controller="Report"
+                        asp-action="Report">Report</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!--Add more buttons for different tests-->
+    </div>
+</body>
+
+
+@section Scripts
+{
+    <script src="~/js/record.js"></script>
+}
