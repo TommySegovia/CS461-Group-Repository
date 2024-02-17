@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "Live Preview",
+			"workspacePath": "z:\\Personal Dev\\CS461-Group-Repository\\SourceCode\\PeakPals",
+			"problemMatcher": [],
+			"label": "Live Preview: Run Server"
+		}
+	]
+}
