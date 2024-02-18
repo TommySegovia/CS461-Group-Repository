@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build",
+			"command": "dotnet",
+			"type": "shell",
+			"args": [
+				"build",
+				// Add any additional build arguments here
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "Live Preview",
+			"workspacePath": "z:\\Personal Dev\\CS461-Group-Repository\\SourceCode\\PeakPals",
+			"problemMatcher": [],
+			"label": "Live Preview: Run Server",
+			"dependsOn": "build" // Make sure to add this line if you want Live Preview to depend on the build task
+		}
+	]
+}

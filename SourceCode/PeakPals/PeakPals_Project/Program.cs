@@ -1,46 +1,78 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PeakPals_Project.Data;
+using PeakPals_Project.DAL.Abstract;
+using PeakPals_Project.DAL.Concrete;
+using Microsoft.Extensions.DependencyInjection;
+using PeakPals_Project.Services;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace PeakPals_Project;
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddRazorPages();
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+public class Program
 {
-    app.UseMigrationsEndPoint();
+    public static void Main(string[] args)
+    {
+
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Add services to the container.
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        builder.Services.AddDbContext<ApplicationDbContext>(options => options
+                                    .UseSqlServer(connectionString)
+                                    .UseLazyLoadingProxies());
+
+
+        builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+        builder.Services.AddControllersWithViews();
+        builder.Services.AddSwaggerGen();
+
+        builder.Services.AddScoped<DbContext, ApplicationDbContext>();
+        builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+        //repositories
+        builder.Services.AddScoped<IFitnessDataEntryRepository, FitnessDataEntryRepository>();
+        builder.Services.AddScoped<IClimberRepository, ClimberRepository>();
+
+        //services
+        builder.Services.AddScoped<IFitnessDataEntryService, FitnessDataEntryService>();
+        builder.Services.AddScoped<IClimberService, ClimberService>();
+
+        builder.Services.AddRazorPages();
+        builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+        
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            app.UseMigrationsEndPoint();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Home/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
+        app.MapRazorPages();
+
+        app.Run();
+
+    }
 }
-else
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
-
-app.Run();
