@@ -11,6 +11,7 @@ using PeakPals_Project.Models.DTO;
 using PeakPals_Project.DAL.Abstract;
 using PeakPals_Project.ExtensionMethods;
 using PeakPals_Project.Services;
+using System.Security.Claims;
 
 namespace PeakPals_Project.Controllers
 {
@@ -19,63 +20,71 @@ namespace PeakPals_Project.Controllers
     public class FitnessDataEntryApiController : ControllerBase
     {
         private readonly IFitnessDataEntryService _fitnessDataEntryService;
+        private readonly IClimberService _climberService;
         private readonly IFitnessDataEntryRepository _fitnessDataEntryRepository;
+        private readonly IClimberRepository _climberRepository;
 
-        public FitnessDataEntryApiController(IFitnessDataEntryService fitnessDataEntryService, IFitnessDataEntryRepository fitnessDataEntryRepository)
+        public FitnessDataEntryApiController(IFitnessDataEntryService fitnessDataEntryService, IClimberService climberService,
+                                             IFitnessDataEntryRepository fitnessDataEntryRepository, IClimberRepository climberRepository)
         {
             _fitnessDataEntryService = fitnessDataEntryService;
+            _climberService = climberService;
             _fitnessDataEntryRepository = fitnessDataEntryRepository;
+            _climberRepository = climberRepository;
         }
 
-        [HttpGet]
-        public ActionResult<List<FitnessDataEntry>> GetFitnessDataEntry()
+        [HttpGet("HangTest/Results")]
+        public ActionResult<List<FitnessDataEntryDTO>> GetUserResultsWithTimesInChronologicalOrder()
         {
-            if (_fitnessDataEntryRepository == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return NotFound();
+                int testId = 0; // 0 is the id for the hang test
+
+                var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (climberDTO == null || _fitnessDataEntryRepository == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_fitnessDataEntryRepository.GetUserResultsWithTimesInChronologicalOrder(climberDTO.Id, testId));
             }
-            return Ok(_fitnessDataEntryRepository.GetAll());
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
         }
 
-        [HttpGet("HangTest/{climberId}")]
-        public ActionResult<List<FitnessDataEntryDTO>> GetUserResultsWithTimesInChronologicalOrder(int climberId)
-        {
-            int testId = 0; // 0 is the id for the hang test
-            if (_fitnessDataEntryRepository == null)
-            {
-                return NotFound();
-            }
-            return Ok(_fitnessDataEntryRepository.GetUserResultsWithTimesInChronologicalOrder(climberId, testId));
-        }
 
         [HttpPost("RecordHangTestResult")]
         public ActionResult RecordHangTestResult(FitnessDataEntryDTO fitnessDataEntryDTO)
         {
-            _fitnessDataEntryService.RecordTestResult(fitnessDataEntryDTO.ClimberId, 0, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
-            return Ok(new { Message = "Hang Test Recorded" });
+            if (User.Identity.IsAuthenticated)
+            {
+                var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                string? aspNetIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                //placeholder names until we make a user profile page
+                string firstName = "John";
+                string lastName = "Doe";
+
+                //if the climber is not in the database, add them
+                if (climberDTO == null)
+                {
+                    climberDTO = _climberService.AddNewClimber(aspNetIdentityId, firstName, lastName);
+
+                    _fitnessDataEntryService.RecordTestResult(climberDTO.Id, 0, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
+                    return Ok(new { Message = "Hang Test Recorded" });
+                }
+                //if the climber is in the database, record the test result
+                else
+                {
+                    _fitnessDataEntryService.RecordTestResult(climberDTO.Id, 0, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
+                    return Ok(new { Message = "Hang Test Recorded" });
+                }
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
         }
-
-
-        /*
-
-        [HttpPost("RecordHangTestResult/{climberId}/{result}/{bodyWeight}")]
-        public ActionResult RecordHangTestResult(int climberId, int result, int bodyWeight)
-        {
-           if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                _fitnessDataEntryService.RecordTestResult(climberId, 0, result, bodyWeight);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        */
-
     }
 }

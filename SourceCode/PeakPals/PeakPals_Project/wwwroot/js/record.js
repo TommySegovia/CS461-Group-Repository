@@ -18,16 +18,14 @@ function recordHangTest() {
   } else {
     console.log("Hang Test: " + result + " lbs");
     console.log("Body Weight: " + bodyWeight + " lbs");
-    var climberId = 0; // change to whatever current climber logged in
-    postHangTestRecord(climberId, result, bodyWeight);
+    postHangTestRecord(result, bodyWeight);
   }
 }
 
-async function postHangTestRecord(climberId, hangTest, bodyWeight) {
+async function postHangTestRecord(hangTest, bodyWeight) {
   var url = "http://localhost:5044/api/FitnessDataEntryApi/RecordHangTestResult";
   var data = {
     "id": 0,
-    "climberId": climberId,
     "testId": 0,
     "result": parseInt(hangTest), // Convert to integer
     "bodyWeight": parseInt(bodyWeight), // Convert to integer

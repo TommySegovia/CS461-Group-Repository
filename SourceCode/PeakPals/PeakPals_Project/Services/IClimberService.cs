@@ -1,0 +1,13 @@
+
+using PeakPals_Project.Models;
+using PeakPals_Project.Models.DTO;
+using System;
+
+
+namespace PeakPals_Project.Services
+{
+    public interface IClimberService
+    {
+        public ClimberDTO AddNewClimber(string? aspNetIdentityId, string? firstName, string? lastName);
+    }
+}

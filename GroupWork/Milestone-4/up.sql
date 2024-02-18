@@ -17,8 +17,8 @@ CREATE TABLE [FitnessDataEntry] (
   [ID] int    PRIMARY KEY IDENTITY(1, 1),
   [ClimberID] int,
   [TestID]    int,
-  [Result]    decimal,
-  [BodyWeight]  decimal,
+  [Result]    int,
+  [BodyWeight]  int,
   [EntryDate] datetime
 );
 

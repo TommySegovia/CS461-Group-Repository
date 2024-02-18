@@ -1,19 +1,10 @@
 
-
 using PeakPals_Project.DAL.Abstract;
 using PeakPals_Project.Models;
 using PeakPals_Project.Models.DTO;
 using PeakPals_Project.Services;
 using System;
 using PeakPals_Project.Data;
-
-public class FitnessDataEntryResponse
-{
-    public int? ClimberId { get; set; }
-    public int? TestId { get; set; }
-    public int? Result { get; set; }
-    public int? BodyWeight { get; set; }
-}
 
 public class FitnessDataEntryService : IFitnessDataEntryService
 {
@@ -39,7 +30,6 @@ public class FitnessDataEntryService : IFitnessDataEntryService
         _fitnessDataEntryRepository.AddOrUpdate(fitnessDataEntry);
         _context.SaveChanges();
     }
-    
 }
 
 /*

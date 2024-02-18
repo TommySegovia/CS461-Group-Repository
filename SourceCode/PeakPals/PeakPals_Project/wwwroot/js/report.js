@@ -2,15 +2,19 @@ document.addEventListener('DOMContentLoaded', initializePage);
 
 function initializePage() {
   console.log("Report.js loaded");
-  var climberId = 0; //change to whatever current climber logged in
-  getHangTestRecords(climberId);
+  getHangTestRecords();
 }
 
-async function getHangTestRecords(climberId) {
-  var response = await fetch('/api/FitnessDataEntryApi/HangTest/' + climberId);
+async function getHangTestRecords() {
+  var response = await fetch('/api/FitnessDataEntryApi/HangTest/Results');
   var data = await response.json();
   console.log(JSON.stringify(data));
-  createClimberHangTestTable(data);
+  if (response.ok){
+    createClimberHangTestTable(data);
+  }
+  else{
+    createButtonToRecordPage();
+  }
 }
 
 function createClimberHangTestTable(data) {
@@ -48,6 +52,25 @@ function createClimberHangTestTable(data) {
   table.appendChild(tableBody);
   // Add table to page
   var tableDiv = document.getElementById('hang-test-table');
-  tableDiv.appendChild(table);
-  
+  tableDiv.appendChild(table); 
+}
+
+function createButtonToRecordPage() {
+  //let the user know they have no current results
+  var noResults = document.createElement('p');
+  noResults.appendChild(document.createTextNode('No Hang Test Results Found'));
+  var noResultsDiv = document.getElementById('hang-test-table');
+  noResultsDiv.appendChild(noResults);
+  //create button to record page
+  var button = document.createElement('button');
+  button.className = 'btn btn-primary';
+  button.appendChild(document.createTextNode('Record Test'));
+  button.addEventListener('click', function() {
+    window.location.href = '/Record/Record';
+  });
+  var buttonDiv = document.getElementById('hang-test-table');
+  buttonDiv.appendChild(button);
+
+  //apply box2 class to button
+  button.classList.add('box2');
 }

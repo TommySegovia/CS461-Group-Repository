@@ -31,11 +31,18 @@ public class Program
 
         builder.Services.AddScoped<DbContext, ApplicationDbContext>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+        //repositories
         builder.Services.AddScoped<IFitnessDataEntryRepository, FitnessDataEntryRepository>();
+        builder.Services.AddScoped<IClimberRepository, ClimberRepository>();
+
+        //services
         builder.Services.AddScoped<IFitnessDataEntryService, FitnessDataEntryService>();
+        builder.Services.AddScoped<IClimberService, ClimberService>();
 
         builder.Services.AddRazorPages();
         builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+        
 
         var app = builder.Build();
 

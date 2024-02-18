@@ -15,7 +15,15 @@ public class ReportController : Controller
 
     public IActionResult Report()
     {
-        return View();
+        if (User.Identity.IsAuthenticated)
+        {
+            return View();
+        }
+        else
+        {
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+
+        }
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

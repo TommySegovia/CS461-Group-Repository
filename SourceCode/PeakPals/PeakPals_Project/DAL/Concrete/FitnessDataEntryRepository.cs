@@ -25,6 +25,5 @@ namespace PeakPals_Project.DAL.Concrete
                 .Select(f => f.ToDTO())
                 .ToList();
         }
-
     }
 }
