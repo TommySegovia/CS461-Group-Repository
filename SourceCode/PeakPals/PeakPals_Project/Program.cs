@@ -5,6 +5,8 @@ using PeakPals_Project.DAL.Abstract;
 using PeakPals_Project.DAL.Concrete;
 using Microsoft.Extensions.DependencyInjection;
 using PeakPals_Project.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using WebPWrecover.Services;
 
 namespace PeakPals_Project;
 
@@ -42,7 +44,10 @@ public class Program
 
         builder.Services.AddRazorPages();
         builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-        
+
+        builder.Services.AddTransient<IEmailSender, EmailSender>();
+        builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+
 
         var app = builder.Build();
 
