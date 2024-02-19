@@ -56,7 +56,6 @@ body {
 
 }
 
-
 .box1{
   background-color: #ffa500; /* Change this to the color you want for the box */
   padding: 10px; /* Adjust this value to change the size of the box */
@@ -74,8 +73,44 @@ body {
   border-radius: 10px;
 }
 
+.confirmation-popup{
+  background-color: #ffa500; /* Change this to the color you want for the box */
+  padding: 10px; /* Adjust this value to change the size of the box */
+  margin: 5px 0; /* This adds some space above and below the box */
+  box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  font-size: large;
+  font-family: "Sriracha", cursive;
+
+}
+
+.record-to-report-button {
+  background-color: #ffa500; /* Change this to the color you want for the box */
+  padding: 10px; /* Adjust this value to change the size of the box */
+  box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
+  border-radius: 10px;
+  color: white !important;
+  text-decoration: none;
+  font-size: large;
+}
+
+
 #index-body {
   background-image: url('../images/rockclimbing2.jpg'); /* Replace with the path to your image */
+  background-size: cover; /* This will stretch the image to cover the entire element */
+  background-repeat: no-repeat; /* This will prevent the image from repeating */
+}
+
+#record-body {
+  background-image: url('../images/rockclimbing3.jpg'); /* Replace with the path to your image */
+  background-size: cover; /* This will stretch the image to cover the entire element */
+  background-repeat: no-repeat; /* This will prevent the image from repeating */
+}
+
+#report-body {
+  background-image: url('../images/rockclimbing3.jpg'); /* Replace with the path to your image */
   background-size: cover; /* This will stretch the image to cover the entire element */
   background-repeat: no-repeat; /* This will prevent the image from repeating */
 }
