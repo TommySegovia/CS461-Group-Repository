@@ -31,6 +31,8 @@
                                     data-bs-target="#collapseOne">
                                     20mm Hang Test (7 seconds)
                                 </button>
+                                <!--<button type="button" class="btn btn-warning btn-circle" data-bs-toggle="popover" data-bs-content="This is some information about the form. "><span class="text-white">?</span></button> -->
+                                <button type="button" class="btn btn-warning btn-circle" data-bs-toggle="modal" data-bs-target="#helperModal"><span class="text-white">?</span></button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionExample">
@@ -73,7 +75,21 @@
         </div>
     </div>
 
-
+    <div class="modal fade" id="helperModal" tabindex="-1" aria-labelledby="helperModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title px-3 py-2 text-center" id="helperModalLabel">20mm Hang Test (7 Second Variant)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet et accusantium quaerat adipisci iure maiores, illum excepturi nihil accusamus voluptate eum officia cumque vitae aut saepe veritatis! Fugit, ab aspernatur?</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet et accusantium quaerat adipisci iure maiores, illum excepturi nihil accusamus voluptate eum officia cumque vitae aut saepe veritatis! Fugit, ab aspernatur?</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet et accusantium quaerat adipisci iure maiores, illum excepturi nihil accusamus voluptate eum officia cumque vitae aut saepe veritatis! Fugit, ab aspernatur?</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--Add more buttons for different tests-->
     </div>

@@ -21,8 +21,8 @@ public class RecordController : Controller
         }
         else
         {
-            return RedirectToPage("/Account/Login", new { area = "Identity" });
-
+            //return RedirectToPage("/Account/Login", new { area = "Identity" });
+            return View();
         }
     }
 
