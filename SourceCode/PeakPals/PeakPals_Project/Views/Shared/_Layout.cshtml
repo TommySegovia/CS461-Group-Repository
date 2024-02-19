@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
+    @RenderSection("Styles", required: false)
 
 
 </head>
@@ -27,14 +28,14 @@
                     <li class="nav-item" id="nav-item">
                         <div style="display: flex; align-items: center;">
                             <img src="~/images/pencil-icon.svg" alt="Icon description" class="icon-class d-none d-sm-block" />
-                            <a class="nav-link nav-link-color" asp-area="" asp-controller="Home" asp-action="Index">Record</a>
+                            <a class="nav-link nav-link-color" asp-area="" asp-controller="Record" asp-action="Record">Record</a>
                         </div>
                         <div class="box3 d-block d-sm-none"></div>
                     </li>
                     <li class="nav-item" id="nav-item">
                         <div style="display: flex; align-items: center;">
                             <img src="~/images/analysis-icon.svg" alt="Icon description" class="icon-class d-none d-sm-block" />
-                            <a class="nav-link nav-link-color" asp-area="" asp-controller="Home" asp-action="Index">Analysis</a>
+                            <a class="nav-link nav-link-color" asp-area="" asp-controller="Report" asp-action="Report">Analysis</a>
                         </div>
                         <div class="box3 d-block d-sm-none"></div>
                     </li>
