@@ -26,13 +26,13 @@
                 <div class="col-6">
                     <div class="accordion" id="test-accordion">
                         <div class="accordion-item">
-                            <h2 class="accordion-header">
+                            <h2 class="accordion-header d-flex justify-content-between">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseOne">
                                     20mm Hang Test (7 seconds)
                                 </button>
                                 <!--<button type="button" class="btn btn-warning btn-circle" data-bs-toggle="popover" data-bs-content="This is some information about the form. "><span class="text-white">?</span></button> -->
-                                <button type="button" class="btn btn-warning btn-circle" data-bs-toggle="modal" data-bs-target="#helperModal"><span class="text-white">?</span></button>
+                                <button type="button" class="btn btn-warning btn-circle" data-bs-toggle="modal" data-bs-target="#helperModal" id="helpButton"><span class="text-black">?</span></button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionExample">
@@ -76,16 +76,33 @@
     </div>
 
     <div class="modal fade" id="helperModal" tabindex="-1" aria-labelledby="helperModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title px-3 py-2 text-center" id="helperModalLabel">20mm Hang Test (7 Second Variant)</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet et accusantium quaerat adipisci iure maiores, illum excepturi nihil accusamus voluptate eum officia cumque vitae aut saepe veritatis! Fugit, ab aspernatur?</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet et accusantium quaerat adipisci iure maiores, illum excepturi nihil accusamus voluptate eum officia cumque vitae aut saepe veritatis! Fugit, ab aspernatur?</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet et accusantium quaerat adipisci iure maiores, illum excepturi nihil accusamus voluptate eum officia cumque vitae aut saepe veritatis! Fugit, ab aspernatur?</p>
+                    <p>This fitness exercise will be testing your finger and grip strength and is considered one of the defining test for rock climbers. After all, finger strength is the most important attribute of a climber. The stronger your fingers, the harder you can climb!</p>
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>You must be aged 18 or over</li>
+                        <li>You must have no pre-existing injuries or illnesses that prevent you from climbing or training</li>
+                        <li>You must understand how to use a fingerboard and be competent in it’s use.</li>
+                        <li>You must not be pregnant</li>
+                        <li>It is recommened you have climbed 4 or more routes at 6b+ OR have climbed 4 or more boulder problems at V4 in the last 12 months</li>
+                    </ul>
+                    <div class="bg-warning text-black" id="warning-box">
+                        <h6>Warning:</h6>
+                        <p>This test is maximal and comes with risk to the user. Please always start at a relatively low load, which usually means start with your own bodyweight, and gradually increase the weight. If you feel your hand begin to slip or half crimp opening, please for your own safety, return back to standing flat on the ground and use a previous weight. Remember! Safety is always more important than potentially risking an injury!</p>
+                    </div>
+                    <p class="my-3">Before you start, pick which grip position works the best for you. This means whichever one is comofortable or perhaps what you're most familar with. If you're not sure, give both a try!</p>
+
+                    <img src="~/images/HangTestExample.png" alt="Grip Example Image" class="mx-auto d-block" style="width: 33%"/>           
+                    <p class="my-4">For the first round, start testing at your natural bodyweight. Hang for 7 seconds in the grip style you chose and rest for 2 minutes. If you were able to pull this off, consider using a dipping belt or climbing harness to add some additional weight to your body and attempt another 7 second hang. It is recommended that you add between 1kg and 5kg or 2lbs and 5lbs depending on how the previous hang felt to you.</p>
+                    <hr>
+                    <h6 class="my-2">Logging your Results:</h6>
+                    <p style="margin-bottom: 2em;">Record the total load used, for example: your bodyweight + any additional weight you added on.</p>
                 </div>
             </div>
         </div>
@@ -99,4 +116,8 @@
 @section Scripts
 {
     <script src="~/js/record.js"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/record.css">
 }

@@ -2,9 +2,6 @@ document.addEventListener('DOMContentLoaded', initializePage);
 
 function initializePage() {
   console.log("Record.js loaded");
-  $(document).ready(function(){
-    $('[data-bs-toggle="popover"]').popover();
-  });
 
 }
 
