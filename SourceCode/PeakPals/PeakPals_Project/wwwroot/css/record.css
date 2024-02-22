@@ -1,0 +1,15 @@
+/* For Record.cshtml only */
+
+#warning-box {
+    border-radius:10px;
+    box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
+    padding-left: 12px;
+    padding-top: 6px;
+    padding-bottom: 1px;
+
+}
+
+#helpButton {
+    font-family: "Sriracha", cursive;
+    width: 2em;
+}

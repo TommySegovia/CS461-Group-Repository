@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+
+namespace PeakPals_Project.Models;
+
+[Table("FitnessDataEntry")]
+public partial class FitnessDataEntry
+{
+    [Key]
+    [Column("ID")]
+    public int Id { get; set; }
+
+    [Column("ClimberID")]
+    public int? ClimberId { get; set; }
+
+    [Column("TestID")]
+    public int? TestId { get; set; }
+
+    public int? Result { get; set; }
+
+    public int? BodyWeight { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? EntryDate { get; set; }
+
+    [JsonIgnore]
+    [ForeignKey("ClimberId")]
+    [InverseProperty("FitnessDataEntries")]
+    public virtual Climber? Climber { get; set; }
+
+    [JsonIgnore]
+    [ForeignKey("TestId")]
+    [InverseProperty("FitnessDataEntries")]
+    public virtual FitnessTest? Test { get; set; }
+}
