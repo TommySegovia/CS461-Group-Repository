@@ -10,6 +10,7 @@ SET IDENTITY_INSERT [Climber] OFF;
 
 SET IDENTITY_INSERT [FitnessTest] ON;
 INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (0, 'Hang Test', 'Measuring how much weight can be added/subtracted from a 20mm edge and held for 7 seconds in half crimp');
+INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (1, 'Pull Test', 'Measuring how much weight can be added/subtracted from a single pullup');
 SET IDENTITY_INSERT [FitnessTest] OFF;
 
 SET IDENTITY_INSERT [FitnessDataEntry] ON;
