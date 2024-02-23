@@ -1,10 +1,10 @@
 
 SET IDENTITY_INSERT [Climber] ON;
-INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName) VALUES (1, '0', 'Tommy', 'Segovia');
-INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName) VALUES (2, '0', 'Jaron', 'Solomon');
-INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName) VALUES (3, '0', 'Arthur', 'Kock');
-INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName) VALUES (4, '0', 'Benjamin', 'Zuk');
-INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName) VALUES (5, '0', 'Bastian', 'Cruzel');
+INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName, UserName) VALUES (1, '0', 'Tommy', 'Segovia', 'TomSeg1');
+INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName, UserName) VALUES (2, '0', 'Jaron', 'Solomon', 'JarSol2');
+INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName, UserName) VALUES (3, '0', 'Arthur', 'Kock', 'ArtKoc3');
+INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName, UserName) VALUES (4, '0', 'Benjamin', 'Zuk', 'BenZuk4');
+INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName, UserName) VALUES (5, '0', 'Bastian', 'Cruzel', 'BasCru5');
 
 SET IDENTITY_INSERT [Climber] OFF;
 
