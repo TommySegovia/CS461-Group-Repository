@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', initializePage);
 
 function initializePage() {
   console.log("Record.js loaded");
+
 }
 
 document.getElementById("hang-test-form").addEventListener("submit", function (event) {
@@ -54,3 +55,4 @@ function confirmationPopup() {
     popup.style.display = "none";
   }, 3000);
 }
+

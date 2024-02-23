@@ -22,7 +22,6 @@ public class RecordController : Controller
         else
         {
             return RedirectToPage("/Account/Login", new { area = "Identity" });
-
         }
     }
 
