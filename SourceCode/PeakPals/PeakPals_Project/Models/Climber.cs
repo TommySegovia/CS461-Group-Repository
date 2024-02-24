@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
 
 namespace PeakPals_Project.Models;
 
@@ -24,7 +23,18 @@ public partial class Climber
     [StringLength(255)]
     public string LastName { get; set; } = null!;
 
-    [JsonIgnore]
+    [StringLength(255)]
+    public string UserName { get; set; } = null!;
+
+    [StringLength(255)]
+    public string? DisplayName { get; set; }
+
+    [StringLength(4000)]
+    public string? Bio { get; set; }
+
+    [StringLength(255)]
+    public string? ImageLink { get; set; }
+
     [InverseProperty("Climber")]
     public virtual ICollection<FitnessDataEntry> FitnessDataEntries { get; set; } = new List<FitnessDataEntry>();
 }

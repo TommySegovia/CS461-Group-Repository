@@ -1,0 +1,45 @@
+@model Climber
+
+<body id="profile-body">
+
+    <div class="profile-box justify-context-center flex-nowrap">
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-3">
+                    @if (@Model.ImageLink == null){
+                        <img src="~/images/blank_profile.png" alt="Blank profile image" class="profile-image">
+                    }
+                    else{
+                        <img src="@Model.ImageLink" alt="Profile image" class="profile-image">
+                    }   
+                </div>
+                
+                <div class="col-9">
+                    @if (@Model.DisplayName == null){
+                        <h1 class="display-name text-warning">@Model.UserName</h1>
+                    }
+                    else{
+                        <h1 class="display-name text-warning">@Model.DisplayName</h1>
+                    } 
+                    
+                    <hr class="bg-warning">
+                    <div class="row align-items-start">
+                        <p class="bio text-light">No bio yet.</p>
+                        <p class="bio text-light">@Model.Bio Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum ullam, incidunt cum ipsa perspiciatis architecto, praesentium dolores laudantium modi soluta earum. Dicta voluptatem provident dignissimos nemo fuga odio deleniti esse. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti in, maxime nam accusamus ex libero delectus pariatur quos iure esse inventore vitae qui velit ratione commodi illum voluptatibus dolorum ad! Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, quam neque incidunt eos consequuntur rem adipisci nemo tempora autem mollitia nesciunt numquam molestias, sed quod, minima sit possimus. Quos, dolorem!</p>
+                    </div>
+                </div>
+                
+            </div>
+                        
+        </div>
+    </div>
+    
+
+
+    
+
+</body>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css">
+}

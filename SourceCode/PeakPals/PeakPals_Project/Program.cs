@@ -81,6 +81,11 @@ public class Program
             name: "profile",
             pattern: "profile/{username}",
             defaults: new { controller = "Profile", action = "GetProfile" });
+        
+        app.MapControllerRoute(
+            name: "profile",
+            pattern: "profile/edit",
+            defaults: new { controller = "Profile", action = "EditProfile" });
         app.MapRazorPages();
 
         app.Run();

@@ -6,5 +6,7 @@ namespace PeakPals_Project.DAL.Abstract
     public interface IClimberRepository : IRepository<Climber>
     {
         public ClimberDTO GetClimberByAspNetIdentityId(string aspNetIdentityId);
+        public Climber GetClimberModelByAspNetIdentityId(string aspNetIdentityId);
+        public Climber GetClimberByUsername(string username);
     }
 }

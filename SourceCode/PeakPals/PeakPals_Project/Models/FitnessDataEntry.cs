@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
 
 namespace PeakPals_Project.Models;
 
@@ -27,12 +26,10 @@ public partial class FitnessDataEntry
     [Column(TypeName = "datetime")]
     public DateTime? EntryDate { get; set; }
 
-    [JsonIgnore]
     [ForeignKey("ClimberId")]
     [InverseProperty("FitnessDataEntries")]
     public virtual Climber? Climber { get; set; }
 
-    [JsonIgnore]
     [ForeignKey("TestId")]
     [InverseProperty("FitnessDataEntries")]
     public virtual FitnessTest? Test { get; set; }

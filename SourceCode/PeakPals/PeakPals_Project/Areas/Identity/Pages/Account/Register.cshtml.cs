@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using PeakPals_Project.Models;
+using PeakPals_Project.Services;
 
 namespace PeakPals_Project.Areas.Identity.Pages.Account
 {
@@ -29,13 +31,15 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IClimberService _climberService;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IClimberService climberService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +47,7 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _climberService = climberService;
         }
 
         /// <summary>
@@ -122,6 +127,18 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    
+                    var userName = Input.Email.Split('@')[0];   // added TBD-43: making a climber as soon as new user is created and assigning name part of the email to username in climber table
+                    var climber = new Climber
+                    {
+                        AspnetIdentityId = user.Id,
+                        UserName = userName,
+                        FirstName = "John",
+                        LastName = "Doe"
+                    };
+                    _climberService.AddNewClimber(climber.AspnetIdentityId, climber.FirstName, climber.LastName, climber.UserName);
+
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     // For future email confirmation support
