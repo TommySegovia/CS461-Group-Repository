@@ -79,12 +79,12 @@ public class Program
 
         app.MapControllerRoute(
             name: "profile",
-            pattern: "profile/{username}",
+            pattern: "Profile/{username}",
             defaults: new { controller = "Profile", action = "GetProfile" });
         
         app.MapControllerRoute(
             name: "profile",
-            pattern: "profile/edit",
+            pattern: "Profile/Edit",
             defaults: new { controller = "Profile", action = "EditProfile" });
         app.MapRazorPages();
 

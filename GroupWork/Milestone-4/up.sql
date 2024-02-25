@@ -6,8 +6,8 @@ CREATE TABLE [Climber] (
   [FirstName]     nvarchar(255) NOT NULL,
   [LastName]  nvarchar(255) NOT NULL,
   [UserName] nvarchar(255) NOT NULL,
-  [DisplayName] nvarchar(255) NULL, 
-  [Bio] nvarchar(4000) NULL,
+  [DisplayName] nvarchar(25) NULL, 
+  [Bio] nvarchar(1600) NULL,
   [ImageLink] nvarchar(255) NULL
 );
 

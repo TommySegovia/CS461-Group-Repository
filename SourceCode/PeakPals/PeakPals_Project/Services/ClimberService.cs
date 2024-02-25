@@ -35,5 +35,12 @@ namespace PeakPals_Project.Services
 
             return climber.ToDTO();
         }
+
+        public void UpdateClimber(Climber climber)
+        {
+            _climberRepository.AddOrUpdate(climber);
+            _context.SaveChanges();
+
+        }
     }
 }

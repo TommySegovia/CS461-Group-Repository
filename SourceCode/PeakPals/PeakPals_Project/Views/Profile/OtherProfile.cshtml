@@ -13,8 +13,19 @@
                         <img src="@Model.ImageLink" alt="Profile image" class="profile-image">
                     }   
                 </div>
-                
                 <div class="col-9">
+                    <div class="row align-items-start my-2">
+                        <div class="col-4">
+                            <button class="btn btn-black text-white" id="btn-tabs">Biography</button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-black text-white" id="btn-tabs">Statistics</button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-black text-white" id="btn-tabs">Climb History</button>
+                        </div>
+                    </div>
+                    <hr class="bg-warning">
                     @if (@Model.DisplayName == null){
                         <h1 class="display-name text-warning">@Model.UserName</h1>
                     }
@@ -24,8 +35,14 @@
                     
                     <hr class="bg-warning">
                     <div class="row align-items-start">
-                        <p class="bio text-light">No bio yet.</p>
-                        <p class="bio text-light">@Model.Bio Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum ullam, incidunt cum ipsa perspiciatis architecto, praesentium dolores laudantium modi soluta earum. Dicta voluptatem provident dignissimos nemo fuga odio deleniti esse. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti in, maxime nam accusamus ex libero delectus pariatur quos iure esse inventore vitae qui velit ratione commodi illum voluptatibus dolorum ad! Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, quam neque incidunt eos consequuntur rem adipisci nemo tempora autem mollitia nesciunt numquam molestias, sed quod, minima sit possimus. Quos, dolorem!</p>
+                        @if (@Model.Bio == null)
+                        {
+                            <p class="bio text-light">No bio yet.</p>
+                        }
+                        else{
+                            <p class="bio text-light">@Model.Bio </p>
+                        }
+                        
                     </div>
                 </div>
                 

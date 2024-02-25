@@ -26,10 +26,10 @@ public partial class Climber
     [StringLength(255)]
     public string UserName { get; set; } = null!;
 
-    [StringLength(255)]
+    [StringLength(25)]
     public string? DisplayName { get; set; }
 
-    [StringLength(4000)]
+    [StringLength(1600)]
     public string? Bio { get; set; }
 
     [StringLength(255)]
