@@ -183,8 +183,25 @@ body {
   fill: white;
 }
 
+
 #profile-text {
   margin-top: 19%;
+}
+
+#community-input {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#community-validation-warning
+{
+  font-family: "Sriracha", cursive;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1.75em;
+  text-shadow: red 3px 3px 3px;
+  color: white;
 }
 
 
