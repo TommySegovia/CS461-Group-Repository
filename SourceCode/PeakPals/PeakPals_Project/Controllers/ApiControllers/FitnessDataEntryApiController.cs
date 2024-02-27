@@ -33,12 +33,11 @@ namespace PeakPals_Project.Controllers
             _climberRepository = climberRepository;
         }
 
-        [HttpGet("HangTest/Results")]
-        public ActionResult<List<FitnessDataEntryDTO>> GetUserResultsWithTimesInChronologicalOrder()
+        [HttpGet("Test/Results/{testId}")]
+        public ActionResult<List<FitnessDataEntryDTO>> GetUserResultsWithTimesInChronologicalOrder(int testId)
         {
             if (User.Identity.IsAuthenticated)
             {
-                int testId = 0; // 0 is the id for the hang test
 
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 if (climberDTO == null || _fitnessDataEntryRepository == null)
@@ -54,8 +53,8 @@ namespace PeakPals_Project.Controllers
         }
 
 
-        [HttpPost("RecordHangTestResult")]
-        public ActionResult RecordHangTestResult(FitnessDataEntryDTO fitnessDataEntryDTO)
+        [HttpPost("RecordTestResult")]
+        public ActionResult RecordTestResult(FitnessDataEntryDTO fitnessDataEntryDTO)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -66,19 +65,21 @@ namespace PeakPals_Project.Controllers
                 string firstName = "John";
                 string lastName = "Doe";
 
+                int? testId = fitnessDataEntryDTO.TestId;
+
                 //if the climber is not in the database, add them
                 if (climberDTO == null)
                 {
                     climberDTO = _climberService.AddNewClimber(aspNetIdentityId, firstName, lastName);
 
-                    _fitnessDataEntryService.RecordTestResult(climberDTO.Id, 0, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
-                    return Ok(new { Message = "Hang Test Recorded" });
+                    _fitnessDataEntryService.RecordTestResult(climberDTO.Id, testId, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
+                    return Ok(new { Message = "Test Recorded" });
                 }
                 //if the climber is in the database, record the test result
                 else
                 {
-                    _fitnessDataEntryService.RecordTestResult(climberDTO.Id, 0, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
-                    return Ok(new { Message = "Hang Test Recorded" });
+                    _fitnessDataEntryService.RecordTestResult(climberDTO.Id, testId, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
+                    return Ok(new { Message = "Test #" + testId +" Recorded" });
                 }
             }
             else
