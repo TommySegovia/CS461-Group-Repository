@@ -30,15 +30,20 @@ namespace PeakPals_Project.Controllers
         }
 
         [HttpGet("search/{username}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Climber))]
-        public ActionResult<Climber> GetUserResults(string? username)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClimberDTO))]
+        public ActionResult<List<ClimberDTO>> GetUserResults(string? username)
         {
+            if (username == "")
+            {
+                return BadRequest(new { Message = "Name field cannot be empty."});
+            }
+
             if (username != null)
             {
-                var climber = _climberRepository.GetClimberByUsername(username);
-                if (climber != null)
+                var climbersDTO = _climberRepository.GetClimbersByUsername(username);
+                if (climbersDTO != null)
                 {
-                    return Ok(climber);
+                    return Ok(climbersDTO);
                 }
                 else
                 {

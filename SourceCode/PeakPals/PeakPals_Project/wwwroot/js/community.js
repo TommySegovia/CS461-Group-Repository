@@ -11,15 +11,25 @@ async function searchButtonClicked(e)
     console.log("search button clicked.")
     const searchResultsDiv = document.getElementById("search-results");
     searchResultsDiv.innerHTML = "";
-    const searchInput = document.getElementById("search-input");
-    const username = searchInput.value;
-
+    const errorMessage = document.createElement("p");
     const validationWarning = document.getElementById("community-validation-warning");
     validationWarning.innerHTML = "";
 
-    if (username === "")
+    const searchInput = document.getElementById("search-input");
+    const username = searchInput.value;
+    const isValid = /^[a-z0-9]+$/i.test(username);
+
+    if(!isValid)
     {
-        const errorMessage = document.createElement("p");
+        errorMessage.textContent = "Invalid input. Please enter a search term with valid characters.";
+        errorMessage.classList.add("error-message");
+        validationWarning.appendChild(errorMessage);
+        return;
+    }
+
+
+    if (username === "")
+    { 
         errorMessage.textContent = "Invalid input. Please enter a search term.";
         errorMessage.classList.add("error-message");
         validationWarning.appendChild(errorMessage);
@@ -29,38 +39,45 @@ async function searchButtonClicked(e)
     const url = `/api/community/search/${username}`;
     console.log(url);
     const response = await fetch(url);
+    console.log(response);
     if (!response.ok)
     {
-        const errorMessageNull = document.createElement("p");
-        errorMessageNull.textContent = "Sorry, no user exists with that name."
-        errorMessageNull.classList.add("error-message");
-        validationWarning.appendChild(errorMessageNull);
+        errorMessage.textContent = "Sorry, the response returned an error."
+        errorMessage.classList.add("error-message");
+        validationWarning.appendChild(errorMessage);
         return;
     }
-    const climber = await response.json();
-    // const climbers = await response.json();
-    console.log(climber);
-    console.log(climber.userName);
+    const climbers = await response.json();
+    if (climbers.length === 0) {
+        errorMessage.textContent = "Sorry, no user exists with that name."
+        errorMessage.classList.add("error-message");
+        validationWarning.appendChild(errorMessage);
+        return;
+    }
+    console.log(climbers);
     
-
     const resultTemplate = document.getElementById("results-template");
 
-    //climbers.forEach(climber => {})
-
-    const clone = resultTemplate.content.cloneNode(true);
-    const profileLink = clone.getElementById('profile-link');
-    profileLink.href = `/Profile/${climber.userName}`;
-    profileLink.innerHTML = climber.userName;
-
-    const userImage = clone.getElementById('userImage');
-    if (userImage !== "")
+    climbers.forEach(climber => 
     {
-        userImage.src = climber.imageLink;
-    }
+        const clone = resultTemplate.content.cloneNode(true);
+        const profileLink = clone.getElementById('profile-link');
+        profileLink.href = `/Profile/${climber.userName}`;
+        profileLink.innerHTML = climber.userName;
 
-    searchResultsDiv.appendChild(clone);
-    console.log("created a new movie object to show.");
+        const userImage = clone.getElementById('userImage');
+        if (climber.imageLink !== null)
+        {
+            userImage.src = climber.imageLink;
+        }
+        else 
+        {
+            userImage.src = "/images/blank_profile.png";
+            console.log(userImage.src);
+        }
+        searchResultsDiv.appendChild(clone);
+        console.log("created a new movie object to show.");
 
-   
-
+    })
+    
 }

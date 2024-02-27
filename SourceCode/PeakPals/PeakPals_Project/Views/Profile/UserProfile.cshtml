@@ -10,7 +10,7 @@
                         <img src="~/images/blank_profile.png" alt="Blank profile image" class="profile-image">
                     }
                     else{
-                        <img src="@Model.ImageLink" alt="Profile image" class="profile-image">
+                        <img src="@Model.ImageLink" onerror="this.onerror=null; this.src='/images/blank_profile.png';" class="profile-image"/>
                     }
                     <a button class="btn btn-warning my-5" id="edit-btn" asp-controller="Profile" asp-action="EditProfile">Edit Profile</a>        
                 </div>

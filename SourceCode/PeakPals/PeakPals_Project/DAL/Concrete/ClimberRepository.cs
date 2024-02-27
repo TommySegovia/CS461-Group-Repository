@@ -35,8 +35,6 @@ namespace PeakPals_Project.DAL.Concrete
 
         public Climber GetClimberModelByAspNetIdentityId(string aspNetIdentityId)
         {
-            // Search the climber table for climbers who have a matching aspnetIdentityId to the logged in user
-            // If there are any, return the first one; otherwise, return null
 
             var climber = _climber.FirstOrDefault(c => c.AspnetIdentityId == aspNetIdentityId);
 
@@ -56,6 +54,26 @@ namespace PeakPals_Project.DAL.Concrete
 
             if (climber != null) {
                 return climber;
+            }
+            else {
+                return null;
+            }
+        }
+
+        public List<ClimberDTO> GetClimbersByUsername(string username)
+        {
+            var climbers = _climber.Where(c => c.UserName.Contains(username));
+            var climbersDTO = new List<ClimberDTO>();
+            ClimberDTO temp = new ClimberDTO();
+
+            foreach (Climber c in climbers)
+            {
+                temp = c.ToDTO();
+                climbersDTO.Add(temp);
+            }
+
+            if (climbers != null) {
+                return climbersDTO;
             }
             else {
                 return null;
