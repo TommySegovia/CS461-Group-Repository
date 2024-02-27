@@ -2,22 +2,25 @@ document.addEventListener('DOMContentLoaded', initializePage);
 
 function initializePage() {
   console.log("Report.js loaded");
-  getHangTestRecords();
+  var tableDiv = document.getElementById('hang-test-table');
+  getTestRecords(0, tableDiv); //get hang test records
+  tableDiv = document.getElementById('pull-test-table');
+  getTestRecords(1, tableDiv); //get pull up test records
 }
 
-async function getHangTestRecords() {
-  var response = await fetch('/api/FitnessDataEntryApi/HangTest/Results');
+async function getTestRecords(testId, tableDiv) {
+  var response = await fetch('/api/FitnessDataEntryApi/Test/Results/' + testId);
   var data = await response.json();
   console.log(JSON.stringify(data));
-  if (response.ok){
-    createClimberHangTestTable(data);
+  if (response.ok && data.length > 0){
+    createClimberTestTable(data, tableDiv);
   }
   else{
-    createButtonToRecordPage();
+    createButtonToRecordPage(tableDiv);
   }
 }
 
-function createClimberHangTestTable(data) {
+function createClimberTestTable(data, tableDiv) {
   // Create table
   var table = document.createElement('table');
   //make background of table white
@@ -51,15 +54,14 @@ function createClimberHangTestTable(data) {
   }
   table.appendChild(tableBody);
   // Add table to page
-  var tableDiv = document.getElementById('hang-test-table');
   tableDiv.appendChild(table); 
 }
 
-function createButtonToRecordPage() {
+function createButtonToRecordPage(tableDiv) {
   //let the user know they have no current results
   var noResults = document.createElement('p');
-  noResults.appendChild(document.createTextNode('No Hang Test Results Found'));
-  var noResultsDiv = document.getElementById('hang-test-table');
+  noResults.appendChild(document.createTextNode('Test Results Found'));
+  var noResultsDiv = tableDiv;
   noResultsDiv.appendChild(noResults);
   //create button to record page
   var button = document.createElement('button');
@@ -68,7 +70,7 @@ function createButtonToRecordPage() {
   button.addEventListener('click', function() {
     window.location.href = '/Record/Record';
   });
-  var buttonDiv = document.getElementById('hang-test-table');
+  var buttonDiv = tableDiv;
   buttonDiv.appendChild(button);
 
   //apply box2 class to button
