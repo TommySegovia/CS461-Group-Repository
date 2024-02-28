@@ -1,18 +1,29 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using PeakPals_Project.Models
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+
+@{ 
+    string? email = User.Identity.Name;
+    string? username = email?.Split('@')[0];
+}
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello
-                @User.Identity?.Name!</a>
+        <li class="nav-item" id="nav-item">
+            <a class="nav-link nav-link-color" id="profile-text" asp-controller="Profile" asp-action="GetProfile" asp-route-username="@username">Profile</a>
+        </li>
+        <li class="nav-item" id="nav-item-custom">
+            <div class="box1 d-none d-md-block"></div>
+            <a class="nav-link nav-link-box-text" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                @User.Identity?.Name</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
                 asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                <div class="box1 d-none d-md-block"></div>
+                <button type="submit" class="nav-link btn btn-link nav-link-box-text">Logout</button>
             </form>
         </li>
     }

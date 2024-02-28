@@ -61,16 +61,24 @@ namespace PeakPals_Project.Controllers
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 string? aspNetIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                //placeholder names until we make a user profile page
-                string firstName = "John";
-                string lastName = "Doe";
-
                 int? testId = fitnessDataEntryDTO.TestId;
-
+                
                 //if the climber is not in the database, add them
                 if (climberDTO == null)
                 {
-                    climberDTO = _climberService.AddNewClimber(aspNetIdentityId, firstName, lastName);
+                    // placeholder userName that extracts first 3 characters of the UserName in Identity (which is just the email)
+                    string? email = User.Identity.Name;
+                    if (email == null || email.Contains("@") == false)
+                    {
+                        return BadRequest(new { Message = "User not authenticated or username is not in the form of a email" });
+                    }
+                    string userName = email.Split('@')[0];
+
+                    //placeholder names until we make a user profile page
+                    string firstName = "John";
+                    string lastName = "Doe";
+
+                    climberDTO = _climberService.AddNewClimber(aspNetIdentityId, firstName, lastName, userName);
 
                     _fitnessDataEntryService.RecordTestResult(climberDTO.Id, testId, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
                     return Ok(new { Message = "Test Recorded" });

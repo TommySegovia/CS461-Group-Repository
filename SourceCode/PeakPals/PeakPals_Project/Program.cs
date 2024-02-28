@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PeakPals_Project.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using WebPWrecover.Services;
+using PeakPals_Project.Controllers;
 
 namespace PeakPals_Project;
 
@@ -75,6 +76,16 @@ public class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
+
+        app.MapControllerRoute(
+            name: "profile",
+            pattern: "Profile/{username}",
+            defaults: new { controller = "Profile", action = "GetProfile" });
+        
+        app.MapControllerRoute(
+            name: "profile",
+            pattern: "Profile/Edit",
+            defaults: new { controller = "Profile", action = "EditProfile" });
         app.MapRazorPages();
 
         app.Run();

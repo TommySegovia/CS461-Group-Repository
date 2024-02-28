@@ -20,19 +20,27 @@ namespace PeakPals_Project.Services
             _context = context;
         }
 
-        public ClimberDTO AddNewClimber(string? aspNetIdentityId, string? firstName, string? lastName)
+        public ClimberDTO AddNewClimber(string? aspNetIdentityId, string? firstName, string? lastName, string? userName)
         {
             Climber climber = new Climber
             {
                 Id = 0,
                 AspnetIdentityId = aspNetIdentityId,
                 FirstName = firstName,
-                LastName = lastName
+                LastName = lastName,
+                UserName = userName
             };
             _climberRepository.AddOrUpdate(climber);
             _context.SaveChanges();
 
             return climber.ToDTO();
+        }
+
+        public void UpdateClimber(Climber climber)
+        {
+            _climberRepository.AddOrUpdate(climber);
+            _context.SaveChanges();
+
         }
     }
 }

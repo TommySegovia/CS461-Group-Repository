@@ -25,6 +25,18 @@ public partial class Climber
     public string LastName { get; set; } = null!;
 
     [JsonIgnore]
+    [StringLength(255)]
+    public string UserName { get; set; } = null!;
+
+    [StringLength(25)]
+    public string? DisplayName { get; set; }
+
+    [StringLength(1600)]
+    public string? Bio { get; set; }
+
+    [StringLength(255)]
+    public string? ImageLink { get; set; }
+
     [InverseProperty("Climber")]
     public virtual ICollection<FitnessDataEntry> FitnessDataEntries { get; set; } = new List<FitnessDataEntry>();
 }
