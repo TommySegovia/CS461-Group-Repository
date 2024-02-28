@@ -29,10 +29,12 @@ public partial class FitnessDataEntry
     [Column(TypeName = "datetime")]
     public DateTime? EntryDate { get; set; }
 
+    [JsonIgnore]
     [ForeignKey("ClimberId")]
     [InverseProperty("FitnessDataEntries")]
     public virtual Climber? Climber { get; set; }
 
+    [JsonIgnore]
     [ForeignKey("TestId")]
     [InverseProperty("FitnessDataEntries")]
     public virtual FitnessTest? Test { get; set; }
