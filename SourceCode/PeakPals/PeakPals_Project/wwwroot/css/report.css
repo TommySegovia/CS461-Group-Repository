@@ -1,0 +1,19 @@
+#report-tab-content{
+    background-color: white;
+    
+}
+
+#history-tab{
+    background-color: black;
+    color: orange;
+}
+
+#analysis-tab{
+    background-color: black;
+    color: orange;
+}
+
+.nav-item{
+    font-size: 1.5em;
+    font-family: "Sriracha", cursive;
+}

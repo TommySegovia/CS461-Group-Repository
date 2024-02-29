@@ -25,7 +25,7 @@ public class FitnessDataEntryService : IFitnessDataEntryService
             TestId = testId,
             Result = result,
             BodyWeight = bodyWeight,
-            EntryDate = DateTime.Now
+            EntryDate = DateTime.Now //date time.utcnow
         };
         _fitnessDataEntryRepository.AddOrUpdate(fitnessDataEntry);
         _context.SaveChanges();

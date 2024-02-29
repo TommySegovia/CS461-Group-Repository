@@ -6,17 +6,98 @@ function initializePage() {
   getTestRecords(0, tableDiv); //get hang test records
   tableDiv = document.getElementById('pull-test-table');
   getTestRecords(1, tableDiv); //get pull up test records
+
+  var hangTestAverageDiv = document.getElementById('hang-test-average');
+  getTestAverage(0, hangTestAverageDiv); //get hang test average
+  var pullTestAverageDiv = document.getElementById('pull-test-average');
+  getTestAverage(1, pullTestAverageDiv); //get pull up test average
+
 }
 
 async function getTestRecords(testId, tableDiv) {
   var response = await fetch('/api/FitnessDataEntryApi/Test/Results/' + testId);
   var data = await response.json();
   console.log(JSON.stringify(data));
-  if (response.ok && data.length > 0){
+  if (response.ok && data.length > 0) {
     createClimberTestTable(data, tableDiv);
   }
-  else{
+  else {
     createButtonToRecordPage(tableDiv);
+  }
+}
+
+async function getTestAverage(testId, averageDiv) {
+  //get the most recent user test result
+  try {
+    var recentResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/MostRecent/' + testId);
+    var recentData = await recentResponse.json();
+    console.log(JSON.stringify(recentData));
+    if (recentResponse.ok) {
+      var recentResult = recentData.result;
+      var recentWeight = recentData.bodyWeight;
+      var recentText = document.createElement('p');
+
+      var resultText = 'Recent Test: ' + recentResult + ' lbs';
+      var weightText = 'Bodyweight of ' + recentWeight + ' lbs';
+      var ratioText = (recentResult / recentWeight).toFixed(2) + 'x body weight';
+
+      var resultNode = document.createTextNode(resultText);
+      var br1 = document.createElement('br');
+      var weightNode = document.createTextNode(weightText);
+      var br2 = document.createElement('br');
+      var ratioNode = document.createTextNode(ratioText);
+
+      recentText.appendChild(resultNode);
+      recentText.appendChild(br1);
+      recentText.appendChild(weightNode);
+      recentText.appendChild(br2);
+      recentText.appendChild(ratioNode);
+      averageDiv.appendChild(recentText);
+    }
+    else {
+      var noResults = document.createElement('p');
+      noResults.appendChild(document.createTextNode('No Recent Test Found'));
+      averageDiv.appendChild(noResults);
+    }
+  }
+  catch (error) {
+    console.log(error);
+    averageDiv.appendChild(document.createTextNode('No recent test found'));
+  }
+
+  try {
+    var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/' + testId);
+    var averageData = await averageResponse.json();
+    console.log(JSON.stringify(averageData));
+    if (averageResponse.ok) {
+      var average = averageData;
+      var averageText = document.createElement('p');
+      averageText.appendChild(document.createTextNode('The overall average for this test is: ' + average.toFixed(2) + ' x body weight'));
+      averageDiv.appendChild(averageText);
+      //your score is x% higher/lower than the average
+      var percentDifference = ((recentResult / recentWeight) / average * 100 - 100).toFixed(0);
+      var percentDifferenceText = document.createElement('p');
+      if (percentDifference > 0) {
+        percentDifferenceText.appendChild(document.createTextNode('Your score is ' + percentDifference + '% higher than the average'));
+      }
+      else if (percentDifference < 0) {
+        percentDifferenceText.appendChild(document.createTextNode('Your score is ' + Math.abs(percentDifference) + '% lower than the average'));
+      }
+      else {
+        percentDifferenceText.appendChild(document.createTextNode('Your score is exactly the same as the average'));
+      }
+      averageDiv.appendChild(percentDifferenceText);
+
+    }
+    else {
+      var noResults = document.createElement('p');
+      noResults.appendChild(document.createTextNode('No Results Found'));
+      averageDiv.appendChild(noResults);
+    }
+  }
+  catch (error) {
+    console.log('No average found');
+    averageDiv.appendChild(document.createTextNode('No average found'));
   }
 }
 
@@ -54,7 +135,7 @@ function createClimberTestTable(data, tableDiv) {
   }
   table.appendChild(tableBody);
   // Add table to page
-  tableDiv.appendChild(table); 
+  tableDiv.appendChild(table);
 }
 
 function createButtonToRecordPage(tableDiv) {
@@ -67,7 +148,7 @@ function createButtonToRecordPage(tableDiv) {
   var button = document.createElement('button');
   button.className = 'btn btn-primary';
   button.appendChild(document.createTextNode('Record Test'));
-  button.addEventListener('click', function() {
+  button.addEventListener('click', function () {
     window.location.href = '/Record/Record';
   });
   var buttonDiv = tableDiv;
@@ -76,3 +157,8 @@ function createButtonToRecordPage(tableDiv) {
   //apply box2 class to button
   button.classList.add('box2');
 }
+
+$('#testTabs a').on('click', function (e) {
+  e.preventDefault();
+  $(this).tab('show');
+});

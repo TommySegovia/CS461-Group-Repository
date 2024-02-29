@@ -52,6 +52,55 @@ namespace PeakPals_Project.Controllers
             }
         }
 
+        [HttpGet("Test/Results/MostRecent/{testId}")]
+        public ActionResult<object> GetMostRecentUserTestValueAndBodyWeight(int testId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (climberDTO == null || _fitnessDataEntryRepository == null)
+                {
+                    return NotFound();
+                }
+
+                var userResults = _fitnessDataEntryRepository.GetUserResultsWithTimesInChronologicalOrder(climberDTO.Id, testId);
+
+                if (userResults.Any())
+                {
+                    var mostRecentResult = userResults.Last();
+                    return Ok(new { Result = mostRecentResult.Result, BodyWeight = mostRecentResult.BodyWeight });
+                }
+                else
+                {
+                    // Handle the case where there are no recent results
+                    return NotFound(new { Message = "No recent user value found" });
+                }
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
+        }
+
+
+        [HttpGet("Test/Results/Average/All/{testId}")]
+        public ActionResult<double> GetAveragePercentageOfBodyweight(int testId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (_fitnessDataEntryRepository == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(testId));
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
+        }
+
+
 
         [HttpPost("RecordTestResult")]
         public ActionResult RecordTestResult(FitnessDataEntryDTO fitnessDataEntryDTO)
@@ -62,7 +111,7 @@ namespace PeakPals_Project.Controllers
                 string? aspNetIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 int? testId = fitnessDataEntryDTO.TestId;
-                
+
                 //if the climber is not in the database, add them
                 if (climberDTO == null)
                 {
@@ -87,7 +136,7 @@ namespace PeakPals_Project.Controllers
                 else
                 {
                     _fitnessDataEntryService.RecordTestResult(climberDTO.Id, testId, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
-                    return Ok(new { Message = "Test #" + testId +" Recorded" });
+                    return Ok(new { Message = "Test #" + testId + " Recorded" });
                 }
             }
             else
