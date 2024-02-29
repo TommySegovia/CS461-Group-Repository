@@ -4,7 +4,11 @@ CREATE TABLE [Climber] (
   [ID]        int           PRIMARY KEY IDENTITY(1, 1),
   [ASPNetIdentityId] nvarchar(450) NOT NULL,
   [FirstName]     nvarchar(255) NOT NULL,
-  [LastName]  nvarchar(255) NOT NULL
+  [LastName]  nvarchar(255) NOT NULL,
+  [UserName] nvarchar(255) NOT NULL,
+  [DisplayName] nvarchar(25) NULL, 
+  [Bio] nvarchar(1600) NULL,
+  [ImageLink] nvarchar(255) NULL
 );
 
 CREATE TABLE [FitnessTest] (

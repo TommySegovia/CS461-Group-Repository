@@ -18,7 +18,10 @@ public class ApplicationDbContext : IdentityDbContext
 
     }
 
-    public DbSet<PeakPals_Project.Models.Climber> Climber { get; set; } = default!;
-    public DbSet<PeakPals_Project.Models.FitnessDataEntry> FitnessDataEntry { get; set; } = default!;
+    // For Mock Testing
+    public ApplicationDbContext() { }
+
+    public virtual DbSet<PeakPals_Project.Models.Climber> Climber { get; set; } = default!;
+    public virtual DbSet<PeakPals_Project.Models.FitnessDataEntry> FitnessDataEntry { get; set; } = default!;
 
 }

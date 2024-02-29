@@ -2,19 +2,50 @@
     ViewData["Title"] = "Report Page";
 }
 
-
 <body id="report-body">
-    <div class="text-center">
+    <div class="text-center" id="report-div">
         <h1 class="display-4 text-white welcome">See your performance</h1>
-        <div id="hang-test-results">
-            <h2 class="text-white">Hang Test Results</h2>
-            <div id="hang-test-table"></div>
-            <h2 class="text-white mt-5">Pull Test Results</h2>
-            <div id="pull-test-table"></div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" id="testTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="history-tab" data-toggle="tab" href="#test-history">Test History</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#test-analysis">Test Analysis</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content" id="report-tab-content">
+            <div class="tab-pane fade show active" id="test-history">
+                <div id="hang-test-results">
+                    <h2>Hang Test Results</h2>
+                    <div id="hang-test-table"></div>
+                </div>
+                <div id="pull-test-results">
+                    <h2>Pull Test Results</h2>
+                    <div id="pull-test-table"></div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="test-analysis">
+                <div id="hang-test-average-div">
+                    <h2>Hang Test Average</h2>
+                    <div id="hang-test-average"></div>
+                </div>
+                <div id="pull-test-average-div">
+                    <h2>Pull Test Average</h2>
+                    <div id="pull-test-average"></div>
+                </div>
+            </div>
         </div>
-    </div> 
+
+
 </body>
 
-@section Scripts{
+@section Scripts {
     <script src="~/js/report.js"></script>
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/report.css">
 }

@@ -1,0 +1,37 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@model Climber
+
+@{ 
+    string? email = User.Identity.Name;
+    string? username = email?.Split('@')[0];
+}
+
+<body id="profile-body">
+
+    <div class="profile-box justify-context-center flex-nowrap">
+        <div class="container">
+            <h1 class="display-name text-warning">Edit Profile</h1>
+            <form method="post">
+                <div class="form-group my-5">
+                    <label asp-for="DisplayName" class="text-white">Display Name</label>
+                    <input type="text" asp-for="DisplayName" class="form-control text-black" maxlength="25" id="input-color" />
+                </div>
+                <div class="form-group my-5">
+                    <label asp-for="ImageLink" class="text-white">Image Link</label>
+                    <input type="text" asp-for="ImageLink" class="form-control text-black" id="input-color" />
+                </div>
+                <div class="form-group my-5">
+                    <label asp-for="Bio" class="text-white">Bio</label>
+                    <textarea asp-for="Bio" class="form-control bio-textarea text-black" rows="5" maxlength="1600" id="input-color" ></textarea>
+                </div>
+                <button class="btn btn-outline-warning my-2" type="submit" id="">Submit</button>
+                <a button class="btn btn-outline-light my-2" asp-controller="Profile" asp-action="GetProfile" asp-route-username="@username">Cancel</a>  
+            </form>               
+        </div>
+    </div>
+</body>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css">
+}
