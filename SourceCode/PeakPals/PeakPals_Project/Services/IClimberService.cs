@@ -10,5 +10,6 @@ namespace PeakPals_Project.Services
     {
         public ClimberDTO AddNewClimber(string? aspNetIdentityId, string? firstName, string? lastName, string? userName);
         public void UpdateClimber(Climber climber);
+        
     }
 }
