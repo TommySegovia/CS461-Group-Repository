@@ -118,10 +118,10 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account
                     return LocalRedirect(returnUrl);
                 }
                 // For future 2FA support
-                //if (result.RequiresTwoFactor)
-                //{
-                //    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                //}
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");

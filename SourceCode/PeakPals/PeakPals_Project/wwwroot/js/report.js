@@ -37,10 +37,10 @@ async function addGraphToResults(testId) {
 
   // add graph images from wwwroot/images, but first check which test it is
   switch (testId) {
-    case 0: 
+    case 0:
       graphHangDiv.innerHTML = '<img src="/images/Test_0_ResultsOverTime.png" alt="Hang Test Graph" />';
       break;
-    case 1: 
+    case 1:
       graphPullDiv.innerHTML = '<img src="/images/Test_1_ResultsOverTime.png" alt="Pull Up Test Graph" />';
       break;
   }
@@ -59,7 +59,7 @@ async function getTestAverage(testId, averageDiv) {
 
       var resultText = 'Recent Test: ' + recentResult + ' lbs';
       var weightText = 'Bodyweight: ' + recentWeight + ' lbs';
-      var ratioText = ('1' +(recentResult / recentWeight).toFixed(2) * 100) + '% of total body weight';
+      var ratioText = (((recentResult / recentWeight).toFixed(2) * 100)+100) + '% of total body weight';
 
       var resultNode = document.createTextNode(resultText);
       var br1 = document.createElement('br');
@@ -92,7 +92,7 @@ async function getTestAverage(testId, averageDiv) {
     if (averageResponse.ok) {
       var average = averageData;
       var averageText = document.createElement('p');
-      averageText.appendChild(document.createTextNode('The overall average for this test is: 1' + (average * 100).toFixed(2) + '% of total body weight'));
+      averageText.appendChild(document.createTextNode('The overall average for this test is: ' + ((average * 100)+100).toFixed(2) + '% of total body weight'));
       averageDiv.appendChild(averageText);
       //your score is x% higher/lower than the average
       var percentDifference = ((recentResult / recentWeight) / average * 100 - 100).toFixed(0);
@@ -103,8 +103,11 @@ async function getTestAverage(testId, averageDiv) {
       else if (percentDifference < 0) {
         percentDifferenceText.appendChild(document.createTextNode('Your score is ' + Math.abs(percentDifference) + '% lower than the average'));
       }
-      else {
+      else if (percentDifference == 0) {
         percentDifferenceText.appendChild(document.createTextNode('Your score is exactly the same as the average'));
+      }
+      else {
+        percentDifferenceText.appendChild(document.createTextNode('No average found'));
       }
       averageDiv.appendChild(percentDifferenceText);
 
