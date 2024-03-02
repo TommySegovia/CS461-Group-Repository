@@ -44,7 +44,9 @@ namespace PeakPals_Project.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(_fitnessDataEntryRepository.GetUserResultsWithTimesInChronologicalOrder(climberDTO.Id, testId));
+                var userResults = _fitnessDataEntryRepository.GetUserResultsWithTimesInChronologicalOrder(climberDTO.Id, testId);
+                _fitnessDataEntryService.GenerateGraphsWithRecordHistory(userResults, testId);
+                return Ok(userResults);
             }
             else
             {
