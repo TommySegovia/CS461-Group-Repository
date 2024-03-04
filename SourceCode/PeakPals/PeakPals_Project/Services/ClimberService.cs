@@ -12,9 +12,10 @@ namespace PeakPals_Project.Services
     public class ClimberService : IClimberService
     {
         private readonly IClimberRepository _climberRepository;
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
+        private readonly PeakPalsContext _context;
 
-        public ClimberService(IClimberRepository climberRepository, ApplicationDbContext context)
+        public ClimberService(IClimberRepository climberRepository, PeakPalsContext context)
         {
             _climberRepository = climberRepository;
             _context = context;

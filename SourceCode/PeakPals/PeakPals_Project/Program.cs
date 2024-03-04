@@ -7,6 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using PeakPals_Project.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using WebPWrecover.Services;
+using System.Configuration;
+using Microsoft.Identity.Client;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using PeakPals_Project.Models;
 using PeakPals_Project.Controllers;
 
 namespace PeakPals_Project;
@@ -15,15 +21,23 @@ public class Program
 {
     public static void Main(string[] args)
     {
-
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
+        var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
+
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
-                                    .UseSqlServer(connectionString)
+                                    // .UseSqlServer(connectionString)
+                                    .UseSqlServer(connectionStringAuth)
                                     .UseLazyLoadingProxies());
 
+        builder.Services.AddDbContext<PeakPalsContext>(options => options
+                                .UseSqlServer(connectionStringApp)
+                                .UseLazyLoadingProxies());
+
+        builder.Configuration.AddAzureKeyVault(new Uri("https://peakpalsvault.vault.azure.net/"), new DefaultAzureCredential());
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -32,7 +46,7 @@ public class Program
         builder.Services.AddControllersWithViews();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddScoped<DbContext, ApplicationDbContext>();
+        builder.Services.AddScoped<DbContext, PeakPalsContext>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         //repositories

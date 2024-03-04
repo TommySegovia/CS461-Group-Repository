@@ -13,9 +13,11 @@ using System.Reflection.Emit;
 
 public class FitnessDataEntryService : IFitnessDataEntryService
 {
-    private readonly ApplicationDbContext _context;
+    //private readonly ApplicationDbContext _context;
+    private readonly PeakPalsContext _context;
+
     private readonly IFitnessDataEntryRepository _fitnessDataEntryRepository;
-    public FitnessDataEntryService(ApplicationDbContext context, IFitnessDataEntryRepository fitnessDataEntryRepository)
+    public FitnessDataEntryService(PeakPalsContext context, IFitnessDataEntryRepository fitnessDataEntryRepository)
     {
         _context = context;
         _fitnessDataEntryRepository = fitnessDataEntryRepository;
