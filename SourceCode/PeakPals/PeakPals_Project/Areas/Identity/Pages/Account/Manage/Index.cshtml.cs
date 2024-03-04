@@ -9,17 +9,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using PeakPals_Project.Areas.Identity.Data;
 
 namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -58,9 +59,25 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            public int? Age { get; set; }
+
+            public string? Gender { get; set; }
+
+            [Display(Name = "Height (in)")]
+            public int? Height { get; set; }
+
+            [Display(Name = "Weight (lbs)")]
+            public int? Weight { get; set; }
+
+            [Display(Name = "Climbing Experience")]
+            public string? ClimbingExperience { get; set; }
+
+            [Display(Name = "Max Climbing Grade")]
+            public string? MaxClimbGrade { get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
@@ -69,6 +86,12 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                Age = user.Age,
+                Gender = user.Gender,
+                Height = user.Height,
+                Weight = user.Weight,
+                ClimbingExperience = user.ClimbingExperience,
+                MaxClimbGrade = user.MaxClimbGrade,
                 PhoneNumber = phoneNumber
             };
         }
@@ -109,6 +132,38 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+
+            if (Input.Age != user.Age)
+            {
+                user.Age = Input.Age;
+            }
+
+            if (Input.Gender != user.Gender)
+            {
+                user.Gender = Input.Gender;
+            }
+
+            if (Input.Height != user.Height)
+            {
+                user.Height = Input.Height;
+            }
+
+            if (Input.Weight != user.Weight)
+            {
+                user.Weight = Input.Weight;
+            }
+
+            if (Input.ClimbingExperience != user.ClimbingExperience)
+            {
+                user.ClimbingExperience = Input.ClimbingExperience;
+            }
+
+            if (Input.MaxClimbGrade != user.MaxClimbGrade)
+            {
+                user.MaxClimbGrade = Input.MaxClimbGrade;
+            }
+
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

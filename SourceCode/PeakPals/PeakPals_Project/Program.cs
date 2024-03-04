@@ -14,6 +14,7 @@ using Azure.Security.KeyVault.Secrets;
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using PeakPals_Project.Models;
 using PeakPals_Project.Controllers;
+using PeakPals_Project.Areas.Identity.Data;
 
 namespace PeakPals_Project;
 
@@ -41,7 +42,8 @@ public class Program
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+        builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
         builder.Services.AddSwaggerGen();
@@ -65,6 +67,27 @@ public class Program
 
 
         var app = builder.Build();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var serviceProvider = scope.ServiceProvider;
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            // Create the Admin role if it doesn't exist
+            if (!roleManager.RoleExistsAsync("Admin").Result)
+            {
+                var role = new IdentityRole("Admin");
+                var result = roleManager.CreateAsync(role).Result;
+            }
+
+            // Assign the Admin role to a user
+            //var user = userManager.FindByEmailAsync("test@email.com").Result;
+            //if (user != null)
+            //{
+            //    var result = userManager.AddToRoleAsync(user, "Admin").Result;
+            //}
+        }
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -100,6 +123,12 @@ public class Program
             name: "profile",
             pattern: "Profile/Edit",
             defaults: new { controller = "Profile", action = "EditProfile" });
+
+        app.MapControllerRoute(
+            name: "admin",
+            pattern: "admin",
+            defaults: new { controller = "Admin", action = "UserList" });
+
         app.MapRazorPages();
 
         app.Run();

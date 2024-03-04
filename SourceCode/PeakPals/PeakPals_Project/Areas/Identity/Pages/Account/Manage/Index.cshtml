@@ -16,6 +16,40 @@
                 <label asp-for="Username" class="form-label"></label>
             </div>
             <div class="form-floating mb-3">
+                <input asp-for="Input.Age" class="form-control" />
+                <label asp-for="Input.Age"></label>
+                <span asp-validation-for="Input.Age" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Gender" class="form-control" />
+                <label asp-for="Input.Gender"></label>
+                <span asp-validation-for="Input.Gender" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Height" class="form-control" />
+                <label asp-for="Input.Height"></label>
+                <span asp-validation-for="Input.Height" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Weight" class="form-control" />
+                <label asp-for="Input.Weight"></label>
+                <span asp-validation-for="Input.Weight" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.ClimbingExperience" class="form-control">
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+                <label asp-for="Input.ClimbingExperience"></label>
+                <span asp-validation-for="Input.ClimbingExperience" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.MaxClimbGrade" class="form-control" />
+                <label asp-for="Input.MaxClimbGrade"></label>
+                <span asp-validation-for="Input.MaxClimbGrade" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
                 <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
                 <label asp-for="Input.PhoneNumber" class="form-label"></label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
