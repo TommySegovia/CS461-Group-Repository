@@ -1,0 +1,19 @@
+﻿
+.admin-panel-box {
+    width: auto;
+    height: 60vh;
+    padding: 5vh;
+}
+
+.panel-header {
+    margin: 20px 0 10px;
+    font-size: 2em;
+    font-weight: bold;
+    font-family: "Sriracha", cursive;
+}
+
+#user-list-btn {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
