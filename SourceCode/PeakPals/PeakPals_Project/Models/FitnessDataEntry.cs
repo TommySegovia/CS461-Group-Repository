@@ -14,9 +14,11 @@ public partial class FitnessDataEntry
     [Column("ID")]
     public int Id { get; set; }
 
+    [JsonIgnore]
     [Column("ClimberID")]
     public int? ClimberId { get; set; }
 
+    [JsonIgnore]
     [Column("TestID")]
     public int? TestId { get; set; }
 

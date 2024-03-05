@@ -1,0 +1,52 @@
+﻿@using PeakPals_Project.Areas.Identity.Data
+@using static AdminController
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model UserClimberViewModel
+
+<body id="admin-body">
+    <div class="admin-box pt-5">
+        <div class="container gx-4">
+            <div class="row align-items-start">
+                <div class="col-3">
+                    <div class="container">
+                        @Html.Partial("_AdminPanel")
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h1 class="display-name text-warning panel-header">User List</h1>
+                    <hr class="bg-warning">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var pair in Model.UserClimberPairs)
+                            {
+                                <tr>
+                                    <td>@pair.Climber.FirstName</td>
+                                    <td>@pair.Climber.LastName</td>
+                                    <td>@pair.User.UserName</td>
+                                    <td>@pair.User.Email</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css">
+}

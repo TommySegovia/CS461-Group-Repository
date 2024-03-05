@@ -16,6 +16,11 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+#qrCodeText{
+  color: #ffa500;
+
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -42,7 +47,7 @@ body {
   margin-left: 6em;
   font-family: "Rock Salt", cursive;
   font-size: xx-large;
-  
+
 }
 
 #nav-item {
@@ -61,7 +66,7 @@ body {
 }
 
 .nav-link-color:hover {
-  color: rgb(255, 217, 175) !important; 
+  color: rgb(255, 217, 175) !important;
 }
 
 .nav-link-box-text {
@@ -100,10 +105,13 @@ body {
   border-radius: 10px;
 }
 
-.confirmation-popup{
-  background-color: #ffa500; /* Change this to the color you want for the box */
-  padding: 10px; /* Adjust this value to change the size of the box */
-  margin: 5px 0; /* This adds some space above and below the box */
+.confirmation-popup {
+  background-color: #ffa500;
+  /* Change this to the color you want for the box */
+  padding: 10px;
+  /* Adjust this value to change the size of the box */
+  margin: 5px 0;
+  /* This adds some space above and below the box */
   box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
   border-radius: 10px;
   color: white;
@@ -114,8 +122,10 @@ body {
 }
 
 .record-to-report-button {
-  background-color: #ffa500; /* Change this to the color you want for the box */
-  padding: 10px; /* Adjust this value to change the size of the box */
+  background-color: #ffa500;
+  /* Change this to the color you want for the box */
+  padding: 10px;
+  /* Adjust this value to change the size of the box */
   box-shadow: 0 4px 8px 0 rgb(248, 153, 0, 0.3);
   border-radius: 10px;
   color: white !important;
@@ -131,15 +141,21 @@ body {
 }
 
 #record-body {
-  background-image: url('../images/rockclimbing3.jpg'); /* Replace with the path to your image */
-  background-size: cover; /* This will stretch the image to cover the entire element */
-  background-repeat: no-repeat; /* This will prevent the image from repeating */
+  background-image: url('../images/rockclimbing3.jpg');
+  /* Replace with the path to your image */
+  background-size: cover;
+  /* This will stretch the image to cover the entire element */
+  background-repeat: no-repeat;
+  /* This will prevent the image from repeating */
 }
 
 #report-body {
-  background-image: url('../images/rockclimbing3.jpg'); /* Replace with the path to your image */
-  background-size: cover; /* This will stretch the image to cover the entire element */
-  background-repeat: no-repeat; /* This will prevent the image from repeating */
+  background-image: url('../images/rockclimbing3.jpg');
+  /* Replace with the path to your image */
+  background-size: cover;
+  /* This will stretch the image to cover the entire element */
+  background-repeat: no-repeat;
+  /* This will prevent the image from repeating */
 }
 
 .welcome {
@@ -173,7 +189,28 @@ body {
 }
 
 
-@media (min-width: 1921px)
+#profile-text {
+  margin-top: 19%;
+}
+
+#community-input {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#community-validation-warning
+{
+  font-family: "Sriracha", cursive;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1.75em;
+  text-shadow: red 3px 3px 3px;
+  color: white;
+}
+
+
+@media (min-width: 2100px)
 /* This is for resolutions for any devices above 1080p */
   {
   #navbar-options {
@@ -185,7 +222,7 @@ body {
   }
 }
 
-@media (max-width: 1920px)
+@media (max-width: 2099px)
 /* This is for monitors of resolution between 769p to 1080p */
   {
   #navbar-options {
@@ -206,7 +243,7 @@ body {
   }
 }
 
-@media (max-width: 1650px)
+@media (max-width: 1900px)
 /* This is for monitors of resolution that aren't mobile but are no greater 768p  */
   {
   .welcome {
@@ -214,6 +251,7 @@ body {
     margin-top: 2.25em;
     margin-bottom: 4cm;
   }
+
 
   .welcome-text {
     font-size: 1.75em;
@@ -231,9 +269,9 @@ body {
 
 }
 
-@media (max-width: 1400px)
+@media (max-width: 1700px)
 /* This is for sizes below 1110px. */
-  {
+{
 
   .navbar-brand {
     margin-left: 0;
@@ -251,38 +289,46 @@ body {
     margin-right: 0.5em;
   }
 
-  @media (max-width: 850px)
-
-  /* This is for larger mobile sizes */
-    {
-    #navbar-options {
-      height: 8em;
-    }
-
-    #nav-item {
-      font-size: small !important;
-    }
-
-    .nav-link-box-text {
-      font-size: small !important;
-    }
-
-  }
-
-  @media (max-width: 454px)
-  /* This is for smalll mobile sizes */
-  {
-    #nav-item {
-      font-size: x-small !important;
-    }
-
-    .nav-link-box-text {
-      font-size: xx-small !important;
-    }
-
-    .navbar-brand {
-      font-size: large;
-    }
+  #profile-text {
+    margin-top: 23%;
   }
 
 }
+
+@media (max-width: 1200px)
+/* This is for larger mobile sizes */
+{
+  #navbar-options {
+    height: 8em;
+  }
+
+  #nav-item {
+    font-size: small !important;
+  }
+
+  .nav-link-box-text {
+    font-size: small !important;
+  }
+
+  #profile-text {
+    margin-top: 22%;
+  }
+
+}
+
+@media (max-width: 454px)
+/* This is for smalll mobile sizes */
+{
+  #nav-item {
+    font-size: x-small !important;
+  }
+
+  .nav-link-box-text {
+    font-size: xx-small !important;
+  }
+
+  .navbar-brand {
+    font-size: large;
+  }
+}
+

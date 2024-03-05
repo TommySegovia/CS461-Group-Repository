@@ -1,15 +1,16 @@
 
 SET IDENTITY_INSERT [Climber] ON;
-INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName) VALUES (1, '0', 'Tommy', 'Segovia');
-INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName) VALUES (2, '0', 'Jaron', 'Solomon');
-INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName) VALUES (3, '0', 'Arthur', 'Kock');
-INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName) VALUES (4, '0', 'Benjamin', 'Zuk');
-INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName) VALUES (5, '0', 'Bastian', 'Cruzel');
+INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName, UserName) VALUES (1, '0', 'Tommy', 'Segovia', 'TomSeg1');
+INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName, UserName) VALUES (2, '0', 'Jaron', 'Solomon', 'JarSol2');
+INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName, UserName) VALUES (3, '0', 'Arthur', 'Kock', 'ArtKoc3');
+INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName, UserName) VALUES (4, '0', 'Benjamin', 'Zuk', 'BenZuk4');
+INSERT INTO [Climber] (ID,ASPNetIdentityId,FirstName,LastName, UserName) VALUES (5, '0', 'Bastian', 'Cruzel', 'BasCru5');
 
 SET IDENTITY_INSERT [Climber] OFF;
 
 SET IDENTITY_INSERT [FitnessTest] ON;
 INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (0, 'Hang Test', 'Measuring how much weight can be added/subtracted from a 20mm edge and held for 7 seconds in half crimp');
+INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (1, 'Pull Test', 'Measuring how much weight can be added/subtracted from a single pullup');
 SET IDENTITY_INSERT [FitnessTest] OFF;
 
 SET IDENTITY_INSERT [FitnessDataEntry] ON;

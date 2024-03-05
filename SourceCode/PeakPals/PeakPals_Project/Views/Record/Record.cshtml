@@ -32,10 +32,11 @@
                                     20mm Hang Test (7 seconds)
                                 </button>
                                 <!--<button type="button" class="btn btn-warning btn-circle" data-bs-toggle="popover" data-bs-content="This is some information about the form. "><span class="text-white">?</span></button> -->
-                                <button type="button" class="btn btn-warning btn-circle" data-bs-toggle="modal" data-bs-target="#helperModal" id="helpButton"><span class="text-black">?</span></button>
+                                <button type="button" class="btn btn-warning btn-circle" data-bs-toggle="modal"
+                                    data-bs-target="#hangTestHelperModal" id="hangTestHelpButton"><span
+                                        class="text-black">?</span></button>
                             </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse"
-                                data-bs-parent="#accordionExample">
+                            <div id="collapseOne" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <form id="hang-test-form">
                                         <div class="input-group mb-3">
@@ -51,58 +52,157 @@
                                             </div>
                                             <button class="btn btn-outline-secondary" type="submit"
                                                 id="hang-test-submit-button">Record</button>
-
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="accordion" id="test-accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header d-flex justify-content-between">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo">
+                                    Pull Up Test (1 Rep Max)
+                                </button>
+                                <!--<button type="button" class="btn btn-warning btn-circle" data-bs-toggle="popover" data-bs-content="This is some information about the form. "><span class="text-white">?</span></button> -->
+                                <button type="button" class="btn btn-warning btn-circle" data-bs-toggle="modal"
+                                    data-bs-target="#pullTestHelperModal" id="pullTestHelpButton"><span
+                                        class="text-black">?</span></button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <form id="pull-test-form">
+                                        <div class="input-group mb-3">
+                                            <input type="number" required id="pull-test-input" class="form-control"
+                                                placeholder="Added Weight">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">lbs</span>
+                                            </div>
+                                            <input type="number" required min="1" id="pull-test-bodyweight-input"
+                                                class="form-control" placeholder="Body Weight">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">lbs</span>
+                                            </div>
+                                            <button class="btn btn-outline-secondary" type="submit"
+                                                id="pull-test-submit-button">Record</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Add more accordions for different tests-->
                 </div>
             </div>
-            <div class="row mt-5">
+            <div class="row mt-5 pb-1">
                 <div class="col">
                     <h1 class="text-white welcome-text"> See Your Testing History Report</h1>
                 </div>
             </div>
-            <div class="row mt-2">
+            <div class="row mt-2 pb-5">
                 <div class="col">
                     <a class="record-to-report-button" asp-area="" asp-controller="Report"
                         asp-action="Report">Report</a>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <div class="modal fade" id="helperModal" tabindex="-1" aria-labelledby="helperModalLabel" aria-hidden="true">
+
+    <div class="modal fade" id="hangTestHelperModal" tabindex="-1" aria-labelledby="hangTestHelperModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title px-3 py-2 text-center" id="helperModalLabel">20mm Hang Test (7 Second Variant)</h5>
+                    <h5 class="modal-title px-3 py-2 text-center" id="hangTestHelperModalLabel">20mm Hang Test (7 Second
+                        Variant)</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>This fitness exercise will be testing your finger and grip strength and is considered one of the defining test for rock climbers. After all, finger strength is the most important attribute of a climber. The stronger your fingers, the harder you can climb!</p>
+                    <p>This fitness exercise will be testing your finger and grip strength and is considered one of the
+                        defining tests for rock climbers. After all, finger strength may be one of the most important attributes of a
+                        climber.</p>
                     <h6>Requirements:</h6>
                     <ul>
                         <li>You must be aged 18 or over</li>
-                        <li>You must have no pre-existing injuries or illnesses that prevent you from climbing or training</li>
+                        <li>You must have no pre-existing injuries or illnesses that prevent you from climbing or
+                            training</li>
                         <li>You must understand how to use a fingerboard and be competent in it’s use.</li>
                         <li>You must not be pregnant</li>
-                        <li>It is recommened you have climbed 4 or more routes at 6b+ OR have climbed 4 or more boulder problems at V4 in the last 12 months</li>
+                        <li>It is recommened you have climbed 4 or more routes at 6b+ OR have climbed 4 or more boulder
+                            problems at V4 in the last 12 months</li>
                     </ul>
                     <div class="bg-warning text-black" id="warning-box">
                         <h6>Warning:</h6>
-                        <p>This test is maximal and comes with risk to the user. Please always start at a relatively low load, which usually means start with your own bodyweight, and gradually increase the weight. If you feel your hand begin to slip or half crimp opening, please for your own safety, return back to standing flat on the ground and use a previous weight. Remember! Safety is always more important than potentially risking an injury!</p>
+                        <p>This test is maximal and comes with risk to the user. Always start at a relatively low
+                            load, which usually means start with less than or equal to your own bodyweight, and gradually increase the weight.
+                            If your form begins to fail such that you feel your hand begin to slip or half crimp opening,
+                            return back to standing flat on the ground and use a lower weight. Remember! Safety is
+                            always more important than potentially risking an injury!</p>
                     </div>
-                    <p class="my-3">Before you start, pick which grip position works the best for you. This means whichever one is comofortable or perhaps what you're most familar with. If you're not sure, give both a try!</p>
+                    <p class="my-3">Before you start, insure that you are properly warmed up.
+                        Pick which grip position works the best for you. This means
+                        whichever one is comofortable or perhaps what you're most familar with. If you're not sure, give
+                        both a try!</p>
 
-                    <img src="~/images/HangTestExample.png" alt="Grip Example Image" class="mx-auto d-block" style="width: 33%"/>           
-                    <p class="my-4">For the first round, start testing at your natural bodyweight. Hang for 7 seconds in the grip style you chose and rest for 2 minutes. If you were able to pull this off, consider using a dipping belt or climbing harness to add some additional weight to your body and attempt another 7 second hang. It is recommended that you add between 1kg and 5kg or 2lbs and 5lbs depending on how the previous hang felt to you.</p>
+                    <img src="~/images/HangTestExample.png" alt="Grip Example Image" class="mx-auto d-block"
+                        style="width: 33%" />
+                    <p class="my-4">Begin by hanging at an intensity that is comfortable for 7 seconds in
+                        your preferred grip. Proceed to slowly increase towards your maximum intensity hang whilst keeping proper form.
+                        You may use a dipping belt or climbing harness to add additional weight to your body and attempt
+                        another 7 second hang. It is recommended that you add between 1kg and 5kg or 2lbs and 5lbs
+                        depending on how the previous hang felt to you.
+                        Heavier attempts will require upwards of 5 minutes of rest between attempts</p>
                     <hr>
                     <h6 class="my-2">Logging your Results:</h6>
-                    <p style="margin-bottom: 2em;">Record the total load used, for example: your bodyweight + any additional weight you added on.</p>
+                    <p style="margin-bottom: 2em;">Record the total additional weight you added on or removed from your bodyweight.
+                        Example: If you added 10lbs to your bodyweight, record 10lbs. If you removed 5lbs from your bodyweight, record -5lbs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pullTestHelperModal" tabindex="-1" aria-labelledby="pullTestHelperModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title px-3 py-2 text-center" id="pullTestHelperModalLabel">Pull Up Test (One Rep Max)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This fitness exercise will be testing your maximum vertical pulling force.</p>
+                    <h6>Requirements:</h6>
+                    <ul>
+                        <li>You must be aged 18 or over</li>
+                        <li>You must have no pre-existing injuries or illnesses that prevent you from climbing or
+                            training</li>
+                        <li>You must understand how to use and be competent in the use of freeweights and have proper pull-up form.</li>
+                        <li>You must not be pregnant</li>
+                    </ul>
+                    <div class="bg-warning text-black" id="warning-box">
+                        <h6>Warning:</h6>
+                        <p>This test is maximal and comes with risk to the user. Please always start at a relatively low
+                            load, which usually means start with less than or equal to your own bodyweight, and gradually increase the weight.
+                            If your form fails such that your chin does not go above the bar, or excess kipping occurs.
+                            Return back to standing flat on the ground and use a lower weight. Remember! Safety is
+                            always more important than potentially risking an injury!</p>
+                    </div>
+                    <p class="my-3">Before you start, insure you are properly warmed up.</p>
+
+                    <img src="~/images/PullUpExample.png" alt="PullUp Example Image" class="mx-auto d-block"
+                        style="width: 33%" />
+                    <p class="my-4">Begin by lifting at an intensity that is comfortable.
+                        Proceed to slowly increase towards your maximum intensity pull-up whilst keeping proper form.
+                        You may use a dipping belt or climbing harness to add additional weight to your body and attempt
+                        another rep. It is recommended that you add between 1kg and 5kg or 2lbs and 5lbs
+                        depending on how the previous rep felt to you.
+                        Heavier attempts will require upwards of 5 minutes of rest between attempts</p>
+                    <hr>
+                    <h6 class="my-2">Logging your Results:</h6>
+                    <p style="margin-bottom: 2em;">Record the total additional weight you added on or removed from your bodyweight.
+                        Example: If you added 10lbs to your bodyweight, record 10lbs. If you removed 5lbs from your bodyweight, record -5lbs.
+                    </p>
                 </div>
             </div>
         </div>

@@ -7,6 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using PeakPals_Project.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using WebPWrecover.Services;
+using System.Configuration;
+using Microsoft.Identity.Client;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using PeakPals_Project.Models;
+using PeakPals_Project.Controllers;
+using PeakPals_Project.Areas.Identity.Data;
 
 namespace PeakPals_Project;
 
@@ -14,24 +22,33 @@ public class Program
 {
     public static void Main(string[] args)
     {
-
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
+        var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
+
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
-                                    .UseSqlServer(connectionString)
+                                    // .UseSqlServer(connectionString)
+                                    .UseSqlServer(connectionStringAuth)
                                     .UseLazyLoadingProxies());
 
+        builder.Services.AddDbContext<PeakPalsContext>(options => options
+                                .UseSqlServer(connectionStringApp)
+                                .UseLazyLoadingProxies());
+
+        builder.Configuration.AddAzureKeyVault(new Uri("https://peakpalsvault.vault.azure.net/"), new DefaultAzureCredential());
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+        builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddScoped<DbContext, ApplicationDbContext>();
+        builder.Services.AddScoped<DbContext, PeakPalsContext>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         //repositories
@@ -50,6 +67,27 @@ public class Program
 
 
         var app = builder.Build();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var serviceProvider = scope.ServiceProvider;
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            // Create the Admin role if it doesn't exist
+            if (!roleManager.RoleExistsAsync("Admin").Result)
+            {
+                var role = new IdentityRole("Admin");
+                var result = roleManager.CreateAsync(role).Result;
+            }
+
+            // Assign the Admin role to a user
+            //var user = userManager.FindByEmailAsync("test@email.com").Result;
+            //if (user != null)
+            //{
+            //    var result = userManager.AddToRoleAsync(user, "Admin").Result;
+            //}
+        }
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -75,6 +113,22 @@ public class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
+
+        app.MapControllerRoute(
+            name: "profile",
+            pattern: "Profile/{username}",
+            defaults: new { controller = "Profile", action = "GetProfile" });
+        
+        app.MapControllerRoute(
+            name: "profile",
+            pattern: "Profile/Edit",
+            defaults: new { controller = "Profile", action = "EditProfile" });
+
+        app.MapControllerRoute(
+            name: "admin",
+            pattern: "admin",
+            defaults: new { controller = "Admin", action = "UserList" });
+
         app.MapRazorPages();
 
         app.Run();

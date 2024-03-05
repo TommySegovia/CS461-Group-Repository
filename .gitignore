@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+SourceCode/PeakPals/PeakPals_Project/Properties/

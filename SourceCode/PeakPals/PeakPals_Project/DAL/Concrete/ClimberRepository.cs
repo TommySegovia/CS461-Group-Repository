@@ -11,7 +11,7 @@ namespace PeakPals_Project.DAL.Concrete
     public class ClimberRepository : Repository<Climber>, IClimberRepository
     {
         private DbSet<Climber> _climber;
-        public ClimberRepository(ApplicationDbContext context) : base(context)
+        public ClimberRepository(PeakPalsContext context) : base(context)
         {
             _climber = context.Climber;
         }
@@ -29,6 +29,53 @@ namespace PeakPals_Project.DAL.Concrete
             }
             else
             {
+                return null;
+            }
+        }
+
+        public Climber GetClimberModelByAspNetIdentityId(string aspNetIdentityId)
+        {
+
+            var climber = _climber.FirstOrDefault(c => c.AspnetIdentityId == aspNetIdentityId);
+
+            if (climber != null)
+            {
+                return climber;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Climber GetClimberByUsername(string username)
+        {
+            var climber = _climber.FirstOrDefault(c => c.UserName == username);
+
+            if (climber != null) {
+                return climber;
+            }
+            else {
+                return null;
+            }
+        }
+
+        public List<ClimberDTO> GetClimbersByUsername(string username)
+        {
+            var climbers = _climber.Where(c => c.UserName.Contains(username));
+            var climbersDTO = new List<ClimberDTO>();
+            ClimberDTO temp = new ClimberDTO();
+
+            foreach (Climber c in climbers)
+            {
+                temp = c.ToDTO();
+                climbersDTO.Add(temp);
+            }
+
+            if (climbers != null) {
+                return climbersDTO;
+            }
+            else {
                 return null;
             }
         }

@@ -5,30 +5,39 @@ function initializePage() {
 
 }
 
-document.getElementById("hang-test-form").addEventListener("submit", function (event) {
-  event.preventDefault();
-  recordHangTest();
-});
+function handleFormSubmit(formId, testId, testType) {
+  document.getElementById(formId).addEventListener("submit", function (event) {
+    event.preventDefault();
+    var result = document.getElementById(`${testType}-test-input`).value;
+    var bodyWeight = document.getElementById(`${testType}-test-bodyweight-input`).value;
+    recordTest(testId, result, bodyWeight);
+    document.getElementById(`${testType}-test-input`).value = "";
+    document.getElementById(`${testType}-test-bodyweight-input`).value = "";
+  });
+}
 
-function recordHangTest() {
-  var result = document.getElementById("hang-test-input").value;
-  var bodyWeight = document.getElementById("hang-test-bodyweight-input").value;
+handleFormSubmit("hang-test-form", 0, 'hang');
+handleFormSubmit("pull-test-form", 1, 'pull');
+
+
+function recordTest(testId, result, bodyWeight) {
+
   if (result === "" || bodyWeight === "") {
     console.log("No input");
     return;
   } else {
-    console.log("Hang Test: " + result + " lbs");
+    console.log("Test Result: " + result + " lbs");
     console.log("Body Weight: " + bodyWeight + " lbs");
-    postHangTestRecord(result, bodyWeight);
+    postTestRecord(testId, result, bodyWeight);
   }
 }
 
-async function postHangTestRecord(hangTest, bodyWeight) {
-  var url = "http://localhost:5044/api/FitnessDataEntryApi/RecordHangTestResult";
+async function postTestRecord(testId, testResult, bodyWeight) {
+  var url = '/api/FitnessDataEntryApi/RecordTestResult';
   var data = {
     "id": 0,
-    "testId": 0,
-    "result": parseInt(hangTest), // Convert to integer
+    "testId": testId,
+    "result": parseInt(testResult), // Convert to integer
     "bodyWeight": parseInt(bodyWeight), // Convert to integer
     "entryDate": new Date().toISOString()
   };
@@ -41,10 +50,8 @@ async function postHangTestRecord(hangTest, bodyWeight) {
     body: JSON.stringify(data)
   });
   var result = await response.json();
-  
+
   console.log(result);
-  document.getElementById("hang-test-input").value = "";
-  document.getElementById("hang-test-bodyweight-input").value = "";
   confirmationPopup();
 }
 
