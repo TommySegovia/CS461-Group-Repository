@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using PeakPals_Project.Areas.Identity.Data
 @using PeakPals_Project.Models
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @{ 
     string? email = User.Identity.Name;

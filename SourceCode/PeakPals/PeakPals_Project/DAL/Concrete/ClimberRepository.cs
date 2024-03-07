@@ -11,7 +11,7 @@ namespace PeakPals_Project.DAL.Concrete
     public class ClimberRepository : Repository<Climber>, IClimberRepository
     {
         private DbSet<Climber> _climber;
-        public ClimberRepository(ApplicationDbContext context) : base(context)
+        public ClimberRepository(PeakPalsContext context) : base(context)
         {
             _climber = context.Climber;
         }
