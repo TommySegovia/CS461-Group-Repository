@@ -1,0 +1,14 @@
+﻿<body id="admin-panel-body">
+    <div class="admin-panel-box container">
+        <nav class="nav nav-pills flex-column">
+            <h2 class="text-warning panel-header">Admin Panel</h2>
+            <li class="nav-item">
+                <a button class="btn btn-warning btn-lg my-5" id="user-list-btn" asp-controller="Admin" asp-action="UserList">User List</a>
+            </li>
+        </nav>
+    </div>
+</body>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminpanel.css">
+}

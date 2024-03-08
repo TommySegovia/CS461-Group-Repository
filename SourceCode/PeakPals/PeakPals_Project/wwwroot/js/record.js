@@ -33,7 +33,7 @@ function recordTest(testId, result, bodyWeight) {
 }
 
 async function postTestRecord(testId, testResult, bodyWeight) {
-  var url = "http://localhost:5044/api/FitnessDataEntryApi/RecordTestResult";
+  var url = '/api/FitnessDataEntryApi/RecordTestResult';
   var data = {
     "id": 0,
     "testId": testId,

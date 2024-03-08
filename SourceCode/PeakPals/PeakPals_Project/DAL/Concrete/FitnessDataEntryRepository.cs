@@ -11,7 +11,7 @@ namespace PeakPals_Project.DAL.Concrete
     public class FitnessDataEntryRepository : Repository<FitnessDataEntry>, IFitnessDataEntryRepository
     {
         private DbSet<FitnessDataEntry> _fitnessDataEntry;
-        public FitnessDataEntryRepository(ApplicationDbContext context) : base(context)
+        public FitnessDataEntryRepository(PeakPalsContext context) : base(context)
         {
             _fitnessDataEntry = context.FitnessDataEntry;
         }
