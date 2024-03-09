@@ -14,6 +14,7 @@ namespace NUnit_Tests
     {
         private Mock<DbSet<Climber>> _mockSet;
         private Mock<ApplicationDbContext> _mockContext;
+        private Mock<PeakPalsContext> _peakPalsContext;
         private ClimberRepository _climberRepository;
 
         [SetUp]
@@ -38,7 +39,7 @@ namespace NUnit_Tests
             _mockContext.Setup(c => c.Climber).Returns(_mockSet.Object);
 
             // Create the repository
-            _climberRepository = new ClimberRepository(_mockContext.Object);
+            _climberRepository = new ClimberRepository(_peakPalsContext.Object);
         }
 
         [Test]
