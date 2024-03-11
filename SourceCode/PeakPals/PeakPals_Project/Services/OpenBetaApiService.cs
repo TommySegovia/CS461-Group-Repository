@@ -10,10 +10,12 @@ namespace PeakPals_Project.Services;
 public class OpenBetaApiService : IOpenBetaApiService
 {
     private readonly GraphQLHttpClient _client;
+    private readonly ILogger<OpenBetaApiService> _logger;
 
-    public OpenBetaApiService(GraphQLHttpClient client)
+    public OpenBetaApiService(GraphQLHttpClient client, ILogger<OpenBetaApiService> logger)
     {
         _client = client;
+        _logger = logger;
     }
 
     public async Task<IActionResult> FindMatchingAreas(string userQuery)
@@ -21,12 +23,13 @@ public class OpenBetaApiService : IOpenBetaApiService
         var request =  new GraphQLRequest
         {
             Query = @"
-                query FindMatchingAreas($userQuery: String) 
+                query FindMatchingAreas($userQuery: String!) 
                 {
-                    areas(filer: {area_name: {match: $userQuery}}) 
+                    areas(filter: {area_name: {match: $userQuery}}) 
                     {
                         area_name
-                        meta_data
+                        ancestors
+                        metadata
                         {
                             lat
                             lng
@@ -41,17 +44,31 @@ public class OpenBetaApiService : IOpenBetaApiService
                             }
                         }
                     }
-                }"
+                }",
+            Variables = new { userQuery }
         };
 
-        var response = await _client.SendQueryAsync<OpenBetaQueryResult>(request);
+        var cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(20));
+        GraphQLResponse<OpenBetaQueryResult> response = null;
+
+        try {
+            // actual request and response from API
+            response = await _client.SendQueryAsync<OpenBetaQueryResult>(request, cancellationTokenSource.Token);
+        } 
+        catch (OperationCanceledException) {
+            return new StatusCodeResult(StatusCodes.Status408RequestTimeout);
+        }
 
         if (response.Errors != null && response.Errors.Any())
         {
+            _logger.LogError($"GraphQL response contained errors: {string.Join(", ", response.Errors.Select(e => e.Message))}");
             return new BadRequestObjectResult(response.Errors);
+            
         }
         else
         {
+            response.Data.Areas = response.Data.Areas.Take(20).ToList();
             return new OkObjectResult(response.Data);
         }
     }

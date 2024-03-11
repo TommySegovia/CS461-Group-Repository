@@ -13,6 +13,8 @@ using System.Text;
 using System.Net;
 using Moq.Protected;
 using GraphQL.Client.Serializer.Newtonsoft;
+using Castle.Core.Logging;
+using Microsoft.Extensions.Logging;
 
 [TestFixture]
 public class OpenBetaApiServiceTests
@@ -21,6 +23,7 @@ public class OpenBetaApiServiceTests
     private HttpClient _httpClient;
     private GraphQLHttpClient _graphQLClient;
     private OpenBetaApiService _service;
+    private ILogger<OpenBetaApiService> _logger;
 
     [SetUp]
     public void SetUp()
@@ -31,7 +34,7 @@ public class OpenBetaApiServiceTests
             BaseAddress = new Uri("http://localhost/")
         };
         _graphQLClient = new GraphQLHttpClient(new GraphQLHttpClientOptions(), new NewtonsoftJsonSerializer(), _httpClient);
-        _service = new OpenBetaApiService(_graphQLClient);
+        _service = new OpenBetaApiService(_graphQLClient, _logger);
     }
 
     private void SetupHttpResponse(string responseContent)
@@ -98,8 +101,9 @@ public class OpenBetaApiServiceTests
                     ""Area_Name"": ""Area 1"",
                     ""Ancestors"": [],
                     ""Metadata"": {
-                        ""Lat"": 0,
-                        ""Lng"": 0
+                        ""Lat"": 2,
+                        ""Lng"": 1
+
                     },
                     ""Content"": {
                         ""Description"": ""Description 1""
@@ -122,5 +126,11 @@ public class OpenBetaApiServiceTests
         Assert.NotNull(data);
         Assert.That(data.Area.Area_Name, Is.EqualTo("Area 1"));
         Assert.That(data.Area.Content.Description, Is.EqualTo("Description 1"));
+        Assert.That(data.Area.Children.Count, Is.EqualTo(0));
+        Assert.That(data.Area.Climbs.Count, Is.EqualTo(0));
+        Assert.That(data.Area.Metadata.Lat, Is.EqualTo(2));
+        Assert.That(data.Area.Metadata.Lng, Is.EqualTo(1));
+        Assert.That(data.Area.Ancestors.Count, Is.EqualTo(0));
+
     }
 }
