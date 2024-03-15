@@ -27,7 +27,7 @@ public class FitnessDataEntryService : IFitnessDataEntryService
     {
         FitnessDataEntry fitnessDataEntry = new FitnessDataEntry
         {
-            
+
             ClimberId = climberId,
             TestId = testId,
             Result = result,
@@ -40,38 +40,70 @@ public class FitnessDataEntryService : IFitnessDataEntryService
 
     public void GenerateGraphsWithRecordHistory(List<FitnessDataEntryDTO> fitnessDataEntryListDTO, int testId)
     {
-        // Created using ScottPlot library, visit website to learn more.
-        // create plot
-        var plt = new ScottPlot.Plot(700, 350);
-
-        // convert DateTime to Double for ScottPlot before plotting
-        double[] xs = fitnessDataEntryListDTO.Where(x => x.EntryDate.HasValue && x.TestId == testId).Select(x => x.EntryDate.Value.ToOADate()).ToArray();
-        if (xs.Length < 2) 
-        { return; }
-        double[] results = fitnessDataEntryListDTO.Where(x => x.Result.HasValue && x.TestId == testId).Select(x => (double)x.Result.Value).ToArray();
-        double[] bodyWeights = fitnessDataEntryListDTO.Where(x => x.BodyWeight.HasValue && x.TestId == testId).Select(x => (double)x.BodyWeight.Value).ToArray();
-        double[] ys = new double[xs.Length];
-
-        // add y coordinates by dividing result by bodyweight and adding 100
-        for (int i = 0; i < xs.Length; i++)
+        if (testId == 3 || testId == 4) //generate a graph based on flexibility
         {
-            ys[i] = (results[i] / bodyWeights[i] * 100) + 100;
+            // Created using ScottPlot library, visit website to learn more.
+            // create plot
+            var plt = new ScottPlot.Plot(600, 350);
+
+            // convert DateTime to Double for ScottPlot before plotting
+            double[] xs = fitnessDataEntryListDTO.Where(x => x.EntryDate.HasValue && x.TestId == testId).Select(x => x.EntryDate.Value.ToOADate()).ToArray();
+            if (xs.Length < 2)
+            { return; }
+            double[] results = fitnessDataEntryListDTO.Where(x => x.Result.HasValue && x.TestId == testId).Select(x => (double)x.Result.Value).ToArray();
+            double[] ys = new double[xs.Length];
+
+            // add points to graph
+            plt.AddScatter(xs, results);
+
+            // customize graph
+            plt.XAxis.DateTimeFormat(true);
+            plt.XAxis.Label("Timeline");
+            plt.YAxis.Label("Flexibility (inches)");
+            plt.YAxis.LabelStyle(color: Color.White);
+            plt.XAxis.LabelStyle(color: Color.White);
+            plt.Style(figureBackground: Color.Black, tick: Color.White);
+            plt.Margins(x: .10, y: .20);
+
+            // overwrite existing image for new analytics
+            plt.SaveFig($"wwwroot/Images/Test_{testId}_ResultsOverTime.png");
+        }
+        else
+        {
+            // Created using ScottPlot library, visit website to learn more.
+            // create plot
+            var plt = new ScottPlot.Plot(600, 350);
+
+            // convert DateTime to Double for ScottPlot before plotting
+            double[] xs = fitnessDataEntryListDTO.Where(x => x.EntryDate.HasValue && x.TestId == testId).Select(x => x.EntryDate.Value.ToOADate()).ToArray();
+            if (xs.Length < 2)
+            { return; }
+            double[] results = fitnessDataEntryListDTO.Where(x => x.Result.HasValue && x.TestId == testId).Select(x => (double)x.Result.Value).ToArray();
+            double[] bodyWeights = fitnessDataEntryListDTO.Where(x => x.BodyWeight.HasValue && x.TestId == testId).Select(x => (double)x.BodyWeight.Value).ToArray();
+            double[] ys = new double[xs.Length];
+
+            // add y coordinates by dividing result by bodyweight and adding 100
+            for (int i = 0; i < xs.Length; i++)
+            {
+                ys[i] = (results[i] / bodyWeights[i] * 100) + 100;
+            }
+
+            // add points to graph
+            plt.AddScatter(xs, ys);
+
+            // customize graph
+            plt.XAxis.DateTimeFormat(true);
+            plt.XAxis.Label("Timeline");
+            plt.YAxis.Label("Percentage of Body Weight");
+            plt.YAxis.LabelStyle(color: Color.White);
+            plt.XAxis.LabelStyle(color: Color.White);
+            plt.Style(figureBackground: Color.Black, tick: Color.White);
+            plt.Margins(x: .10, y: .20);
+
+            // overwrite existing image for new analytics
+            plt.SaveFig($"wwwroot/Images/Test_{testId}_ResultsOverTime.png");
         }
 
-        // add points to graph
-        plt.AddScatter(xs, ys);
-
-        // customize graph
-        plt.XAxis.DateTimeFormat(true);
-        plt.XAxis.Label("Timeline");
-        plt.YAxis.Label("Percentage of Body Weight");
-        plt.YAxis.LabelStyle(color: Color.White);
-        plt.XAxis.LabelStyle(color: Color.White);
-        plt.Style(figureBackground: Color.Black, tick: Color.White);
-        plt.Margins(x: .10, y: .20);
-
-        // overwrite existing image for new analytics
-        plt.SaveFig($"wwwroot/Images/Test_{testId}_ResultsOverTime.png");
     }
 }
 
