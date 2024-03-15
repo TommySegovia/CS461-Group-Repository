@@ -11,14 +11,14 @@ namespace NUnit_Tests
     public class ClimberServiceTests
     {
         private Mock<IClimberRepository> _mockClimberRepository;
-        private Mock<ApplicationDbContext> _mockContext;
+        private Mock<PeakPalsContext> _mockContext;
         private ClimberService _climberService;
 
         [SetUp]
         public void Setup()
         {
             _mockClimberRepository = new Mock<IClimberRepository>();
-            _mockContext = new Mock<ApplicationDbContext>();
+            _mockContext = new Mock<PeakPalsContext>();
             _climberService = new ClimberService(_mockClimberRepository.Object, _mockContext.Object);
         }
 

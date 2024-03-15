@@ -46,6 +46,7 @@ namespace PeakPals_Project.Controllers
                 }
                 var userResults = _fitnessDataEntryRepository.GetUserResultsWithTimesInChronologicalOrder(climberDTO.Id, testId);
                 _fitnessDataEntryService.GenerateGraphsWithRecordHistory(userResults, testId);
+
                 return Ok(userResults);
             }
             else
@@ -95,6 +96,23 @@ namespace PeakPals_Project.Controllers
                     return NotFound();
                 }
                 return Ok(_fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(testId));
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
+        }
+
+        [HttpGet("Test/Results/Average/All/Flexibility/{testId}")]
+        public ActionResult<double> GetAverageFlexibility(int testId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (_fitnessDataEntryRepository == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_fitnessDataEntryRepository.GetAverageResultFlexibility(testId));
             }
             else
             {

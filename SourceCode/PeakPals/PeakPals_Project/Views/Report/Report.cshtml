@@ -19,17 +19,86 @@
         <!-- Tab panes -->
         <div class="tab-content" id="report-tab-content">
             <div class="tab-pane fade show active" id="test-history">
-                <div id="hang-test-results">
-                    <h2>Hang Test Results</h2>
-                    <div id="hang-test-table"></div>
-                    <div id="hang-test-graph"></div>
+                <div class="container">
+                    <div class="row pt-3" style="border-top: 1px solid black;">
+                        <div class="col">
+                            <h2>Hang Test Results</h2>
+                            <div id="hang-test-results"></div>
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-6">
+                            <div id="hang-test-table"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="hang-test-graph"></div>
+                        </div>
+                    </div>
+                    <div class="row pt-3" style="border-top: 1px solid black;">
+                        <div class="col">
+                            <h2>Pull Test Results</h2>
+                            <div id="pull-test-results">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-6">
+                            <div id="pull-test-table"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="pull-test-graph"></div>
+                        </div>
+                    </div>
+                    <div class="row pt-3" style="border-top: 1px solid black;">
+                        <div class="col">
+                            <h2>Hammer Curl Test Results</h2>
+                            <div id="hammerCurl-test-results">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-6">
+                            <div id="hammerCurl-test-table"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="hammerCurl-test-graph"></div>
+                        </div>
+                    </div>
+                    <div class="row pt-3" style="border-top: 1px solid black;">
+                        <div class="col">
+                            <h2>Hip Flexibility Test Results</h2>
+                            <div id="hipFlexibility-test-results">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-6">
+                            <div id="hipFlexibility-test-table"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="hipFlexibility-test-graph"></div>
+                        </div>
+                    </div>
+                    <div class="row pt-3" style="border-top: 1px solid black;">
+                        <div class="col">
+                            <h2>Hamstring Flexibility Test Results</h2>
+                            <div id="hamstringFlexibility-test-results">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-6">
+                            <div id="hamstringFlexibility-test-table"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="hamstringFlexibility-test-graph"></div>
+                        </div>
+                    </div>
                 </div>
-                <div id="pull-test-results">
-                    <h2>Pull Test Results</h2>
-                    <div id="pull-test-table"></div>
-                    <div id="pull-test-graph"></div>
-                </div>
+
             </div>
+
+
             <div class="tab-pane fade" id="test-analysis">
                 <div id="hang-test-average-div">
                     <h2>Hang Test Average</h2>
@@ -39,8 +108,21 @@
                     <h2>Pull Test Average</h2>
                     <div id="pull-test-average"></div>
                 </div>
+                <div id="hammerCurl-test-average-div">
+                    <h2>Hammer Curl Test Average</h2>
+                    <div id="hammerCurl-test-average"></div>
+                </div>
+                <div id="hipFlexibility-test-average-div">
+                    <h2>Hip Flexibility Test Average</h2>
+                    <div id="hipFlexibility-test-average"></div>
+                </div>
+                <div id="hamstringFlexibility-test-average-div">
+                    <h2>Hamstring Flexibility Test Average</h2>
+                    <div id="hamstringFlexibility-test-average"></div>
+                </div>
             </div>
         </div>
+    </div>
 
 
 </body>

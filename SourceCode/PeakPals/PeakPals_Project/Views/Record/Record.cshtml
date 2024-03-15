@@ -24,76 +24,63 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-6">
-                    <div class="accordion" id="test-accordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header d-flex justify-content-between">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne">
-                                    20mm Hang Test (7 seconds)
-                                </button>
-                                <!--<button type="button" class="btn btn-warning btn-circle" data-bs-toggle="popover" data-bs-content="This is some information about the form. "><span class="text-white">?</span></button> -->
-                                <button type="button" class="btn btn-warning btn-circle" data-bs-toggle="modal"
-                                    data-bs-target="#hangTestHelperModal" id="hangTestHelpButton"><span
-                                        class="text-black">?</span></button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    <form id="hang-test-form">
-                                        <div class="input-group mb-3">
-                                            <input type="number" required id="hang-test-input" class="form-control"
-                                                placeholder="Added Weight">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">lbs</span>
-                                            </div>
-                                            <input type="number" required min="1" id="hang-test-bodyweight-input"
-                                                class="form-control" placeholder="Body Weight">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">lbs</span>
-                                            </div>
-                                            <button class="btn btn-outline-secondary" type="submit"
-                                                id="hang-test-submit-button">Record</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion" id="test-accordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header d-flex justify-content-between">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo">
-                                    Pull Up Test (1 Rep Max)
-                                </button>
-                                <!--<button type="button" class="btn btn-warning btn-circle" data-bs-toggle="popover" data-bs-content="This is some information about the form. "><span class="text-white">?</span></button> -->
-                                <button type="button" class="btn btn-warning btn-circle" data-bs-toggle="modal"
-                                    data-bs-target="#pullTestHelperModal" id="pullTestHelpButton"><span
-                                        class="text-black">?</span></button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    <form id="pull-test-form">
-                                        <div class="input-group mb-3">
-                                            <input type="number" required id="pull-test-input" class="form-control"
-                                                placeholder="Added Weight">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">lbs</span>
-                                            </div>
-                                            <input type="number" required min="1" id="pull-test-bodyweight-input"
-                                                class="form-control" placeholder="Body Weight">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">lbs</span>
-                                            </div>
-                                            <button class="btn btn-outline-secondary" type="submit"
-                                                id="pull-test-submit-button">Record</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!--Add more accordions for different tests-->
+                    @{
+                        var tests = new[]
+                        {
+                            new { Id = "hang", Name = "20mm Hang Test (7 seconds)", ModalId = "hangTestHelperModal", HelpButtonId = "hangTestHelpButton", Placeholder = "Added Weight", unit = "lbs" },
+                            new { Id = "pull", Name = "Pull Up Test (1 Rep Max)", ModalId = "pullTestHelperModal", HelpButtonId = "pullTestHelpButton", Placeholder = "Added Weight", unit = "lbs"},
+                            new { Id = "hammerCurl", Name = "Hammer Curl Test (1 Rep Max)", ModalId = "hammerCurlTestHelperModal", HelpButtonId = "hammerCurlTestHelpButton", Placeholder = "Lifted Weight", unit = "lbs"},
+                            new { Id = "hipFlexibility", Name = "Hip Flexibility Test", ModalId = "hipFlexibilityTestHelperModal", HelpButtonId = "hipFlexibilityTestHelpButton", Placeholder = "Distance", unit = "Inches"},
+                            new { Id = "hamstringFlexibility", Name = "Hamstring Flexibility Test", ModalId = "hamstringFlexibilityTestHelperModal", HelpButtonId = "hamstringFlexibilityTestHelpButton", Placeholder = "Distance", unit = "Inches"},
+                            
+                        };
+                    }
+
+                    @foreach (var test in tests)
+                    {
+                        <div class="accordion" id="test-accordion-@test.Id">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header d-flex justify-content-between">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@test.Id">
+                                        @test.Name
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-circle" data-bs-toggle="modal" data-bs-target="#@test.ModalId" id="@test.HelpButtonId">
+                                        <span class="text-black">?</span>
+                                    </button>
+                                </h2>
+                                <div id="collapse-@test.Id" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <form id="@($"{test.Id}-test-form")">
+                                            <div class="input-group mb-3">
+                                                @if (test.Id == "hipFlexibility")
+                                                {
+                                                    <input type="number" required id="@($"{test.Id}-test-input")" class="form-control" placeholder="@test.Placeholder" min="0">
+                                                }
+                                                else 
+                                                {
+                                                    <input type="number" required id="@($"{test.Id}-test-input")" class="form-control" placeholder="@test.Placeholder">
+                                                }
+                                                
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">@test.unit</span>
+                                                </div>
+                                                @if (test.Id == "hang" || test.Id == "pull" || test.Id == "hammerCurl")
+                                                {
+                                                    <input type="number" required min="1" id="@($"{test.Id}-test-bodyweight-input")" class="form-control" placeholder="Body Weight">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">lbs</span>
+                                                    </div>
+                                                }
+                                                
+                                                <button class="btn btn-outline-secondary" type="submit" id="@($"{test.Id}-test-submit-button")">Record</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
             <div class="row mt-5 pb-1">
@@ -110,105 +97,166 @@
         </div>
     </div>
 
+    @{
+    var exercises = new[]
+    {
+        new
+        {
+            Id = "hang",
+            Title = "20mm Hang Test (7 Second Variant)",
+            ModalId = "hangTestHelperModal",
+            LabelId = "hangTestHelperModalLabel",
+            ImageSource = "~/images/HangTestExample.png",
+            Info = "This fitness exercise will be testing your finger and grip strength and is considered one of the defining tests for rock climbers. After all, finger strength may be one of the most important attributes of a climber.",
+            Instructions = (
+                "Begin by hanging at an intensity that is comfortable for 7 seconds in your preferred grip. " +
+                "Proceed to slowly increase towards your maximum intensity hang whilst keeping proper form. " +
+                "You may use a dipping belt or climbing harness to add additional weight to your body and attempt another 7 second hang. " +
+                "It is recommended that you add between 1kg and 5kg or 2lbs and 5lbs depending on how the previous hang felt to you. " +
+                "Heavier attempts will require upwards of 5 minutes of rest between attempts"),
+            Requirements = new []
+            {
+                "You must be aged 18 or over",
+                "You must have no pre-existing injuries or illnesses that prevent you from climbing or training",
+                "You must understand how to use a fingerboard and be competent in its use.",
+                "You must not be pregnant",
+                "It is recommended you have climbed 4 or more routes at 6b+ OR have climbed 4 or more boulder problems at V4 in the last 12 months"
+            },
+            Warning = "This test is maximal and comes with risk to the user. Always start at a relatively low load, gradually increase the weight. If your form begins to fail, return back to standing flat on the ground and use a lower weight. Safety is always more important than potentially risking an injury!",
+            LogResults = "Record the total additional weight you added or removed from your bodyweight. Example: If you added 10lbs to your bodyweight, record 10lbs. If you removed 5lbs from your bodyweight, record -5lbs."
+        },
+        new
+        {
+            Id = "pull",
+            Title = "Pull Up Test (One Rep Max)",
+            ModalId = "pullTestHelperModal",
+            LabelId = "pullTestHelperModalLabel",
+            ImageSource = "~/images/PullUpExample.png",
+            Info = "This fitness exercise will be testing your maximum vertical pulling force.",
+            Instructions = 
+                ("Begin by lifting at an intensity that is comfortable. Proceed to slowly increase towards your maximum intensity pull-up whilst keeping proper form. " +
+                "You may use a dipping belt or climbing harness to add additional weight to your body and attempt another rep. " +
+                "It is recommended that you add between 1kg and 5kg or 2lbs and 5lbs depending on how the previous rep felt to you."),
+            Requirements = new []
+            {
+                "You must be aged 18 or over",
+                "You must have no pre-existing injuries or illnesses that prevent you from climbing or training",
+                "You must understand how to use and be competent in the use of freeweights and have proper pull-up form.",
+                "You must not be pregnant"
+            },
+            Warning = "This test is maximal and comes with risk to the user. Please always start at a relatively low load, gradually increase the weight. If your form fails, return back to standing flat on the ground and use a lower weight. Safety is always more important than potentially risking an injury!",
+            LogResults = "Record the total additional weight you added or removed from your bodyweight. Example: If you added 10lbs to your bodyweight, record 10lbs. If you removed 5lbs from your bodyweight, record -5lbs."
+        },
+        new
+        {
+            Id = "hammerCurl",
+            Title = "Hammer Curl Test (One Rep Max)",
+            ModalId = "hammerCurlTestHelperModal",
+            LabelId = "hammerCurlTestHelperModalLabel",
+            ImageSource = "~/images/HammerCurlExample.jpeg",
+            Info = "This fitness exercise will be testing your maximal load on the single arm hammer curl.",
+            Instructions = 
+                ("Begin by lifting at an intensity that is comfortable. Proceed to slowly increase towards your maximum intensity hammer curl whilst keeping proper form. " +
+                "No swinging of the weights. " +
+                "No leaning back. " +
+                "You may use heavier dumbbells to attempt another rep. " +
+                "It is recommended that you add between 1kg and 5kg or 2lbs and 5lbs depending on how the previous rep felt to you."),
+            Requirements = new []
+            {
+                "You must be aged 18 or over",
+                "You must have no pre-existing injuries or illnesses that prevent you from performing hammer curls or weight training.",
+                "You must understand how to use and be competent in the use of dumbbells.",
+                "You must not be pregnant"
+            },
+            Warning = "This test is maximal and comes with risk to the user. Always start with a relatively low load, gradually increase the weight, and prioritize proper form. If you experience any discomfort or compromise in form, decrease the weight immediately. Safety is paramount. Remember! Safety is always more important than potentially risking an injury!",
+            LogResults = "Record the weight of the single dumbbell you used for the hammer curl. Example: If you used a 20lb dumbbell, record 20lbs. If you used a 25lb dumbbell, record 25lbs. (Note: If one arm is stronger than the other, record the weight successfully lifted by both arms separately. Ex. 20lbs on the left, 25lbs on the right. Results in a score of 20lbs.)"
+        },
+        
+        new
+        {
+            Id = "hipFlexibility",
+            Title = "Hip Flexibility Test",
+            ModalId = "hipFlexibilityTestHelperModal",
+            LabelId = "hipFlexibilityTestHelperModalLabel",
+            ImageSource = "~/images/HipFlexibilityTestExample.jpg",
+            Info = "This fitness exercise will be testing your hip flexibility.",
+            Instructions = 
+                ("It may be helpful to stand near a wall or structure for assistance lower and getting out of the stretch position. " +
+                "Begin by standing up straight with legs straight, toes forwards. " +
+                "Shuffle your feet to the widest you can manage without straining."),
+            Requirements = new []
+            {
+                "You must be aged 18 or over",
+                "You must have no pre-existing injuries or illnesses that prevent you from performing the hip flexibility test.",
+                "You must not be pregnant"
+            },
+            Warning = "This test is maximal and comes with risk to the user. Stretching before testing is important! If you experience any discomfort or compromise in form, decrease the intensity. Safety is paramount. Remember! Safety is always more important than potentially risking an injury!",
+            LogResults = "Record the distance between your heels in inches. Example: If your heels are 12 inches apart, record 12 inches."
+        },
+        new
+        {
+            Id = "hamstringFlexibility",
+            Title = "Hamstring Flexibility Test",
+            ModalId = "hamstringFlexibilityTestHelperModal",
+            LabelId = "hamstringFlexibilityTestHelperModalLabel",
+            ImageSource = "~/images/HamstringFlexibilityTestExample.png",
+            Info = "This fitness exercise will be testing your hamstring flexibility.",
+            Instructions = 
+                ("This test is recommended to be performed with the assistance of a partner. " +
+                "Begin by sitting on the floor with legs straight out in front of you, toes pointed upwards, with an upright torso. " +
+                "Begin to reach forward towards your toes, keeping your legs straight. " +
+                "Stretch as far as you can without straining. "),
+            Requirements = new []
+            {
+                "You must be aged 18 or over",
+                "You must have no pre-existing injuries or illnesses that prevent you from performing the hamstring flexibility test.",
+                "You must not be pregnant"
+            },
+            Warning = "This test is maximal and comes with risk to the user. Stretching before testing is important! If you experience any discomfort or compromise in form, decrease the intensity. Safety is paramount. Remember! Safety is always more important than potentially risking an injury!",
+            LogResults = "Record the distance between your fingers and toes in inches. Example: If your fingers are 2 inches away from touching your toes, record -2 inches. If your fingers are 5 inches past your toes, record 5 inches."
+        }
+        
+    };
+}
 
-    <div class="modal fade" id="hangTestHelperModal" tabindex="-1" aria-labelledby="hangTestHelperModalLabel" aria-hidden="true">
+@foreach (var exercise in exercises)
+{
+    <div class="modal fade" id="@exercise.ModalId" tabindex="-1" aria-labelledby="@exercise.LabelId" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title px-3 py-2 text-center" id="hangTestHelperModalLabel">20mm Hang Test (7 Second
-                        Variant)</h5>
+                    <h5 class="modal-title px-3 py-2 text-center" id="@exercise.LabelId">@exercise.Title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>This fitness exercise will be testing your finger and grip strength and is considered one of the
-                        defining tests for rock climbers. After all, finger strength may be one of the most important attributes of a
-                        climber.</p>
+                    <p>@exercise.Info</p>
                     <h6>Requirements:</h6>
                     <ul>
-                        <li>You must be aged 18 or over</li>
-                        <li>You must have no pre-existing injuries or illnesses that prevent you from climbing or
-                            training</li>
-                        <li>You must understand how to use a fingerboard and be competent in it’s use.</li>
-                        <li>You must not be pregnant</li>
-                        <li>It is recommened you have climbed 4 or more routes at 6b+ OR have climbed 4 or more boulder
-                            problems at V4 in the last 12 months</li>
+                        @foreach (var requirement in exercise.Requirements)
+                        {
+                            <li>@requirement</li>
+                        }
                     </ul>
                     <div class="bg-warning text-black" id="warning-box">
                         <h6>Warning:</h6>
-                        <p>This test is maximal and comes with risk to the user. Always start at a relatively low
-                            load, which usually means start with less than or equal to your own bodyweight, and gradually increase the weight.
-                            If your form begins to fail such that you feel your hand begin to slip or half crimp opening,
-                            return back to standing flat on the ground and use a lower weight. Remember! Safety is
-                            always more important than potentially risking an injury!</p>
+                        <p>@exercise.Warning</p>
                     </div>
-                    <p class="my-3">Before you start, insure that you are properly warmed up.
-                        Pick which grip position works the best for you. This means
-                        whichever one is comofortable or perhaps what you're most familar with. If you're not sure, give
-                        both a try!</p>
+                    <p class="my-3">Before you start, ensure you are properly warmed up.</p>
 
-                    <img src="~/images/HangTestExample.png" alt="Grip Example Image" class="mx-auto d-block"
-                        style="width: 33%" />
-                    <p class="my-4">Begin by hanging at an intensity that is comfortable for 7 seconds in
-                        your preferred grip. Proceed to slowly increase towards your maximum intensity hang whilst keeping proper form.
-                        You may use a dipping belt or climbing harness to add additional weight to your body and attempt
-                        another 7 second hang. It is recommended that you add between 1kg and 5kg or 2lbs and 5lbs
-                        depending on how the previous hang felt to you.
-                        Heavier attempts will require upwards of 5 minutes of rest between attempts</p>
+                    <img src="@Url.Content(exercise.ImageSource)" alt="Exercise Example Image" class="mx-auto d-block" style="width: 25%" />
+
+
+                    <p>@exercise.Instructions</p>
+
                     <hr>
                     <h6 class="my-2">Logging your Results:</h6>
-                    <p style="margin-bottom: 2em;">Record the total additional weight you added on or removed from your bodyweight.
-                        Example: If you added 10lbs to your bodyweight, record 10lbs. If you removed 5lbs from your bodyweight, record -5lbs.</p>
+                    <p style="margin-bottom: 2em;">@exercise.LogResults</p>
                 </div>
             </div>
         </div>
     </div>
+}
 
-    <div class="modal fade" id="pullTestHelperModal" tabindex="-1" aria-labelledby="pullTestHelperModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title px-3 py-2 text-center" id="pullTestHelperModalLabel">Pull Up Test (One Rep Max)</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>This fitness exercise will be testing your maximum vertical pulling force.</p>
-                    <h6>Requirements:</h6>
-                    <ul>
-                        <li>You must be aged 18 or over</li>
-                        <li>You must have no pre-existing injuries or illnesses that prevent you from climbing or
-                            training</li>
-                        <li>You must understand how to use and be competent in the use of freeweights and have proper pull-up form.</li>
-                        <li>You must not be pregnant</li>
-                    </ul>
-                    <div class="bg-warning text-black" id="warning-box">
-                        <h6>Warning:</h6>
-                        <p>This test is maximal and comes with risk to the user. Please always start at a relatively low
-                            load, which usually means start with less than or equal to your own bodyweight, and gradually increase the weight.
-                            If your form fails such that your chin does not go above the bar, or excess kipping occurs.
-                            Return back to standing flat on the ground and use a lower weight. Remember! Safety is
-                            always more important than potentially risking an injury!</p>
-                    </div>
-                    <p class="my-3">Before you start, insure you are properly warmed up.</p>
-
-                    <img src="~/images/PullUpExample.png" alt="PullUp Example Image" class="mx-auto d-block"
-                        style="width: 33%" />
-                    <p class="my-4">Begin by lifting at an intensity that is comfortable.
-                        Proceed to slowly increase towards your maximum intensity pull-up whilst keeping proper form.
-                        You may use a dipping belt or climbing harness to add additional weight to your body and attempt
-                        another rep. It is recommended that you add between 1kg and 5kg or 2lbs and 5lbs
-                        depending on how the previous rep felt to you.
-                        Heavier attempts will require upwards of 5 minutes of rest between attempts</p>
-                    <hr>
-                    <h6 class="my-2">Logging your Results:</h6>
-                    <p style="margin-bottom: 2em;">Record the total additional weight you added on or removed from your bodyweight.
-                        Example: If you added 10lbs to your bodyweight, record 10lbs. If you removed 5lbs from your bodyweight, record -5lbs.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--Add more buttons for different tests-->
     </div>
 </body>
 

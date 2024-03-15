@@ -9,15 +9,28 @@ function handleFormSubmit(formId, testId, testType) {
   document.getElementById(formId).addEventListener("submit", function (event) {
     event.preventDefault();
     var result = document.getElementById(`${testType}-test-input`).value;
-    var bodyWeight = document.getElementById(`${testType}-test-bodyweight-input`).value;
+    //set bodyweight to 0 if the input is null
+    if (document.getElementById(`${testType}-test-bodyweight-input`) === null) {
+      var bodyWeight = 0;
+    }
+    else{
+      var bodyWeight = document.getElementById(`${testType}-test-bodyweight-input`).value;
+    }
+    
     recordTest(testId, result, bodyWeight);
     document.getElementById(`${testType}-test-input`).value = "";
-    document.getElementById(`${testType}-test-bodyweight-input`).value = "";
+    if (bodyWeight !== 0){
+      document.getElementById(`${testType}-test-bodyweight-input`).value = "";
+    }
+    
   });
 }
 
 handleFormSubmit("hang-test-form", 0, 'hang');
 handleFormSubmit("pull-test-form", 1, 'pull');
+handleFormSubmit("hammerCurl-test-form", 2, 'hammerCurl');
+handleFormSubmit("hipFlexibility-test-form", 3, 'hipFlexibility');
+handleFormSubmit("hamstringFlexibility-test-form", 4, 'hamstringFlexibility');
 
 
 function recordTest(testId, result, bodyWeight) {
@@ -26,8 +39,8 @@ function recordTest(testId, result, bodyWeight) {
     console.log("No input");
     return;
   } else {
-    console.log("Test Result: " + result + " lbs");
-    console.log("Body Weight: " + bodyWeight + " lbs");
+    console.log("Test Result: " + result);
+    console.log("Body Weight: " + bodyWeight);
     postTestRecord(testId, result, bodyWeight);
   }
 }
