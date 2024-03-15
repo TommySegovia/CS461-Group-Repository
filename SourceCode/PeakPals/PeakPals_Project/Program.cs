@@ -38,7 +38,7 @@ public class Program
                                 .UseSqlServer(connectionStringApp)
                                 .UseLazyLoadingProxies());
 
-        builder.Configuration.AddAzureKeyVault(new Uri("https://peakpalsvault.vault.azure.net/"), new DefaultAzureCredential());
+        //builder.Configuration.AddAzureKeyVault(new Uri("https://peakpalsvault.vault.azure.net/"), new DefaultAzureCredential());
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
