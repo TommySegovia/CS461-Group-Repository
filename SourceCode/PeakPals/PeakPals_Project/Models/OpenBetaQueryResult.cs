@@ -10,6 +10,7 @@ public class OpenBetaQueryResult
     public class Area
     {
         public string? Area_Name { get; set; }
+        public string? Uuid { get; set; }
         public Metadata? Metadata { get; set; }
         public List<string>? Ancestors { get; set; }
 

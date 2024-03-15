@@ -8,7 +8,7 @@ public class OBArea
 
     public class AreaData
     {
-        public string? Id { get; set; }
+        public string? Uuid { get; set; }
         public string? Area_Name { get; set; }
         public List<string>? Ancestors { get; set; }
         public Metadata? Metadata { get; set; }
@@ -30,14 +30,14 @@ public class OBArea
 
     public class Children
     {
-        public string? Id { get; set; }
+        public string? Uuid { get; set; }
         public string? Area_Name { get; set; }
         public Metadata? Metadata { get; set; }
     }
 
     public class Climb
     {
-        public string? Id { get; set; }
+        public string? Uuid { get; set; }
         public string? Name { get; set; }
         public Metadata? Metadata { get; set; }
     }

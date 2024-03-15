@@ -8,8 +8,9 @@ namespace PeakPals_Project.Services;
 
 public interface IOpenBetaApiService
 {
-    public Task<IActionResult> FindMatchingAreas(string userQuery);
-    public Task<IActionResult> FindAreaById(string idQuery);
+    public Task<OpenBetaQueryResult> FindMatchingAreas(string userQuery);
+    public Task<OBArea> FindAreaById(string idQuery);
+    public Task<OBArea> FindAncestorNameByAreaId(string idQuery);
 
     // public Climb FindClimbById();
 

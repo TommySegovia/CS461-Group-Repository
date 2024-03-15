@@ -25,11 +25,12 @@ public class LocationsController : Controller
     [HttpGet("Locations/Areas/{id}")]
     public IActionResult GetArea(string id)
     {
-        // var area _openBetaApiService.FindAreaById(id);
+        Task<OBArea> area =  _openBetaApiService.FindAreaById(id);
 
-        // Add exception handling.
+        if (area == null) {
+            return NotFound();
+        }
 
-        // return View("Areas", area);
-        return View();
+        return View("Areas", area.Result);
     }
 }

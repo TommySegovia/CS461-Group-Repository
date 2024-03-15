@@ -18,6 +18,7 @@ using PeakPals_Project.Areas.Identity.Data;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 using PeakPals_Project;
+using Microsoft.OpenApi.Models;
 namespace PeakPals_Project;
 
 public class Program
@@ -51,7 +52,7 @@ public class Program
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c => { c.CustomSchemaIds(type => type.FullName); c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }); });
 
         builder.Services.AddScoped<DbContext, PeakPalsContext>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

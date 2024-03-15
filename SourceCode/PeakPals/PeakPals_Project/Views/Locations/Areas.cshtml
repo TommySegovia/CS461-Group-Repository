@@ -1,1 +1,91 @@
+@model OBArea;
 
+@{
+    var jsonAncestors = Json.Serialize(Model.Area.Ancestors);
+}
+
+<script>
+    // var areaPageAncestors = @Html.Raw(jsonAncestors);
+    window.areaPageAncestors = @Html.Raw(jsonAncestors);
+</script>
+
+
+<body>
+
+    <h1>Area: @Model.Area.Area_Name</h1> 
+
+    <h4>ID: @Model.Area.Uuid</h4>
+
+    <hr>
+
+    <h4>Ancestors:</h4>
+
+    <h5 id="areas-ancestor-links"></h5>
+
+    <hr>
+
+    <h4>Description:</h4>
+    <h6>@Model.Area.Content.Description</h6>
+
+    <hr>
+
+    <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng">Latitude and Longitude: @Model.Area.Metadata.Lat, @Model.Area.Metadata.Lng</a>
+
+    <hr>
+
+    @if (Model.Area.Children != null && Model.Area.Children.Count > 0)
+    {
+        <h5>Children:</h5>
+        @foreach (var child in Model.Area.Children)
+        {
+            
+            <div class="table">
+                <div class="row">
+                    <p>Area Name: @child.Area_Name</p>
+                </div>
+                <div class="row">
+                    <a href="/locations/areas/@child.Uuid">ID: @child.Uuid</a>
+                </div>
+                <div class="row">
+                    <a href="https://www.google.com/maps/place/@child.Metadata.Lat,@child.Metadata.Lng" id="child-coords">Lat, Long: @child.Metadata.Lat, @child.Metadata.Lng</a>
+                </div>
+            </div>
+
+            <hr>
+        }
+    }
+    
+    <hr>
+
+    @if (Model.Area.Climbs != null && Model.Area.Climbs.Count > 0) 
+    {
+
+        <h5>Climbs:</h5>
+        @foreach (var climb in Model.Area.Climbs)
+        {
+            <div class="table">
+                <div class="row">
+                    <p>Climb Name: @climb.Name</p>
+                </div>
+                <div class="row">
+                    <p>Climb ID: @climb.Uuid</p>
+                </div>
+            </div>
+            
+            <a href="https://www.google.com/maps/place/@climb.Metadata.Lat,@climb.Metadata.Lng" id="climb-coords">Lat, Long: @climb.Metadata.Lat, @climb.Metadata.Lng</a>
+            <hr>
+
+        }
+    }
+
+</body>
+
+@section Scripts
+{
+    <script type="module" src="~/js/site.js"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/locations.css">
+    <link rel="stylesheet" href="~/css/site.css">
+}

@@ -37,6 +37,7 @@ public class OpenBetaApiServiceTests
         _service = new OpenBetaApiService(_graphQLClient, _logger);
     }
 
+    // Sets up the HTTP response with the provided content.
     private void SetupHttpResponse(string responseContent)
     {
         var httpContent = new StringContent(responseContent, Encoding.UTF8, "application/json");

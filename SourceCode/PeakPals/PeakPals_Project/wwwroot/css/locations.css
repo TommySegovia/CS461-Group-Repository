@@ -86,21 +86,38 @@
 #area-block-top
 {
     height: 0.33em;
-    padding: 30px;
+    padding-top: 2.5em;
+    padding-left: 2em;
+    padding-right: 3em;
     font-family: "Sriracha";
 }
 
 #area-block-bot
 {
-    height: 1em;
-    padding: 30px;
+    height: 0.85em;
+    padding: 1.8em;
+    padding-top: 2.7em;
     font-family: "Sriracha";
+}
+
+.ancestors
+{
+    font-size: 0.86em;
 }
 
 #area-name
 {
-    font-size: 1.45em;
+    font-size: 1.5em;
     padding-left: 1em;
+}
+
+#areas-ancestor-links a {
+    text-decoration: none; /* Removes the underline */
+    color: black; /* Changes the color to black */
+}
+
+#areas-ancestor-links a:hover {
+    color: orange; /* Changes the color to gray when the link is hovered over */
 }
 
 @media (max-width: 1400px)
