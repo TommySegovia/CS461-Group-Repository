@@ -167,4 +167,17 @@ public class OpenBetaApiServiceTests
         // Assert
         Assert.IsNull(result);
     }
+
+    [Test]
+    public async Task FindClimbByID_EmptyQuery_ReturnsNull()
+    {
+        // Arrange
+        string query = string.Empty;
+
+        // Act
+        var result = await _service.FindClimbById(query);
+
+        // Assert
+        Assert.IsNull(result);
+    }
 }

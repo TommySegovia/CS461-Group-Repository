@@ -18,8 +18,7 @@ public class OpenBetaApiService : IOpenBetaApiService
         _logger = logger;
     }
 
-    
-    public async Task<OpenBetaQueryResult> FindMatchingAreas(string userQuery)
+    public async Task<OpenBetaQueryResult> FindMatchingAreas(string userQuery, int numResults = 8)
     {
         if (string.IsNullOrEmpty(userQuery)) {
             return null;
@@ -46,13 +45,13 @@ public class OpenBetaApiService : IOpenBetaApiService
         };
 
         var response = await _client.SendQueryAsync<OpenBetaQueryResult>(request);
-        response.Data.Areas = response.Data.Areas.Take(8).ToList();
+        response.Data.Areas = response.Data.Areas.Take(numResults).ToList();
         return response.Data;      
     }
 
     public async Task<OBArea> FindAreaById(string idQuery)
     {
-         if (string.IsNullOrEmpty(idQuery)) {
+        if (string.IsNullOrEmpty(idQuery)) {
             return null;
         }
 
@@ -125,6 +124,38 @@ public class OpenBetaApiService : IOpenBetaApiService
         };
 
         var response = await _client.SendQueryAsync<OBArea>(request);
+        return response.Data;
+    }
+
+    public async Task<OBClimb> FindClimbById(string idQuery)
+    {
+        if (string.IsNullOrEmpty(idQuery)) {
+            return null;
+        }
+
+        var request = new GraphQLRequest
+        {
+            Query = @"
+                query FindClimbById($idQuery: ID)
+                {
+                    climb(uuid: $idQuery)
+                    {
+                        uuid
+                        name
+                        ancestors
+                        metadata {
+                            lat
+                            lng
+                        }
+                        content {
+                            description
+                        }
+                    }
+                }",
+            Variables = new { idQuery }
+        };
+
+        var response = await _client.SendQueryAsync<OBClimb>(request);
         return response.Data;
     }
 

@@ -33,4 +33,16 @@ public class LocationsController : Controller
 
         return View("Areas", area.Result);
     }
+
+    [HttpGet("Locations/Climbs/{id}")]
+    public IActionResult GetClimb(string id)
+    {
+        Task<OBClimb> climb = _openBetaApiService.FindClimbById(id);
+
+        if (climb == null){
+            return NotFound();
+        }
+
+        return View("Areas", climb.Result);
+    }
 }

@@ -13,12 +13,7 @@ namespace NUnit_Tests
     public class FitnessDataEntryRepositoryTests
     {
         private Mock<DbSet<FitnessDataEntry>> _dbSetMock;
-<<<<<<< HEAD
-        private Mock<ApplicationDbContext> _dbContextMock;
-        private Mock<PeakPalsContext> _peakPalsContextMock;
-=======
         private Mock<PeakPalsContext> _dbContextMock;
->>>>>>> dev
         private FitnessDataEntryRepository _fitnessDataEntryRepository;
 
         [SetUp]
@@ -45,12 +40,12 @@ namespace NUnit_Tests
 
 
             // Create a mock context
-            _dbContextMock = new Mock<PeakPalsContext>();
+            Mock<PeakPalsContext> _dbContextMock = new Mock<PeakPalsContext>();
             _dbContextMock.Setup(c => c.FitnessDataEntry).Returns(_dbSetMock.Object);
 
 
             // Create the repository
-            _fitnessDataEntryRepository = new FitnessDataEntryRepository(_peakPalsContextMock.Object);
+            _fitnessDataEntryRepository = new FitnessDataEntryRepository(_dbContextMock.Object);
 
         }
 
