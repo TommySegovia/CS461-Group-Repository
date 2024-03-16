@@ -21,6 +21,10 @@ public class OpenBetaApiService : IOpenBetaApiService
     
     public async Task<OpenBetaQueryResult> FindMatchingAreas(string userQuery)
     {
+        if (string.IsNullOrEmpty(userQuery)) {
+            return null;
+        }
+
         var request =  new GraphQLRequest
         {
             Query = @"
@@ -48,6 +52,10 @@ public class OpenBetaApiService : IOpenBetaApiService
 
     public async Task<OBArea> FindAreaById(string idQuery)
     {
+         if (string.IsNullOrEmpty(idQuery)) {
+            return null;
+        }
+
         var request = new GraphQLRequest
         {
             Query = @"
@@ -98,6 +106,10 @@ public class OpenBetaApiService : IOpenBetaApiService
 
     public async Task<OBArea> FindAncestorNameByAreaId(string idQuery)
     {
+        if (string.IsNullOrEmpty(idQuery)) {
+            return null;
+        }
+
         var request = new GraphQLRequest
         {
             Query = @"

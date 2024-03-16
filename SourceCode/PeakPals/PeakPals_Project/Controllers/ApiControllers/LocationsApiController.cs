@@ -34,10 +34,7 @@ namespace PeakPals_Project.Controllers
                 _logger.LogError($"Failed to fetch from OpenBeta");
                 return NotFound(new { Message = $"The api fetch from OpenBeta returned nothing. {response}" });
             }
-            else {
-                return Ok(response);
-            }
-
+            return Ok(response);
         }
 
         [HttpGet("search/area/{id}")]
@@ -54,9 +51,7 @@ namespace PeakPals_Project.Controllers
                 _logger.LogError($"Failed to fetch from OpenBeta");
                 return NotFound(new { Message = $"The api fetch from OpenBeta returned nothing. {response}" });
             }
-            else {
-                return Ok(response);
-            }
+            return Ok(response);
         }
 
         [HttpGet("search/area/ancestors/{id}")]
@@ -73,9 +68,7 @@ namespace PeakPals_Project.Controllers
                 _logger.LogError($"Failed to fetch from OpenBeta");
                 return NotFound(new { Message = $"The api fetch from OpenBeta returned nothing. {response}" });
             }
-            else {
-                return Ok(response);
-            }
+            return Ok(response);
         }
 
     }

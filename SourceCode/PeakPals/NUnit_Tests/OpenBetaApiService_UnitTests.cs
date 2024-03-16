@@ -16,6 +16,8 @@ using GraphQL.Client.Serializer.Newtonsoft;
 using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 
+namespace NUnit_Tests;
+
 [TestFixture]
 public class OpenBetaApiServiceTests
 {
@@ -81,13 +83,9 @@ public class OpenBetaApiServiceTests
 
         // Assert
         Assert.NotNull(result);
-        var okResult = result as OkObjectResult;
-        Assert.NotNull(okResult);
-        var data = okResult.Value as OpenBetaQueryResult;
-        Assert.NotNull(data);
-        Assert.AreEqual(2, data.Areas.Count);
-        Assert.AreEqual("Area 1", data.Areas[0].Area_Name);
-        Assert.AreEqual("Area 2", data.Areas[1].Area_Name);
+        Assert.AreEqual(2, result.Areas.Count);
+        Assert.AreEqual("Area 1", result.Areas[0].Area_Name);
+        Assert.AreEqual("Area 2", result.Areas[1].Area_Name);
     }
 
     [Test]
@@ -117,13 +115,9 @@ public class OpenBetaApiServiceTests
         SetupHttpResponse(responseContent);
 
         // Act
-        var actionResult = await _service.FindAreaById("1");
+        var data = await _service.FindAreaById("1");
 
         // Assert
-        Assert.NotNull(actionResult);
-        var okResult = actionResult as OkObjectResult;
-        Assert.NotNull(okResult);
-        var data = okResult.Value as OBArea;
         Assert.NotNull(data);
         Assert.That(data.Area.Area_Name, Is.EqualTo("Area 1"));
         Assert.That(data.Area.Content.Description, Is.EqualTo("Description 1"));
@@ -133,5 +127,44 @@ public class OpenBetaApiServiceTests
         Assert.That(data.Area.Metadata.Lng, Is.EqualTo(1));
         Assert.That(data.Area.Ancestors.Count, Is.EqualTo(0));
 
+    }
+
+    [Test]
+    public async Task FindMatchingAreas_EmptyQuery_ReturnsNull()
+    {
+        // Arrange
+        string query = string.Empty;
+
+        // Act
+        var result = await _service.FindMatchingAreas(query);
+
+        // Assert
+        Assert.IsNull(result);
+    }
+
+    [Test]
+    public async Task FindAreasByID_EmptyQuery_ReturnsNull()
+    {
+        // Arrange
+        string query = string.Empty;
+
+        // Act
+        var result = await _service.FindAreaById(query);
+
+        // Assert
+        Assert.IsNull(result);
+    }
+
+    [Test]
+    public async Task FindAreaAncestorsByID_EmptyQuery_ReturnsNull()
+    {
+        // Arrange
+        string query = string.Empty;
+
+        // Act
+        var result = await _service.FindAncestorNameByAreaId(query);
+
+        // Assert
+        Assert.IsNull(result);
     }
 }
