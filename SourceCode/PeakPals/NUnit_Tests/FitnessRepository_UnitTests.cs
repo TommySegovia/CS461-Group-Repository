@@ -13,7 +13,7 @@ namespace NUnit_Tests
     public class FitnessDataEntryRepositoryTests
     {
         private Mock<DbSet<FitnessDataEntry>> _dbSetMock;
-        private Mock<ApplicationDbContext> _dbContextMock;
+        private Mock<PeakPalsContext> _dbContextMock;
         private FitnessDataEntryRepository _fitnessDataEntryRepository;
 
         [SetUp]
@@ -40,7 +40,7 @@ namespace NUnit_Tests
 
 
             // Create a mock context
-            _dbContextMock = new Mock<ApplicationDbContext>();
+            _dbContextMock = new Mock<PeakPalsContext>();
             _dbContextMock.Setup(c => c.FitnessDataEntry).Returns(_dbSetMock.Object);
 
 
@@ -76,6 +76,13 @@ namespace NUnit_Tests
             Assert.AreEqual(new System.DateTime(2021, 1, 3), results[2].EntryDate);
         }
 
+        [Test]
+        public void GetAverageResultFlexibility_ReturnsCorrectAverageResultFlexibility()
+        {
+            var result = _fitnessDataEntryRepository.GetAverageResultFlexibility(1);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result);
+        }
         
     }
 }
