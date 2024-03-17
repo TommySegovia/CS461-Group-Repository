@@ -44,7 +44,7 @@ namespace NUnit_Tests
 
 
             // Create a mock context
-            Mock<PeakPalsContext> _dbContextMock = new Mock<PeakPalsContext>();
+            _dbContextMock = new Mock<PeakPalsContext>();
             _dbContextMock.Setup(c => c.FitnessDataEntry).Returns(_dbSetMock.Object);
 
 
