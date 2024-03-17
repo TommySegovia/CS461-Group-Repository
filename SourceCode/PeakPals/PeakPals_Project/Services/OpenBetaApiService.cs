@@ -39,6 +39,12 @@ public class OpenBetaApiService : IOpenBetaApiService
                             lat
                             lng
                         }
+                        climbs
+                        {
+                            uuid
+                            name
+                            ancestors
+                        }
                     }
                 }",
             Variables = new { userQuery }

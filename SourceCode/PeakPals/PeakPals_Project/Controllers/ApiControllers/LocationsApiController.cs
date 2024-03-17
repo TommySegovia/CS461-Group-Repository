@@ -45,7 +45,7 @@ namespace PeakPals_Project.Controllers
                 return BadRequest(new { Message = "The query parameter cannot be null or empty." });
             }
 
-            var response = await _openBetaApiService.FindMatchingAreas(query, 500);
+            var response = await _openBetaApiService.FindMatchingAreas(query, 200);
 
             if (response is null) {
                 _logger.LogError($"Failed to fetch from OpenBeta");
@@ -88,7 +88,7 @@ namespace PeakPals_Project.Controllers
             return Ok(response);
         }
 
-        [HttpGet("search/climbs/{id}")]
+        [HttpGet("climb/{id}")]
         public async Task<ActionResult<OBClimb>> FindClimbById(string id)
         {
             if (string.IsNullOrEmpty(id)) {

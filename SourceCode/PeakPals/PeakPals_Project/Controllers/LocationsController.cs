@@ -43,6 +43,6 @@ public class LocationsController : Controller
             return NotFound();
         }
 
-        return View("Areas", climb.Result);
+        return View("Climbs", climb.Result);
     }
 }

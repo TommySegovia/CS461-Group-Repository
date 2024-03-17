@@ -1,0 +1,68 @@
+@model OBClimb;
+
+@{
+    var jsonClimbAncestors = Json.Serialize(Model.Climb.Ancestors);
+}
+
+<script>
+    // var climbPageAncestors = @Html.Raw(jsonClimbAncestors);
+    window.climbPageAncestors = @Html.Raw(jsonClimbAncestors);
+</script>
+
+
+<body id="area-body">
+    <hr>
+    <div class="container border border-dark" id="locations-pages-box">
+        <div class="row">
+            <div class="col col-12">
+                <b>
+                    <h6 id="climbs-ancestor-links"></h6>
+                </b>
+            </div>
+        </div>
+        <hr>
+        <div class="row my-5 p-2">
+            <div class="col col-5">
+                <h1 id="pages-title-name"><b>@Model.Climb.Name</b></h1>
+            </div>
+            <div class="col col-1"></div>
+            <div class="col col-6" id="pages-description">
+                <h5>Description:</h5>
+                @if (@Model.Climb.Content == null || string.IsNullOrWhiteSpace(@Model.Climb.Content.Description))
+                {
+                    <h4 class="my-5">No information available.</h4>
+                }
+                else
+                {
+                    <h4 class="my-5">@Model.Climb.Content.Description</h4>
+                }
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-6">
+                <p class="my-0">Latitude and Longitude:</p>
+                <a href="https://www.google.com/maps/place/@Model.Climb.Metadata.Lat,@Model.Climb.Metadata.Lng">@Model.Climb.Metadata.Lat,
+                    @Model.Climb.Metadata.Lng</a>
+            </div>
+            <div class="col col-6">
+
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+
+
+</body>
+
+@section Scripts
+{
+    <script type="module" src="~/js/site.js"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/locations.css">
+    <link rel="stylesheet" href="~/css/site.css">
+}
