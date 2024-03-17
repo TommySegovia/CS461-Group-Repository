@@ -15,7 +15,10 @@ using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using PeakPals_Project.Models;
 using PeakPals_Project.Controllers;
 using PeakPals_Project.Areas.Identity.Data;
-
+using GraphQL.Client.Http;
+using GraphQL.Client.Serializer.Newtonsoft;
+using PeakPals_Project;
+using Microsoft.OpenApi.Models;
 namespace PeakPals_Project;
 
 public class Program
@@ -25,17 +28,20 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-        var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
-        var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        //var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
+        //var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
 
+        
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
-                                    // .UseSqlServer(connectionString)
-                                    .UseSqlServer(connectionStringAuth)
+                                    //.UseSqlServer(connectionStringAuth)
+                                    .UseSqlServer(connectionString)
                                     .UseLazyLoadingProxies());
+        
 
         builder.Services.AddDbContext<PeakPalsContext>(options => options
-                                .UseSqlServer(connectionStringApp)
+                                //.UseSqlServer(connectionStringApp)
+                                .UseSqlServer(connectionString) 
                                 .UseLazyLoadingProxies());
 
         //builder.Configuration.AddAzureKeyVault(new Uri("https://peakpalsvault.vault.azure.net/"), new DefaultAzureCredential());
@@ -46,7 +52,7 @@ public class Program
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c => { c.CustomSchemaIds(type => type.FullName); c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }); });
 
         builder.Services.AddScoped<DbContext, PeakPalsContext>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -64,6 +70,10 @@ public class Program
 
         builder.Services.AddTransient<IEmailSender, EmailSender>();
         builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+
+        builder.Services.AddScoped(sp => new GraphQLHttpClient("https://stg-api.openbeta.io", new NewtonsoftJsonSerializer()));
+
+        builder.Services.AddScoped<IOpenBetaApiService, OpenBetaApiService>();
 
 
         var app = builder.Build();
@@ -128,6 +138,11 @@ public class Program
             name: "admin",
             pattern: "admin",
             defaults: new { controller = "Admin", action = "UserList" });
+        
+        app.MapControllerRoute(
+            name: "area",
+            pattern: "Locations/Areas/{id}",
+            defaults: new { controller = "Locations", action = "Areas"});
 
         app.MapRazorPages();
 
