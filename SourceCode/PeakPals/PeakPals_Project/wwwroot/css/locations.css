@@ -1,0 +1,143 @@
+
+
+.welcome-locations {
+    /*font-style:oblique; */
+    font-family: "Rock Salt", cursive;
+    font-weight: 400;
+    font-style: normal;
+    margin-top: 3.5em;
+    margin-bottom: 3em;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 3.5em;
+    text-shadow: black 2px 2px 2px;
+  
+}
+
+#locations-validation-warning
+{
+    font-family: "Sarala", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 1em;
+    color: red;
+}
+
+.open-search-btn
+{
+    background-color: #ffffff;
+    width: 12em;
+    height: 3em;
+    font-family: "Sarala", sans-serif;
+    font-weight: 700;
+    border-radius: 30px;
+    font-size: 1.5em;
+}
+
+.welcome-box
+{
+    padding: 1px;
+    height: 10%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    border-radius: 3px;
+
+}
+
+.search-circle
+{
+    padding: 3px;
+    width: 2em;
+    height: 2em;
+    border-radius: 100%;
+    background-color: rgb(251, 243, 232);
+
+}
+
+.modal-header
+{
+    background-color: rgb(255, 162, 0);
+    border-radius: 5px;
+}
+
+.modal-content
+{
+    background-color: white;
+    border-radius: 10px;
+}
+
+#search-input
+{
+    width: 80%;
+    margin-left:10px;
+    border-radius: 10px;
+    background-color: rgb(251, 243, 232);
+    padding: 0.5em;
+    padding-left: 1em;
+    font-size:larger;
+    font-family: "Sarala", sans-serif;
+    font-weight: 500;
+    
+}
+
+#area-block-top
+{
+    height: 0.33em;
+    padding-top: 2.5em;
+    padding-left: 2em;
+    padding-right: 3em;
+    font-family: "Sriracha";
+}
+
+#area-block-bot
+{
+    height: 0.85em;
+    padding: 1.8em;
+    padding-top: 2.7em;
+    font-family: "Sriracha";
+}
+
+.ancestors
+{
+    font-size: 0.86em;
+}
+
+#area-name
+{
+    font-size: 1.5em;
+    padding-left: 1em;
+}
+
+#areas-ancestor-links a {
+    text-decoration: none; /* Removes the underline */
+    color: black; /* Changes the color to black */
+}
+
+#areas-ancestor-links a:hover {
+    color: orange; /* Changes the color to gray when the link is hovered over */
+}
+
+@media (max-width: 1400px)
+{
+    .welcome-locations {
+        /*font-style:oblique; */
+        font-family: "Rock Salt", cursive;
+        font-weight: 400;
+        font-style: normal;
+        margin-top: 2em;
+        margin-bottom: 2em;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 3em;
+        text-shadow: black 2px 2px 2px;
+      
+    }
+
+    .open-search-btn
+    {
+        font-size: 1em;
+    }
+}
