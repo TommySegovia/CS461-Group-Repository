@@ -28,20 +28,20 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-        //var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
-        //var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
+        //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
+        var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
 
         
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
-                                    //.UseSqlServer(connectionStringAuth)
-                                    .UseSqlServer(connectionString)
+                                    .UseSqlServer(connectionStringAuth)
+                                    //.UseSqlServer(connectionString)
                                     .UseLazyLoadingProxies());
         
 
         builder.Services.AddDbContext<PeakPalsContext>(options => options
-                                //.UseSqlServer(connectionStringApp)
-                                .UseSqlServer(connectionString) 
+                                .UseSqlServer(connectionStringApp)
+                                //.UseSqlServer(connectionString) 
                                 .UseLazyLoadingProxies());
 
         //builder.Configuration.AddAzureKeyVault(new Uri("https://peakpalsvault.vault.azure.net/"), new DefaultAzureCredential());
