@@ -28,7 +28,11 @@ namespace NUnit_Tests
                 new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) },
                 new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1) },
                 new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2) },
-                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) }
+                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1) },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2) },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) }
             }.AsQueryable();
 
             // Create a mock set
@@ -83,6 +87,29 @@ namespace NUnit_Tests
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result);
         }
-        
+
+        [Test]
+        public void GetAverageResultRepeater_ReturnsCorrectAverageResultRepeater()
+        {
+            var result = _fitnessDataEntryRepository.GetAverageResultRepeater(1);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result);
+        }
+
+        [Test]
+        public void GetAverageResultSmallestEdge_ReturnsCorrectAverageResultSmallestEdge()
+        {
+            var result = _fitnessDataEntryRepository.GetAverageResultSmallestEdge(1);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result);
+        }
+
+        [Test]
+        public void GetMostCommonResultCampusBoard_ReturnsCorrectMostCommonResultCampusBoard()
+        {
+            var result = _fitnessDataEntryRepository.GetMostCommonResultCampusBoard(7);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result);
+        }        
     }
 }
