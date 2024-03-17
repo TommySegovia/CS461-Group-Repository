@@ -69,5 +69,48 @@ namespace PeakPals_Project.DAL.Concrete
             }
             return averageResult;
         }
+
+        public double? GetAverageResultRepeater(int testId)
+        {
+            //returns the average result for a climber for a specific test compared to all other climbers where the result is divided by the bodyweight
+            var averageResult = _fitnessDataEntry
+                .Where(f => f.TestId == testId)
+                .Average(f => f.Result);
+            if (averageResult == null)
+            {
+                return null;
+            }
+            return averageResult;
+        }
+
+        public double? GetAverageResultSmallestEdge(int testId)
+        {
+            //returns the average result for a climber for a specific test compared to all other climbers where the result is divided by the bodyweight
+            var averageResult = _fitnessDataEntry
+                .Where(f => f.TestId == testId)
+                .Average(f => f.Result);
+            if (averageResult == null)
+            {
+                return null;
+            }
+            return averageResult;
+        }
+
+        public double? GetMostCommonResultCampusBoard(int testId)
+        {
+            //returns the most frequent result for this test, the result that occurs the most, not the average
+            var averageResult = _fitnessDataEntry
+                .Where(f => f.TestId == testId)
+                .GroupBy(f => f.Result)
+                .OrderByDescending(g => g.Count())
+                .Select(g => g.Key)
+                .FirstOrDefault();
+            if (averageResult == null)
+            {
+                return null;
+            }
+            return averageResult;
+            
+        }
     }
 }

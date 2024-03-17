@@ -68,6 +68,66 @@ public class FitnessDataEntryService : IFitnessDataEntryService
             // overwrite existing image for new analytics
             plt.SaveFig($"wwwroot/Images/Test_{testId}_ResultsOverTime.png");
         }
+        else if (testId == 5) //repeater test seconds
+        {
+            // Created using ScottPlot library, visit website to learn more.
+            // create plot
+            var plt = new ScottPlot.Plot(600, 350);
+
+            // convert DateTime to Double for ScottPlot before plotting
+            double[] xs = fitnessDataEntryListDTO.Where(x => x.EntryDate.HasValue && x.TestId == testId).Select(x => x.EntryDate.Value.ToOADate()).ToArray();
+            if (xs.Length < 2)
+            { return; }
+            double[] results = fitnessDataEntryListDTO.Where(x => x.Result.HasValue && x.TestId == testId).Select(x => (double)x.Result.Value).ToArray();
+            double[] ys = new double[xs.Length];
+
+            // add points to graph
+            plt.AddScatter(xs, results);
+
+            // customize graph
+            plt.XAxis.DateTimeFormat(true);
+            plt.XAxis.Label("Timeline");
+            plt.YAxis.Label("Repeater Test (seconds)");
+            plt.YAxis.LabelStyle(color: Color.White);
+            plt.XAxis.LabelStyle(color: Color.White);
+            plt.Style(figureBackground: Color.Black, tick: Color.White);
+            plt.Margins(x: .10, y: .20);
+
+            // overwrite existing image for new analytics
+            plt.SaveFig($"wwwroot/Images/Test_{testId}_ResultsOverTime.png");
+        }
+        else if (testId == 6) //smallest edge test mm
+        {
+            // Created using ScottPlot library, visit website to learn more.
+            // create plot
+            var plt = new ScottPlot.Plot(600, 350);
+
+            // convert DateTime to Double for ScottPlot before plotting
+            double[] xs = fitnessDataEntryListDTO.Where(x => x.EntryDate.HasValue && x.TestId == testId).Select(x => x.EntryDate.Value.ToOADate()).ToArray();
+            if (xs.Length < 2)
+            { return; }
+            double[] results = fitnessDataEntryListDTO.Where(x => x.Result.HasValue && x.TestId == testId).Select(x => (double)x.Result.Value).ToArray();
+            double[] ys = new double[xs.Length];
+
+            // add points to graph
+            plt.AddScatter(xs, results);
+
+            // customize graph
+            plt.XAxis.DateTimeFormat(true);
+            plt.XAxis.Label("Timeline");
+            plt.YAxis.Label("Smallest Edge Test (mm)");
+            plt.YAxis.LabelStyle(color: Color.White);
+            plt.XAxis.LabelStyle(color: Color.White);
+            plt.Style(figureBackground: Color.Black, tick: Color.White);
+            plt.Margins(x: .10, y: .20);
+
+            // overwrite existing image for new analytics
+            plt.SaveFig($"wwwroot/Images/Test_{testId}_ResultsOverTime.png");
+        }
+        else if (testId == 7) //campus board test
+        {
+            return;
+        }
         else
         {
             // Created using ScottPlot library, visit website to learn more.

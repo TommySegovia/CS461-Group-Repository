@@ -11,6 +11,14 @@ SET IDENTITY_INSERT [Climber] OFF;
 SET IDENTITY_INSERT [FitnessTest] ON;
 INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (0, 'Hang Test', 'Measuring how much weight can be added/subtracted from a 20mm edge and held for 7 seconds in half crimp');
 INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (1, 'Pull Test', 'Measuring how much weight can be added/subtracted from a single pullup');
+INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (2, 'Hammer Curl Test', 'Measuring how much weight can be lifted by each individual arm on the hammer curl');
+INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (3, 'Hip Flexibility Test', 'Measuring the maximum distance in inches between the heels in the middle splits stretch');
+INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (4, 'Hamstring Flexibility Test', 'Measuring the distance between fingers and toes in the seated hamstring sit and reach test');
+INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (5, 'Repeater Test', 'Measuring the maximum time possible in a 7 second on, 3 second off, two arm repeater on a 20mm edge at 60% of a 7 second max hang on 20mm');
+INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (6, 'Smallest Edge Test', 'Measuring the smallest mm edge that can be hung for 7 seconds with both arms');
+INSERT INTO [FitnessTest] (ID,Name,Description) VALUES (7, 'Campus Board Test', 'Measuring the maximum pull set distance that can be pulled on the moon regulation spacing with medium rung size');
+
+
 SET IDENTITY_INSERT [FitnessTest] OFF;
 
 SET IDENTITY_INSERT [FitnessDataEntry] ON;
