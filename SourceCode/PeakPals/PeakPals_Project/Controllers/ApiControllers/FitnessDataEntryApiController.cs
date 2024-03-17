@@ -120,6 +120,57 @@ namespace PeakPals_Project.Controllers
             }
         }
 
+        [HttpGet("Test/Results/Average/All/Repeater/{testId}")]
+        public ActionResult<double> GetAverageRepeaterTest(int testId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (_fitnessDataEntryRepository == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_fitnessDataEntryRepository.GetAverageResultRepeater(testId));
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
+        }
+
+        [HttpGet("Test/Results/Average/All/SmallestEdge/{testId}")]
+        public ActionResult<double> GetAverageSmallestEdgeTest(int testId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (_fitnessDataEntryRepository == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_fitnessDataEntryRepository.GetAverageResultSmallestEdge(testId));
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
+        }
+
+        [HttpGet("Test/Results/MostCommon/All/CampusBoard/{testId}")]
+        public ActionResult<double> GetMostCommonResultCampusBoard(int testId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (_fitnessDataEntryRepository == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_fitnessDataEntryRepository.GetMostCommonResultCampusBoard(testId));
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
+        }
+
 
 
         [HttpPost("RecordTestResult")]

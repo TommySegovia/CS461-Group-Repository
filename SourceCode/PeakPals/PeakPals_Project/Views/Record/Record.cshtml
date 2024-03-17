@@ -33,6 +33,10 @@
                             new { Id = "hammerCurl", Name = "Hammer Curl Test (1 Rep Max)", ModalId = "hammerCurlTestHelperModal", HelpButtonId = "hammerCurlTestHelpButton", Placeholder = "Lifted Weight", unit = "lbs"},
                             new { Id = "hipFlexibility", Name = "Hip Flexibility Test", ModalId = "hipFlexibilityTestHelperModal", HelpButtonId = "hipFlexibilityTestHelpButton", Placeholder = "Distance", unit = "Inches"},
                             new { Id = "hamstringFlexibility", Name = "Hamstring Flexibility Test", ModalId = "hamstringFlexibilityTestHelperModal", HelpButtonId = "hamstringFlexibilityTestHelpButton", Placeholder = "Distance", unit = "Inches"},
+                            new { Id = "repeater", Name = "Repeater Test", ModalId = "repeaterTestHelperModal", HelpButtonId = "repeaterTestHelpButton", Placeholder = "Time", unit = "Seconds"},
+                            new { Id = "smallestEdge", Name = "Smallest Edge Test", ModalId = "smallestEdgeTestHelperModal", HelpButtonId = "smallestEdgeTestHelpButton", Placeholder = "Edge Size", unit = "mm"},
+                            new { Id = "campusBoard", Name = "Campus Board Test", ModalId = "campusBoardTestHelperModal", HelpButtonId = "campusBoardTestHelpButton", Placeholder = "Furthest Pull", unit = "rungs"},
+
                             
                         };
                     }
@@ -54,6 +58,24 @@
                                         <form id="@($"{test.Id}-test-form")">
                                             <div class="input-group mb-3">
                                                 @if (test.Id == "hipFlexibility")
+                                                {
+                                                    <input type="number" required id="@($"{test.Id}-test-input")" class="form-control" placeholder="@test.Placeholder" min="0">
+                                                }
+                                                else if (test.Id == "campusBoard")
+                                                {
+                                                    <select class="form-select" id="@($"{test.Id}-test-input")" required>
+                                                        <option value="123">1-2-3</option>
+                                                        <option value="135">1-3-5</option>
+                                                        <option value="147">1-4-7</option>
+                                                        <option value="159">1-5-9</option>
+                                                    </select>
+                                                    
+                                                }
+                                                else if (test.Id == "smallestEdge")
+                                                {
+                                                    <input type="number" required id="@($"{test.Id}-test-input")" class="form-control" placeholder="@test.Placeholder" min="1">
+                                                }
+                                                else if (test.Id == "repeater")
                                                 {
                                                     <input type="number" required id="@($"{test.Id}-test-input")" class="form-control" placeholder="@test.Placeholder" min="0">
                                                 }
@@ -214,7 +236,80 @@
             },
             Warning = "This test is maximal and comes with risk to the user. Stretching before testing is important! If you experience any discomfort or compromise in form, decrease the intensity. Safety is paramount. Remember! Safety is always more important than potentially risking an injury!",
             LogResults = "Record the distance between your fingers and toes in inches. Example: If your fingers are 2 inches away from touching your toes, record -2 inches. If your fingers are 5 inches past your toes, record 5 inches."
+        },
+        new
+        {
+            Id = "repeater",
+            Title = "Repeater Test",
+            ModalId = "repeaterTestHelperModal",
+            LabelId = "repeaterTestHelperModalLabel",
+            ImageSource = "~/images/RepeaterTestExample.jpg",
+            Info = "This fitness exercise will be testing your finger endurance and recovery.",
+            Instructions = 
+                ("First you must determine your 20mm hang test (7 seconds). " +
+                "This test will be at 60% of the total load from your 20mm hang test (7 seconds). " +
+                "Ex. if you weigh 150lbs and scored +50lbs for a total of 200lbs, you would perform this test at 120lbs total load or -30lbs from bodyweight. " +
+                "Begin hanging on the 20mm edge with both arms at your determined load. You will hang for 7 seconds on, rest 3 seconds, and repeat for as long as possible while keeping good form. "),
+            Requirements = new []
+            {
+                "You must be aged 18 or over",
+                "You must have no pre-existing injuries or illnesses that prevent you from climbing or training",
+                "You must understand how to use a fingerboard and be competent in its use.",
+                "You must not be pregnant",
+                "It is recommended you have climbed 4 or more routes at 6b+ OR have climbed 4 or more boulder problems at V4 in the last 12 months"
+            },
+            Warning = "This test is maximal and comes with risk to the user. If your form begins to fail, return back to standing flat on the ground and end your test. Safety is always more important than potentially risking an injury!",
+            LogResults = "Record the total time you were able to hang on the 20mm edge at your determined load. Example: If you were able to hang for 1 minute and 30 seconds, record 90 seconds. If you were able to hang for 2 minutes and 15 seconds, record 135 seconds."
+        },
+        new
+        {
+            Id = "smallestEdge",
+            Title = "Smallest Edge Test",
+            ModalId = "smallestEdgeTestHelperModal",
+            LabelId = "smallestEdgeTestHelperModalLabel",
+            ImageSource = "~/images/SmallestEdgeTestExample.png",
+            Info = "This fitness exercise will be testing your finger strength on small edges",
+            Instructions = 
+                ("Begin by hanging on an edge size that is comfortable for 7 seconds with both hands. " +
+                "Proceed to slowly decrease edge size towards your maximum intensity hang whilst keeping proper form. "),
+            Requirements = new []
+            {
+                "You must be aged 18 or over",
+                "You must have no pre-existing injuries or illnesses that prevent you from climbing or training",
+                "You must understand how to use a fingerboard and be competent in its use.",
+                "You must not be pregnant",
+                "It is recommended you have climbed 4 or more routes at 6b+ OR have climbed 4 or more boulder problems at V4 in the last 12 months"
+            },
+            Warning = "This test is maximal and comes with risk to the user. Always start at a relatively low intensity, gradually decreasing the edge size. If your form begins to fail, return back to standing flat on the ground and end your test. Safety is always more important than potentially risking an injury!",
+            LogResults = "Record the size of the smallest edge you were able to hang on for 7 seconds. Example: If you were able to hang on a 10mm edge, record 10mm. If you were able to hang on a 5mm edge, record 5mm"
+        },
+        new
+        {
+            Id = "campusBoard",
+            Title = "Campus Board Test",
+            ModalId = "campusBoardTestHelperModal",
+            LabelId = "campusBoardTestHelperModalLabel",
+            ImageSource = "~/images/CampusBoardTestExample.png",
+            Info = "This fitness exercise will be testing your explosive pulling strength and coordination on a campus board.",
+            Instructions = 
+                ("This test assumes you are using a standard moon regulation angle, spacing, with medium rung size. " +
+                "Begin by hanging on the first rung with both hands. " +
+                "Proceed to pull up and attempt to grab the second rung with one arm. " +
+                "Proceed to pull through and attempt to grab the third rung with the other arm. " +
+                "Finish the attempt by matching the third rung with both hands. " +
+                "It is recommended to attempt the 1-2-3 sequence first, then the 1-3-5, then the 1-4-7, and finally the 1-5-9. "),
+            Requirements = new []
+            {
+                "You must be aged 18 or over",
+                "You must have no pre-existing injuries or illnesses that prevent you from climbing or training",
+                "You must understand how to use a fingerboard and be competent in its use.",
+                "You must not be pregnant",
+                "It is recommended you have climbed 4 or more routes at 6b+ OR have climbed 4 or more boulder problems at V4 in the last 12 months"
+            },
+            Warning = "This test is maximal and comes with risk to the user. Always start at a relatively low intensity, gradually increase the distance on each pull. If your form begins to fail, return back to standing flat on the ground and reevaluate. Safety is always more important than potentially risking an injury!",
+            LogResults = "Select the furthest set of pulls you were able to complete. Example: If you were able to pull from the first rung to the second rung as well as the third and match, select 1-2-3. If you were able to pull from the first rung to the third rung as well as the fifth and match, select 1-3-5."
         }
+        
         
     };
 }
