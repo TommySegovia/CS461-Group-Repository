@@ -37,6 +37,23 @@ namespace PeakPals_Project.Controllers
             return Ok(response);
         }
 
+        [HttpGet("search/climbs/{query}")]
+        public async Task<ActionResult<OpenBetaQueryResult>> FindAllMatchingClimbs(string query)
+        {
+            if (string.IsNullOrEmpty(query)) {
+                _logger.LogError($"Query string given is empty or null.");
+                return BadRequest(new { Message = "The query parameter cannot be null or empty." });
+            }
+
+            var response = await _openBetaApiService.FindMatchingAreas(query, 200);
+
+            if (response is null) {
+                _logger.LogError($"Failed to fetch from OpenBeta");
+                return NotFound(new { Message = $"The api fetch from OpenBeta returned nothing. {response}" });
+            }
+            return Ok(response);
+        }
+
         [HttpGet("search/area/{id}")]
         public async Task<ActionResult<OBArea>> FindAreaById(string id)
         {
@@ -63,6 +80,23 @@ namespace PeakPals_Project.Controllers
             }
 
             var response = await _openBetaApiService.FindAncestorNameByAreaId(id);
+
+            if (response is null) {
+                _logger.LogError($"Failed to fetch from OpenBeta");
+                return NotFound(new { Message = $"The api fetch from OpenBeta returned nothing. {response}" });
+            }
+            return Ok(response);
+        }
+
+        [HttpGet("climb/{id}")]
+        public async Task<ActionResult<OBClimb>> FindClimbById(string id)
+        {
+            if (string.IsNullOrEmpty(id)) {
+                _logger.LogError($"Id string given is empty or null.");
+                return BadRequest(new { Message = "The query parameter cannot be null or empty." });
+            }
+
+            var response = await _openBetaApiService.FindClimbById(id);
 
             if (response is null) {
                 _logger.LogError($"Failed to fetch from OpenBeta");
