@@ -31,6 +31,9 @@ handleFormSubmit("pull-test-form", 1, 'pull');
 handleFormSubmit("hammerCurl-test-form", 2, 'hammerCurl');
 handleFormSubmit("hipFlexibility-test-form", 3, 'hipFlexibility');
 handleFormSubmit("hamstringFlexibility-test-form", 4, 'hamstringFlexibility');
+handleFormSubmit("repeater-test-form", 5, 'repeater');
+handleFormSubmit("smallestEdge-test-form", 6, 'smallestEdge');
+handleFormSubmit("campusBoard-test-form", 7, 'campusBoard');
 
 
 function recordTest(testId, result, bodyWeight) {

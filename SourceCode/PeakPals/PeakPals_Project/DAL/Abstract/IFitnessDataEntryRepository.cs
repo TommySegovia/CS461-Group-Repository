@@ -9,5 +9,8 @@ namespace PeakPals_Project.DAL.Abstract
         public double? GetAverageResultDividedByBodyweight(int testId);
         public double? GetUserAverageResultDividedByBodyweight(int climberId, int testId);
         public double? GetAverageResultFlexibility(int testId);
+        public double? GetAverageResultRepeater(int testId);
+        public double? GetAverageResultSmallestEdge(int testId);
+        public double? GetMostCommonResultCampusBoard(int testId);
     }
 }
