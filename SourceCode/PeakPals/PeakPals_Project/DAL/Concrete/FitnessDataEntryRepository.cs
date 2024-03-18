@@ -57,35 +57,9 @@ namespace PeakPals_Project.DAL.Concrete
             return averageResult / averageBodyWeight;
         }
 
-        public double? GetAverageResultFlexibility(int testId)
+        public double? GetAverageResult(int testId)
         {
-            //returns the average result for a climber for a specific test compared to all other climbers where the result is divided by the bodyweight
-            var averageResult = _fitnessDataEntry
-                .Where(f => f.TestId == testId)
-                .Average(f => f.Result);
-            if (averageResult == null)
-            {
-                return null;
-            }
-            return averageResult;
-        }
-
-        public double? GetAverageResultRepeater(int testId)
-        {
-            //returns the average result for a climber for a specific test compared to all other climbers where the result is divided by the bodyweight
-            var averageResult = _fitnessDataEntry
-                .Where(f => f.TestId == testId)
-                .Average(f => f.Result);
-            if (averageResult == null)
-            {
-                return null;
-            }
-            return averageResult;
-        }
-
-        public double? GetAverageResultSmallestEdge(int testId)
-        {
-            //returns the average result for a climber for a specific test compared to all other climbers where the result is divided by the bodyweight
+            //returns the average result for a climber for a specific test compared to all other climbers
             var averageResult = _fitnessDataEntry
                 .Where(f => f.TestId == testId)
                 .Average(f => f.Result);

@@ -86,7 +86,7 @@ namespace PeakPals_Project.Controllers
         }
 
 
-        [HttpGet("Test/Results/Average/All/{testId}")]
+        [HttpGet("Test/Results/Average/All/PercentageOfBodyweight/{testId}")]
         public ActionResult<double> GetAveragePercentageOfBodyweight(int testId)
         {
             if (User.Identity.IsAuthenticated)
@@ -103,8 +103,8 @@ namespace PeakPals_Project.Controllers
             }
         }
 
-        [HttpGet("Test/Results/Average/All/Flexibility/{testId}")]
-        public ActionResult<double> GetAverageFlexibility(int testId)
+        [HttpGet("Test/Results/Average/All/{testId}")]
+        public ActionResult<double> GetAverageResult(int testId)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -112,41 +112,7 @@ namespace PeakPals_Project.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(_fitnessDataEntryRepository.GetAverageResultFlexibility(testId));
-            }
-            else
-            {
-                return BadRequest(new { Message = "User not authenticated" });
-            }
-        }
-
-        [HttpGet("Test/Results/Average/All/Repeater/{testId}")]
-        public ActionResult<double> GetAverageRepeaterTest(int testId)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                if (_fitnessDataEntryRepository == null)
-                {
-                    return NotFound();
-                }
-                return Ok(_fitnessDataEntryRepository.GetAverageResultRepeater(testId));
-            }
-            else
-            {
-                return BadRequest(new { Message = "User not authenticated" });
-            }
-        }
-
-        [HttpGet("Test/Results/Average/All/SmallestEdge/{testId}")]
-        public ActionResult<double> GetAverageSmallestEdgeTest(int testId)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                if (_fitnessDataEntryRepository == null)
-                {
-                    return NotFound();
-                }
-                return Ok(_fitnessDataEntryRepository.GetAverageResultSmallestEdge(testId));
+                return Ok(_fitnessDataEntryRepository.GetAverageResult(testId));
             }
             else
             {

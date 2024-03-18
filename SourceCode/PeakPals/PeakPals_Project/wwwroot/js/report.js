@@ -188,16 +188,10 @@ async function getTestAverage(testId, averageDiv) {
 
   try {
     if (testId === 0 || testId === 1 || testId === 2) { //if the test is strength, get the average of all strength tests
+      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/PercentageOfBodyweight/' + testId);
+    }
+    else if (testId >= 3 && testId <= 6) {
       var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/' + testId);
-    }
-    else if (testId === 3 || testId === 4) { //if the test is flexibility, get the average of all flexibility tests
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/Flexibility/' + testId);
-    }
-    else if (testId === 5) { //if the test is repeater, get the average of all repeater tests
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/Repeater/' + testId);
-    }
-    else if (testId === 6) { //if the test is smallest edge, get the average of all smallest edge tests
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/SmallestEdge/' + testId);
     }
     else if (testId === 7) { //if the test is campus board, get the average of all campus board tests
       var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/MostCommon/All/CampusBoard/' + testId);

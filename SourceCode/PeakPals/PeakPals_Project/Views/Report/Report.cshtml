@@ -18,6 +18,156 @@
 
         <!-- Tab panes -->
         <div class="tab-content" id="report-tab-content">
+
+
+            <div class="accordion accordion-flush" id="accordionFilter">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="filter-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#filter-collapseOne" aria-expanded="false"
+                            aria-controls="filter-collapseOne">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-11">
+                                    </div>
+                                    <div class="col-1">
+                                        <img src="~/images/FilterIcon.png" style="width: 40px;" alt="">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </button>
+                    </h2>
+                    <div id="filter-collapseOne" class="accordion-collapse collapse" aria-labelledby="filter-headingOne"
+                        data-bs-parent="#accordionFilter">
+                        <div class="accordion-body">
+                            <!-- Filter Form -->
+                            <form id="filter-form">
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <!--minimum age-->
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="minAge">Minimum Age</label>
+                                                                <input type="number" class="form-control" id="minAge"
+                                                                    name="minAge" min="0" max="100" value="0">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="maxAge">Maximum Age</label>
+                                                                <input type="number" class="form-control" id="maxAge"
+                                                                    name="maxAge" min="0" max="100" value="100">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="gender">Gender</label>
+                                                                <select class="form-control" id="gender" name="gender">
+                                                                    <option value="male">Male</option>
+                                                                    <option value="female">Female</option>
+                                                                    <option value="other">Other</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="climbingExperience">Climbing
+                                                                    Experience</label>
+                                                                <select class="form-control" id="climbingExperience"
+                                                                    name="climbingExperience">
+                                                                    <option value="beginner">Beginner</option>
+                                                                    <option value="intermediate">Intermediate</option>
+                                                                    <option value="advanced">Advanced</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="minimumClimbingGrade">Minimum Climbing
+                                                                    Grade</label>
+                                                                <select class="form-control" id="minimumClimbingGrade"
+                                                                    name="minimumClimbingGrade">
+                                                                    <option selected value="V0">V0</option>
+                                                                    <option value="V1">V1</option>
+                                                                    <option value="V2">V2</option>
+                                                                    <option value="V3">V3</option>
+                                                                    <option value="V4">V4</option>
+                                                                    <option value="V5">V5</option>
+                                                                    <option value="V6">V6</option>
+                                                                    <option value="V7">V7</option>
+                                                                    <option value="V8">V8</option>
+                                                                    <option value="V9">V9</option>
+                                                                    <option value="V10">V10</option>
+                                                                    <option value="V11">V11</option>
+                                                                    <option value="V12">V12</option>
+                                                                    <option value="V13">V13</option>
+                                                                    <option value="V14">V14</option>
+                                                                    <option value="V15">V15</option>
+                                                                    <option value="V16">V16</option>
+                                                                    <option value="V17">V17</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="maximumClimbingGrade">Maximum Climbing
+                                                                    Grade</label>
+                                                                <select class="form-control" id="maximumClimbingGrade"
+                                                                    name="maximumClimbingGrade"> 
+                                                                    <option value="V0">V0</option>
+                                                                    <option value="V1">V1</option>
+                                                                    <option value="V2">V2</option>
+                                                                    <option value="V3">V3</option>
+                                                                    <option value="V4">V4</option>
+                                                                    <option value="V5">V5</option>
+                                                                    <option value="V6">V6</option>
+                                                                    <option value="V7">V7</option>
+                                                                    <option value="V8">V8</option>
+                                                                    <option value="V9">V9</option>
+                                                                    <option value="V10">V10</option>
+                                                                    <option value="V11">V11</option>
+                                                                    <option value="V12">V12</option>
+                                                                    <option value="V13">V13</option>
+                                                                    <option value="V14">V14</option>
+                                                                    <option value="V15">V15</option>
+                                                                    <option value="V16">V16</option>
+                                                                    <option selected value="V17">V17</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Submit button -->
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit" id="filterButtonSubmit" class="btn btn-primary mt-3">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="tab-pane fade show active" id="test-history">
                 <div class="container">
 
