@@ -25,9 +25,10 @@ namespace PeakPals_Project.DAL.Concrete
                 .Select(f => f.ToDTO())
                 .ToList();
         }
-        public double? GetAverageResultDividedByBodyweight(int testId)
+        public double? GetAverageResultDividedByBodyweight(int testId, int minAge, int maxAge, string gender, string climbingExperience, string minimumClimbingGrade, string maximumClimbingGrade)
         {
             //returns the average result for a climber for a specific test compared to all other climbers where the result is divided by the bodyweight
+            // also filters by parameters
             var averageResult = _fitnessDataEntry
                 .Where(f => f.TestId == testId)
                 .Average(f => f.Result);
@@ -57,9 +58,10 @@ namespace PeakPals_Project.DAL.Concrete
             return averageResult / averageBodyWeight;
         }
 
-        public double? GetAverageResult(int testId)
+        public double? GetAverageResult(int testId, int minAge, int maxAge, string gender, string climbingExperience, string minimumClimbingGrade, string maximumClimbingGrade)
         {
-            //returns the average result for a climber for a specific test compared to all other climbers
+            //returns the average result for a climber for a specific test compared to all other climbers who are within the parameters
+            
             var averageResult = _fitnessDataEntry
                 .Where(f => f.TestId == testId)
                 .Average(f => f.Result);
@@ -70,7 +72,7 @@ namespace PeakPals_Project.DAL.Concrete
             return averageResult;
         }
 
-        public double? GetMostCommonResultCampusBoard(int testId)
+        public double? GetMostCommonResultCampusBoard(int testId, int minAge, int maxAge, string gender, string climbingExperience, string minimumClimbingGrade, string maximumClimbingGrade)
         {
             //returns the most frequent result for this test, the result that occurs the most, not the average
             var averageResult = _fitnessDataEntry

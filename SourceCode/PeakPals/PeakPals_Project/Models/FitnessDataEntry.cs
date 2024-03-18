@@ -25,6 +25,10 @@ public partial class FitnessDataEntry
     public int? Result { get; set; }
 
     public int? BodyWeight { get; set; }
+    public int? Age { get; set; }
+    public string? Gender { get; set; }
+    public string? ClimbingExperience { get; set; }
+    public string? ClimbingGrade { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? EntryDate { get; set; }
