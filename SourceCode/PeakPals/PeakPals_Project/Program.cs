@@ -143,6 +143,11 @@ public class Program
             name: "area",
             pattern: "Locations/Areas/{id}",
             defaults: new { controller = "Locations", action = "Areas"});
+        
+        app.MapControllerRoute(
+            name: "climb",
+            pattern: "Locations/Climbs/{id}",
+            defaults: new { controller = "Locations", action = "Climbs"});
 
         app.MapRazorPages();
 
