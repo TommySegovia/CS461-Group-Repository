@@ -35,7 +35,6 @@ function initializePage() {
       minimumClimbingGrade: minimumClimbingGrade,
       maximumClimbingGrade: maximumClimbingGrade
     };
-    console.log(filterData);
     try {
       updateClimberData(testData, filterData);
     }
@@ -51,7 +50,7 @@ function initializePage() {
     var averageDiv = document.getElementById(test.averageId);
     var resultsDiv = document.getElementById(test.resultsId);
     getTestRecords(test.index, tableDiv, resultsDiv);
-    getTestAverage(test.index, averageDiv);
+    getTestAverage(test.index, averageDiv, { minAge: 0, maxAge: 100, gender: "All", climbingExperience: "All", minimumClimbingGrade: 0, maximumClimbingGrade: 100 });
   });
 }
 
@@ -61,7 +60,7 @@ function updateClimberData(testData, filterData) {
     console.log(filterData);
     console.log(testData);
     testData.forEach(test => {
-      
+
       var tableDiv = document.getElementById(test.id);
       var averageDiv = document.getElementById(test.averageId);
       var resultsDiv = document.getElementById(test.resultsId);
@@ -147,10 +146,16 @@ async function addGraphToResults(testId) {
 
 async function getTestAverage(testId, averageDiv, filterData) {
   //get the most recent user test result
+
   try {
     var recentResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/MostRecent/' + testId);
     var recentData = await recentResponse.json();
+    
     //console.log(JSON.stringify(recentData));
+
+    //clear the average div
+    averageDiv.innerHTML = '';
+
     if (recentResponse.ok) {
       var recentResult = recentData.result;
       var recentWeight = recentData.bodyWeight;
@@ -240,17 +245,18 @@ async function getTestAverage(testId, averageDiv, filterData) {
 
   try {
     if (testId === 0 || testId === 1 || testId === 2) { //if the test is strength, get the average of all strength tests
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/PercentageOfBodyweight/' + testId + '/' + filterData.minAge + '/' + filterData.maxAge + '/' + filter.gender + '/' + filterData.climbingExperience + '/' + filterData.minimumClimbingGrade + '/' + filterData.maximumClimbingGrade);
+      console.log("filterData: " + JSON.stringify(filterData));
+      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/PercentageOfBodyweight/' + testId + '/' + filterData.minAge + '/' + filterData.maxAge + '/' + filterData.gender + '/' + filterData.climbingExperience + '/' + filterData.minimumClimbingGrade + '/' + filterData.maximumClimbingGrade);
     }
     else if (testId >= 3 && testId <= 6) {
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/' + testId + '/' + filterData.minAge + '/' + filterData.maxAge + '/' + filter.gender + '/' + filterData.climbingExperience + '/' + filterData.minimumClimbingGrade + '/' + filterData.maximumClimbingGrade);
+      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/' + testId + '/' + filterData.minAge + '/' + filterData.maxAge + '/' + filterData.gender + '/' + filterData.climbingExperience + '/' + filterData.minimumClimbingGrade + '/' + filterData.maximumClimbingGrade);
     }
     else if (testId === 7) { //if the test is campus board, get the average of all campus board tests
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/MostCommon/All/CampusBoard/' + testId + '/' + filterData.minAge + '/' + filterData.maxAge + '/' + filter.gender + '/' + filterData.climbingExperience + '/' + filterData.minimumClimbingGrade + '/' + filterData.maximumClimbingGrade);
+      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/MostCommon/All/CampusBoard/' + testId + '/' + filterData.minAge + '/' + filterData.maxAge + '/' + filterData.gender + '/' + filterData.climbingExperience + '/' + filterData.minimumClimbingGrade + '/' + filterData.maximumClimbingGrade);
     }
 
     var averageData = await averageResponse.json();
-    console.log(JSON.stringify(averageData));
+    console.log("average: " + JSON.stringify(averageData));
     if (averageResponse.ok) {
       var average = averageData;
       var averageText = document.createElement('p');
@@ -350,7 +356,7 @@ async function getTestAverage(testId, averageDiv, filterData) {
     }
   }
   catch (error) {
-    console.log('No average found');
+    console.log(error);
     averageDiv.appendChild(document.createTextNode('No average found'));
   }
 }

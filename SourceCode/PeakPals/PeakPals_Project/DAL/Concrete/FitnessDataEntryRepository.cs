@@ -25,15 +25,15 @@ namespace PeakPals_Project.DAL.Concrete
                 .Select(f => f.ToDTO())
                 .ToList();
         }
-        public double? GetAverageResultDividedByBodyweight(int testId, int minAge, int maxAge, string gender, string climbingExperience, string minimumClimbingGrade, string maximumClimbingGrade)
+        public double? GetAverageResultDividedByBodyweight(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
             //returns the average result for a climber for a specific test compared to all other climbers where the result is divided by the bodyweight
             // also filters by parameters
             var averageResult = _fitnessDataEntry
-                .Where(f => f.TestId == testId)
+                .Where(f => f.TestId == testId && f.Age >= minAge && f.Age <= maxAge && (f.Gender == gender || gender == "All") && (f.ClimbingExperience == climbingExperience || climbingExperience == "All") && f.ClimbingGrade >= minimumClimbingGrade && f.ClimbingGrade <= maximumClimbingGrade)
                 .Average(f => f.Result);
             var averageBodyWeight = _fitnessDataEntry
-                .Where(f => f.TestId == testId)
+                .Where(f => f.TestId == testId && f.Age >= minAge && f.Age <= maxAge && (f.Gender == gender || gender == "All") && (f.ClimbingExperience == climbingExperience || climbingExperience == "All") && f.ClimbingGrade >= minimumClimbingGrade && f.ClimbingGrade <= maximumClimbingGrade)
                 .Average(f => f.BodyWeight);
             if (averageResult == null || averageBodyWeight == null)
             {
@@ -58,12 +58,11 @@ namespace PeakPals_Project.DAL.Concrete
             return averageResult / averageBodyWeight;
         }
 
-        public double? GetAverageResult(int testId, int minAge, int maxAge, string gender, string climbingExperience, string minimumClimbingGrade, string maximumClimbingGrade)
+        public double? GetAverageResult(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
             //returns the average result for a climber for a specific test compared to all other climbers who are within the parameters
-            
             var averageResult = _fitnessDataEntry
-                .Where(f => f.TestId == testId)
+                .Where(f => f.TestId == testId && f.Age >= minAge && f.Age <= maxAge && (f.Gender == gender || gender == "All") && (f.ClimbingExperience == climbingExperience || climbingExperience == "All") && f.ClimbingGrade >= minimumClimbingGrade && f.ClimbingGrade <= maximumClimbingGrade)
                 .Average(f => f.Result);
             if (averageResult == null)
             {
@@ -72,11 +71,11 @@ namespace PeakPals_Project.DAL.Concrete
             return averageResult;
         }
 
-        public double? GetMostCommonResultCampusBoard(int testId, int minAge, int maxAge, string gender, string climbingExperience, string minimumClimbingGrade, string maximumClimbingGrade)
+        public double? GetMostCommonResultCampusBoard(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
             //returns the most frequent result for this test, the result that occurs the most, not the average
             var averageResult = _fitnessDataEntry
-                .Where(f => f.TestId == testId)
+                .Where(f => f.TestId == testId && f.Age >= minAge && f.Age <= maxAge && (f.Gender == gender || gender == "All") && (f.ClimbingExperience == climbingExperience || climbingExperience == "All") && f.ClimbingGrade >= minimumClimbingGrade && f.ClimbingGrade <= maximumClimbingGrade)
                 .GroupBy(f => f.Result)
                 .OrderByDescending(g => g.Count())
                 .Select(g => g.Key)

@@ -23,7 +23,7 @@ public class FitnessDataEntryService : IFitnessDataEntryService
         _fitnessDataEntryRepository = fitnessDataEntryRepository;
     }
 
-    public void RecordTestResult(int? climberId, int? testId, int? result, int? bodyWeight, int? age, string? gender, string? climbingExperience, string? climbingGrade)
+    public void RecordTestResult(int? climberId, int? testId, int? result, int? bodyWeight, int? age, string? gender, string? climbingExperience, int? climbingGrade)
     {
         FitnessDataEntry fitnessDataEntry = new FitnessDataEntry
         {

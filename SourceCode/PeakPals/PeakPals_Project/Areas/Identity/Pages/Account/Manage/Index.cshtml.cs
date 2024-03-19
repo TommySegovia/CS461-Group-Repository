@@ -74,7 +74,7 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
             public string? ClimbingExperience { get; set; }
 
             [Display(Name = "Max Climbing Grade")]
-            public string? MaxClimbGrade { get; set; }
+            public int? MaxClimbGrade { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)

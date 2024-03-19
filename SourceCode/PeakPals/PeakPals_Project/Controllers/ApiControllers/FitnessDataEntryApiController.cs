@@ -93,7 +93,7 @@ namespace PeakPals_Project.Controllers
 
 
         [HttpGet("Test/Results/Average/All/PercentageOfBodyweight/{testId}/{minAge}/{maxAge}/{gender}/{climbingExperience}/{minimumClimbingGrade}/{maximumClimbingGrade}")]
-        public ActionResult<double> GetAveragePercentageOfBodyweight(int testId, int minAge, int maxAge, string gender, string climbingExperience, string minimumClimbingGrade, string maximumClimbingGrade)
+        public ActionResult<double> GetAveragePercentageOfBodyweight(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -110,7 +110,7 @@ namespace PeakPals_Project.Controllers
         }
 
         [HttpGet("Test/Results/Average/All/{testId}/{minAge}/{maxAge}/{gender}/{climbingExperience}/{minimumClimbingGrade}/{maximumClimbingGrade}")]
-        public ActionResult<double> GetAverageResult(int testId, int minAge, int maxAge, string gender, string climbingExperience, string minimumClimbingGrade, string maximumClimbingGrade)
+        public ActionResult<double> GetAverageResult(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -127,7 +127,7 @@ namespace PeakPals_Project.Controllers
         }
 
         [HttpGet("Test/Results/MostCommon/All/CampusBoard/{testId}/{minAge}/{maxAge}/{gender}/{climbingExperience}/{minimumClimbingGrade}/{maximumClimbingGrade}")]
-        public ActionResult<double> GetMostCommonResultCampusBoard(int testId, int minAge, int maxAge, string gender, string climbingExperience, string minimumClimbingGrade, string maximumClimbingGrade)
+        public ActionResult<double> GetMostCommonResultCampusBoard(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -158,7 +158,7 @@ namespace PeakPals_Project.Controllers
                 int? age = user.Age;
                 string? gender = user.Gender;
                 string? climbingExperience = user.ClimbingExperience;
-                string? maxClimbGrade = user.MaxClimbGrade;
+                int? maxClimbGrade = user.MaxClimbGrade;
 
                 int? testId = fitnessDataEntryDTO.TestId;
 

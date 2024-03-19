@@ -8,7 +8,7 @@ namespace PeakPals_Project.Services
 {
     public interface IFitnessDataEntryService
     {
-        public void RecordTestResult(int? climberId, int? testId, int? result, int? bodyWeight, int? age, string? gender, string? climbingExperience, string? climbingGrade);
+        public void RecordTestResult(int? climberId, int? testId, int? result, int? bodyWeight, int? age, string? gender, string? climbingExperience, int? climbingGrade);
         public void GenerateGraphsWithRecordHistory(List<FitnessDataEntryDTO> fitnessDataEntryListDTO, int testId);
 
     }

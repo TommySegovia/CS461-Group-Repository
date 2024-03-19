@@ -33,6 +33,6 @@ namespace PeakPals_Project.Areas.Identity.Data
         [PersonalData]
         [StringLength(5,
             ErrorMessage = "Climbing grade must be 5 characters or less")]
-        public string? MaxClimbGrade { get; set; }
+        public int? MaxClimbGrade { get; set; }
     }
 }

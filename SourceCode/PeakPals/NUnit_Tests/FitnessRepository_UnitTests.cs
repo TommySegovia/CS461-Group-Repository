@@ -23,16 +23,16 @@ namespace NUnit_Tests
             // create a list of fitness data entries
             var fitnessDataEntries = new List<FitnessDataEntry>
             {
-                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1) },
-                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2) },
-                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) },
-                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1) },
-                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2) },
-                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) },
-                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1) },
-                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2) },
-                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) },
-                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) }
+                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1 },
+                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  }
             }.AsQueryable();
 
             // Create a mock set
@@ -56,7 +56,7 @@ namespace NUnit_Tests
         [Test]
         public void GetAverageResultDividedByBodyweight_ReturnsCorrectResultDividedByBodyweight()
         {
-            var result = _fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(1);
+            var result = _fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(1, 1, 100, "All", "All", 1, 100);
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result);
         }
@@ -81,25 +81,9 @@ namespace NUnit_Tests
         }
 
         [Test]
-        public void GetAverageResultFlexibility_ReturnsCorrectAverageResultFlexibility()
+        public void GetAverageResult_ReturnsCorrectAverageResult()
         {
-            var result = _fitnessDataEntryRepository.GetAverageResultFlexibility(1);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result);
-        }
-
-        [Test]
-        public void GetAverageResultRepeater_ReturnsCorrectAverageResultRepeater()
-        {
-            var result = _fitnessDataEntryRepository.GetAverageResultRepeater(1);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result);
-        }
-
-        [Test]
-        public void GetAverageResultSmallestEdge_ReturnsCorrectAverageResultSmallestEdge()
-        {
-            var result = _fitnessDataEntryRepository.GetAverageResultSmallestEdge(1);
+            var result = _fitnessDataEntryRepository.GetAverageResult(1, 1, 100, "All", "All", 1, 100);
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result);
         }
@@ -107,7 +91,7 @@ namespace NUnit_Tests
         [Test]
         public void GetMostCommonResultCampusBoard_ReturnsCorrectMostCommonResultCampusBoard()
         {
-            var result = _fitnessDataEntryRepository.GetMostCommonResultCampusBoard(7);
+            var result = _fitnessDataEntryRepository.GetMostCommonResultCampusBoard(7, 1, 100, "All", "All", 1, 100);
             Assert.IsNotNull(result);
             Assert.AreEqual(3, result);
         }        

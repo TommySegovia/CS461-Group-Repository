@@ -15,7 +15,7 @@ namespace PeakPals_Project.Models.DTO
         public int? Age { get; set; }
         public string? Gender { get; set; }
         public string? ClimbingExperience { get; set; }
-        public string? ClimbingGrade { get; set; }
+        public int? ClimbingGrade { get; set; }
         public DateTime? EntryDate { get; set; }
     }
 }
