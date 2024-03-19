@@ -125,7 +125,7 @@
                                                                 <label for="maximumClimbingGrade">Maximum Climbing
                                                                     Grade</label>
                                                                 <select class="form-control" id="maximumClimbingGrade"
-                                                                    name="maximumClimbingGrade"> 
+                                                                    name="maximumClimbingGrade">
                                                                     <option value="0">V0</option>
                                                                     <option value="1">V1</option>
                                                                     <option value="2">V2</option>
@@ -159,7 +159,8 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col">
-                                            <button type="" id="filterButtonSubmit" class="btn btn-primary mt-3">Submit</button>
+                                            <button type="" id="filterButtonSubmit"
+                                                class="btn btn-primary mt-3">Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -209,9 +210,21 @@
             <div class="tab-pane fade" id="test-analysis">
                 @foreach (var test in tests)
                 {
-                    <div id="@test.id-test-average-div">
+                    <div id="@test.id-test-average-div" style="border: 1px solid black;">
                         <h2>@test.Name Test Average</h2>
-                        <div id="@test.id-test-average"></div>
+                        <div>
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div style="font-weight: bold; background-color: #ffa500;" class="col-5 m-3" id="@test.id-test-recent">
+
+                                    </div>
+                                    <div style="font-weight: bold; background-color: #ffa500;" class="col-5 m-3" id="@test.id-test-average">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 }
             </div>

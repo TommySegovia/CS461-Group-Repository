@@ -94,6 +94,25 @@ namespace NUnit_Tests
             var result = _fitnessDataEntryRepository.GetMostCommonResultCampusBoard(7, 1, 100, "All", "All", 1, 100);
             Assert.IsNotNull(result);
             Assert.AreEqual(3, result);
-        }        
+        }       
+
+        [Test]
+        public void GetAverageResultDividedByBodyweight_WhenCalledAndWhenGivenNullString_ReturnsWithBadRequest()
+        {
+            // Arrange
+            int testId = 1;
+            int minAge = 1;
+            int maxAge = 100;
+            string gender = null;
+            string climbingExperience = null;
+            int minimumClimbingGrade = 1;
+            int maximumClimbingGrade = 100;
+
+            // Act
+            var response = _fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(testId, minAge, maxAge, gender, climbingExperience, minimumClimbingGrade, maximumClimbingGrade);
+
+            // Assert
+            Assert.IsNull(response);
+        }
     }
 }

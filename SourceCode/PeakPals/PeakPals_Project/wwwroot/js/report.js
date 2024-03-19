@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', initializePage);
 
 const testData = [
-  { index: 0, id: 'hang-test-table', averageId: 'hang-test-average', resultsId: 'hang-test-results' },
-  { index: 1, id: 'pull-test-table', averageId: 'pull-test-average', resultsId: 'pull-test-results' },
-  { index: 2, id: 'hammerCurl-test-table', averageId: 'hammerCurl-test-average', resultsId: 'hammerCurl-test-results' },
-  { index: 3, id: 'hipFlexibility-test-table', averageId: 'hipFlexibility-test-average', resultsId: 'hipFlexibility-test-results' },
-  { index: 4, id: 'hamstringFlexibility-test-table', averageId: 'hamstringFlexibility-test-average', resultsId: 'hamstringFlexibility-test-results' },
-  { index: 5, id: 'repeater-test-table', averageId: 'repeater-test-average', resultsId: 'repeater-test-results' },
-  { index: 6, id: 'smallestEdge-test-table', averageId: 'smallestEdge-test-average', resultsId: 'smallestEdge-test-results' },
-  { index: 7, id: 'campusBoard-test-table', averageId: 'campusBoard-test-average', resultsId: 'campusBoard-test-results' }
+  { index: 0, id: 'hang-test-table',recentId: 'hang-test-recent', averageId: 'hang-test-average', resultsId: 'hang-test-results' },
+  { index: 1, id: 'pull-test-table', recentId: 'pull-test-recent', averageId: 'pull-test-average', resultsId: 'pull-test-results' },
+  { index: 2, id: 'hammerCurl-test-table', recentId: 'hammerCurl-test-recent', averageId: 'hammerCurl-test-average', resultsId: 'hammerCurl-test-results' },
+  { index: 3, id: 'hipFlexibility-test-table', recentId: 'hipFlexibility-test-recent', averageId: 'hipFlexibility-test-average', resultsId: 'hipFlexibility-test-results' },
+  { index: 4, id: 'hamstringFlexibility-test-table', recentId: 'hamstringFlexibility-test-recent', averageId: 'hamstringFlexibility-test-average', resultsId: 'hamstringFlexibility-test-results' },
+  { index: 5, id: 'repeater-test-table', recentId: 'repeater-test-recent', averageId: 'repeater-test-average', resultsId: 'repeater-test-results' },
+  { index: 6, id: 'smallestEdge-test-table', recentId: 'smallestEdge-test-recent', averageId: 'smallestEdge-test-average', resultsId: 'smallestEdge-test-results' },
+  { index: 7, id: 'campusBoard-test-table', recentId: 'campusBoard-test-recent', averageId: 'campusBoard-test-average', resultsId: 'campusBoard-test-results' }
 ];
 
 function initializePage() {
@@ -48,9 +48,10 @@ function initializePage() {
   testData.forEach(test => {
     var tableDiv = document.getElementById(test.id);
     var averageDiv = document.getElementById(test.averageId);
+    var recentDiv = document.getElementById(test.recentId);
     var resultsDiv = document.getElementById(test.resultsId);
     getTestRecords(test.index, tableDiv, resultsDiv);
-    getTestAverage(test.index, averageDiv, { minAge: 0, maxAge: 100, gender: "All", climbingExperience: "All", minimumClimbingGrade: 0, maximumClimbingGrade: 100 });
+    getTestAverage(test.index, averageDiv, recentDiv, { minAge: 0, maxAge: 100, gender: "All", climbingExperience: "All", minimumClimbingGrade: 0, maximumClimbingGrade: 100 });
   });
 }
 
@@ -63,9 +64,10 @@ function updateClimberData(testData, filterData) {
 
       var tableDiv = document.getElementById(test.id);
       var averageDiv = document.getElementById(test.averageId);
+      var recentDiv = document.getElementById(test.recentId);
       var resultsDiv = document.getElementById(test.resultsId);
       //getTestRecords(test.index, tableDiv, resultsDiv);
-      getTestAverage(test.index, averageDiv, filterData);
+      getTestAverage(test.index, averageDiv, recentDiv, filterData);
     });
   }
   catch (error) {
@@ -144,7 +146,7 @@ async function addGraphToResults(testId) {
   }
 }
 
-async function getTestAverage(testId, averageDiv, filterData) {
+async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
   //get the most recent user test result
 
   try {
@@ -154,6 +156,7 @@ async function getTestAverage(testId, averageDiv, filterData) {
     //console.log(JSON.stringify(recentData));
 
     //clear the average div
+    recentDiv.innerHTML = '';
     averageDiv.innerHTML = '';
 
     if (recentResponse.ok) {
@@ -171,7 +174,7 @@ async function getTestAverage(testId, averageDiv, filterData) {
         recentText.appendChild(resultNode);
         recentText.appendChild(br1);
 
-        averageDiv.appendChild(recentText);
+        recentDiv.appendChild(recentText);
       }
       //repeater test
       else if (testId === 5) {
@@ -183,7 +186,7 @@ async function getTestAverage(testId, averageDiv, filterData) {
         recentText.appendChild(resultNode);
         recentText.appendChild(br1);
 
-        averageDiv.appendChild(recentText);
+        recentDiv.appendChild(recentText);
       }
       //smallest edge test
       else if (testId === 6) {
@@ -195,7 +198,7 @@ async function getTestAverage(testId, averageDiv, filterData) {
         recentText.appendChild(resultNode);
         recentText.appendChild(br1);
 
-        averageDiv.appendChild(recentText);
+        recentDiv.appendChild(recentText);
       }
       //campus board test
       else if (testId === 7) {
@@ -207,7 +210,7 @@ async function getTestAverage(testId, averageDiv, filterData) {
         recentText.appendChild(resultNode);
         recentText.appendChild(br1);
 
-        averageDiv.appendChild(recentText);
+        recentDiv.appendChild(recentText);
       }
       else {
         var resultText = 'Recent Test: ' + recentResult + ' lbs';
@@ -226,7 +229,7 @@ async function getTestAverage(testId, averageDiv, filterData) {
         recentText.appendChild(br2);
         recentText.appendChild(ratioNode);
 
-        averageDiv.appendChild(recentText);
+        recentDiv.appendChild(recentText);
       }
 
 
@@ -235,12 +238,12 @@ async function getTestAverage(testId, averageDiv, filterData) {
     else {
       var noResults = document.createElement('p');
       noResults.appendChild(document.createTextNode('No Recent Test Found'));
-      averageDiv.appendChild(noResults);
+      recentDiv.appendChild(noResults);
     }
   }
   catch (error) {
     console.log(error);
-    averageDiv.appendChild(document.createTextNode('No recent test found'));
+    recentDiv.appendChild(document.createTextNode('No recent test found'));
   }
 
   try {
