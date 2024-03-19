@@ -209,7 +209,7 @@ public class LocationsApiControllerTests
          // Arrange
         var mockService = new Mock<IOpenBetaApiService>();
         var openBetaQueryResult = new OpenBetaQueryResult {};
-        mockService.Setup(s => s.FindMatchingAreas(It.IsAny<string>(), 500)).ReturnsAsync(openBetaQueryResult);
+        mockService.Setup(s => s.FindMatchingAreas(It.IsAny<string>(), 200)).ReturnsAsync(openBetaQueryResult);
         var apiController = new LocationsApiController(mockService.Object, _logger);
 
         string query = "hello";
