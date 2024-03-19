@@ -23,6 +23,10 @@ CREATE TABLE [FitnessDataEntry] (
   [TestID]    int,
   [Result]    int,
   [BodyWeight]  int,
+  [Age]       int,
+  [Gender]    nvarchar(255),
+  [ClimbingExperience]  NVARCHAR(255),
+  [ClimbingGrade]     int,
   [EntryDate] datetime
 );
 

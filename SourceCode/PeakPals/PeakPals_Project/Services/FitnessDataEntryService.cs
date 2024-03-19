@@ -23,7 +23,7 @@ public class FitnessDataEntryService : IFitnessDataEntryService
         _fitnessDataEntryRepository = fitnessDataEntryRepository;
     }
 
-    public void RecordTestResult(int? climberId, int? testId, int? result, int? bodyWeight)
+    public void RecordTestResult(int? climberId, int? testId, int? result, int? bodyWeight, int? age, string? gender, string? climbingExperience, int? climbingGrade)
     {
         FitnessDataEntry fitnessDataEntry = new FitnessDataEntry
         {
@@ -32,6 +32,10 @@ public class FitnessDataEntryService : IFitnessDataEntryService
             TestId = testId,
             Result = result,
             BodyWeight = bodyWeight,
+            Age = age,
+            Gender = gender,
+            ClimbingExperience = climbingExperience,
+            ClimbingGrade = climbingGrade,
             EntryDate = DateTime.Now //date time.utcnow
         };
         _fitnessDataEntryRepository.AddOrUpdate(fitnessDataEntry);
