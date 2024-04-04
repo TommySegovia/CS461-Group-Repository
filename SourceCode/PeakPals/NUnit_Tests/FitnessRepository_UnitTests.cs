@@ -13,7 +13,7 @@ namespace NUnit_Tests
     public class FitnessDataEntryRepositoryTests
     {
         private Mock<DbSet<FitnessDataEntry>> _dbSetMock;
-        private Mock<ApplicationDbContext> _dbContextMock;
+        private Mock<PeakPalsContext> _dbContextMock;
         private FitnessDataEntryRepository _fitnessDataEntryRepository;
 
         [SetUp]
@@ -23,12 +23,16 @@ namespace NUnit_Tests
             // create a list of fitness data entries
             var fitnessDataEntries = new List<FitnessDataEntry>
             {
-                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1) },
-                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2) },
-                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) },
-                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1) },
-                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2) },
-                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3) }
+                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1 },
+                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 1, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 2, TestId = 1, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 1, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 1), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 2, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 2), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  },
+                new FitnessDataEntry { ClimberId = 3, TestId = 7, Result = 3, BodyWeight = 1, EntryDate = new System.DateTime(2021, 1, 3), Age = 20, Gender = "Male", ClimbingExperience = "Beginner", ClimbingGrade = 1  }
             }.AsQueryable();
 
             // Create a mock set
@@ -40,7 +44,7 @@ namespace NUnit_Tests
 
 
             // Create a mock context
-            _dbContextMock = new Mock<ApplicationDbContext>();
+            _dbContextMock = new Mock<PeakPalsContext>();
             _dbContextMock.Setup(c => c.FitnessDataEntry).Returns(_dbSetMock.Object);
 
 
@@ -52,7 +56,7 @@ namespace NUnit_Tests
         [Test]
         public void GetAverageResultDividedByBodyweight_ReturnsCorrectResultDividedByBodyweight()
         {
-            var result = _fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(1);
+            var result = _fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(1, 1, 100, "All", "All", 1, 100);
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result);
         }
@@ -76,6 +80,39 @@ namespace NUnit_Tests
             Assert.AreEqual(new System.DateTime(2021, 1, 3), results[2].EntryDate);
         }
 
-        
+        [Test]
+        public void GetAverageResult_ReturnsCorrectAverageResult()
+        {
+            var result = _fitnessDataEntryRepository.GetAverageResult(1, 1, 100, "All", "All", 1, 100);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result);
+        }
+
+        [Test]
+        public void GetMostCommonResultCampusBoard_ReturnsCorrectMostCommonResultCampusBoard()
+        {
+            var result = _fitnessDataEntryRepository.GetMostCommonResultCampusBoard(7, 1, 100, "All", "All", 1, 100);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result);
+        }       
+
+        [Test]
+        public void GetAverageResultDividedByBodyweight_WhenCalledAndWhenGivenNullString_ReturnsWithBadRequest()
+        {
+            // Arrange
+            int testId = 1;
+            int minAge = 1;
+            int maxAge = 100;
+            string gender = null;
+            string climbingExperience = null;
+            int minimumClimbingGrade = 1;
+            int maximumClimbingGrade = 100;
+
+            // Act
+            var response = _fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(testId, minAge, maxAge, gender, climbingExperience, minimumClimbingGrade, maximumClimbingGrade);
+
+            // Assert
+            Assert.IsNull(response);
+        }
     }
 }

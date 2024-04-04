@@ -1,0 +1,96 @@
+
+<body id="area-body">
+    <div class="text-center">
+
+            <p class="text-white welcome-locations">Look for Rock Climbing Locations!</p>
+
+        <button type="button" class="open-search-btn" id="searchModalButton" data-bs-toggle="modal" data-bs-target="#searchModal">Climbing Search
+            <img src="~/images/search-icon.svg" alt="Icon description" class="icon-class"/>
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade my-5" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document" style="max-height: 85vh;">
+            <div class="modal-content">
+                <div class="modal-header" style="position: sticky; top: 0; z-index: 100;">     
+                    <div class="input-group d-flex align-items-center" id="locations-input" style="height: 3.5em; width: 80%;">
+                        <input type="text" id="search-input" aria-label="sizing example input"
+                            aria-describedby="inputGroup-sizing-default" placeholder="Search for Areas here!"/>
+                        <div class= "d-flex justify-content-center mx-2">
+                            <button type="button" class="search-circle" id="search-button" class>
+                                <img src="~/images/search-icon.svg" alt="Icon description" class="icon-class"/>
+                            </button>
+                        </div>               
+                    </div>                    
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <div id="loading-spinner" class="spinner-border text-warning" role="status" style="display: none;">
+                            <span class="sr-only"></span>
+                        </div>
+                        <p id="locations-validation-warning"></p>
+                    </div>
+                    <hr>
+                    <div id="search-category-buttons">
+                        <button type="button" class="btn btn-dark text-white category-button" id="all-button" style="width: 6em; font-size: 1.2em;">All</button>
+                        <button type="button" class="btn btn-dark text-white category-button" id="areas-button" style="width: 6em; font-size: 1.2em;">Areas</button>
+                        <button type="button" class="btn btn-dark text-white category-button" id="climbs-button" style="width: 6em; font-size: 1.2em;">Climbs</button>  
+                    </div>
+                    <hr style="height: 2px; color: black;">
+                    <h3 class="mx-2 search-category">Areas</h3>
+                    <hr>  
+                    <div class="mt-3 py-3">
+                        <div id="search-results-areas" class="row g-0">
+                            <!-- JS will instantiate the template and put a bunch of them here. -->
+                        </div>
+                    </div>
+                    <hr style="height: 2px; color: black;">
+                    <h3 class="mx-2 search-category">Climbs</h3>
+                    <hr>  
+                    <div class="mt-3 py-3">
+                        <div id="search-results-climbs" class="row g-0">
+                            <!-- JS will instantiate the template and put a bunch of them here. -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template id="area-template">
+        <div class="card" id="areas-div">
+            <div class="row">
+                <div class="col d-flex align-items-center" id="area-block-top">                   
+                    <div id="ancestors-list"></div>
+                </div>        
+            </div>
+            <div class="row">
+                <div class="col-10 d-flex align-items-center" id="area-block-bot">                   
+                    <p id="area-name"></p>
+                </div>
+                <div class="col-2 d-flex flex-column justify-content-center">
+                    <!-- climbing tags go here -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="ancestors-template">
+        <p id="area-ancestors" class="ancestors text-muted"></p>
+    </template>
+
+</body>
+
+@section Scripts
+{
+    <script type="module" src="~/js/site.js"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/locations.css">
+    <link rel="stylesheet" href="~/css/site.css">
+}

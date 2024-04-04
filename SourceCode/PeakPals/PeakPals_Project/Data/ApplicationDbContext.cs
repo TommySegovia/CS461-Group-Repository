@@ -22,7 +22,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     // For Mock Testing
     public ApplicationDbContext() { }
 
-    //public virtual DbSet<PeakPals_Project.Models.Climber> Climber { get; set; } = default!;
-    //public virtual DbSet<PeakPals_Project.Models.FitnessDataEntry> FitnessDataEntry { get; set; } = default!;
+    public virtual DbSet<PeakPals_Project.Models.Climber> Climber { get; set; } = default!;
+    public virtual DbSet<PeakPals_Project.Models.FitnessDataEntry> FitnessDataEntry { get; set; } = default!;
 
 }

@@ -12,7 +12,10 @@ namespace PeakPals_Project.Models.DTO
 
         public int? Result { get; set; }
         public int? BodyWeight { get; set; }
-
+        public int? Age { get; set; }
+        public string? Gender { get; set; }
+        public string? ClimbingExperience { get; set; }
+        public int? ClimbingGrade { get; set; }
         public DateTime? EntryDate { get; set; }
     }
 }
@@ -29,7 +32,11 @@ namespace PeakPals_Project.ExtensionMethods
                 TestId = fitnessDataEntry.TestId,
                 Result = fitnessDataEntry.Result,
                 BodyWeight = fitnessDataEntry.BodyWeight,
-                EntryDate = fitnessDataEntry.EntryDate
+                EntryDate = fitnessDataEntry.EntryDate,
+                Age = fitnessDataEntry.Age,
+                Gender = fitnessDataEntry.Gender,
+                ClimbingExperience = fitnessDataEntry.ClimbingExperience,
+                ClimbingGrade = fitnessDataEntry.ClimbingGrade
             };
         }
         public static Models.FitnessDataEntry ToModel(this Models.DTO.FitnessDataEntryDTO fitnessDataEntryDTO)
@@ -41,7 +48,11 @@ namespace PeakPals_Project.ExtensionMethods
                 TestId = fitnessDataEntryDTO.TestId,
                 Result = fitnessDataEntryDTO.Result,
                 BodyWeight = fitnessDataEntryDTO.BodyWeight,
-                EntryDate = fitnessDataEntryDTO.EntryDate
+                EntryDate = fitnessDataEntryDTO.EntryDate,
+                Age = fitnessDataEntryDTO.Age,
+                Gender = fitnessDataEntryDTO.Gender,
+                ClimbingExperience = fitnessDataEntryDTO.ClimbingExperience,
+                ClimbingGrade = fitnessDataEntryDTO.ClimbingGrade
             };
         }
     }
