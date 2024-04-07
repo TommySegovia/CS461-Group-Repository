@@ -393,6 +393,7 @@ function createClimberStrengthTestTable(data, tableDiv) {
     var deleteCell = document.createElement('td');
     var deleteButton = document.createElement('button');
     deleteButton.style.backgroundColor = "red";
+    deleteButton.classList.add('deleteButton');
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
@@ -409,23 +410,6 @@ function createClimberStrengthTestTable(data, tableDiv) {
   table.appendChild(tableBody);
   // Add table to page
   tableDiv.appendChild(table);
-}
-
-function deleteTest(id, testId) {
-  console.log("ID: " + id);
-  console.log("TESTID: " + testId);
-  return async function () {
-    var response = await fetch('/api/FitnessDataEntryApi/Test/Results/Delete/' + id + '/' + testId, {
-      method: 'DELETE'
-    });
-    if (response.ok) {
-      console.log("Test deleted");
-      location.reload();
-    }
-    else {
-      console.log("Test not deleted");
-    }
-  }
 }
 
 function createClimberFlexibilityTestTable(data, tableDiv) {
@@ -455,6 +439,7 @@ function createClimberFlexibilityTestTable(data, tableDiv) {
     var deleteCell = document.createElement('td');
     var deleteButton = document.createElement('button');
     deleteButton.style.backgroundColor = "red";
+    deleteButton.classList.add('deleteButton');
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
@@ -498,6 +483,7 @@ function createClimberRepeaterTestTable(data, tableDiv) {
     var deleteCell = document.createElement('td');
     var deleteButton = document.createElement('button');
     deleteButton.style.backgroundColor = "red";
+    deleteButton.classList.add('deleteButton');
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
@@ -541,6 +527,7 @@ function createClimberSmallestEdgeTestTable(data, tableDiv) {
     var deleteCell = document.createElement('td');
     var deleteButton = document.createElement('button');
     deleteButton.style.backgroundColor = "red";
+    deleteButton.classList.add('deleteButton');
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
@@ -584,6 +571,7 @@ function createClimberCampusBoardTestTable(data, tableDiv) {
     var deleteCell = document.createElement('td');
     var deleteButton = document.createElement('button');
     deleteButton.style.backgroundColor = "red";
+    deleteButton.classList.add('deleteButton');
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
@@ -598,6 +586,23 @@ function createClimberCampusBoardTestTable(data, tableDiv) {
   table.appendChild(tableBody);
   // Add table to page
   tableDiv.appendChild(table);
+}
+
+function deleteTest(id, testId) {
+  console.log("ID: " + id);
+  console.log("TESTID: " + testId);
+  return async function () {
+    var response = await fetch('/api/FitnessDataEntryApi/Test/Results/Delete/' + id + '/' + testId, {
+      method: 'DELETE'
+    });
+    if (response.ok) {
+      console.log("Test deleted");
+      location.reload();
+    }
+    else {
+      console.log("Test not deleted");
+    }
+  }
 }
 
 function createButtonToRecordPage(tableDiv) {
