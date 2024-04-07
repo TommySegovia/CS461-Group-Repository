@@ -60,6 +60,26 @@ namespace PeakPals_Project.Controllers
                 return BadRequest(new { Message = "User not authenticated" });
             }
         }
+        
+        [HttpDelete("Test/Results/Delete/{id}/{testId}")]
+        public ActionResult DeleteTestResult(int id, int testId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (climberDTO == null || _fitnessDataEntryRepository == null)
+                {
+                    return NotFound();
+                }
+                _fitnessDataEntryService.DeleteTestResult(id, testId, climberDTO.Id);
+                return Ok(new { Message = "Test Deleted" });
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
+        }
+        
 
         [HttpGet("Test/Results/MostRecent/{testId}")]
         public ActionResult<object> GetMostRecentUserTestValueAndBodyWeight(int testId)

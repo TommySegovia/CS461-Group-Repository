@@ -25,3 +25,9 @@
     border: 1px solid black;
     font-family: "Sriracha", cursive;
 }   
+
+.deleteButton{
+    border: 1px solid black;
+    font-family: "Sriracha", cursive;
+    border-radius: 5px;
+}
