@@ -42,6 +42,21 @@ public class FitnessDataEntryService : IFitnessDataEntryService
         _context.SaveChanges();
     }
 
+    public void DeleteTestResult(int id, int testId, int climberId)
+    {
+        FitnessDataEntry fitnessDataEntry = _fitnessDataEntryRepository.FindById(id);
+        if (fitnessDataEntry == null)
+        {
+            return;
+        }
+        if (fitnessDataEntry.ClimberId != climberId || fitnessDataEntry.TestId != testId)
+        {
+            return;
+        }
+        _fitnessDataEntryRepository.Delete(fitnessDataEntry);
+        _context.SaveChanges();
+    }
+
     public void GenerateGraphsWithRecordHistory(List<FitnessDataEntryDTO> fitnessDataEntryListDTO, int testId)
     {
         if (testId == 3 || testId == 4) //generate a graph based on flexibility
