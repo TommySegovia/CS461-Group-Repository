@@ -12,14 +12,14 @@ const testData = [
 ];
 
 function initializePage() {
-  console.log("Report.js loaded");
+  //console.log("Report.js loaded");
 
   //filter form
 
   var filterForm = document.getElementById('filter-form');
   filterForm.addEventListener('submit', function (event) {
     event.preventDefault();
-    console.log("Filter button clicked");
+    //console.log("Filter button clicked");
     var minAge = document.getElementById('minAge').value;
     var maxAge = document.getElementById('maxAge').value;
     var gender = document.getElementById('gender').value;
@@ -58,8 +58,8 @@ function initializePage() {
 //update data
 function updateClimberData(testData, filterData) {
   try {
-    console.log(filterData);
-    console.log(testData);
+    //console.log(filterData);
+    //console.log(testData);
     testData.forEach(test => {
 
       var tableDiv = document.getElementById(test.id);
@@ -80,7 +80,7 @@ function updateClimberData(testData, filterData) {
 async function getTestRecords(testId, tableDiv, resultsDiv) {
   var response = await fetch('/api/FitnessDataEntryApi/Test/Results/' + testId);
   var data = await response.json();
-  //console.log(JSON.stringify(data));
+  //console.log("YEEEEEEER:" + JSON.stringify(data));
   if (response.ok && data.length > 0) {
     if (testId === 3 || testId === 4) { //if the test is flexibility, generate a table for flexibility tests
       createClimberFlexibilityTestTable(data, tableDiv);
@@ -248,7 +248,7 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
 
   try {
     if (testId === 0 || testId === 1 || testId === 2) { //if the test is strength, get the average of all strength tests
-      console.log("filterData: " + JSON.stringify(filterData));
+      //console.log("filterData: " + JSON.stringify(filterData));
       var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/PercentageOfBodyweight/' + testId + '/' + filterData.minAge + '/' + filterData.maxAge + '/' + filterData.gender + '/' + filterData.climbingExperience + '/' + filterData.minimumClimbingGrade + '/' + filterData.maximumClimbingGrade);
     }
     else if (testId >= 3 && testId <= 6) {
@@ -259,7 +259,7 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
     }
 
     var averageData = await averageResponse.json();
-    console.log("average: " + JSON.stringify(averageData));
+    //console.log("average: " + JSON.stringify(averageData));
     if (averageResponse.ok) {
       var average = averageData;
       var averageText = document.createElement('p');
@@ -365,6 +365,7 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
 }
 
 function createClimberStrengthTestTable(data, tableDiv) {
+  //console.log("ODDDDDDDDDD: " + JSON.stringify(data[0].id));
   // Create table
   var table = document.createElement('table');
   //make background of table white
@@ -373,7 +374,7 @@ function createClimberStrengthTestTable(data, tableDiv) {
   // Create table header
   var tableHead = document.createElement('thead');
   var headRow = document.createElement('tr');
-  var headers = ['Date', 'Body Weight', 'Added Weight',];
+  var headers = ['Date', 'Body Weight', 'Added Weight', ''];
   for (var i = 0; i < headers.length; i++) {
     var th = document.createElement('th');
     th.appendChild(document.createTextNode(headers[i]));
@@ -388,17 +389,43 @@ function createClimberStrengthTestTable(data, tableDiv) {
     var date = document.createElement('td');
     var bodyWeight = document.createElement('td');
     var addedWeight = document.createElement('td');
+
+    var deleteCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
+    deleteCell.appendChild(deleteButton);
+
     date.appendChild(document.createTextNode(new Date(data[i].entryDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })));
     bodyWeight.appendChild(document.createTextNode(data[i].bodyWeight));
     addedWeight.appendChild(document.createTextNode(data[i].result));
     row.appendChild(date);
     row.appendChild(bodyWeight);
     row.appendChild(addedWeight);
+    row.appendChild(deleteCell);
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
   // Add table to page
   tableDiv.appendChild(table);
+}
+
+function deleteTest(id, testId) {
+  console.log("ID: " + id);
+  console.log("TESTID: " + testId);
+  return async function () {
+    var response = await fetch('/api/FitnessDataEntryApi/Test/Results/Delete/' + id + '/' + testId, {
+      method: 'DELETE'
+    });
+    if (response.ok) {
+      console.log("Test deleted");
+      location.reload();
+    }
+    else {
+      console.log("Test not deleted");
+    }
+  }
 }
 
 function createClimberFlexibilityTestTable(data, tableDiv) {
@@ -424,10 +451,19 @@ function createClimberFlexibilityTestTable(data, tableDiv) {
     var row = document.createElement('tr');
     var date = document.createElement('td');
     var result = document.createElement('td');
+
+    var deleteCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
+    deleteCell.appendChild(deleteButton);
+
     date.appendChild(document.createTextNode(new Date(data[i].entryDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })));
     result.appendChild(document.createTextNode(data[i].result));
     row.appendChild(date);
     row.appendChild(result);
+    row.appendChild(deleteCell);
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
@@ -458,10 +494,19 @@ function createClimberRepeaterTestTable(data, tableDiv) {
     var row = document.createElement('tr');
     var date = document.createElement('td');
     var result = document.createElement('td');
+
+    var deleteCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
+    deleteCell.appendChild(deleteButton);
+
     date.appendChild(document.createTextNode(new Date(data[i].entryDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })));
     result.appendChild(document.createTextNode(data[i].result));
     row.appendChild(date);
     row.appendChild(result);
+    row.appendChild(deleteCell);
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
@@ -492,10 +537,19 @@ function createClimberSmallestEdgeTestTable(data, tableDiv) {
     var row = document.createElement('tr');
     var date = document.createElement('td');
     var result = document.createElement('td');
+
+    var deleteCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
+    deleteCell.appendChild(deleteButton);
+
     date.appendChild(document.createTextNode(new Date(data[i].entryDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })));
     result.appendChild(document.createTextNode(data[i].result));
     row.appendChild(date);
     row.appendChild(result);
+    row.appendChild(deleteCell);
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
@@ -526,10 +580,19 @@ function createClimberCampusBoardTestTable(data, tableDiv) {
     var row = document.createElement('tr');
     var date = document.createElement('td');
     var result = document.createElement('td');
+
+    var deleteCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
+    deleteCell.appendChild(deleteButton);
+
     date.appendChild(document.createTextNode(new Date(data[i].entryDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })));
     result.appendChild(document.createTextNode(data[i].result.toString().split("").join("-")));
     row.appendChild(date);
     row.appendChild(result);
+    row.appendChild(deleteCell);
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
