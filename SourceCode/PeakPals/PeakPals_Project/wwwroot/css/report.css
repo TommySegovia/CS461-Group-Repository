@@ -17,3 +17,17 @@
     font-size: 1.5em;
     font-family: "Sriracha", cursive;
 }
+
+
+#filterButtonSubmit{
+    background-color: #ffa500;
+    color: black;
+    border: 1px solid black;
+    font-family: "Sriracha", cursive;
+}   
+
+.deleteButton{
+    border: 1px solid black;
+    font-family: "Sriracha", cursive;
+    border-radius: 5px;
+}

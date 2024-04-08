@@ -14,6 +14,18 @@ body {
 
 a, p {
     color: #ffffff !important;
+    text-shadow: 1px 1px 2px black;
+}
+
+
+.alert {
+    background-color: #ffa500;
+    
+}
+
+.alert-success {
+    color: white;
+    text-shadow: 1px 1px 2px black;
 }
 
 a:hover {

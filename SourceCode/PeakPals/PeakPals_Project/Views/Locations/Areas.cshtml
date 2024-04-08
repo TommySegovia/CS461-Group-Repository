@@ -10,73 +10,149 @@
 </script>
 
 
-<body>
-
-    <h1>Area: @Model.Area.Area_Name</h1> 
-
-    <h4>ID: @Model.Area.Uuid</h4>
-
+<body id="area-body">
     <hr>
-
-    <h4>Ancestors:</h4>
-
-    <h5 id="areas-ancestor-links"></h5>
-
-    <hr>
-
-    <h4>Description:</h4>
-    <h6>@Model.Area.Content.Description</h6>
-
-    <hr>
-
-    <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng">Latitude and Longitude: @Model.Area.Metadata.Lat, @Model.Area.Metadata.Lng</a>
-
-    <hr>
-
-    @if (Model.Area.Children != null && Model.Area.Children.Count > 0)
-    {
-        <h5>Children:</h5>
-        @foreach (var child in Model.Area.Children)
-        {
-            
-            <div class="table">
-                <div class="row">
-                    <p>Area Name: @child.Area_Name</p>
-                </div>
-                <div class="row">
-                    <a href="/locations/areas/@child.Uuid">ID: @child.Uuid</a>
-                </div>
-                <div class="row">
-                    <a href="https://www.google.com/maps/place/@child.Metadata.Lat,@child.Metadata.Lng" id="child-coords">Lat, Long: @child.Metadata.Lat, @child.Metadata.Lng</a>
-                </div>
+    <div class="container border border-dark" id="locations-pages-box">
+        <div class="row">
+            <div class="col col-12">
+                <b>
+                    <h6 id="areas-ancestor-links"></h6>
+                </b>
             </div>
+        </div>
+        <hr>
+        <div class="row my-5 p-2">
+            <div class="col col-5">
+                <h1 id="pages-title-name"><b>@Model.Area.Area_Name</b></h1>
+            </div>
+            <div class="col col-1"></div>
+            <div class="col col-6" id="pages-description">
+                <h5>Description:</h5>
+                @if (@Model.Area.Content == null || string.IsNullOrWhiteSpace(@Model.Area.Content.Description))
+                {
+                    <h4 class="my-5">No information available.</h4>
+                }
+                else
+                {
+                    <h4 class="my-5">@Model.Area.Content.Description</h4>
+                }
 
-            <hr>
-        }
-    }
-    
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-6">
+                <p class="my-0">Latitude and Longitude:</p>
+                <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng">@Model.Area.Metadata.Lat,
+                    @Model.Area.Metadata.Lng</a>
+            </div>
+            <div class="col col-6">
+
+            </div>
+        </div>
+
+    </div>
+
     <hr>
 
-    @if (Model.Area.Climbs != null && Model.Area.Climbs.Count > 0) 
-    {
-
-        <h5>Climbs:</h5>
-        @foreach (var climb in Model.Area.Climbs)
+    <div>
+        @if (Model.Area.Children != null && Model.Area.Children.Count > 0)
         {
-            <div class="table">
-                <div class="row">
-                    <p>Climb Name: @climb.Name</p>
-                </div>
-                <div class="row">
-                    <p>Climb ID: @climb.Uuid</p>
-                </div>
-            </div>
-            
-            <a href="https://www.google.com/maps/place/@climb.Metadata.Lat,@climb.Metadata.Lng" id="climb-coords">Lat, Long: @climb.Metadata.Lat, @climb.Metadata.Lng</a>
-            <hr>
+            <h3 class="mx-3 my-4 card-descript"><u><b>Children:</b></u></h3>
+            @for (var i = 0; i < Model.Area.Children.Count; i += 3)
+            {
 
+                <div class="row" id="card-rows">
+                    <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+                        <div class="table">
+                            <a href="/locations/areas/@Model.Area.Children[i].Uuid"
+                                class="text-white card-title"><b>@Model.Area.Children[i].Area_Name</b></a>
+                            <br>
+                            <a href="https://www.google.com/maps/place/@Model.Area.Children[i].Metadata.Lat,@Model.Area.Children[i].Metadata.Lng"
+                                id="child-coords" class="small">Lat, Long: @Model.Area.Children[i].Metadata.Lat,
+                                @Model.Area.Children[i].Metadata.Lng</a>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    @if (i + 1 < Model.Area.Children.Count)
+                    {
+                        <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+                            <div class="table">
+                                <a href="/locations/areas/@Model.Area.Children[i + 1].Uuid" class="text-white card-title"><b>@Model.Area.Children[i + 1].Area_Name</b></a>
+                                <br>
+                                <a href="https://www.google.com/maps/place/@Model.Area.Children[i + 1].Metadata.Lat,@Model.Area.Children[i + 1].Metadata.Lng"
+                                    id="child-coords" class="small">Lat, Long: @Model.Area.Children[i + 1].Metadata.Lat,
+                                    @Model.Area.Children[i + 1].Metadata.Lng</a>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    }
+                    @if (i + 2 < Model.Area.Children.Count)
+                    {
+                        <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+
+                            <div class="table">
+                                <a href="/locations/areas/@Model.Area.Children[i + 2].Uuid" class="text-white card-title"><b>@Model.Area.Children[i + 2].Area_Name</b></a>
+                                <br>
+                                <a href="https://www.google.com/maps/place/@Model.Area.Children[i + 2].Metadata.Lat,@Model.Area.Children[i + 2].Metadata.Lng"
+                                    id="child-coords" class="small">Lat, Long: @Model.Area.Children[i + 2].Metadata.Lat,
+                                    @Model.Area.Children[i + 2].Metadata.Lng</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
         }
-    }
+        
+
+        @if (Model.Area.Climbs != null && Model.Area.Climbs.Count > 0)
+        {
+            <h4 class="mx-3 my-4 card-descript"><u><b>Climbs:</b></u></h4>
+            @for (var i = 0; i < Model.Area.Climbs.Count; i += 3)
+            {
+
+                <div class="row" id="card-rows">
+                    <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+                        <div class="table">
+                            <a href="/locations/climbs/@Model.Area.Climbs[i].Uuid"
+                                class="text-white card-title"><b>@Model.Area.Climbs[i].Name</b></a>
+                            <br>
+                            <a href="https://www.google.com/maps/place/@Model.Area.Climbs[i].Metadata.Lat,@Model.Area.Climbs[i].Metadata.Lng"
+                                id="child-coords" class="small">Lat, Long: @Model.Area.Climbs[i].Metadata.Lat,
+                                @Model.Area.Climbs[i].Metadata.Lng</a>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    @if (i + 1 < Model.Area.Climbs.Count)
+                    {
+                        <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+                            <div class="table">
+                                <a href="/locations/climbs/@Model.Area.Climbs[i + 1].Uuid" class="text-white card-title"><b>@Model.Area.Climbs[i + 1].Name</b></a>
+                                <br>
+                                <a href="https://www.google.com/maps/place/@Model.Area.Climbs[i + 1].Metadata.Lat,@Model.Area.Climbs[i + 1].Metadata.Lng"
+                                    id="child-coords" class="small">Lat, Long: @Model.Area.Climbs[i + 1].Metadata.Lat,
+                                    @Model.Area.Climbs[i + 1].Metadata.Lng</a>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    }
+                    @if (i + 2 < Model.Area.Climbs.Count)
+                    {
+                        <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+
+                            <div class="table">
+                                <a href="/locations/climbs/@Model.Area.Climbs[i + 2].Uuid" class="text-white card-title"><b>@Model.Area.Climbs[i + 2].Name</b></a>
+                                <br>
+                                <a href="https://www.google.com/maps/place/@Model.Area.Climbs[i + 2].Metadata.Lat,@Model.Area.Climbs[i + 2].Metadata.Lng"
+                                    id="child-coords" class="small">Lat, Long: @Model.Area.Climbs[i + 2].Metadata.Lat,
+                                    @Model.Area.Climbs[i + 2].Metadata.Lng</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+
 
 </body>
 

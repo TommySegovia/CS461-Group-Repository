@@ -68,7 +68,7 @@ public class LocationsApiControllerTests
          // Arrange
         var mockService = new Mock<IOpenBetaApiService>();
         var openBetaQueryResult = new OpenBetaQueryResult {};
-        mockService.Setup(s => s.FindMatchingAreas(It.IsAny<string>())).ReturnsAsync(openBetaQueryResult);
+        mockService.Setup(s => s.FindMatchingAreas(It.IsAny<string>(), 8)).ReturnsAsync(openBetaQueryResult);
         var apiController = new LocationsApiController(mockService.Object, _logger);
 
         string query = "hello";
@@ -114,8 +114,8 @@ public class LocationsApiControllerTests
     {
          // Arrange
         var mockService = new Mock<IOpenBetaApiService>();
-        var openBetaQueryResult = new OBArea {};
-        mockService.Setup(s => s.FindAreaById(It.IsAny<string>())).ReturnsAsync(openBetaQueryResult);
+        var OBArea = new OBArea {};
+        mockService.Setup(s => s.FindAreaById(It.IsAny<string>())).ReturnsAsync(OBArea);
         var apiController = new LocationsApiController(mockService.Object, _logger);
 
         string query = "hello";
@@ -161,8 +161,8 @@ public class LocationsApiControllerTests
     {
          // Arrange
         var mockService = new Mock<IOpenBetaApiService>();
-        var openBetaQueryResult = new OBArea {};
-        mockService.Setup(s => s.FindAncestorNameByAreaId(It.IsAny<string>())).ReturnsAsync(openBetaQueryResult);
+        var OBArea = new OBArea {};
+        mockService.Setup(s => s.FindAncestorNameByAreaId(It.IsAny<string>())).ReturnsAsync(OBArea);
         var apiController = new LocationsApiController(mockService.Object, _logger);
 
         string query = "hello";
@@ -173,4 +173,99 @@ public class LocationsApiControllerTests
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result.Result);
     }
+
+    [Test]
+    public void FindAllMatchingClimbs_WhenCalledAndWhenGivenNullString_ReturnsWithBadRequest()
+    {
+        // Arrange
+        string query = null;
+
+        // Act
+        var response = _apiController.FindAllMatchingClimbs(query);
+
+        // Assert
+        Assert.IsInstanceOf<BadRequestObjectResult>(response.Result.Result);
+
+    }
+
+    [Test]
+    public void FindAllMatchingClimbs_WhenCalledAndResponseIsNull_ReturnsWithNotFoundError()
+    {
+        // Arrange
+        string query = "192123123391023";
+
+
+        // Act
+        var response = _apiController.FindAllMatchingClimbs(query);
+
+
+        // Assert
+        Assert.IsInstanceOf<NotFoundObjectResult>(response.Result.Result);
+    }
+
+    [Test]
+    public void FindAllMatchingClimbs_WhenCalledAndCorrect_ReturnsWithOkObject()
+    {
+         // Arrange
+        var mockService = new Mock<IOpenBetaApiService>();
+        var openBetaQueryResult = new OpenBetaQueryResult {};
+        mockService.Setup(s => s.FindMatchingAreas(It.IsAny<string>(), 200)).ReturnsAsync(openBetaQueryResult);
+        var apiController = new LocationsApiController(mockService.Object, _logger);
+
+        string query = "hello";
+
+        // Act
+        var response = apiController.FindAllMatchingClimbs(query);
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(response.Result.Result);
+    }
+
+    [Test]
+    public void FindClimbById_WhenCalledAndWhenGivenNullString_ReturnsWithBadRequest()
+    {
+        // Arrange
+        string query = null;
+
+        // Act
+        var response = _apiController.FindClimbById(query);
+
+        // Assert
+        Assert.IsInstanceOf<BadRequestObjectResult>(response.Result.Result);
+
+    }
+
+    [Test]
+    public void FindClimbById_WhenCalledAndResponseIsNull_ReturnsWithNotFoundError()
+    {
+        // Arrange
+        string query = "192123123391023";
+
+
+        // Act
+        var response = _apiController.FindClimbById(query);
+
+
+        // Assert
+        Assert.IsInstanceOf<NotFoundObjectResult>(response.Result.Result);
+    }
+
+    [Test]
+    public void FindClimbById_WhenCalledAndCorrect_ReturnsWithOkObject()
+    {
+         // Arrange
+        var mockService = new Mock<IOpenBetaApiService>();
+        var OBClimb = new OBClimb {};
+        mockService.Setup(s => s.FindClimbById(It.IsAny<string>())).ReturnsAsync(OBClimb);
+        var apiController = new LocationsApiController(mockService.Object, _logger);
+
+        string query = "hello";
+
+        // Act
+        var response = apiController.FindClimbById(query);
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(response.Result.Result);
+    }
+
 }

@@ -1,33 +1,86 @@
 document.addEventListener('DOMContentLoaded', initializePage);
 
-function initializePage() {
-  console.log("Report.js loaded");
+const testData = [
+  { index: 0, id: 'hang-test-table',recentId: 'hang-test-recent', averageId: 'hang-test-average', resultsId: 'hang-test-results' },
+  { index: 1, id: 'pull-test-table', recentId: 'pull-test-recent', averageId: 'pull-test-average', resultsId: 'pull-test-results' },
+  { index: 2, id: 'hammerCurl-test-table', recentId: 'hammerCurl-test-recent', averageId: 'hammerCurl-test-average', resultsId: 'hammerCurl-test-results' },
+  { index: 3, id: 'hipFlexibility-test-table', recentId: 'hipFlexibility-test-recent', averageId: 'hipFlexibility-test-average', resultsId: 'hipFlexibility-test-results' },
+  { index: 4, id: 'hamstringFlexibility-test-table', recentId: 'hamstringFlexibility-test-recent', averageId: 'hamstringFlexibility-test-average', resultsId: 'hamstringFlexibility-test-results' },
+  { index: 5, id: 'repeater-test-table', recentId: 'repeater-test-recent', averageId: 'repeater-test-average', resultsId: 'repeater-test-results' },
+  { index: 6, id: 'smallestEdge-test-table', recentId: 'smallestEdge-test-recent', averageId: 'smallestEdge-test-average', resultsId: 'smallestEdge-test-results' },
+  { index: 7, id: 'campusBoard-test-table', recentId: 'campusBoard-test-recent', averageId: 'campusBoard-test-average', resultsId: 'campusBoard-test-results' }
+];
 
-  const testData = [
-    { index: 0, id: 'hang-test-table', averageId: 'hang-test-average', resultsId: 'hang-test-results'},
-    { index: 1, id: 'pull-test-table', averageId: 'pull-test-average', resultsId: 'pull-test-results'},
-    { index: 2, id: 'hammerCurl-test-table', averageId: 'hammerCurl-test-average', resultsId: 'hammerCurl-test-results'},
-    { index: 3, id: 'hipFlexibility-test-table', averageId: 'hipFlexibility-test-average', resultsId: 'hipFlexibility-test-results'},
-    { index: 4, id: 'hamstringFlexibility-test-table', averageId: 'hamstringFlexibility-test-average', resultsId: 'hamstringFlexibility-test-results'},
-    { index: 5, id: 'repeater-test-table', averageId: 'repeater-test-average', resultsId: 'repeater-test-results'},
-    { index: 6, id: 'smallestEdge-test-table', averageId: 'smallestEdge-test-average', resultsId: 'smallestEdge-test-results'},
-    { index: 7, id: 'campusBoard-test-table', averageId: 'campusBoard-test-average', resultsId: 'campusBoard-test-results'}
-  ];
+function initializePage() {
+  //console.log("Report.js loaded");
+
+  //filter form
+
+  var filterForm = document.getElementById('filter-form');
+  filterForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    //console.log("Filter button clicked");
+    var minAge = document.getElementById('minAge').value;
+    var maxAge = document.getElementById('maxAge').value;
+    var gender = document.getElementById('gender').value;
+    var climbingExperience = document.getElementById('climbingExperience').value;
+    var minimumClimbingGrade = document.getElementById('minimumClimbingGrade').value;
+    var maximumClimbingGrade = document.getElementById('maximumClimbingGrade').value;
+    //create a object to store the filter data
+    var filterData = {
+      minAge: minAge,
+      maxAge: maxAge,
+      gender: gender,
+      climbingExperience: climbingExperience,
+      minimumClimbingGrade: minimumClimbingGrade,
+      maximumClimbingGrade: maximumClimbingGrade
+    };
+    try {
+      updateClimberData(testData, filterData);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  });
+
+
 
   testData.forEach(test => {
     var tableDiv = document.getElementById(test.id);
     var averageDiv = document.getElementById(test.averageId);
+    var recentDiv = document.getElementById(test.recentId);
     var resultsDiv = document.getElementById(test.resultsId);
     getTestRecords(test.index, tableDiv, resultsDiv);
-    getTestAverage(test.index, averageDiv);
+    getTestAverage(test.index, averageDiv, recentDiv, { minAge: 0, maxAge: 100, gender: "All", climbingExperience: "All", minimumClimbingGrade: 0, maximumClimbingGrade: 100 });
   });
+}
+
+//update data
+function updateClimberData(testData, filterData) {
+  try {
+    //console.log(filterData);
+    //console.log(testData);
+    testData.forEach(test => {
+
+      var tableDiv = document.getElementById(test.id);
+      var averageDiv = document.getElementById(test.averageId);
+      var recentDiv = document.getElementById(test.recentId);
+      var resultsDiv = document.getElementById(test.resultsId);
+      //getTestRecords(test.index, tableDiv, resultsDiv);
+      getTestAverage(test.index, averageDiv, recentDiv, filterData);
+    });
+  }
+  catch (error) {
+    console.log(error);
+  }
+
 }
 
 
 async function getTestRecords(testId, tableDiv, resultsDiv) {
   var response = await fetch('/api/FitnessDataEntryApi/Test/Results/' + testId);
   var data = await response.json();
-  console.log(JSON.stringify(data));
+  //console.log("YEEEEEEER:" + JSON.stringify(data));
   if (response.ok && data.length > 0) {
     if (testId === 3 || testId === 4) { //if the test is flexibility, generate a table for flexibility tests
       createClimberFlexibilityTestTable(data, tableDiv);
@@ -93,12 +146,19 @@ async function addGraphToResults(testId) {
   }
 }
 
-async function getTestAverage(testId, averageDiv) {
+async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
   //get the most recent user test result
+
   try {
     var recentResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/MostRecent/' + testId);
     var recentData = await recentResponse.json();
-    console.log(JSON.stringify(recentData));
+    
+    //console.log(JSON.stringify(recentData));
+
+    //clear the average div
+    recentDiv.innerHTML = '';
+    averageDiv.innerHTML = '';
+
     if (recentResponse.ok) {
       var recentResult = recentData.result;
       var recentWeight = recentData.bodyWeight;
@@ -114,10 +174,10 @@ async function getTestAverage(testId, averageDiv) {
         recentText.appendChild(resultNode);
         recentText.appendChild(br1);
 
-        averageDiv.appendChild(recentText);
+        recentDiv.appendChild(recentText);
       }
-       //repeater test
-      else if (testId === 5){
+      //repeater test
+      else if (testId === 5) {
         var resultText = 'Recent Test: ' + recentResult + ' seconds';
 
         var resultNode = document.createTextNode(resultText);
@@ -126,10 +186,10 @@ async function getTestAverage(testId, averageDiv) {
         recentText.appendChild(resultNode);
         recentText.appendChild(br1);
 
-        averageDiv.appendChild(recentText);
+        recentDiv.appendChild(recentText);
       }
       //smallest edge test
-      else if (testId === 6){
+      else if (testId === 6) {
         var resultText = 'Recent Test: ' + recentResult + ' mm';
 
         var resultNode = document.createTextNode(resultText);
@@ -138,10 +198,10 @@ async function getTestAverage(testId, averageDiv) {
         recentText.appendChild(resultNode);
         recentText.appendChild(br1);
 
-        averageDiv.appendChild(recentText);
+        recentDiv.appendChild(recentText);
       }
       //campus board test
-      else if (testId === 7){
+      else if (testId === 7) {
         var resultText = 'Recent Test: ' + (recentResult.toString().split("").join("-"));
 
         var resultNode = document.createTextNode(resultText);
@@ -150,7 +210,7 @@ async function getTestAverage(testId, averageDiv) {
         recentText.appendChild(resultNode);
         recentText.appendChild(br1);
 
-        averageDiv.appendChild(recentText);
+        recentDiv.appendChild(recentText);
       }
       else {
         var resultText = 'Recent Test: ' + recentResult + ' lbs';
@@ -169,7 +229,7 @@ async function getTestAverage(testId, averageDiv) {
         recentText.appendChild(br2);
         recentText.appendChild(ratioNode);
 
-        averageDiv.appendChild(recentText);
+        recentDiv.appendChild(recentText);
       }
 
 
@@ -178,33 +238,28 @@ async function getTestAverage(testId, averageDiv) {
     else {
       var noResults = document.createElement('p');
       noResults.appendChild(document.createTextNode('No Recent Test Found'));
-      averageDiv.appendChild(noResults);
+      recentDiv.appendChild(noResults);
     }
   }
   catch (error) {
     console.log(error);
-    averageDiv.appendChild(document.createTextNode('No recent test found'));
+    recentDiv.appendChild(document.createTextNode('No recent test found'));
   }
 
   try {
     if (testId === 0 || testId === 1 || testId === 2) { //if the test is strength, get the average of all strength tests
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/' + testId);
+      //console.log("filterData: " + JSON.stringify(filterData));
+      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/PercentageOfBodyweight/' + testId + '/' + filterData.minAge + '/' + filterData.maxAge + '/' + filterData.gender + '/' + filterData.climbingExperience + '/' + filterData.minimumClimbingGrade + '/' + filterData.maximumClimbingGrade);
     }
-    else if (testId === 3 || testId === 4) { //if the test is flexibility, get the average of all flexibility tests
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/Flexibility/' + testId);
-    }
-    else if (testId === 5) { //if the test is repeater, get the average of all repeater tests
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/Repeater/' + testId);
-    }
-    else if (testId === 6) { //if the test is smallest edge, get the average of all smallest edge tests
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/SmallestEdge/' + testId);
+    else if (testId >= 3 && testId <= 6) {
+      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/Average/All/' + testId + '/' + filterData.minAge + '/' + filterData.maxAge + '/' + filterData.gender + '/' + filterData.climbingExperience + '/' + filterData.minimumClimbingGrade + '/' + filterData.maximumClimbingGrade);
     }
     else if (testId === 7) { //if the test is campus board, get the average of all campus board tests
-      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/MostCommon/All/CampusBoard/' + testId);
+      var averageResponse = await fetch('/api/FitnessDataEntryApi/Test/Results/MostCommon/All/CampusBoard/' + testId + '/' + filterData.minAge + '/' + filterData.maxAge + '/' + filterData.gender + '/' + filterData.climbingExperience + '/' + filterData.minimumClimbingGrade + '/' + filterData.maximumClimbingGrade);
     }
 
     var averageData = await averageResponse.json();
-    console.log(JSON.stringify(averageData));
+    //console.log("average: " + JSON.stringify(averageData));
     if (averageResponse.ok) {
       var average = averageData;
       var averageText = document.createElement('p');
@@ -226,7 +281,7 @@ async function getTestAverage(testId, averageDiv) {
 
       averageDiv.appendChild(averageText);
       //your score is x% higher/lower than the average
-      if (testId === 0 || testId === 1 || testId ===2) { //if the test is not a flexibility test, calculate the percent difference based on the weight
+      if (testId === 0 || testId === 1 || testId === 2) { //if the test is not a flexibility test, calculate the percent difference based on the weight
         var percentDifference = ((recentResult / recentWeight) / average * 100 - 100).toFixed(0);
         var percentDifferenceText = document.createElement('p');
         if (percentDifference > 0) {
@@ -304,12 +359,13 @@ async function getTestAverage(testId, averageDiv) {
     }
   }
   catch (error) {
-    console.log('No average found');
+    console.log(error);
     averageDiv.appendChild(document.createTextNode('No average found'));
   }
 }
 
 function createClimberStrengthTestTable(data, tableDiv) {
+  //console.log("ODDDDDDDDDD: " + JSON.stringify(data[0].id));
   // Create table
   var table = document.createElement('table');
   //make background of table white
@@ -318,7 +374,7 @@ function createClimberStrengthTestTable(data, tableDiv) {
   // Create table header
   var tableHead = document.createElement('thead');
   var headRow = document.createElement('tr');
-  var headers = ['Date', 'Body Weight', 'Added Weight',];
+  var headers = ['Date', 'Body Weight', 'Added Weight', ''];
   for (var i = 0; i < headers.length; i++) {
     var th = document.createElement('th');
     th.appendChild(document.createTextNode(headers[i]));
@@ -333,12 +389,22 @@ function createClimberStrengthTestTable(data, tableDiv) {
     var date = document.createElement('td');
     var bodyWeight = document.createElement('td');
     var addedWeight = document.createElement('td');
+
+    var deleteCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.classList.add('deleteButton');
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
+    deleteCell.appendChild(deleteButton);
+
     date.appendChild(document.createTextNode(new Date(data[i].entryDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })));
     bodyWeight.appendChild(document.createTextNode(data[i].bodyWeight));
     addedWeight.appendChild(document.createTextNode(data[i].result));
     row.appendChild(date);
     row.appendChild(bodyWeight);
     row.appendChild(addedWeight);
+    row.appendChild(deleteCell);
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
@@ -369,10 +435,20 @@ function createClimberFlexibilityTestTable(data, tableDiv) {
     var row = document.createElement('tr');
     var date = document.createElement('td');
     var result = document.createElement('td');
+
+    var deleteCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.classList.add('deleteButton');
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
+    deleteCell.appendChild(deleteButton);
+
     date.appendChild(document.createTextNode(new Date(data[i].entryDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })));
     result.appendChild(document.createTextNode(data[i].result));
     row.appendChild(date);
     row.appendChild(result);
+    row.appendChild(deleteCell);
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
@@ -403,10 +479,20 @@ function createClimberRepeaterTestTable(data, tableDiv) {
     var row = document.createElement('tr');
     var date = document.createElement('td');
     var result = document.createElement('td');
+
+    var deleteCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.classList.add('deleteButton');
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
+    deleteCell.appendChild(deleteButton);
+
     date.appendChild(document.createTextNode(new Date(data[i].entryDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })));
     result.appendChild(document.createTextNode(data[i].result));
     row.appendChild(date);
     row.appendChild(result);
+    row.appendChild(deleteCell);
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
@@ -437,10 +523,20 @@ function createClimberSmallestEdgeTestTable(data, tableDiv) {
     var row = document.createElement('tr');
     var date = document.createElement('td');
     var result = document.createElement('td');
+
+    var deleteCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.classList.add('deleteButton');
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
+    deleteCell.appendChild(deleteButton);
+
     date.appendChild(document.createTextNode(new Date(data[i].entryDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })));
     result.appendChild(document.createTextNode(data[i].result));
     row.appendChild(date);
     row.appendChild(result);
+    row.appendChild(deleteCell);
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
@@ -471,15 +567,42 @@ function createClimberCampusBoardTestTable(data, tableDiv) {
     var row = document.createElement('tr');
     var date = document.createElement('td');
     var result = document.createElement('td');
+
+    var deleteCell = document.createElement('td');
+    var deleteButton = document.createElement('button');
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.classList.add('deleteButton');
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
+    deleteCell.appendChild(deleteButton);
+
     date.appendChild(document.createTextNode(new Date(data[i].entryDate).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })));
     result.appendChild(document.createTextNode(data[i].result.toString().split("").join("-")));
     row.appendChild(date);
     row.appendChild(result);
+    row.appendChild(deleteCell);
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
   // Add table to page
   tableDiv.appendChild(table);
+}
+
+function deleteTest(id, testId) {
+  console.log("ID: " + id);
+  console.log("TESTID: " + testId);
+  return async function () {
+    var response = await fetch('/api/FitnessDataEntryApi/Test/Results/Delete/' + id + '/' + testId, {
+      method: 'DELETE'
+    });
+    if (response.ok) {
+      console.log("Test deleted");
+      location.reload();
+    }
+    else {
+      console.log("Test not deleted");
+    }
+  }
 }
 
 function createButtonToRecordPage(tableDiv) {
