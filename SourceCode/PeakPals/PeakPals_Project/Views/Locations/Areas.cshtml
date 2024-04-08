@@ -9,7 +9,6 @@
     window.areaPageAncestors = @Html.Raw(jsonAncestors);
 </script>
 
-
 <body id="area-body">
     <hr>
     <div class="container border border-dark" id="locations-pages-box">
@@ -153,12 +152,22 @@
         }
     </div>
 
+<div id="map"></div>
 
 </body>
 
 @section Scripts
 {
     <script type="module" src="~/js/site.js"></script>
+    <script>
+        const map = new maplibregl.Map({
+            container: 'map', // container id
+            style: 'https://demotiles.maplibre.org/style.json', // style URL
+            center: [0, 0], // starting position [lng, lat]
+            zoom: 1, // starting zoom
+            maplibreLogo: true
+        });
+    </script>
 }
 
 @section Styles {
