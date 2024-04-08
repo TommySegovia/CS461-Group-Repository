@@ -16,22 +16,26 @@
                 <label asp-for="Username" class="form-label"></label>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Age" class="form-control" />
+                <input min="1" max="100" asp-for="Input.Age" class="form-control" />
                 <label asp-for="Input.Age"></label>
                 <span asp-validation-for="Input.Age" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Gender" class="form-control" />
+                <select asp-for="Input.Gender" class="form-control">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
                 <label asp-for="Input.Gender"></label>
                 <span asp-validation-for="Input.Gender" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Height" class="form-control" />
+                <input min="1" max="100" asp-for="Input.Height" class="form-control" />
                 <label asp-for="Input.Height"></label>
                 <span asp-validation-for="Input.Height" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Weight" class="form-control" />
+                <input min="1" asp-for="Input.Weight" class="form-control" />
                 <label asp-for="Input.Weight"></label>
                 <span asp-validation-for="Input.Weight" class="text-danger"></span>
             </div>
@@ -45,12 +49,31 @@
                 <span asp-validation-for="Input.ClimbingExperience" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.MaxClimbGrade" class="form-control" />
+                <select asp-for="Input.MaxClimbGrade" class="form-control">
+                    <option value="0">V0</option>
+                    <option value="1">V1</option>
+                    <option value="2">V2</option>
+                    <option value="3">V3</option>
+                    <option value="4">V4</option>
+                    <option value="5">V5</option>
+                    <option value="6">V6</option>
+                    <option value="7">V7</option>
+                    <option value="8">V8</option>
+                    <option value="9">V9</option>
+                    <option value="10">V10</option>
+                    <option value="11">V11</option>
+                    <option value="12">V12</option>
+                    <option value="13">V13</option>
+                    <option value="14">V14</option>
+                    <option value="15">V15</option>
+                    <option value="16">V16</option>
+                    <option value="17">V17</option>
+                </select>
                 <label asp-for="Input.MaxClimbGrade"></label>
                 <span asp-validation-for="Input.MaxClimbGrade" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
+                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number." />
                 <label asp-for="Input.PhoneNumber" class="form-label"></label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>

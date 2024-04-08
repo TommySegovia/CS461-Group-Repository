@@ -12,6 +12,9 @@ using PeakPals_Project.DAL.Abstract;
 using PeakPals_Project.ExtensionMethods;
 using PeakPals_Project.Services;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using PeakPals_Project.Areas.Identity.Data;
+
 
 namespace PeakPals_Project.Controllers
 {
@@ -23,14 +26,17 @@ namespace PeakPals_Project.Controllers
         private readonly IClimberService _climberService;
         private readonly IFitnessDataEntryRepository _fitnessDataEntryRepository;
         private readonly IClimberRepository _climberRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public FitnessDataEntryApiController(IFitnessDataEntryService fitnessDataEntryService, IClimberService climberService,
-                                             IFitnessDataEntryRepository fitnessDataEntryRepository, IClimberRepository climberRepository)
+                                             IFitnessDataEntryRepository fitnessDataEntryRepository, IClimberRepository climberRepository,
+                                             UserManager<ApplicationUser> userManager)
         {
             _fitnessDataEntryService = fitnessDataEntryService;
             _climberService = climberService;
             _fitnessDataEntryRepository = fitnessDataEntryRepository;
             _climberRepository = climberRepository;
+            _userManager = userManager;
         }
 
         [HttpGet("Test/Results/{testId}")]
@@ -54,6 +60,26 @@ namespace PeakPals_Project.Controllers
                 return BadRequest(new { Message = "User not authenticated" });
             }
         }
+        
+        [HttpDelete("Test/Results/Delete/{id}/{testId}")]
+        public ActionResult DeleteTestResult(int id, int testId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (climberDTO == null || _fitnessDataEntryRepository == null)
+                {
+                    return NotFound();
+                }
+                _fitnessDataEntryService.DeleteTestResult(id, testId, climberDTO.Id);
+                return Ok(new { Message = "Test Deleted" });
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
+        }
+        
 
         [HttpGet("Test/Results/MostRecent/{testId}")]
         public ActionResult<object> GetMostRecentUserTestValueAndBodyWeight(int testId)
@@ -86,8 +112,8 @@ namespace PeakPals_Project.Controllers
         }
 
 
-        [HttpGet("Test/Results/Average/All/{testId}")]
-        public ActionResult<double> GetAveragePercentageOfBodyweight(int testId)
+        [HttpGet("Test/Results/Average/All/PercentageOfBodyweight/{testId}/{minAge}/{maxAge}/{gender}/{climbingExperience}/{minimumClimbingGrade}/{maximumClimbingGrade}")]
+        public ActionResult<double> GetAveragePercentageOfBodyweight(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -95,7 +121,7 @@ namespace PeakPals_Project.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(_fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(testId));
+                return Ok(_fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(testId, minAge, maxAge, gender, climbingExperience, minimumClimbingGrade, maximumClimbingGrade));
             }
             else
             {
@@ -103,8 +129,8 @@ namespace PeakPals_Project.Controllers
             }
         }
 
-        [HttpGet("Test/Results/Average/All/Flexibility/{testId}")]
-        public ActionResult<double> GetAverageFlexibility(int testId)
+        [HttpGet("Test/Results/Average/All/{testId}/{minAge}/{maxAge}/{gender}/{climbingExperience}/{minimumClimbingGrade}/{maximumClimbingGrade}")]
+        public ActionResult<double> GetAverageResult(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -112,7 +138,7 @@ namespace PeakPals_Project.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(_fitnessDataEntryRepository.GetAverageResultFlexibility(testId));
+                return Ok(_fitnessDataEntryRepository.GetAverageResult(testId, minAge, maxAge, gender, climbingExperience, minimumClimbingGrade, maximumClimbingGrade));
             }
             else
             {
@@ -120,8 +146,8 @@ namespace PeakPals_Project.Controllers
             }
         }
 
-        [HttpGet("Test/Results/Average/All/Repeater/{testId}")]
-        public ActionResult<double> GetAverageRepeaterTest(int testId)
+        [HttpGet("Test/Results/MostCommon/All/CampusBoard/{testId}/{minAge}/{maxAge}/{gender}/{climbingExperience}/{minimumClimbingGrade}/{maximumClimbingGrade}")]
+        public ActionResult<double> GetMostCommonResultCampusBoard(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -129,41 +155,7 @@ namespace PeakPals_Project.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(_fitnessDataEntryRepository.GetAverageResultRepeater(testId));
-            }
-            else
-            {
-                return BadRequest(new { Message = "User not authenticated" });
-            }
-        }
-
-        [HttpGet("Test/Results/Average/All/SmallestEdge/{testId}")]
-        public ActionResult<double> GetAverageSmallestEdgeTest(int testId)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                if (_fitnessDataEntryRepository == null)
-                {
-                    return NotFound();
-                }
-                return Ok(_fitnessDataEntryRepository.GetAverageResultSmallestEdge(testId));
-            }
-            else
-            {
-                return BadRequest(new { Message = "User not authenticated" });
-            }
-        }
-
-        [HttpGet("Test/Results/MostCommon/All/CampusBoard/{testId}")]
-        public ActionResult<double> GetMostCommonResultCampusBoard(int testId)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                if (_fitnessDataEntryRepository == null)
-                {
-                    return NotFound();
-                }
-                return Ok(_fitnessDataEntryRepository.GetMostCommonResultCampusBoard(testId));
+                return Ok(_fitnessDataEntryRepository.GetMostCommonResultCampusBoard(testId, minAge, maxAge, gender, climbingExperience, minimumClimbingGrade, maximumClimbingGrade));
             }
             else
             {
@@ -174,12 +166,19 @@ namespace PeakPals_Project.Controllers
 
 
         [HttpPost("RecordTestResult")]
-        public ActionResult RecordTestResult(FitnessDataEntryDTO fitnessDataEntryDTO)
+        public async Task<ActionResult> RecordTestResult(FitnessDataEntryDTO fitnessDataEntryDTO)
         {
             if (User.Identity.IsAuthenticated)
             {
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 string? aspNetIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                //pulls the age int column from the PeakPalsAuthDb identity, AspNetUsers table for the currently logged in user
+                var user = await _userManager.FindByIdAsync(aspNetIdentityId);
+                int? age = user.Age;
+                string? gender = user.Gender;
+                string? climbingExperience = user.ClimbingExperience;
+                int? maxClimbGrade = user.MaxClimbGrade;
 
                 int? testId = fitnessDataEntryDTO.TestId;
 
@@ -198,15 +197,17 @@ namespace PeakPals_Project.Controllers
                     string firstName = "John";
                     string lastName = "Doe";
 
+
+
                     climberDTO = _climberService.AddNewClimber(aspNetIdentityId, firstName, lastName, userName);
 
-                    _fitnessDataEntryService.RecordTestResult(climberDTO.Id, testId, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
+                    _fitnessDataEntryService.RecordTestResult(climberDTO.Id, testId, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight, age, gender, climbingExperience, maxClimbGrade);
                     return Ok(new { Message = "Test Recorded" });
                 }
                 //if the climber is in the database, record the test result
                 else
                 {
-                    _fitnessDataEntryService.RecordTestResult(climberDTO.Id, testId, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight);
+                    _fitnessDataEntryService.RecordTestResult(climberDTO.Id, testId, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight, age, gender, climbingExperience, maxClimbGrade);
                     return Ok(new { Message = "Test #" + testId + " Recorded" });
                 }
             }
