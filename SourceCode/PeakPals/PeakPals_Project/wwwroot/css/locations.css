@@ -1,9 +1,11 @@
 
+
+
 #area-body
 {
   background-image: url('../images/background_image.png');
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   margin-left: auto;
   margin-right: auto;
 }
@@ -130,6 +132,8 @@
     font-family: "Sriracha";
     font-weight: 300;
     font-size: 4em;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 #areas-ancestor-links a {
@@ -154,6 +158,11 @@
 {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
+}
+
+#pages-description-text
+{
+    font-size: 1.2em;
 }
 
 .custom-card
@@ -191,6 +200,35 @@
 #card-rows
 {
     margin-left: 4em;
+}
+
+#static-map
+{
+    height: 400px;
+    width: 450px;
+    border-radius: 8px;
+    border-style: ridge;
+    border-color:orange;
+}
+
+.maplibregl-popup {
+    max-width: 400px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+#dynamic-map
+{
+    height: 1000px;
+    width: 150%;
+    left: 0;
+    right: 0;
+    margin-left: -25%;
+    margin-right: 0;
+    margin-top: 3em;
+    margin-bottom: 2em;
+    border-radius: 4px;
+    border-width: 2px;
+    border-style: solid;
 }
 
 @media (max-width: 1400px)

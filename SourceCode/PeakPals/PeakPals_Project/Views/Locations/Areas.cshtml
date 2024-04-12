@@ -21,11 +21,23 @@
         </div>
         <hr>
         <div class="row my-5 p-2">
-            <div class="col col-5">
+            <div>
                 <h1 id="pages-title-name"><b>@Model.Area.Area_Name</b></h1>
             </div>
-            <div class="col col-1"></div>
-            <div class="col col-6" id="pages-description">
+        </div>
+        <div class="row">
+            <div class="col col-5">
+                <p class="my-0">Latitude and Longitude:</p>
+                <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng">@Model.Area.Metadata.Lat,
+                    @Model.Area.Metadata.Lng</a>
+                <!-- Map -->
+                <div id="static-map" class="my-4"></div>
+                <!---->
+                <div>
+                    <a href="#dynamic-map" class="btn btn-primary my-0">See Detailed Map</a>
+                </div>
+            </div>
+            <div class="col col-7"  id="pages-description">
                 <h5>Description:</h5>
                 @if (@Model.Area.Content == null || string.IsNullOrWhiteSpace(@Model.Area.Content.Description))
                 {
@@ -33,18 +45,8 @@
                 }
                 else
                 {
-                    <h4 class="my-5">@Model.Area.Content.Description</h4>
+                    <h4 class="my-5" id="pages-description-text">@Model.Area.Content.Description</h4>
                 }
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-6">
-                <p class="my-0">Latitude and Longitude:</p>
-                <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng">@Model.Area.Metadata.Lat,
-                    @Model.Area.Metadata.Lng</a>
-            </div>
-            <div class="col col-6">
 
             </div>
         </div>
@@ -76,7 +78,8 @@
                     {
                         <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
                             <div class="table">
-                                <a href="/locations/areas/@Model.Area.Children[i + 1].Uuid" class="text-white card-title"><b>@Model.Area.Children[i + 1].Area_Name</b></a>
+                                <a href="/locations/areas/@Model.Area.Children[i + 1].Uuid"
+                                    class="text-white card-title"><b>@Model.Area.Children[i + 1].Area_Name</b></a>
                                 <br>
                                 <a href="https://www.google.com/maps/place/@Model.Area.Children[i + 1].Metadata.Lat,@Model.Area.Children[i + 1].Metadata.Lng"
                                     id="child-coords" class="small">Lat, Long: @Model.Area.Children[i + 1].Metadata.Lat,
@@ -90,7 +93,8 @@
                         <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
 
                             <div class="table">
-                                <a href="/locations/areas/@Model.Area.Children[i + 2].Uuid" class="text-white card-title"><b>@Model.Area.Children[i + 2].Area_Name</b></a>
+                                <a href="/locations/areas/@Model.Area.Children[i + 2].Uuid"
+                                    class="text-white card-title"><b>@Model.Area.Children[i + 2].Area_Name</b></a>
                                 <br>
                                 <a href="https://www.google.com/maps/place/@Model.Area.Children[i + 2].Metadata.Lat,@Model.Area.Children[i + 2].Metadata.Lng"
                                     id="child-coords" class="small">Lat, Long: @Model.Area.Children[i + 2].Metadata.Lat,
@@ -101,7 +105,7 @@
                 </div>
             }
         }
-        
+
 
         @if (Model.Area.Climbs != null && Model.Area.Climbs.Count > 0)
         {
@@ -125,7 +129,8 @@
                     {
                         <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
                             <div class="table">
-                                <a href="/locations/climbs/@Model.Area.Climbs[i + 1].Uuid" class="text-white card-title"><b>@Model.Area.Climbs[i + 1].Name</b></a>
+                                <a href="/locations/climbs/@Model.Area.Climbs[i + 1].Uuid"
+                                    class="text-white card-title"><b>@Model.Area.Climbs[i + 1].Name</b></a>
                                 <br>
                                 <a href="https://www.google.com/maps/place/@Model.Area.Climbs[i + 1].Metadata.Lat,@Model.Area.Climbs[i + 1].Metadata.Lng"
                                     id="child-coords" class="small">Lat, Long: @Model.Area.Climbs[i + 1].Metadata.Lat,
@@ -139,7 +144,8 @@
                         <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
 
                             <div class="table">
-                                <a href="/locations/climbs/@Model.Area.Climbs[i + 2].Uuid" class="text-white card-title"><b>@Model.Area.Climbs[i + 2].Name</b></a>
+                                <a href="/locations/climbs/@Model.Area.Climbs[i + 2].Uuid"
+                                    class="text-white card-title"><b>@Model.Area.Climbs[i + 2].Name</b></a>
                                 <br>
                                 <a href="https://www.google.com/maps/place/@Model.Area.Climbs[i + 2].Metadata.Lat,@Model.Area.Climbs[i + 2].Metadata.Lng"
                                     id="child-coords" class="small">Lat, Long: @Model.Area.Climbs[i + 2].Metadata.Lat,
@@ -152,7 +158,12 @@
         }
     </div>
 
-<div id="map"></div>
+    <hr>
+
+    <div id="dynamic-map-box" class="my-3">
+        <div id="dynamic-map" data-latitude="@Model.Area.Metadata.Lat" data-longitude="@Model.Area.Metadata.Lng"></div>
+    </div>
+
 
 </body>
 
@@ -160,13 +171,121 @@
 {
     <script type="module" src="~/js/site.js"></script>
     <script>
-        const map = new maplibregl.Map({
-            container: 'map', // container id
-            style: 'https://demotiles.maplibre.org/style.json', // style URL
-            center: [0, 0], // starting position [lng, lat]
-            zoom: 1, // starting zoom
-            maplibreLogo: true
+
+        // static map //
+        const staticMap = new maplibregl.Map({
+            container: 'static-map', // container id
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', // style URL
+            center: [@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat], // starting position [lng, lat]
+            zoom: 9, // starting zoom
         });
+        staticMap.dragRotate.disable();
+
+        const staticMapMarker = new maplibregl.Marker()
+            .setLngLat([@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat])
+            .addTo(staticMap);
+        
+        //////////////
+
+
+        // dynamic map //
+        const dynamicMap = new maplibregl.Map({
+            container: 'dynamic-map', // container id
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', // style URL
+            center: [@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat], // starting position [lng, lat]
+            zoom: 15, // starting zoom
+        })
+
+        dynamicMap.on('load', async () => {
+            const image = await dynamicMap.loadImage('https://maplibre.org/maplibre-gl-js/docs/assets/custom_marker.png');
+            // Add an image to use as a custom marker
+            dynamicMap.addImage('custom-marker', image.data);
+
+            dynamicMap.addSource('places', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features': [
+                        {
+                            'type': 'Feature',
+                            'properties': {
+                                'description':
+                                    '@Model.Area.Area_Name',
+                            },
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat]
+                            }
+                        },
+                        {
+                            'type': 'Feature',
+                            'properties': {
+                                'description':
+                                    'Nearby Climbing Location',
+                            },
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [@Model.Area.Metadata.Lng + 0.001, @Model.Area.Metadata.Lat - 0.001]
+                            }
+                        }
+                    ]
+                }
+            });
+
+            // Add a layer showing the places.
+            dynamicMap.addLayer({
+                'id': 'places',
+                'type': 'symbol',
+                'source': 'places',
+                'layout': {
+                    'icon-image': 'circle_11',
+                    'icon-overlap': 'always',
+                    'text-field': ['get', 'description'],
+                    'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+                    'text-radial-offset': 0.5,
+                    'text-justify': 'auto',
+                }
+            });
+
+            // Create a popup, but don't add it to the map yet.
+            const popup = new maplibregl.Popup({
+                closeButton: false,
+                closeOnClick: false
+            });
+
+            dynamicMap.on('mouseenter', 'places', (e) => {
+                // Change the cursor style as a UI indicator.
+                dynamicMap.getCanvas().style.cursor = 'pointer';
+
+                const coordinates = e.features[0].geometry.coordinates.slice();
+                const description = e.features[0].properties.description;
+
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+                popup.setLngLat(coordinates).setHTML(description).addTo(dynamicMap);
+            });
+
+            dynamicMap.on('mouseleave', 'places', () => {
+                dynamicMap.getCanvas().style.cursor = '';
+                popup.remove();
+            });
+
+            dynamicMap.on('click', 'places', (e) => {
+                // depending on the place clicked, route the user to another area/climb page
+            });
+
+            dynamicMap.addControl(new maplibregl.FullscreenControl());
+            dynamicMap.addControl(new maplibregl.NavigationControl());
+        });
+        /////////////
+
     </script>
 }
 
