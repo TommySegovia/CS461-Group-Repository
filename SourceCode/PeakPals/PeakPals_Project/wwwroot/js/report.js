@@ -303,7 +303,9 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
         var percentDifferenceText = document.createElement("p");
         percentDifferenceText.innerHTML = "Your score is exactly the <span id='same-score'>same</span> as the average";
       } else {
-        percentDifferenceText.appendChild(document.createTextNode("No average found"));
+        var noAverageFoundText = document.createElement("p");
+        noAverageFoundText.appendChild(document.createTextNode("No average found"));
+        percentDifferenceText.appendChild(noAverageFoundText);
       }
       return percentDifferenceText;
   }
@@ -343,7 +345,9 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
   }
   } catch (error) {
     console.log(error);
-    averageDiv.appendChild(document.createTextNode("No average found"));
+    var noAverageFoundText = document.createElement("p");
+    noAverageFoundText.appendChild(document.createTextNode("No average found"));
+    averageDiv.appendChild(noAverageFoundText);
   }
 }
 
@@ -689,5 +693,18 @@ $(document).ready(function () {
     $(".nav-buttons").removeClass("active-tab");
     // Add the active state to the clicked tab
     $("#analysis-button").addClass("active-tab");
+  });
+});
+
+//filter button modal
+$(document).ready(function () {
+  // Show the modal when the 'filter-button' is clicked
+  $("#filter-button").click(function () {
+    $("#filterModal").modal('show');
+  });
+
+  // Hide the modal when the 'close-button' is clicked
+  $("#close-button").click(function () {
+    $("#filterModal").modal('hide');
   });
 });

@@ -44,6 +44,160 @@
             </div>
         </div>
         <div style="display: none;" id="test-analysis">
+
+            <!-- filter button for filter modal -->
+            <button class="filter-button" id="filter-button" data-toggle="modal" data-target="#filterModal">
+                <i class="fas fa-filter"></i>
+            </button>
+
+            <!-- filter modal -->
+            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-body
+                        ">
+                            <!-- Filter Form -->
+                            <form id="filter-form">
+                                <div class="container">
+                                    <div class="row justify-content-center modal-contents">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <!--minimum age-->
+                                                <div class="container">
+                                                    <div class="row modal-row">
+                                                        <div class="col">
+                                                            <h2 id="modal-header-text">Change Filter</h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row modal-row">
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="minAge" class="modal-label-text">Minimum
+                                                                    Age</label>
+                                                                <input type="number" class="form-control" id="minAge"
+                                                                    name="minAge" min="0" max="100" value="0">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="maxAge" class="modal-label-text">Maximum
+                                                                    Age</label>
+                                                                <input type="number" class="form-control" id="maxAge"
+                                                                    name="maxAge" min="0" max="100" value="100">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row modal-row">
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="gender"
+                                                                    class="modal-label-text">Gender</label>
+                                                                <select class="form-control" id="gender" name="gender">
+                                                                    <option value="Male">Male</option>
+                                                                    <option value="Female">Female</option>
+                                                                    <option value="Other">Other</option>
+                                                                    <option selected value="All">All</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="climbingExperience"
+                                                                    class="modal-label-text">Climbing
+                                                                    Experience</label>
+                                                                <select class="form-control" id="climbingExperience"
+                                                                    name="climbingExperience">
+                                                                    <option value="Beginner">Beginner</option>
+                                                                    <option value="Intermediate">Intermediate</option>
+                                                                    <option value="Advanced">Advanced</option>
+                                                                    <option selected value="All">All</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row modal-row">
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="minimumClimbingGrade"
+                                                                    class="modal-label-text">Minimum Climbing
+                                                                    Grade</label>
+                                                                <select class="form-control" id="minimumClimbingGrade"
+                                                                    name="minimumClimbingGrade">
+                                                                    <option selected value="0">V0</option>
+                                                                    <option value="1">V1</option>
+                                                                    <option value="2">V2</option>
+                                                                    <option value="3">V3</option>
+                                                                    <option value="4">V4</option>
+                                                                    <option value="5">V5</option>
+                                                                    <option value="6">V6</option>
+                                                                    <option value="7">V7</option>
+                                                                    <option value="8">V8</option>
+                                                                    <option value="9">V9</option>
+                                                                    <option value="10">V10</option>
+                                                                    <option value="11">V11</option>
+                                                                    <option value="12">V12</option>
+                                                                    <option value="13">V13</option>
+                                                                    <option value="14">V14</option>
+                                                                    <option value="15">V15</option>
+                                                                    <option value="16">V16</option>
+                                                                    <option value="17">V17</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="maximumClimbingGrade"
+                                                                    class="modal-label-text">Maximum Climbing
+                                                                    Grade</label>
+                                                                <select class="form-control" id="maximumClimbingGrade"
+                                                                    name="maximumClimbingGrade">
+                                                                    <option value="0">V0</option>
+                                                                    <option value="1">V1</option>
+                                                                    <option value="2">V2</option>
+                                                                    <option value="3">V3</option>
+                                                                    <option value="4">V4</option>
+                                                                    <option value="5">V5</option>
+                                                                    <option value="6">V6</option>
+                                                                    <option value="7">V7</option>
+                                                                    <option value="8">V8</option>
+                                                                    <option value="9">V9</option>
+                                                                    <option value="10">V10</option>
+                                                                    <option value="11">V11</option>
+                                                                    <option value="12">V12</option>
+                                                                    <option value="13">V13</option>
+                                                                    <option value="14">V14</option>
+                                                                    <option value="15">V15</option>
+                                                                    <option value="16">V16</option>
+                                                                    <option selected value="17">V17</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Submit button -->
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="" id="filterButtonSubmit"
+                                                class="btn btn-primary mt-3">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 @foreach (var test in tests)
                 {
@@ -60,9 +214,6 @@
                     </div>
                 }
             </div>
-
-            
-            <div id="filter-form"></div>
         </div>
 
     </div>

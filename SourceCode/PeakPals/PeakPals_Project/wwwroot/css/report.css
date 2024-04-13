@@ -31,9 +31,10 @@
     padding: 0px;
     border-radius: 10px;
     border: 2px solid #ffa500;
-    width: 120px;
-    height: 50px;
+    width: 130px;
+    height: 60px;
     background-color: black;
+    font-size: 1.5em;
 }
 
 #filterButtonSubmit{
@@ -96,7 +97,7 @@
 }
 
 .history-table-div table {
-    font-size: 0.90em;
+    font-size: 0.85em;
 }
 
 td{
@@ -113,7 +114,10 @@ tr{
 }
 
 .table>:not(caption)>*>* {
-    padding: 2px;
+    padding: 0px;
+    margin: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
     border: none;
 }
 
@@ -188,3 +192,89 @@ p{
     padding-right: 30px;
 }
 
+.filter-form-block{
+    padding: 0px;
+    margin: 0px;
+}
+
+.modal-row{
+    padding: 0px;
+    margin: 0px;
+}
+
+.form-cell{
+    padding: 10px;
+    margin: 0px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+#filter-form{
+    background-color: #000000;
+    border: 3px solid #ffa500;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 0px;
+}
+
+.modal-body{
+    padding: 0px;
+    margin: 0px;
+    border-radius: 15px;
+}
+.form-control{
+    text-align: center;
+}
+.modal-content{
+    border-radius: 15px;
+    padding: 0px;
+    margin: auto;
+    
+}
+
+#modal-header-text{
+    font-family: "Sriracha", cursive;
+    color: white;
+    padding: 10px;
+    font-size: 3em;
+}
+
+.modal-dialog{
+    max-width: 800px;
+    padding-top: 15%;
+}
+
+.welcome{
+    margin-top: 50px;
+}
+
+.modal-label-text{
+    font-family: "Sriracha", cursive;
+    color: white;
+    font-size: 1.1em;
+    height: 40px;
+}
+
+#filterButtonSubmit{
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 10px;
+    font-size: 1.2em;
+}
+
+.fa-filter{
+    color: rgb(255, 255, 255);
+    font-size: 1.8em;
+    padding: 3px;
+    padding-top: 6px;
+}
+
+#filter-button{
+    background-color: #000000;
+    color: black;
+    border: 1px solid #ffa500;
+    font-family: "Sriracha", cursive;
+    border-radius: 5px;
+}
