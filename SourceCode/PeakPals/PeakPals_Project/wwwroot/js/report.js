@@ -118,6 +118,14 @@ async function addGraphToResults(testId) {
   var graphRepeaterDiv = document.getElementById('repeater-test-graph');
   var graphSmallestEdgeDiv = document.getElementById('smallestEdge-test-graph');
 
+  graphHangDiv.classList.add('history-graph-div');
+  graphPullDiv.classList.add('history-graph-div');
+  graphHammerCurlDiv.classList.add('history-graph-div');
+  graphHipFlexibilityDiv.classList.add('history-graph-div');
+  graphHamstringFlexibilityDiv.classList.add('history-graph-div');
+  graphRepeaterDiv.classList.add('history-graph-div');
+  graphSmallestEdgeDiv.classList.add('history-graph-div');
+
   // add graph images from wwwroot/images, but first check which test it is
   switch (testId) {
     case 0:
@@ -365,7 +373,6 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
 }
 
 function createClimberStrengthTestTable(data, tableDiv) {
-  //console.log("ODDDDDDDDDD: " + JSON.stringify(data[0].id));
   // Create table
   var table = document.createElement('table');
   //make background of table white
@@ -408,6 +415,7 @@ function createClimberStrengthTestTable(data, tableDiv) {
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
+  table.classList.add("history-table-div");
   // Add table to page
   tableDiv.appendChild(table);
 }
@@ -452,6 +460,7 @@ function createClimberFlexibilityTestTable(data, tableDiv) {
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
+  table.classList.add("history-table-div");
   // Add table to page
   tableDiv.appendChild(table);
 }
@@ -496,6 +505,7 @@ function createClimberRepeaterTestTable(data, tableDiv) {
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
+  table.classList.add("history-table-div");
   // Add table to page
   tableDiv.appendChild(table);
 }
@@ -540,6 +550,7 @@ function createClimberSmallestEdgeTestTable(data, tableDiv) {
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
+  table.classList.add("history-table-div");
   // Add table to page
   tableDiv.appendChild(table);
 }
@@ -584,6 +595,7 @@ function createClimberCampusBoardTestTable(data, tableDiv) {
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
+  table.classList.add("history-table-div");
   // Add table to page
   tableDiv.appendChild(table);
 }
@@ -622,10 +634,31 @@ function createButtonToRecordPage(tableDiv) {
   buttonDiv.appendChild(button);
 
   //apply box2 class to button
-  button.classList.add('box2');
+  button.classList.add('record-button');
 }
 
-$('#testTabs a').on('click', function (e) {
-  e.preventDefault();
-  $(this).tab('show');
+$(document).ready(function() {
+  // Show 'test-history' and hide 'test-analysis' when 'history-tab' is clicked
+  $('#history-tab').click(function(event) {
+      event.preventDefault();
+      $('#test-history').show();
+      $('#test-analysis').hide();
+
+      // Remove the active state from all tabs
+      $('.nav-buttons').removeClass('active-tab');
+      // Add the active state to the clicked tab
+      $('#history-button').addClass('active-tab');
+  });
+
+  // Show 'test-analysis' and hide 'test-history' when 'analysis-tab' is clicked
+  $('#analysis-tab').click(function(event) {
+      event.preventDefault();
+      $('#test-analysis').show();
+      $('#test-history').hide();
+
+      // Remove the active state from all tabs
+      $('.nav-buttons').removeClass('active-tab');
+      // Add the active state to the clicked tab
+      $('#analysis-button').addClass('active-tab');
+  });
 });

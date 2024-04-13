@@ -4,13 +4,21 @@
 }
 
 #history-tab{
-    background-color: black;
-    color: orange;
+    color: white;
+    font-size: larger;
+    font-family: "Sriracha", cursive;
+    border-radius: 10px;
+    margin: 0px;
+    padding: 0px;
 }
 
 #analysis-tab{
-    background-color: black;
-    color: orange;
+    color: white;
+    font-size: larger;
+    font-family: "Sriracha", cursive;
+    border-radius: 10px;
+    margin: 0px;
+    padding: 0px;
 }
 
 .nav-item{
@@ -18,6 +26,15 @@
     font-family: "Sriracha", cursive;
 }
 
+.nav-buttons{
+    margin: 5px;
+    padding: 0px;
+    border-radius: 10px;
+    border: 2px solid #ffa500;
+    width: 120px;
+    height: 50px;
+    background-color: black;
+}
 
 #filterButtonSubmit{
     background-color: #ffa500;
@@ -30,4 +47,100 @@
     border: 1px solid black;
     font-family: "Sriracha", cursive;
     border-radius: 5px;
+}
+
+.history-card{
+    background-color: #000000;
+    border: 3px solid #ffa500;
+    border-radius: 15px;
+    margin: 5px;
+}
+
+.history-results-div{
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 5px;
+    color: white;
+}
+.history-graph-div{
+    border-radius: 5px;
+    padding: 5px;
+    width: 100%;
+}
+.history-graph-div img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+}
+
+.record-button{
+    background-color: #ffa500;
+    color: black;
+    border: 1px solid black;
+    font-family: "Sriracha", cursive;
+    border-radius: 5px;
+
+}
+
+.record-button:hover{
+    background-color: #ffc250;
+}
+
+.history-table-div{
+    border-radius: 20px;
+    padding: 15px;
+}
+
+.container{
+    padding: 0px;
+}
+
+.history-table-div table {
+    font-size: 0.90em;
+}
+
+td{
+    padding: 0px;
+    width: 0px;
+}
+
+tbody{
+    padding: 0px;
+}
+
+tr{
+    border: none;
+}
+
+.table>:not(caption)>*>* {
+    padding: 2px;
+    border: none;
+}
+
+.history-card{
+    height: 98%;
+}
+
+.col-xl-3{
+    margin-bottom: 20px;
+    padding-top: 200px;
+}
+
+.col-lg-4{
+    margin-bottom: 20px;
+    padding-top: 200px;
+}
+
+.col-md-6{
+    margin-bottom: 20px;
+    padding-top: 200px;
+}
+
+.col-xs-12{
+    margin-bottom: 20px;
+    padding-top: 40px;
+}
+
+.active-tab{
+    background-color: rgb(51, 51, 51);
 }
