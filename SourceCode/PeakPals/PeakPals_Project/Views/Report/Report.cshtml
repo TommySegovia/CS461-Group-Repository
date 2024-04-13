@@ -6,8 +6,10 @@
     <div class="text-center" id="report-div">
         <h1 class="display-4 text-white welcome">See your performance</h1>
 
-        <button class="nav-buttons" id="history-button"><a class="nav-link active" id="history-tab" data-toggle="tab" href="#test-history">History</a></button>
-        <button class="nav-buttons" id="analysis-button"><a class="nav-link" id="analysis-tab" data-toggle="tab" href="#test-analysis">Analysis</a></button>
+        <button class="nav-buttons active-tab" id="history-button"><a class="nav-link active" id="history-tab"
+                data-toggle="tab" href="#test-history">History</a></button>
+        <button class="nav-buttons" id="analysis-button"><a class="nav-link" id="analysis-tab" data-toggle="tab"
+                href="#test-analysis">Analysis</a></button>
 
         <div id="test-history">
             <div class="container">
@@ -42,7 +44,24 @@
             </div>
         </div>
         <div style="display: none;" id="test-analysis">
-            analysis
+            <div class="row">
+                @foreach (var test in tests)
+                {
+                    <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="history-card">
+                            <h2 class="text-white text-center">@test.Name</h2>
+                            <div class="recent-test col-5" id="@test.id-test-recent">
+
+                            </div>
+                            <div class="average-test col-5" id="@test.id-test-average">
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            
             <div id="filter-form"></div>
         </div>
 
