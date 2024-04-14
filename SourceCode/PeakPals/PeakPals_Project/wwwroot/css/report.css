@@ -60,7 +60,7 @@
 .history-results-div{
     border: 1px solid black;
     border-radius: 5px;
-    margin: 5px;
+    margin: 15px;
     color: white;
 }
 .history-graph-div{
@@ -68,6 +68,19 @@
     padding: 5px;
     width: 100%;
 }
+@media (min-width: 768px) {
+    .history-graph-div{
+        height: 250px;
+    }
+}
+
+.missing-data-message{
+    color: #ffa500;
+    font-family: "Sriracha", cursive;
+    font-size: 1.25em;
+    padding-top: 20px;
+}
+
 .history-graph-div img {
     width: 100%;
     height: auto;
@@ -90,6 +103,9 @@
 .history-table-div{
     border-radius: 20px;
     padding: 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 150px;
 }
 
 .container{
@@ -181,6 +197,7 @@ p{
     padding-top: 20px;
     padding-left: 30px;
     padding-right: 30px;
+    height: 108px;
 }
 
 .average-test{
@@ -190,6 +207,7 @@ p{
     padding-top: 20px;
     padding-left: 30px;
     padding-right: 30px;
+    height: 172px;
 }
 
 .filter-form-block{
@@ -277,4 +295,19 @@ p{
     border: 1px solid #ffa500;
     font-family: "Sriracha", cursive;
     border-radius: 5px;
+}
+
+.history-card-header{
+    height: 70px;
+}
+
+/* Webkit browsers (Chrome, Safari) */
+.history-table-div::-webkit-scrollbar {
+    width: 10px; /* Adjust width as needed */
+}
+
+/* Firefox */
+.history-table-div {
+    scrollbar-width: thin; /* Adjust width as needed */
+    scrollbar-color: #ffa500 #000000; /* Adjust thumb and track color as needed */
 }

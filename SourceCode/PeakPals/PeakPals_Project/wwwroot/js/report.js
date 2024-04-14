@@ -133,7 +133,6 @@ function updateClimberData(testData, filterData) {
 async function getTestRecords(testId, tableDiv, resultsDiv) {
   var response = await fetch("/api/FitnessDataEntryApi/Test/Results/" + testId);
   var data = await response.json();
-  //console.log("YEEEEEEER:" + JSON.stringify(data));
   if (response.ok && data.length > 0) {
     if (testId === 3 || testId === 4) {
       //if the test is flexibility, generate a table for flexibility tests
@@ -155,8 +154,30 @@ async function getTestRecords(testId, tableDiv, resultsDiv) {
     if (data.length > 1) {
       addGraphToResults(testId);
     }
-  } else {
+    else{
+      var graphDiv = document.getElementById(testId === 0 ? "hang-test-graph" : testId === 1 ? "pull-test-graph" : testId === 2 ? "hammerCurl-test-graph" : testId === 3 ? "hipFlexibility-test-graph" : testId === 4 ? "hamstringFlexibility-test-graph" : testId === 5 ? "repeater-test-graph" : testId === 6 ? "smallestEdge-test-graph" : "");
+      var missingDataMessage = document.createElement("p");
+      missingDataMessage.appendChild(document.createTextNode("Need more data to generate a graph"));
+      missingDataMessage.classList.add("missing-data-message");
+      graphDiv.appendChild(missingDataMessage);
+      createButtonToRecordPage(resultsDiv);
+    }
+    
+  } 
+  else {
+    var graphDiv = document.getElementById(testId === 0 ? "hang-test-graph" : testId === 1 ? "pull-test-graph" : testId === 2 ? "hammerCurl-test-graph" : testId === 3 ? "hipFlexibility-test-graph" : testId === 4 ? "hamstringFlexibility-test-graph" : testId === 5 ? "repeater-test-graph" : testId === 6 ? "smallestEdge-test-graph" : "");
+    var missingDataMessage = document.createElement("p");
+    missingDataMessage.appendChild(document.createTextNode("Need more data to generate a graph"));
+    missingDataMessage.classList.add("missing-data-message");
+    graphDiv.appendChild(missingDataMessage);
+
+    var noResults = document.createElement("p");
+    noResults.appendChild(document.createTextNode("No Test Results Found"));
+    var noResultsDiv = tableDiv;
+    noResultsDiv.appendChild(noResults);
+
     createButtonToRecordPage(resultsDiv);
+    
   }
 }
 
@@ -166,12 +187,8 @@ async function addGraphToResults(testId) {
   var graphHangDiv = document.getElementById("hang-test-graph");
   var graphPullDiv = document.getElementById("pull-test-graph");
   var graphHammerCurlDiv = document.getElementById("hammerCurl-test-graph");
-  var graphHipFlexibilityDiv = document.getElementById(
-    "hipFlexibility-test-graph"
-  );
-  var graphHamstringFlexibilityDiv = document.getElementById(
-    "hamstringFlexibility-test-graph"
-  );
+  var graphHipFlexibilityDiv = document.getElementById("hipFlexibility-test-graph");
+  var graphHamstringFlexibilityDiv = document.getElementById("hamstringFlexibility-test-graph");
   var graphRepeaterDiv = document.getElementById("repeater-test-graph");
   var graphSmallestEdgeDiv = document.getElementById("smallestEdge-test-graph");
 
@@ -214,6 +231,7 @@ async function addGraphToResults(testId) {
         '<img src="/images/Test_6_ResultsOverTime.png" alt="Smallest Edge Test Graph" />';
       break;
     case 7:
+
       break;
   }
 }
@@ -251,14 +269,23 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
       //flexibility test
       else if (testId === 3 || testId === 4) {
           var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " inches";
+          
+          recentText.innerHTML = resultText;
+          recentDiv.appendChild(recentText);
       }
       //repeater test
       else if (testId === 5) {
           var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " seconds";
+
+          recentText.innerHTML = resultText;
+          recentDiv.appendChild(recentText);
       }
       //smallest edge test
       else if (testId === 6) {
           var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " mm";
+
+          recentText.innerHTML = resultText;
+          recentDiv.appendChild(recentText);
       }
       //campus board test
       else if (testId === 7) {
@@ -632,8 +659,8 @@ function createClimberCampusBoardTestTable(data, tableDiv) {
 }
 
 function deleteTest(id, testId) {
-  console.log("ID: " + id);
-  console.log("TESTID: " + testId);
+  //console.log("ID: " + id);
+  //console.log("TESTID: " + testId);
   return async function () {
     var response = await fetch(
       "/api/FitnessDataEntryApi/Test/Results/Delete/" + id + "/" + testId,
@@ -652,10 +679,6 @@ function deleteTest(id, testId) {
 
 function createButtonToRecordPage(tableDiv) {
   //let the user know they have no current results
-  var noResults = document.createElement("p");
-  noResults.appendChild(document.createTextNode("No Test Results Found"));
-  var noResultsDiv = tableDiv;
-  noResultsDiv.appendChild(noResults);
   //create button to record page
   var button = document.createElement("button");
   button.className = "btn btn-primary";
@@ -696,7 +719,6 @@ $(document).ready(function () {
   });
 });
 
-//filter button modal
 $(document).ready(function () {
   // Show the modal when the 'filter-button' is clicked
   $("#filter-button").click(function () {
@@ -707,4 +729,10 @@ $(document).ready(function () {
   $("#close-button").click(function () {
     $("#filterModal").modal('hide');
   });
+
+  // Hide the modal when the 'submit-button' is clicked
+  $("#filterButtonSubmit").click(function () {
+    $("#filterModal").modal('hide');
+  });
+
 });
