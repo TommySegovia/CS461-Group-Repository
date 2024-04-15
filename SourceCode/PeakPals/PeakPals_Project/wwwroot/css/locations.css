@@ -231,6 +231,21 @@
     border-style: solid;
 }
 
+#dynamic-map-climb
+{
+    height: 1000px;
+    width: 150%;
+    left: 0;
+    right: 0;
+    margin-left: -25%;
+    margin-right: 0;
+    margin-top: 3em;
+    margin-bottom: 2em;
+    border-radius: 4px;
+    border-width: 2px;
+    border-style: solid;
+}
+
 @media (max-width: 1400px)
 {
     .welcome-locations {

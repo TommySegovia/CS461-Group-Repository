@@ -9,6 +9,7 @@
     window.areaPageAncestors = @Html.Raw(jsonAncestors);
 </script>
 
+
 <body id="area-body">
     <hr>
     <div class="container border border-dark" id="locations-pages-box">
@@ -160,8 +161,12 @@
 
     <hr>
 
+    
     <div id="dynamic-map-box" class="my-3">
-        <div id="dynamic-map" data-latitude="@Model.Area.Metadata.Lat" data-longitude="@Model.Area.Metadata.Lng"></div>
+        
+        <div id="dynamic-map" data-latitude="@Model.Area.Metadata.Lat" data-longitude="@Model.Area.Metadata.Lng" data-name="@Model.Area.Area_Name" data-id="@Model.Area.Uuid" data-mode="3d">
+            <button class="btn btn-primary my-1" id="dimension-button" style="position: absolute; z-index: 1;">2D/3D Toggle</button>
+        </div>
     </div>
 
 
@@ -169,6 +174,7 @@
 
 @section Scripts
 {
+ 
     <script type="module" src="~/js/site.js"></script>
     <script>
 
@@ -177,7 +183,7 @@
             container: 'static-map', // container id
             style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', // style URL
             center: [@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat], // starting position [lng, lat]
-            zoom: 9, // starting zoom
+            zoom: 7, // starting zoom
         });
         staticMap.dragRotate.disable();
 
@@ -186,105 +192,6 @@
             .addTo(staticMap);
         
         //////////////
-
-
-        // dynamic map //
-        const dynamicMap = new maplibregl.Map({
-            container: 'dynamic-map', // container id
-            style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', // style URL
-            center: [@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat], // starting position [lng, lat]
-            zoom: 15, // starting zoom
-        })
-
-        dynamicMap.on('load', async () => {
-            const image = await dynamicMap.loadImage('https://maplibre.org/maplibre-gl-js/docs/assets/custom_marker.png');
-            // Add an image to use as a custom marker
-            dynamicMap.addImage('custom-marker', image.data);
-
-            dynamicMap.addSource('places', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'FeatureCollection',
-                    'features': [
-                        {
-                            'type': 'Feature',
-                            'properties': {
-                                'description':
-                                    '@Model.Area.Area_Name',
-                            },
-                            'geometry': {
-                                'type': 'Point',
-                                'coordinates': [@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat]
-                            }
-                        },
-                        {
-                            'type': 'Feature',
-                            'properties': {
-                                'description':
-                                    'Nearby Climbing Location',
-                            },
-                            'geometry': {
-                                'type': 'Point',
-                                'coordinates': [@Model.Area.Metadata.Lng + 0.001, @Model.Area.Metadata.Lat - 0.001]
-                            }
-                        }
-                    ]
-                }
-            });
-
-            // Add a layer showing the places.
-            dynamicMap.addLayer({
-                'id': 'places',
-                'type': 'symbol',
-                'source': 'places',
-                'layout': {
-                    'icon-image': 'circle_11',
-                    'icon-overlap': 'always',
-                    'text-field': ['get', 'description'],
-                    'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
-                    'text-radial-offset': 0.5,
-                    'text-justify': 'auto',
-                }
-            });
-
-            // Create a popup, but don't add it to the map yet.
-            const popup = new maplibregl.Popup({
-                closeButton: false,
-                closeOnClick: false
-            });
-
-            dynamicMap.on('mouseenter', 'places', (e) => {
-                // Change the cursor style as a UI indicator.
-                dynamicMap.getCanvas().style.cursor = 'pointer';
-
-                const coordinates = e.features[0].geometry.coordinates.slice();
-                const description = e.features[0].properties.description;
-
-                // Ensure that if the map is zoomed out such that multiple
-                // copies of the feature are visible, the popup appears
-                // over the copy being pointed to.
-                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                }
-
-                // Populate the popup and set its coordinates
-                // based on the feature found.
-                popup.setLngLat(coordinates).setHTML(description).addTo(dynamicMap);
-            });
-
-            dynamicMap.on('mouseleave', 'places', () => {
-                dynamicMap.getCanvas().style.cursor = '';
-                popup.remove();
-            });
-
-            dynamicMap.on('click', 'places', (e) => {
-                // depending on the place clicked, route the user to another area/climb page
-            });
-
-            dynamicMap.addControl(new maplibregl.FullscreenControl());
-            dynamicMap.addControl(new maplibregl.NavigationControl());
-        });
-        /////////////
 
     </script>
 }
