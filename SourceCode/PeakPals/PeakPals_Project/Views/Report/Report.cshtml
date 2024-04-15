@@ -6,69 +6,92 @@
     <div class="text-center" id="report-div">
         <h1 class="display-4 text-white welcome">See your performance</h1>
 
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" id="testTabs">
-            <li class="nav-item">
-                <a class="nav-link active" id="history-tab" data-toggle="tab" href="#test-history">Test History</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#test-analysis">Test Analysis</a>
-            </li>
-        </ul>
+        <button class="nav-buttons active-tab" id="history-button"><a class="nav-link active" id="history-tab"
+                data-toggle="tab" href="#test-history">History</a></button>
+        <button class="nav-buttons" id="analysis-button"><a class="nav-link" id="analysis-tab" data-toggle="tab"
+                href="#test-analysis">Analysis</a></button>
 
-        <!-- Tab panes -->
-        <div class="tab-content" id="report-tab-content">
+        <div id="test-history">
+            <div class="container">
 
+                @{
+                    var tests = new[]
+                    {
+                new { Name = "Hang", id = "hang" },
+                new { Name = "Pull", id = "pull" },
+                new { Name = "Hammer Curl", id = "hammerCurl" },
+                new { Name = "Hip Flexibility", id = "hipFlexibility" },
+                new { Name = "Hamstring Flexibility", id = "hamstringFlexibility" },
+                new { Name = "Repeater", id = "repeater"},
+                new { Name = "Smallest Edge", id = "smallestEdge" },
+                new { Name = "Campus Board", id = "campusBoard" },
+                };
+                }
 
-            <div class="accordion accordion-flush" id="accordionFilter">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="filter-headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#filter-collapseOne" aria-expanded="false"
-                            aria-controls="filter-collapseOne">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-11">
-                                    </div>
-                                    <div class="col-1">
-                                        <img src="~/images/FilterIcon.png" style="width: 40px;" alt="">
-                                    </div>
-                                </div>
+                <div class="row">
+                    @foreach (var test in tests)
+                    {
+                        <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+                            <div class="history-card">
+                                <h2 class="text-white text-center history-card-header">@test.Name</h2>
+                                <div class="history-graph-div" id="@test.id-test-graph"></div>
+                                <div class="history-table-div" id="@test.id-test-table"></div>
+                                <div class="history-results-div" id="@test.id-test-results"></div>
                             </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div style="display: none;" id="test-analysis">
 
-                        </button>
-                    </h2>
-                    <div id="filter-collapseOne" class="accordion-collapse collapse" aria-labelledby="filter-headingOne"
-                        data-bs-parent="#accordionFilter">
-                        <div class="accordion-body">
+            <!-- filter button for filter modal -->
+            <button class="filter-button" id="filter-button" data-toggle="modal" data-target="#filterModal">
+                <i class="fas fa-filter"></i>
+            </button>
+
+            <!-- filter modal -->
+            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-body">
                             <!-- Filter Form -->
                             <form id="filter-form">
                                 <div class="container">
-                                    <div class="row justify-content-center">
+                                    <div class="row justify-content-center modal-contents">
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <!--minimum age-->
                                                 <div class="container">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="minAge">Minimum Age</label>
+                                                    <div class="row modal-row">
+                                                        <div class="col">
+                                                            <h2 id="modal-header-text">Change Filter</h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row modal-row">
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="minAge" class="modal-label-text">Minimum
+                                                                    Age</label>
                                                                 <input type="number" class="form-control" id="minAge"
                                                                     name="minAge" min="0" max="100" value="0">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="maxAge">Maximum Age</label>
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="maxAge" class="modal-label-text">Maximum
+                                                                    Age</label>
                                                                 <input type="number" class="form-control" id="maxAge"
                                                                     name="maxAge" min="0" max="100" value="100">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="gender">Gender</label>
+                                                    <div class="row modal-row">
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="gender"
+                                                                    class="modal-label-text">Gender</label>
                                                                 <select class="form-control" id="gender" name="gender">
                                                                     <option value="Male">Male</option>
                                                                     <option value="Female">Female</option>
@@ -77,9 +100,10 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="climbingExperience">Climbing
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="climbingExperience"
+                                                                    class="modal-label-text">Climbing
                                                                     Experience</label>
                                                                 <select class="form-control" id="climbingExperience"
                                                                     name="climbingExperience">
@@ -91,10 +115,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="minimumClimbingGrade">Minimum Climbing
+                                                    <div class="row modal-row">
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="minimumClimbingGrade"
+                                                                    class="modal-label-text">Minimum Climbing
                                                                     Grade</label>
                                                                 <select class="form-control" id="minimumClimbingGrade"
                                                                     name="minimumClimbingGrade">
@@ -120,9 +145,10 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="maximumClimbingGrade">Maximum Climbing
+                                                        <div class="col-md-6 filter-form-block">
+                                                            <div class="form-group form-cell">
+                                                                <label for="maximumClimbingGrade"
+                                                                    class="modal-label-text">Maximum Climbing
                                                                     Grade</label>
                                                                 <select class="form-control" id="maximumClimbingGrade"
                                                                     name="maximumClimbingGrade">
@@ -170,65 +196,24 @@
                 </div>
             </div>
 
-
-            <div class="tab-pane fade show active" id="test-history">
-                <div class="container">
-
-                    @{
-                        var tests = new[]
-                        {
-                    new { Name = "Hang", id = "hang" },
-                    new { Name = "Pull", id = "pull" },
-                    new { Name = "Hammer Curl", id = "hammerCurl" },
-                    new { Name = "Hip Flexibility", id = "hipFlexibility" },
-                    new { Name = "Hamstring Flexibility", id = "hamstringFlexibility" },
-                    new { Name = "Repeater", id = "repeater"},
-                    new { Name = "Smallest Edge", id = "smallestEdge" },
-                    new { Name = "Campus Board", id = "campusBoard" },
-                    };
-                    }
-
-                    @foreach (var test in tests)
-                    {
-                        <div class="row pt-3" style="border-top: 1px solid black;">
-                            <div class="col">
-                                <h2>@test.Name Test Results</h2>
-                                <div id="@test.id-test-results"></div>
-                            </div>
-                        </div>
-                        <div class="row pt-3">
-                            <div class="col-6">
-                                <div id="@test.id-test-table"></div>
-                            </div>
-                            <div class="col-6">
-                                <div id="@test.id-test-graph"></div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-            <div class="tab-pane fade" id="test-analysis">
+            <div class="row">
                 @foreach (var test in tests)
                 {
-                    <div id="@test.id-test-average-div" style="border: 1px solid black;">
-                        <h2>@test.Name Test Average</h2>
-                        <div>
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <div style="font-weight: bold; background-color: #ffa500;" class="col-5 m-3" id="@test.id-test-recent">
+                    <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="history-card">
+                            <h2 class="text-white text-center history-card-header">@test.Name</h2>
+                            <div class="recent-test col-5" id="@test.id-test-recent">
 
-                                    </div>
-                                    <div style="font-weight: bold; background-color: #ffa500;" class="col-5 m-3" id="@test.id-test-average">
+                            </div>
+                            <div class="average-test col-5" id="@test.id-test-average">
 
-                                    </div>
-
-                                </div>
                             </div>
                         </div>
                     </div>
                 }
             </div>
         </div>
+
     </div>
 </body>
 
