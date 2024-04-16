@@ -18,6 +18,7 @@ public sealed class ClimbingAreasSteps
         _webDriver = new FirefoxDriver();
         _searchPage = new SearchPageObject(_webDriver);
         _areaPage = new AreaPageObject(_webDriver);
+        _webDriver.Manage().Window.Maximize();
     }
 
     [TearDown]
