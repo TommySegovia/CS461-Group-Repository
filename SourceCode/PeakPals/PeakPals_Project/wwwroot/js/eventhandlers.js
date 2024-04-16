@@ -141,7 +141,7 @@ export async function areaCardClicked(uuid)
 {
     console.log("Area card clicked: " + uuid);
 
-    window.location.href = `/Locations/Areas/${uuid}`;
+    window.location.href = `/locations/areas/${uuid}`;
  
 }
 
@@ -149,6 +149,6 @@ export async function climbCardClicked(uuid)
 {
     console.log("Climb card clicked: " + uuid);
 
-    window.location.href = `/Locations/Climbs/${uuid}`;
+    window.location.href = `/locations/climbs/${uuid}`;
  
 }
