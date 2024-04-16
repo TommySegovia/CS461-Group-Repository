@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ReqnrollObsoleteCodeBehindFiles Remove="Features\RecordingAndReport - Copy.feature.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Reqnroll.NUnit" Version="1.0.1" />
     <PackageReference Include="nunit" Version="4.0.1" />
@@ -14,6 +18,19 @@
     <PackageReference Include="Selenium.WebDriver.GeckoDriver" Version="0.34.0" />
     <PackageReference Include="Specflow.Actions.Selenium" Version="0.1.332" />
     <ProjectReference Include="..\PeakPals_Project\PeakPals_Project.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Features\ClimbingAreas.feature.cs">
+      <DependentUpon>ClimbingAreas.feature</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ReqnrollFeatureFiles Update="Features\ClimbingAreas.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </ReqnrollFeatureFiles>
   </ItemGroup>
 
 </Project>
