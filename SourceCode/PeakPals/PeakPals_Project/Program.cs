@@ -141,12 +141,12 @@ public class Program
         
         app.MapControllerRoute(
             name: "area",
-            pattern: "Locations/Areas/{id}",
+            pattern: "locations/areas/{id}",
             defaults: new { controller = "Locations", action = "Areas"});
         
         app.MapControllerRoute(
             name: "climb",
-            pattern: "Locations/Climbs/{id}",
+            pattern: "locations/climbs/{id}",
             defaults: new { controller = "Locations", action = "Climbs"});
 
         app.MapRazorPages();

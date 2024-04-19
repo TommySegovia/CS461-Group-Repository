@@ -10,6 +10,7 @@ public class OBArea
     {
         public string? Uuid { get; set; }
         public string? Area_Name { get; set; }
+        public int TotalClimbs { get; set; }
         public List<string>? Ancestors { get; set; }
         public Metadata? Metadata { get; set; }
         public Content? Content { get; set; }
@@ -33,6 +34,7 @@ public class OBArea
         public string? Uuid { get; set; }
         public string? Area_Name { get; set; }
         public Metadata? Metadata { get; set; }
+        public int TotalClimbs { get; set; }
     }
 
     public class Climb

@@ -30,21 +30,37 @@ public class EmailSender : IEmailSender
     public async Task Execute(string apiKey, string subject, string message, string toEmail)
     {
         var client = new SendGridClient(apiKey);
+
         var msg = new SendGridMessage()
         {
-            From = new EmailAddress("PeakPalsProject@gmail.com", "Password Recovery"),
-            Subject = subject,
-            PlainTextContent = message,
-            HtmlContent = message
+            From = new EmailAddress("PeakPalsProject@gmail.com", subject),
+
         };
+        if (subject == "Confirm your email")
+        {
+            msg.TemplateId = "d-59455a2c0de5492a81998cd511d13727";
+        }
+        else if (subject == "Change your email")
+        {
+            msg.TemplateId = "d-f5ddba9c8a1d478795ad8051eb47e5d3";
+        }
+        else 
+        {
+            throw new Exception("Invalid subject");
+        }
         msg.AddTo(new EmailAddress(toEmail));
+
+        msg.SetTemplateData(new
+        {
+            url = message
+        });
 
         // Disable click tracking.
         // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
         msg.SetClickTracking(false, false);
         var response = await client.SendEmailAsync(msg);
-        _logger.LogInformation(response.IsSuccessStatusCode 
+        _logger.LogInformation(response.IsSuccessStatusCode
                                ? $"Email to {toEmail} queued successfully!"
-                               : $"Failure Email to {toEmail}");
+                                       : $"Failure Email to {toEmail}");
     }
 }

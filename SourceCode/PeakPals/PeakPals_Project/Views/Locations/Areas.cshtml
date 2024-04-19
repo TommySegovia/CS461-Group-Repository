@@ -22,11 +22,23 @@
         </div>
         <hr>
         <div class="row my-5 p-2">
-            <div class="col col-5">
+            <div>
                 <h1 id="pages-title-name"><b>@Model.Area.Area_Name</b></h1>
             </div>
-            <div class="col col-1"></div>
-            <div class="col col-6" id="pages-description">
+        </div>
+        <div class="row">
+            <div class="col col-5">
+                <p class="my-0">Latitude and Longitude:</p>
+                <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng" id="pages-coordinates">@Model.Area.Metadata.Lat,
+                    @Model.Area.Metadata.Lng</a>
+                <!-- Map -->
+                <div id="static-map" class="my-4"></div>
+                <!---->
+                <div>
+                    <a href="#dynamic-map" class="btn btn-primary my-0">See Detailed Map</a>
+                </div>
+            </div>
+            <div class="col col-7"  id="pages-description">
                 <h5>Description:</h5>
                 @if (@Model.Area.Content == null || string.IsNullOrWhiteSpace(@Model.Area.Content.Description))
                 {
@@ -34,18 +46,8 @@
                 }
                 else
                 {
-                    <h4 class="my-5">@Model.Area.Content.Description</h4>
+                    <h4 class="my-5" id="pages-description-text">@Model.Area.Content.Description</h4>
                 }
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-6">
-                <p class="my-0">Latitude and Longitude:</p>
-                <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng">@Model.Area.Metadata.Lat,
-                    @Model.Area.Metadata.Lng</a>
-            </div>
-            <div class="col col-6">
 
             </div>
         </div>
@@ -65,7 +67,7 @@
                     <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
                         <div class="table">
                             <a href="/locations/areas/@Model.Area.Children[i].Uuid"
-                                class="text-white card-title"><b>@Model.Area.Children[i].Area_Name</b></a>
+                                class="text-white card-title" id="child-name"><b>@Model.Area.Children[i].Area_Name</b></a>
                             <br>
                             <a href="https://www.google.com/maps/place/@Model.Area.Children[i].Metadata.Lat,@Model.Area.Children[i].Metadata.Lng"
                                 id="child-coords" class="small">Lat, Long: @Model.Area.Children[i].Metadata.Lat,
@@ -77,7 +79,8 @@
                     {
                         <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
                             <div class="table">
-                                <a href="/locations/areas/@Model.Area.Children[i + 1].Uuid" class="text-white card-title"><b>@Model.Area.Children[i + 1].Area_Name</b></a>
+                                <a href="/locations/areas/@Model.Area.Children[i + 1].Uuid"
+                                    class="text-white card-title"><b>@Model.Area.Children[i + 1].Area_Name</b></a>
                                 <br>
                                 <a href="https://www.google.com/maps/place/@Model.Area.Children[i + 1].Metadata.Lat,@Model.Area.Children[i + 1].Metadata.Lng"
                                     id="child-coords" class="small">Lat, Long: @Model.Area.Children[i + 1].Metadata.Lat,
@@ -91,7 +94,8 @@
                         <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
 
                             <div class="table">
-                                <a href="/locations/areas/@Model.Area.Children[i + 2].Uuid" class="text-white card-title"><b>@Model.Area.Children[i + 2].Area_Name</b></a>
+                                <a href="/locations/areas/@Model.Area.Children[i + 2].Uuid"
+                                    class="text-white card-title"><b>@Model.Area.Children[i + 2].Area_Name</b></a>
                                 <br>
                                 <a href="https://www.google.com/maps/place/@Model.Area.Children[i + 2].Metadata.Lat,@Model.Area.Children[i + 2].Metadata.Lng"
                                     id="child-coords" class="small">Lat, Long: @Model.Area.Children[i + 2].Metadata.Lat,
@@ -102,7 +106,7 @@
                 </div>
             }
         }
-        
+
 
         @if (Model.Area.Climbs != null && Model.Area.Climbs.Count > 0)
         {
@@ -126,7 +130,8 @@
                     {
                         <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
                             <div class="table">
-                                <a href="/locations/climbs/@Model.Area.Climbs[i + 1].Uuid" class="text-white card-title"><b>@Model.Area.Climbs[i + 1].Name</b></a>
+                                <a href="/locations/climbs/@Model.Area.Climbs[i + 1].Uuid"
+                                    class="text-white card-title"><b>@Model.Area.Climbs[i + 1].Name</b></a>
                                 <br>
                                 <a href="https://www.google.com/maps/place/@Model.Area.Climbs[i + 1].Metadata.Lat,@Model.Area.Climbs[i + 1].Metadata.Lng"
                                     id="child-coords" class="small">Lat, Long: @Model.Area.Climbs[i + 1].Metadata.Lat,
@@ -140,7 +145,8 @@
                         <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
 
                             <div class="table">
-                                <a href="/locations/climbs/@Model.Area.Climbs[i + 2].Uuid" class="text-white card-title"><b>@Model.Area.Climbs[i + 2].Name</b></a>
+                                <a href="/locations/climbs/@Model.Area.Climbs[i + 2].Uuid"
+                                    class="text-white card-title"><b>@Model.Area.Climbs[i + 2].Name</b></a>
                                 <br>
                                 <a href="https://www.google.com/maps/place/@Model.Area.Climbs[i + 2].Metadata.Lat,@Model.Area.Climbs[i + 2].Metadata.Lng"
                                     id="child-coords" class="small">Lat, Long: @Model.Area.Climbs[i + 2].Metadata.Lat,
@@ -153,12 +159,41 @@
         }
     </div>
 
+    <hr>
+
+    
+    <div id="dynamic-map-box" class="my-3">
+        
+        <div id="dynamic-map" data-latitude="@Model.Area.Metadata.Lat" data-longitude="@Model.Area.Metadata.Lng" data-name="@Model.Area.Area_Name" data-id="@Model.Area.Uuid" data-mode="2d">
+            <button class="btn btn-primary my-1" id="dimension-button" style="position: absolute; z-index: 1;">2D/3D Toggle</button>
+        </div>
+    </div>
+
 
 </body>
 
 @section Scripts
 {
+ 
     <script type="module" src="~/js/site.js"></script>
+    <script>
+
+        // static map //
+        const staticMap = new maplibregl.Map({
+            container: 'static-map', // container id
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', // style URL
+            center: [@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat], // starting position [lng, lat]
+            zoom: 7, // starting zoom
+        });
+        staticMap.dragRotate.disable();
+
+        const staticMapMarker = new maplibregl.Marker()
+            .setLngLat([@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat])
+            .addTo(staticMap);
+        
+        //////////////
+
+    </script>
 }
 
 @section Styles {

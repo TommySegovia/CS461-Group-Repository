@@ -33,14 +33,13 @@ namespace PeakPals_Project.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClimberDTO))]
         public ActionResult<List<ClimberDTO>> GetUserResults(string? username)
         {
-            if (username == "")
-            {
+            if (username == "") {
                 return BadRequest(new { Message = "Name field cannot be empty."});
             }
 
-            if (username != null)
-            {
+            if (username != null) {
                 var climbersDTO = _climberRepository.GetClimbersByUsername(username);
+
                 if (climbersDTO != null)
                 {
                     return Ok(climbersDTO);
@@ -49,9 +48,8 @@ namespace PeakPals_Project.Controllers
                 {
                     return NotFound(new { Message = "No user found with this username."});
                 }
-            }
-            else
-            {
+                
+            } else {
                 return BadRequest(new { Message = "Name field cannot be empty."});
             }
         }
