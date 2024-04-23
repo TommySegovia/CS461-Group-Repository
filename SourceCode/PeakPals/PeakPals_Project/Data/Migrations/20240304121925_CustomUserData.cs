@@ -36,11 +36,10 @@ namespace PeakPals_Project.Data.Migrations
                 type: "int",
                 nullable: true);
 
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<int>(
                 name: "MaxClimbGrade",
                 table: "AspNetUsers",
-                type: "nvarchar(5)",
-                maxLength: 5,
+                type: "int",
                 nullable: true);
 
             migrationBuilder.AddColumn<int>(
