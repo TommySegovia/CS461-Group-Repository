@@ -41,6 +41,21 @@ export async function fetchAreas(query, loadingSpinner, validationWarning)
     return areas;
 }
 
+export async function getAreaData(id)
+{
+    const url = `/api/locations/search/area/${id}`
+    
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (result === null)
+    {
+        displayErrorMessage("No results found.");
+        return;
+    }
+    return result;
+}
+
 export async function fetchClimbs(query, loadingSpinner, validationWarning)
 {
     const url = `/api/locations/search/climbs/${query}`

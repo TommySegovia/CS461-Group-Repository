@@ -33,6 +33,7 @@ public class OpenBetaApiService : IOpenBetaApiService
                     {
                         area_name
                         uuid
+                        totalClimbs
                         ancestors           
                         metadata
                         {
@@ -70,6 +71,7 @@ public class OpenBetaApiService : IOpenBetaApiService
                     {
                         uuid
                         area_name
+                        totalClimbs
                         ancestors
                         metadata
                         {
@@ -84,6 +86,7 @@ public class OpenBetaApiService : IOpenBetaApiService
                         {
                             uuid
                             area_name
+                            totalClimbs
                             metadata
                             {
                                 lat

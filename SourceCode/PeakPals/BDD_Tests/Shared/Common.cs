@@ -29,10 +29,14 @@ namespace PeakPals_BDD_Tests.Shared
             { "Privacy", "/Privacy" },
             { "Error", "/Home/Error" },
             { "NotFound", "/Home/NotFound" },
-            { "ServerError", "/Home/ServerError" }
+            { "ServerError", "/Home/ServerError" },
+            { "Search", "/locations/search" },
+            { "Area", "/locations/areas" }
         };
 
         public static string PathFor(string pathName) => Paths[pathName];
         public static string UrlFor(string pathName) => BaseUrl + Paths[pathName];
+        public static string UrlForArea(string areaId) => BaseUrl + Paths["Area"] + "/" + areaId;
+
     }
 }
