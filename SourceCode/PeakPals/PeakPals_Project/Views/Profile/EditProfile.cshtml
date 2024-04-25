@@ -3,7 +3,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @model Climber
 
-@{ 
+@{
     string? email = User.Identity.Name;
     string? username = email?.Split('@')[0];
 }
@@ -13,22 +13,71 @@
     <div class="profile-box justify-context-center flex-nowrap">
         <div class="container">
             <h1 class="display-name text-warning">Edit Profile</h1>
-            <form method="post">
+            <form method="post" class="EditProfileForm">
                 <div class="form-group my-5">
                     <label asp-for="DisplayName" class="text-white">Display Name</label>
-                    <input type="text" asp-for="DisplayName" class="form-control text-black" maxlength="25" id="input-color" />
+                    <input type="text" asp-for="DisplayName" class="form-control text-black" maxlength="25"
+                        id="input-color" />
                 </div>
                 <div class="form-group my-5">
                     <label asp-for="ImageLink" class="text-white">Image Link</label>
                     <input type="text" asp-for="ImageLink" class="form-control text-black" id="input-color" />
                 </div>
                 <div class="form-group my-5">
+                    <label asp-for="CustomLink" class="text-white">Custom Link</label>
+                    <input type="text" asp-for="CustomLink" class="form-control text-black" id="input-color" placeholder="https://www.youtube.com/"/>
+                </div>
+                <div class="form-group my-5">
+                    <label asp-for="LinkText" class="text-white">Link Text</label>
+                    <input type="text" asp-for="LinkText" class="form-control text-black" id="input-color" placeholder="Check out my Youtube!" />
+                </div>
+                <div class="row">
+                    <div class="col-lg">
+                        <div class="form-group my-5">
+                            <label asp-for="FirstName" class="text-white">First Name</label>
+                            <input type="text" asp-for="FirstName" class="form-control text-black" pattern="[A-Za-z\s]*"
+                                title="Letters only" id="input-color" />
+                        </div>
+
+                    </div>
+                    <div class="col-lg">
+                        <div class="form-group my-5">
+                            <label asp-for="LastName" class="text-white">Last Name</label>
+                            <input type="text" asp-for="LastName" class="form-control text-black" pattern="[A-Za-z\s]*"
+                                title="Letters only" id="input-color" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg">
+                        <div class="form-group my-5">
+                            <label asp-for="City" class="text-white">City</label>
+                            <input type="text" asp-for="City" class="form-control text-black" pattern="[A-Za-z\s]*"
+                                title="Letters only" id="input-color" />
+                        </div>
+
+                    </div>
+                    <div class="col-lg">
+                        <div class="form-group my-5">
+                            <label asp-for="State" class="text-white">State</label>
+                            <input type="text" asp-for="State" class="form-control text-black" pattern="[A-Za-z\s]*"
+                                title="Letters only" id="input-color" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group my-5">
+                    <label asp-for="Age" class="text-white">Age</label>
+                    <input type="number" min="1" max="100" asp-for="Age" class="form-control text-black" id="input-color" />
+                </div>
+                <div class="form-group my-5">
                     <label asp-for="Bio" class="text-white">Bio</label>
-                    <textarea asp-for="Bio" class="form-control bio-textarea text-black" rows="5" maxlength="1600" id="input-color" ></textarea>
+                    <textarea asp-for="Bio" class="form-control bio-textarea text-black" rows="5" maxlength="1600"
+                        id="input-color"></textarea>
                 </div>
                 <button class="btn btn-outline-warning my-2" type="submit" id="">Submit</button>
-                <a button class="btn btn-outline-light my-2" asp-controller="Profile" asp-action="GetProfile" asp-route-username="@username">Cancel</a>  
-            </form>               
+                <a button class="btn btn-outline-light my-2" asp-controller="Profile" asp-action="GetProfile"
+                    asp-route-username="@username">Cancel</a>
+            </form>
         </div>
     </div>
 </body>

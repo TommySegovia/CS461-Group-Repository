@@ -3,6 +3,7 @@
 -- Populate Climber table
 SET IDENTITY_INSERT [Climber] ON;
 
+
 INSERT INTO [Climber] (ID, ASPNetIdentityId, FirstName, LastName, UserName, DisplayName, Bio, ImageLink)
 VALUES
     (1, '0', 'Tommy', 'Segovia', 'TomSeg1', 'Tommy', 'Bio for Tommy', 'image_link_for_tommy'),
