@@ -8,7 +8,12 @@ CREATE TABLE [Climber] (
   [UserName] nvarchar(255) NOT NULL,
   [DisplayName] nvarchar(25) NULL, 
   [Bio] nvarchar(1600) NULL,
-  [ImageLink] nvarchar(255) NULL
+  [ImageLink] nvarchar(255) NULL,
+  [CustomLink] nvarchar(255) NULL,
+  [LinkText] nvarchar(255) NULL,
+  [City] nvarchar(255) NULL,
+  [State] nvarchar(255) NULL,
+  [Age] int NULL
 );
 
 CREATE TABLE [FitnessTest] (
