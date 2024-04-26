@@ -33,6 +33,8 @@ public class ProfileController : Controller
         var currentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
         //find the user by username in the aspnetusers table
         var user = await _userManager.FindByNameAsync(username);
+        _logger.LogInformation("Username: " + username);
+        _logger.LogInformation("User: " + user);
         //find the climber by aspnetidentityid in the climber repository with a matching aspnetidentityid
         var climberProfile = _climberRepository.GetClimberModelByAspNetIdentityId(user.Id);
         
