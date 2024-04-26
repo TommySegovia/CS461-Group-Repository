@@ -5,10 +5,8 @@
 }
 
 <script>
-    // var areaPageAncestors = @Html.Raw(jsonAncestors);
     window.areaPageAncestors = @Html.Raw(jsonAncestors);
 </script>
-
 
 <body id="area-body">
     <hr>
@@ -28,9 +26,13 @@
         </div>
         <div class="row">
             <div class="col col-5">
-                <p class="my-0">Latitude and Longitude:</p>
-                <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng" id="pages-coordinates">@Model.Area.Metadata.Lat,
+                <p class="small">Listing Created on:  <span style="color:orange;" id="createdOn">@((Model.Area.AuthorMetadata.CreatedAt.HasValue) ? DateTimeOffset.FromUnixTimeMilliseconds(Model.Area.AuthorMetadata.CreatedAt.Value).DateTime.ToString("MMMM dd, yyyy") : "N/A")</span> </p>
+                <hr>
+                <p style="text-decoration: underline; font-weight: bold">Number of Climbs: <span id="pages-total-climbs">@Model.Area.TotalClimbs</span></p>
+                <p class="my-0 small">Latitude and Longitude:
+                    <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng" id="pages-coordinates">@Model.Area.Metadata.Lat,
                     @Model.Area.Metadata.Lng</a>
+                </p>
                 <!-- Map -->
                 <div id="static-map" class="my-4"></div>
                 <!---->
@@ -39,23 +41,39 @@
                 </div>
             </div>
             <div class="col col-7"  id="pages-description">
-                <h5>Description:</h5>
+                <h5 class="pages-category text-warning">Description:</h5>
                 @if (@Model.Area.Content == null || string.IsNullOrWhiteSpace(@Model.Area.Content.Description))
                 {
                     <h4 class="my-5">No information available.</h4>
                 }
                 else
                 {
-                    <h4 class="my-5" id="pages-description-text">@Model.Area.Content.Description</h4>
+                    <h4 class="my-5 pages-description-text" id="area-description">@Model.Area.Content.Description</h4>
+                }
+                
+                @if (@Model.Area.Organizations.Count > 0)
+                {
+                    <h5 class="my-3 pages-category text-warning">Organizations:</h5>
+                    @for (var i = 0; i < @Model.Area.Organizations.Count; i++)
+                    {
+                        <div>
+                            <p id="organizations-text">@Model.Area.Organizations[i].DisplayName<br>
+                            <a href="@Model.Area.Organizations[i].Content.Website" class="small">@Model.Area.Organizations[i].Content.Website</a>
+                            </p>
+                            
+                        </div>           
+                    }
+                }
+                else
+                {
+                    <h5 class="my-3 pages-category text-warning">Organizations:</h5>
+                    <p class="my-4" id="organizations-text">No organizations listed.</p>
                 }
 
             </div>
         </div>
-
     </div>
-
     <hr>
-
     <div>
         @if (Model.Area.Children != null && Model.Area.Children.Count > 0)
         {
@@ -107,13 +125,11 @@
             }
         }
 
-
         @if (Model.Area.Climbs != null && Model.Area.Climbs.Count > 0)
         {
             <h4 class="mx-3 my-4 card-descript"><u><b>Climbs:</b></u></h4>
             @for (var i = 0; i < Model.Area.Climbs.Count; i += 3)
             {
-
                 <div class="row" id="card-rows">
                     <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
                         <div class="table">
@@ -158,30 +174,25 @@
             }
         }
     </div>
-
     <hr>
 
-    
     <div id="dynamic-map-box" class="my-3">
         
         <div id="dynamic-map" data-latitude="@Model.Area.Metadata.Lat" data-longitude="@Model.Area.Metadata.Lng" data-name="@Model.Area.Area_Name" data-id="@Model.Area.Uuid" data-mode="2d">
             <button class="btn btn-primary my-1" id="dimension-button" style="position: absolute; z-index: 1;">2D/3D Toggle</button>
         </div>
     </div>
-
-
 </body>
 
 @section Scripts
 {
- 
     <script type="module" src="~/js/site.js"></script>
+        
     <script>
-
         // static map //
         const staticMap = new maplibregl.Map({
             container: 'static-map', // container id
-            style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', // style URL
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=UOg2RBrpGopXMv4mVlUW', // style URL
             center: [@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat], // starting position [lng, lat]
             zoom: 7, // starting zoom
         });
@@ -190,9 +201,6 @@
         const staticMapMarker = new maplibregl.Marker()
             .setLngLat([@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat])
             .addTo(staticMap);
-        
-        //////////////
-
     </script>
 }
 
