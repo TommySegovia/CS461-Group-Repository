@@ -6,6 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Reqnroll;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using PeakPals_BDD_Tests.PageObjects;
+using PeakPals_BDD_Tests.Shared;
+using NUnit.Framework;
+
 
 namespace PeakPals_BDD_Tests.Hooks
 {
@@ -26,6 +32,14 @@ namespace PeakPals_BDD_Tests.Hooks
         {
             //Initialize a shared BrowserDriver in the global container
             testThreadContainer.BaseContainer.Resolve<BrowserDriver>();
+        }
+        [AfterScenario]
+        public void AfterScenario(BrowserDriver browserDriver)
+        {
+            //Reset the browser state after each scenario
+            browserDriver.Current.Navigate().GoToUrl(Common.UrlFor("Home"));
+            //log out
+            browserDriver.Current.FindElement(By.CssSelector("button[type='submit']")).Click();
         }
     }
 }
