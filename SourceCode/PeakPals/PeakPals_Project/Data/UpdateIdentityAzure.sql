@@ -117,3 +117,31 @@ GO
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+GO
+
+ALTER TABLE [AspNetUsers] ADD [Age] int NULL;
+GO
+
+ALTER TABLE [AspNetUsers] ADD [ClimbingExperience] nvarchar(15) NULL;
+GO
+
+ALTER TABLE [AspNetUsers] ADD [Gender] nvarchar(20) NULL;
+GO
+
+ALTER TABLE [AspNetUsers] ADD [Height] int NULL;
+GO
+
+ALTER TABLE [AspNetUsers] ADD [MaxClimbGrade] int NULL;
+GO
+
+ALTER TABLE [AspNetUsers] ADD [Weight] int NULL;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240304121925_CustomUserData', N'8.0.1');
+GO
+
+COMMIT;
+GO
+

@@ -31,7 +31,8 @@ namespace PeakPals_BDD_Tests.Shared
             { "NotFound", "/Home/NotFound" },
             { "ServerError", "/Home/ServerError" },
             { "Search", "/locations/search" },
-            { "Area", "/locations/areas" }
+            { "Area", "/locations/areas" },
+            { "Profile", "/Profile"}
         };
 
         public static string PathFor(string pathName) => Paths[pathName];

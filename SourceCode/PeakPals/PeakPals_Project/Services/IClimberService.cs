@@ -8,7 +8,7 @@ namespace PeakPals_Project.Services
 {
     public interface IClimberService
     {
-        public ClimberDTO AddNewClimber(string? aspNetIdentityId, string? firstName, string? lastName, string? userName);
+        public ClimberDTO AddNewClimber(string? aspNetIdentityId, string? userName);
         public void UpdateClimber(Climber climber);
         
     }

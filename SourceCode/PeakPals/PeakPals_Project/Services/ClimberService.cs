@@ -21,14 +21,12 @@ namespace PeakPals_Project.Services
             _context = context;
         }
 
-        public ClimberDTO AddNewClimber(string? aspNetIdentityId, string? firstName, string? lastName, string? userName)
+        public ClimberDTO AddNewClimber(string? aspNetIdentityId, string? userName)
         {
             Climber climber = new Climber
             {
                 Id = 0,
                 AspnetIdentityId = aspNetIdentityId,
-                FirstName = firstName,
-                LastName = lastName,
                 UserName = userName
             };
             _climberRepository.AddOrUpdate(climber);
