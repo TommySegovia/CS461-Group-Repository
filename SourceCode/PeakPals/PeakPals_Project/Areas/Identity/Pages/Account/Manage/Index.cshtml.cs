@@ -60,6 +60,7 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
+            public string? UserName { get; set; }
             public int? Age { get; set; }
 
             public string? Gender { get; set; }
@@ -86,6 +87,7 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                UserName = userName,
                 Age = user.Age,
                 Gender = user.Gender,
                 Height = user.Height,
@@ -133,6 +135,11 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            if (Input.UserName != user.UserName && Input.UserName != null)
+            {
+                user.UserName = Input.UserName;
+            }
+
             if (Input.Age != user.Age)
             {
                 user.Age = Input.Age;
@@ -163,7 +170,12 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
                 user.MaxClimbGrade = Input.MaxClimbGrade;
             }
 
-            await _userManager.UpdateAsync(user);
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                StatusMessage = "Unexpected error when trying to update user.";
+                return RedirectToPage();
+            }
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
