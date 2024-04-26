@@ -9,7 +9,34 @@
 </script>
 
 <body id="area-body">
-    <hr>
+    <div class="container">
+        <div class="row">
+            @if (Model.Area.Media.Count == 0) {
+                <div class="col col-4">
+                    <div id="area-images" style="width: 100%; height: 340px; overflow: hidden; position: relative;">
+                        <img src="@("https://media.openbeta.io" + Model.Area.Media[0].MediaUrl)" style="position: absolute; top: -100px; width: 100%; height: calc(100% + 200px); object-fit: scale-down;"> 
+                    </div>   
+                </div>   
+            }
+             @if (Model.Area.Media.Count > 1) {
+                <div class="col col-4">
+                    <div id="area-images" style="width: 100%; height: 340px; overflow: hidden; position: relative;">
+                        <img src="@("https://media.openbeta.io" + Model.Area.Media[0].MediaUrl)" style="position: absolute; top: -100px; width: 100%; height: calc(100% + 200px); object-fit: scale-down;"> 
+                    </div>   
+                </div>
+                <div class="col col-4">
+                    <div id="area-images" style="width: 100%; height: 340px; overflow: hidden; position: relative;">
+                        <img src="@("https://media.openbeta.io" + Model.Area.Media[1].MediaUrl)" style="position: absolute; top: -100px; width: 100%; height: calc(100% + 200px); object-fit: scale-down;"> 
+                    </div>   
+                </div>
+                <div class="col col-4">
+                    <div id="area-images" style="width: 100%; height: 340px; overflow: hidden; position: relative;">
+                        <img src="@("https://media.openbeta.io" + Model.Area.Media[2].MediaUrl)" style="position: absolute; top: -100px; width: 100%; height: calc(100% + 200px); object-fit: scale-down;"> 
+                    </div>   
+                </div>      
+            }
+        </div>
+    </div>
     <div class="container border border-dark" id="locations-pages-box">
         <div class="row">
             <div class="col col-12">
@@ -19,7 +46,7 @@
             </div>
         </div>
         <hr>
-        <div class="row my-5 p-2">
+        <div class="row my-3 p-2">
             <div>
                 <h1 id="pages-title-name"><b>@Model.Area.Area_Name</b></h1>
             </div>
@@ -57,7 +84,7 @@
                     @for (var i = 0; i < @Model.Area.Organizations.Count; i++)
                     {
                         <div>
-                            <p id="organizations-text">@Model.Area.Organizations[i].DisplayName<br>
+                            <p id="organizations-text">@Model.Area.Organizations[i].DisplayName <br>
                             <a href="@Model.Area.Organizations[i].Content.Website" class="small">@Model.Area.Organizations[i].Content.Website</a>
                             </p>
                             
