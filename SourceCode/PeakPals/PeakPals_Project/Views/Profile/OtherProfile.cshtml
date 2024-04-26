@@ -12,9 +12,17 @@
                     else{
                         <img src="@Model.ImageLink" onerror="this.onerror=null; this.src='/images/blank_profile.png';" class="profile-image" />
                     }   
+                    <p class="text-light">@Model.FirstName @Model.LastName</p>
+                        <p class="text-light">@Model.City @Model.State</p>
+                        @if (@Model.Age != null){
+                            <p class="text-light">@Model.Age years old</p>
+                        }
+                    @if (@Model.CustomLink != null ){
+                        <a href="@Model.CustomLink" class="link-text" target="_blank">@Model.LinkText</a>
+                    }
                 </div>
                 <div class="col-9">
-                    <div class="row align-items-start my-2">
+                     @* <div class="row align-items-start my-2">
                         <div class="col-4">
                             <button class="btn btn-black text-white" id="btn-tabs">Biography</button>
                         </div>
@@ -24,7 +32,7 @@
                         <div class="col-4">
                             <button class="btn btn-black text-white" id="btn-tabs">Climb History</button>
                         </div>
-                    </div>
+                    </div>  *@
                     <hr class="bg-warning">
                     @if (@Model.DisplayName == null){
                         <h1 class="display-name text-warning">@Model.UserName</h1>

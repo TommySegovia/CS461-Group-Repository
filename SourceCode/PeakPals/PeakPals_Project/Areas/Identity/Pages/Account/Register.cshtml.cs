@@ -134,11 +134,9 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account
                     var climber = new Climber
                     {
                         AspnetIdentityId = user.Id,
-                        UserName = userName,
-                        FirstName = "John",
-                        LastName = "Doe"
+                        UserName = userName
                     };
-                    _climberService.AddNewClimber(climber.AspnetIdentityId, climber.FirstName, climber.LastName, climber.UserName);
+                    _climberService.AddNewClimber(climber.AspnetIdentityId, climber.UserName);
 
 
                     var userId = await _userManager.GetUserIdAsync(user);

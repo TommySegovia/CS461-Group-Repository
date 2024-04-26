@@ -4,6 +4,7 @@ using OpenQA.Selenium.Firefox;
 using PeakPals_BDD_Tests.PageObjects;
 using PeakPals_BDD_Tests.Shared;
 using NUnit.Framework;
+using PeakPals_BDD_Tests.Drivers;
 
 namespace PeakPals_BDD_Tests.StepDefinitions;
 
@@ -14,9 +15,9 @@ public sealed class RecordingAndReportSteps
     private readonly ReportPageObject _reportPage;
     private readonly LoginPageObject _loginPage;
     private readonly IWebDriver _webDriver;
-    public RecordingAndReportSteps()
+    public RecordingAndReportSteps(BrowserDriver browserDriver)
     {
-        _webDriver = new FirefoxDriver();
+        _webDriver = browserDriver.Current;
         _recordPage = new RecordPageObject(_webDriver);
         _reportPage = new ReportPageObject(_webDriver);
         _loginPage = new LoginPageObject(_webDriver);

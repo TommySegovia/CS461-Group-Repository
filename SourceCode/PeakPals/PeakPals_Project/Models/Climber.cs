@@ -19,10 +19,10 @@ public partial class Climber
     public string AspnetIdentityId { get; set; } = null!;
 
     [StringLength(255)]
-    public string FirstName { get; set; } = null!;
+    public string? FirstName { get; set; } = null!;
 
     [StringLength(255)]
-    public string LastName { get; set; } = null!;
+    public string? LastName { get; set; } = null!;
 
     [JsonIgnore]
     [StringLength(255)]
@@ -36,6 +36,20 @@ public partial class Climber
 
     [StringLength(255)]
     public string? ImageLink { get; set; }
+    
+    [StringLength(255)]
+    public string? CustomLink { get; set; }
+
+    [StringLength(255)]
+    public string? LinkText { get; set; }
+
+    [StringLength(255)]
+    public string? City { get; set; }
+
+    [StringLength(255)]
+    public string? State { get; set; }
+    
+    public int? Age { get; set; }
 
     [InverseProperty("Climber")]
     public virtual ICollection<FitnessDataEntry> FitnessDataEntries { get; set; } = new List<FitnessDataEntry>();
