@@ -160,9 +160,14 @@
 
 }
 
-#pages-description-text
+.pages-category
 {
-    font-size: 1.2em;
+    font-size: 1.6em;
+}
+
+.pages-description-text
+{
+    font-size: 1.1em;
 }
 
 .custom-card
@@ -244,6 +249,17 @@
     border-radius: 4px;
     border-width: 2px;
     border-style: solid;
+}
+
+#noHoverButton {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    border-radius: 4px !important;
+    padding: 0.3em;
+    padding-right: 1.5em;
+    padding-left: 1.5em; 
+    border-style: solid !important;
+    box-shadow: none !important;
 }
 
 @media (max-width: 1400px)
