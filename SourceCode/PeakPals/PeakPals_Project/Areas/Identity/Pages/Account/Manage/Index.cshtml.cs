@@ -135,46 +135,19 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            if (Input.UserName != user.UserName && Input.UserName != null)
+            // Update the username
+            if (Input.UserName != user.UserName)
             {
                 user.UserName = Input.UserName;
-            }
+                var setUserNameResult = await _userManager.UpdateAsync(user);
+                if (!setUserNameResult.Succeeded)
+                {
+                    StatusMessage = "Unexpected error when trying to set user name.";
+                    return RedirectToPage();
+                }
 
-            if (Input.Age != user.Age)
-            {
-                user.Age = Input.Age;
-            }
-
-            if (Input.Gender != user.Gender)
-            {
-                user.Gender = Input.Gender;
-            }
-
-            if (Input.Height != user.Height)
-            {
-                user.Height = Input.Height;
-            }
-
-            if (Input.Weight != user.Weight)
-            {
-                user.Weight = Input.Weight;
-            }
-
-            if (Input.ClimbingExperience != user.ClimbingExperience)
-            {
-                user.ClimbingExperience = Input.ClimbingExperience;
-            }
-
-            if (Input.MaxClimbGrade != user.MaxClimbGrade)
-            {
-                user.MaxClimbGrade = Input.MaxClimbGrade;
-            }
-
-            var result = await _userManager.UpdateAsync(user);
-            if (!result.Succeeded)
-            {
-                StatusMessage = "Unexpected error when trying to update user.";
-                return RedirectToPage();
+                // Refresh the sign-in cookie
+                await _signInManager.RefreshSignInAsync(user);
             }
 
             await _signInManager.RefreshSignInAsync(user);
