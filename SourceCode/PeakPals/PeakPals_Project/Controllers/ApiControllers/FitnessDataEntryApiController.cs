@@ -193,13 +193,9 @@ namespace PeakPals_Project.Controllers
                     }
                     string userName = email.Split('@')[0];
 
-                    //placeholder names until we make a user profile page
-                    string firstName = "John";
-                    string lastName = "Doe";
 
 
-
-                    climberDTO = _climberService.AddNewClimber(aspNetIdentityId, firstName, lastName, userName);
+                    climberDTO = _climberService.AddNewClimber(aspNetIdentityId, userName);
 
                     _fitnessDataEntryService.RecordTestResult(climberDTO.Id, testId, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight, age, gender, climbingExperience, maxClimbGrade);
                     return Ok(new { Message = "Test Recorded" });

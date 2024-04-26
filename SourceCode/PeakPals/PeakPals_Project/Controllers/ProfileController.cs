@@ -74,6 +74,13 @@ public class ProfileController : Controller
         currentUser.DisplayName = model.DisplayName;
         currentUser.ImageLink = model.ImageLink;
         currentUser.Bio = model.Bio;
+        currentUser.CustomLink = model.CustomLink;
+        currentUser.LinkText = model.LinkText;
+        currentUser.City = model.City;
+        currentUser.State = model.State;
+        currentUser.Age = model.Age;
+        currentUser.FirstName = model.FirstName;
+        currentUser.LastName = model.LastName;
 
         _climberService.UpdateClimber(currentUser);
 
