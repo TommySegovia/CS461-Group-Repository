@@ -12,6 +12,8 @@ using PeakPals_Project.DAL.Abstract;
 using PeakPals_Project.ExtensionMethods;
 using PeakPals_Project.Services;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using PeakPals_Project.Areas.Identity.Data;
 
 namespace PeakPals_Project.Controllers
 {
@@ -22,36 +24,46 @@ namespace PeakPals_Project.Controllers
         private readonly IFitnessDataEntryService _fitnessDataEntryService;
         private readonly IClimberService _climberService;
         private readonly IClimberRepository _climberRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CommunityApiController(IClimberService climberService, IClimberRepository climberRepository)
+        public CommunityApiController(IClimberService climberService, IClimberRepository climberRepository, UserManager<ApplicationUser> userManager)
         {
             _climberService = climberService;
             _climberRepository = climberRepository;
+            _userManager = userManager;
         }
 
         [HttpGet("search/{username}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClimberDTO))]
-        public ActionResult<List<ClimberDTO>> GetUserResults(string? username)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ClimberDTO>))]
+        public async Task<ActionResult<List<ClimberDTO>>> GetUserResults(string? username)
         {
-            if (username == "") {
-                return BadRequest(new { Message = "Name field cannot be empty."});
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest(new { Message = "Username field cannot be empty." });
             }
 
-            if (username != null) {
-                var climbersDTO = _climberRepository.GetClimbersByUsername(username);
+            // Fetch users with usernames containing the search username
+            var users = await _userManager.Users.Where(u => u.UserName.Contains(username)).ToListAsync();
 
-                if (climbersDTO != null)
-                {
-                    return Ok(climbersDTO);
-                }
-                else
-                {
-                    return NotFound(new { Message = "No user found with this username."});
-                }
-                
-            } else {
-                return BadRequest(new { Message = "Name field cannot be empty."});
+            if (users == null || users.Count == 0)
+            {
+                return Ok(new List<ClimberDTO>()); // Return an empty list if no user is found
             }
+
+            var climberDTOs = new List<ClimberDTO>();
+            foreach (var user in users)
+            {
+                var climber = _climberRepository.GetClimberModelByAspNetIdentityId(user.Id);
+                if (climber != null)
+                {
+                    var climberDTO = climber.ToDTO();
+                    climberDTOs.Add(climberDTO);
+                }
+            }
+
+            return Ok(climberDTOs);
         }
+
+
     }
 }
