@@ -1,4 +1,13 @@
+@using PeakPals_Project.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
 @model Climber
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    string? aspnetId = Model.AspnetIdentityId;
+    var user = await UserManager.FindByIdAsync(aspnetId);
+    // Ensure that the user is not null before accessing properties
+}
 
 <body id="profile-body">
 
@@ -34,12 +43,10 @@
                         </div>
                     </div>  *@
                     <hr class="bg-warning">
-                    @if (@Model.DisplayName == null){
-                        <h1 class="display-name text-warning">@Model.UserName</h1>
+                    @if (user != null)
+                    {
+                        <h1 class="display-name text-warning">@user.UserName</h1>
                     }
-                    else{
-                        <h1 class="display-name text-warning">@Model.DisplayName</h1>
-                    } 
                     
                     <hr class="bg-warning">
                     <div class="row align-items-start">

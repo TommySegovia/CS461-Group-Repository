@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PeakPals_Project.Areas.Identity.Data;
+using PeakPals_Project.DAL.Abstract;
 
 namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
 {
@@ -17,14 +18,18 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IClimberRepository _climberRepository;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IClimberRepository climberRepository) // Add IClimberRepository as a parameter
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _climberRepository = climberRepository; // Initialize _climberRepository
         }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -60,6 +65,8 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
+            [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Username can only contain alphanumeric characters and underscores.")]
+            public string? UserName { get; set; }
             public int? Age { get; set; }
 
             public string? Gender { get; set; }
@@ -86,6 +93,7 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                UserName = userName,
                 Age = user.Age,
                 Gender = user.Gender,
                 Height = user.Height,
@@ -133,41 +141,39 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            if (Input.Age != user.Age)
+            // Update the username
+            if (Input.UserName != user.UserName)
             {
-                user.Age = Input.Age;
+                var existingUser = await _userManager.FindByNameAsync(Input.UserName);
+                if (existingUser != null)
+                {
+                    StatusMessage = "Username already exists. Please choose a different one.";
+                    return RedirectToPage();
+                }
+
+                user.UserName = Input.UserName;
+                var setUserNameResult = await _userManager.UpdateAsync(user);
+                if (!setUserNameResult.Succeeded)
+                {
+                    StatusMessage = "Unexpected error when trying to set user name.";
+                    return RedirectToPage();
+                }
+
+                // Refresh the sign-in cookie
+                await _signInManager.RefreshSignInAsync(user);
+
+                // Update the username in the Climber model
+                var climber = _climberRepository.GetClimberModelByAspNetIdentityId(user.Id);
+                if (climber != null)
+                {
+                    climber.UserName = Input.UserName;
+                    _climberRepository.UpdateUserName(user.Id, Input.UserName);
+                }
             }
 
-            if (Input.Gender != user.Gender)
-            {
-                user.Gender = Input.Gender;
-            }
-
-            if (Input.Height != user.Height)
-            {
-                user.Height = Input.Height;
-            }
-
-            if (Input.Weight != user.Weight)
-            {
-                user.Weight = Input.Weight;
-            }
-
-            if (Input.ClimbingExperience != user.ClimbingExperience)
-            {
-                user.ClimbingExperience = Input.ClimbingExperience;
-            }
-
-            if (Input.MaxClimbGrade != user.MaxClimbGrade)
-            {
-                user.MaxClimbGrade = Input.MaxClimbGrade;
-            }
-
-            await _userManager.UpdateAsync(user);
-
-            await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+
     }
 }

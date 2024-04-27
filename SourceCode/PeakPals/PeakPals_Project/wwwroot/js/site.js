@@ -3,7 +3,6 @@ import { fetchAreaAncestors } from "/js/api.js";
 import { locationsSearchButtonClicked } from "/js/eventhandlers.js";
 import { initializeDynamicMapArea, initializeDynamicMapClimb } from "/js/map.js";
 
-
 document.addEventListener("DOMContentLoaded", async function() 
 {
     console.log("Index page created.")
@@ -51,8 +50,9 @@ document.addEventListener("DOMContentLoaded", async function()
                 initializeDynamicMapArea(lng, lat, name, id, mode);
             });
         }
-        
     }
+    
+    
 
     //locations/climbs.cshtml
     const climbsAncestorLinksDiv = document.getElementById("climbs-ancestor-links");
@@ -82,18 +82,9 @@ document.addEventListener("DOMContentLoaded", async function()
                 mapElement.dataset.mode = mode;
                 initializeDynamicMapClimb(lng, lat, name, id, ancestors, mode);
             });
-
         }
-        
     }
-    
-    
+
 });
-
-
-
-
-
-
 
 

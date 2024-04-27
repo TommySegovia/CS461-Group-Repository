@@ -27,12 +27,17 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        //builder.Configuration.AddAzureKeyVault(new Uri("https://peakpalsvaults.vault.azure.net/"), new DefaultAzureCredential());
+
         // Add services to the container.
         //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
         var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
 
-        
+        //var connectionStringAuth = builder.Configuration.GetValue<string>("ConnectionStrings:PeakPalsAuthDB") ?? throw new InvalidOperationException("Secret 'PeakPalsAuthDB' not found.");
+        //var connectionStringApp = builder.Configuration.GetValue<string>("ConnectionStrings:PeakPalsAppDB") ?? throw new InvalidOperationException("Secret 'PeakPalsAppDB' not found.");
+
+
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
                                     .UseSqlServer(connectionStringAuth)
                                     //.UseSqlServer(connectionString)
@@ -44,7 +49,6 @@ public class Program
                                 //.UseSqlServer(connectionString) 
                                 .UseLazyLoadingProxies());
 
-        //builder.Configuration.AddAzureKeyVault(new Uri("https://peakpalsvault.vault.azure.net/"), new DefaultAzureCredential());
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -71,7 +75,7 @@ public class Program
         builder.Services.AddTransient<IEmailSender, EmailSender>();
         builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
-        builder.Services.AddScoped(sp => new GraphQLHttpClient("https://stg-api.openbeta.io", new NewtonsoftJsonSerializer()));
+        builder.Services.AddScoped(sp => new GraphQLHttpClient("https://api.openbeta.io", new NewtonsoftJsonSerializer()));
 
         builder.Services.AddScoped<IOpenBetaApiService, OpenBetaApiService>();
 
