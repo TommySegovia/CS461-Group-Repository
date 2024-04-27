@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PeakPals_Project.Areas.Identity.Data;
+using PeakPals_Project.DAL.Abstract;
 
 namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
 {
@@ -17,14 +18,18 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IClimberRepository _climberRepository;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IClimberRepository climberRepository) // Add IClimberRepository as a parameter
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _climberRepository = climberRepository; // Initialize _climberRepository
         }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -148,11 +153,20 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
 
                 // Refresh the sign-in cookie
                 await _signInManager.RefreshSignInAsync(user);
+
+                // Update the username in the Climber model
+                var climber = _climberRepository.GetClimberModelByAspNetIdentityId(user.Id);
+                if (climber != null)
+                {
+                    climber.UserName = Input.UserName;
+                    _climberRepository.UpdateUserName(user.Id, Input.UserName);
+                                                       
+                }
             }
 
-            await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+
     }
 }

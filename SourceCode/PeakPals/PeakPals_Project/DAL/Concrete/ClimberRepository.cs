@@ -52,10 +52,12 @@ namespace PeakPals_Project.DAL.Concrete
         {
             var climber = _climber.FirstOrDefault(c => c.UserName == username);
 
-            if (climber != null) {
+            if (climber != null)
+            {
                 return climber;
             }
-            else {
+            else
+            {
                 return null;
             }
         }
@@ -72,11 +74,28 @@ namespace PeakPals_Project.DAL.Concrete
                 climbersDTO.Add(temp);
             }
 
-            if (climbers != null) {
+            if (climbers != null)
+            {
                 return climbersDTO;
             }
-            else {
+            else
+            {
                 return null;
+            }
+        }
+
+        public void UpdateUserName(string aspNetIdentityId, string newUserName)
+        {
+            var climber = GetClimberModelByAspNetIdentityId(aspNetIdentityId);
+
+            if (climber != null)
+            {
+                climber.UserName = newUserName;
+                AddOrUpdate(climber);
+            }
+            else
+            {
+                throw new Exception("Climber not found");
             }
         }
     }
