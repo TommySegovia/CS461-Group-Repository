@@ -11,6 +11,15 @@
   margin-right: auto;
 }
 
+#search-body
+{
+  background-image: url('../images/background_image.png');
+  background-position: center;
+  background-repeat: repeat;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .welcome-locations {
     /*font-style:oblique; */
@@ -69,17 +78,45 @@
 
 }
 
-.modal-header
+.modal-header-pages
 {
-    background-color: rgb(255, 162, 0);
+    background-color: rgb(36, 36, 36);
     border-radius: 5px;
+    padding: 1em;
 }
 
 .modal-content
 {
     background-color: white;
     border-radius: 10px;
+    overflow: auto !important;
+    height: 95vh;
 }
+
+.modal-body {
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
 
 #search-input
 {
@@ -208,6 +245,7 @@
 #card-rows
 {
     margin-left: 4em;
+    margin-right: 0em;
 }
 
 #static-map
@@ -227,10 +265,10 @@
 #dynamic-map
 {
     height: 1000px;
-    width: 150%;
+    width: 100%;
     left: 0;
     right: 0;
-    margin-left: -25%;
+    margin-left: 0%;
     margin-right: 0;
     margin-top: 3em;
     margin-bottom: 2em;
@@ -242,10 +280,10 @@
 #dynamic-map-climb
 {
     height: 1000px;
-    width: 150%;
+    width: 100%;
     left: 0;
     right: 0;
-    margin-left: -25%;
+    margin-left: 0;
     margin-right: 0;
     margin-top: 3em;
     margin-bottom: 2em;
@@ -259,8 +297,8 @@
     border-color: #007bff !important;
     border-radius: 4px !important;
     padding: 0.3em;
-    padding-right: 1.5em;
-    padding-left: 1.5em; 
+    padding-right: 0.8em;
+    padding-left: 0.8em; 
     border-style: solid !important;
     box-shadow: none !important;
 }
@@ -276,6 +314,7 @@
 #area-images
 {
     border: 0.5em solid black;
+    background-color: rgb(36, 36, 36);
 }
 
 @media (max-width: 1400px)

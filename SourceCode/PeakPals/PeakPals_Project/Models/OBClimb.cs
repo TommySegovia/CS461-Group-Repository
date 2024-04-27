@@ -16,6 +16,7 @@ public class OBClimb
         public Content Content { get; set; } 
         public Grades Grades { get; set; }
         public Type Type { get; set; }
+        public List<Media>? Media { get; set; }
     }
 
     public class Metadata
@@ -49,6 +50,11 @@ public class OBClimb
         public bool? Mixed { get; set; }
         public bool? Aid { get; set; }
         public bool? Tr { get; set; }
+    }
+
+    public class Media
+    {
+        public string? MediaUrl { get; set; }
     }
 
 
