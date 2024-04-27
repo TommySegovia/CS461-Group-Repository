@@ -13,8 +13,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.UserName" class="form-control" placeholder="Please choose your username." />
-                <label asp-for="Username" class="form-label"></label>
-                <span asp-validation-for="Username" class="text-danger"></span>
+                <label asp-for="Input.UserName" class="form-label"></label>
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input min="1" max="100" asp-for="Input.Age" class="form-control" />

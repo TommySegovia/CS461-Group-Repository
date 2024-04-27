@@ -65,6 +65,7 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
+            [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Username can only contain alphanumeric characters and underscores.")]
             public string? UserName { get; set; }
             public int? Age { get; set; }
 
@@ -143,6 +144,13 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
             // Update the username
             if (Input.UserName != user.UserName)
             {
+                var existingUser = await _userManager.FindByNameAsync(Input.UserName);
+                if (existingUser != null)
+                {
+                    StatusMessage = "Username already exists. Please choose a different one.";
+                    return RedirectToPage();
+                }
+
                 user.UserName = Input.UserName;
                 var setUserNameResult = await _userManager.UpdateAsync(user);
                 if (!setUserNameResult.Succeeded)
@@ -160,7 +168,6 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
                 {
                     climber.UserName = Input.UserName;
                     _climberRepository.UpdateUserName(user.Id, Input.UserName);
-                                                       
                 }
             }
 
