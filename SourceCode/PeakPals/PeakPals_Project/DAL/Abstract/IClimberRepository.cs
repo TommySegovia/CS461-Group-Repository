@@ -9,5 +9,6 @@ namespace PeakPals_Project.DAL.Abstract
         public Climber GetClimberModelByAspNetIdentityId(string aspNetIdentityId);
         public Climber GetClimberByUsername(string username);
         public List<ClimberDTO> GetClimbersByUsername(string username);
+        void UpdateUserName(string aspNetIdentityId, string newUserName);
     }
 }
