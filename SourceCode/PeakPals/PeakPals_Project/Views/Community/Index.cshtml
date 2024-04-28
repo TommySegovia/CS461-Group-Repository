@@ -50,7 +50,7 @@
             <div class="text-white" id="or-text">or</div>
         </div>
         <div class="text-center">
-            <button type="submit" class="btn btn-warning" id="community-group-create-button"
+            <button type="submit" class="btn btn-warning" id="community-group-create-button" data-bs-toggle="modal" data-bs-target="#createGroupModal"
                 style="border-radius: 5px;">Create One!</button>
         </div>
 
@@ -72,6 +72,32 @@
             </div>
         </div>
     </template>
+
+ 
+    <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createGroupModalLabel">Create a Group</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createGroupForm">
+                        <div class="mb-3">
+                            <label for="groupName" class="form-label">Group Name</label>
+                            <input type="text" class="form-control" id="groupName" name="groupName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="groupDescription" class="form-label">Group Description</label>
+                            <input type="text" class="form-control" id="groupDescription" name="groupDescription">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </body>

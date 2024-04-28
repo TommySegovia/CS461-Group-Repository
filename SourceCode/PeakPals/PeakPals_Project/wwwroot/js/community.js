@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", function()
 
     const communityGroupSearchButton = document.getElementById("community-group-search-button");
     communityGroupSearchButton.addEventListener("click", communityGroupSearchButtonClicked, false);
+
+    const createGroupForm = document.getElementById("createGroupForm");
+    createGroupForm.addEventListener("submit", createGroupButtonClicked, false);
 });
 
 async function searchButtonClicked(e)
@@ -151,4 +154,52 @@ async function communityGroupSearchButtonClicked(e){
         console.log("created a new community group object to show.");
 
     })
+}
+
+async function createGroupButtonClicked(e){
+    //creates a new community group and adds it to the database
+    console.log("create group button clicked.")
+    e.preventDefault();
+    const errorMessage = document.createElement("p");
+    const validationWarning = document.getElementById("community-validation-warning");
+    validationWarning.innerHTML = "";
+
+    const groupName = document.getElementById("groupName").value;
+    const groupDescription = document.getElementById("groupDescription").value;
+
+    if (groupName === "")
+    {
+        errorMessage.textContent = "Invalid input. Please enter a group name.";
+        errorMessage.classList.add("error-message");
+        validationWarning.appendChild(errorMessage);
+        return;
+    }
+
+    if (groupDescription === "")
+    {
+        errorMessage.textContent = "Invalid input. Please enter a group description.";
+        errorMessage.classList.add("error-message");
+        validationWarning.appendChild(errorMessage);
+        return;
+    }
+
+    const url = `/api/community/create/group`;
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({name: groupName, description: groupDescription})
+    });
+    console.log(response);
+    if (!response.ok)
+    {
+        errorMessage.textContent = "Sorry, the response returned an error."
+        errorMessage.classList.add("error-message");
+        validationWarning.appendChild(errorMessage);
+        return;
+    }
+    const communityGroup = await response.json();
+    console.log(communityGroup);
+    window.location.href = `/Community/Group/${communityGroup.id}`;
 }
