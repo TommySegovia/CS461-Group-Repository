@@ -22,13 +22,19 @@
             </div>
             <div class="row" id="group-footer">
                 <div class="col">
-                    <button type="submit" class="btn btn-warning" id="community-group-join-button"
-                        style="border-radius: 5px;">Join</button>
+                    @* <button type="submit" class="btn btn-warning" id="community-group-join-button"
+                        style="border-radius: 5px;">Join</button> *@
+                        <button type="submit" id="community-group-button" data-group-id="@Model.Id"></button>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
+@section Scripts
+{
+    <script src="~/js/communityGroups.js"></script>
+}
 
 @section Styles {
     <link rel="stylesheet" href="~/css/communityGroup.css">

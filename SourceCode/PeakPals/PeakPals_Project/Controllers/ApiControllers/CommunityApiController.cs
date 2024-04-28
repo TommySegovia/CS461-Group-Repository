@@ -131,5 +131,38 @@ namespace PeakPals_Project.Controllers
             return Ok(group);
 
         }
+
+        //check if the user is a member of the group
+        [HttpGet("check/group/{groupID}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        public async Task<ActionResult<bool>> CheckGroupMembership(int groupID)
+        {
+            // Get the current user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            // Get the group list entry for the current user and group
+            var groupListEntry = _groupListRepository.GetGroupListByClimberIDAndGroupID(climber.Id, groupID);
+
+            if (groupListEntry == null || groupListEntry.Count == 0)
+            {
+                return Ok(false); // Return false if the user is not a member of the group
+            }
+
+            return Ok(true);
+
+        }
     }
 }

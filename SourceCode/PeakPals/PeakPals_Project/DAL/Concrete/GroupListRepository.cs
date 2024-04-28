@@ -30,5 +30,33 @@ namespace PeakPals_Project.DAL.Concrete
             _groupList.Add(groupList);
         }
 
+        public void RemoveGroupFromGroupList(int climberID, int communityGroupID)
+        {
+            // Search the GroupList table for a GroupList object with the specified climber ID and community group ID
+            // If the object exists, remove it from the table
+            var groupList = _groupList.FirstOrDefault(c => c.ClimberID == climberID && c.CommunityGroupID == communityGroupID);
+
+            if (groupList != null)
+            {
+                _groupList.Remove(groupList);
+            }
+        }
+        
+        public List<GroupList> GetGroupListByClimberIDAndGroupID(int climberID, int communityGroupID)
+        {
+            // Search the GroupList table for GroupList objects with the specified climber ID and community group ID
+            // If there are any, return the list; otherwise, return an empty list
+            var groupList = _groupList.Where(c => c.ClimberID == climberID && c.CommunityGroupID == communityGroupID).ToList();
+
+            if (groupList != null)
+            {
+                return groupList;
+            }
+            else
+            {
+                return new List<GroupList>();
+            }
+        }
+
     }
 }
