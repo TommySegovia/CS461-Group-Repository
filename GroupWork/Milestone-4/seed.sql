@@ -131,9 +131,9 @@ SET IDENTITY_INSERT [CommunityGroup] OFF;
 --Seed data for GroupList
 SET IDENTITY_INSERT [GroupList] ON;
 
-INSERT INTO [GroupList] (ID, CommunityGroupID)
+INSERT INTO [GroupList] (ID, ClimberID, CommunityGroupID)
 VALUES
-    (1, 1)
+    (1, 1, 1)
 
 SET IDENTITY_INSERT [GroupList] OFF;
 

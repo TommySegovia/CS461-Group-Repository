@@ -8,5 +8,6 @@ namespace PeakPals_Project.DAL.Abstract
     {
         Task<List<CommunityGroup>> GetGroupsByName(string groupName);
         Task<CommunityGroup> GetGroupById(int groupID);
+
     }
 }

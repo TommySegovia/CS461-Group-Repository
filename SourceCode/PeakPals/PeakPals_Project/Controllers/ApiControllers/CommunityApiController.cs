@@ -26,13 +26,16 @@ namespace PeakPals_Project.Controllers
         private readonly IClimberRepository _climberRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICommunityGroupRepository _communityGroupRepository;
+        private readonly IGroupListRepository _groupListRepository;
 
-        public CommunityApiController(IClimberService climberService, IClimberRepository climberRepository, UserManager<ApplicationUser> userManager, ICommunityGroupRepository communityGroupRepository)
+        public CommunityApiController(IClimberService climberService, IClimberRepository climberRepository, UserManager<ApplicationUser> userManager
+                                    , ICommunityGroupRepository communityGroupRepository, IGroupListRepository groupListRepository)
         {
             _climberService = climberService;
             _climberRepository = climberRepository;
             _userManager = userManager;
             _communityGroupRepository = communityGroupRepository;
+            _groupListRepository = groupListRepository;
         }
 
         [HttpGet("search/{username}")]
@@ -86,6 +89,47 @@ namespace PeakPals_Project.Controllers
             return Ok(groups);
         }
 
+        [HttpPost("create/group")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommunityGroup))]
+        public async Task<ActionResult<CommunityGroup>> CreateGroup([FromBody] CommunityGroup group)
+        {
+            if (group == null)
+            {
+                return BadRequest(new { Message = "Group object cannot be null." });
+            }
 
+            // Get the current user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            // Set the owner ID of the group to the current user's climber ID
+            group.OwnerID = climber.Id;
+
+            // Add the group to the database
+            _communityGroupRepository.AddOrUpdate(group);
+
+            // Add the group to the climber's group list
+
+            _groupListRepository.AddOrUpdate(new GroupList
+            {
+                ClimberID = climber.Id,
+                CommunityGroupID = group.Id
+            });
+
+            return Ok(group);
+
+        }
     }
 }

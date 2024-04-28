@@ -19,6 +19,7 @@ CREATE TABLE [Climber] (
 
 CREATE TABLE [GroupList](
   [ID]  int PRIMARY KEY IDENTITY(1,1),
+  [ClimberID] int NOT NULL,
   [CommunityGroupID] int NOT NULL
 )
 
@@ -54,8 +55,8 @@ ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Climber_ID]
 ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Test_ID]
   FOREIGN KEY ([TestID]) REFERENCES [FitnessTest] ([ID]);
 
-ALTER TABLE [Climber] ADD CONSTRAINT [FK_Climber_GroupList_ID] 
-  FOREIGN KEY ([GroupListID]) REFERENCES [GroupList] ([ID]);
+ALTER TABLE [GroupList] ADD CONSTRAINT [FK_GroupList_Climber_ID] 
+  FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
 
 ALTER TABLE [GroupList] ADD CONSTRAINT [FK_GroupList_CommunityGroup_ID] 
   FOREIGN KEY ([CommunityGroupID]) REFERENCES [CommunityGroup] ([ID]);

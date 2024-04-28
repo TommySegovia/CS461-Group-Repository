@@ -65,6 +65,7 @@ public class Program
         builder.Services.AddScoped<IFitnessDataEntryRepository, FitnessDataEntryRepository>();
         builder.Services.AddScoped<IClimberRepository, ClimberRepository>();
         builder.Services.AddScoped<ICommunityGroupRepository, CommunityGroupRepository>();
+        builder.Services.AddScoped<IGroupListRepository, GroupListRepository>();
 
         //services
         builder.Services.AddScoped<IFitnessDataEntryService, FitnessDataEntryService>();
