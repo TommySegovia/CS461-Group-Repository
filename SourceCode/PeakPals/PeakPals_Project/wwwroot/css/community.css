@@ -17,3 +17,55 @@
 {
     font-size: 1.5em;
 }
+
+#user-search-div{
+    height: 800px;
+}
+
+#community-group-search-div{
+    background-image: url(../images/rockclimbing5.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 1080px;
+    box-shadow: 0 0 10px 10px black inset;
+}
+
+.container {
+    max-width: 100%;
+    padding: 0;
+}
+
+#community-page-break{
+    background-color: black;
+    padding: 100px;
+    box-shadow: 0 0 10px 10px black inset, 0 0 10px 10px black;
+}
+
+#community-group-input{
+    padding-top: 300px;
+    width: 50%;
+    margin: auto;
+}
+
+#community-group-search-input{
+    height: 56px;
+}
+
+.pb-3 {
+    padding-bottom: 0rem !important;
+}
+
+#or-text{
+    font-size: 1.5em;
+    font-family: "Sriracha", cursive;
+}
+
+#or-text-div{
+    padding-top: 60px;
+}
+
+#community-group-create-button{
+    margin: 10px;
+    padding: 10px;
+
+}
