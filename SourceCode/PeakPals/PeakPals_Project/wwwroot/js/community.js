@@ -141,7 +141,7 @@ async function communityGroupSearchButtonClicked(e){
         //creates a new clone of the template for each community group and populates the template with the groups name and description
         const clone = resultTemplate.content.cloneNode(true);
         const groupLink = clone.getElementById('group-link-name');
-        //groupLink.href = `/Community/Group/${communityGroup.id}`;
+        groupLink.href = `/Community/Group/${communityGroup.id}`;
         groupLink.innerHTML = communityGroup.name;
 
         const groupDescription = clone.getElementById('group-description');

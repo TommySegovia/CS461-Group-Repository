@@ -34,5 +34,15 @@ namespace PeakPals_Project.DAL.Concrete
             }
         }
 
+        public async Task<CommunityGroup> GetGroupById(int groupID)
+        {
+            // Search the community group table for a group with the specified group ID
+            // If the group exists, return it; otherwise, return null
+
+            var group = await _communityGroup.FirstOrDefaultAsync(c => c.Id == groupID);
+
+            return group;
+        }
+
     }
 }

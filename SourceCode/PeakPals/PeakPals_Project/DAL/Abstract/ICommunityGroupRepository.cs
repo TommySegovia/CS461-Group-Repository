@@ -7,5 +7,6 @@ namespace PeakPals_Project.DAL.Abstract
     public interface ICommunityGroupRepository : IRepository<CommunityGroup>
     {
         Task<List<CommunityGroup>> GetGroupsByName(string groupName);
+        Task<CommunityGroup> GetGroupById(int groupID);
     }
 }

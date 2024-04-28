@@ -1,0 +1,43 @@
+#community-group-card {
+    margin: 40px;
+    margin-top: 100px;
+    padding: 20px;
+    background-color: #000000;
+    border-radius: 10px;
+    border: 2px solid #ffa500
+}
+
+h1 {
+    font-family: "Sriracha", cursive;
+    color: #ffa500;
+    font-size: 4em;
+}
+
+p {
+    font-family: "Sriracha", cursive;
+    color: #ffffff;
+    font-size: 1.5em;
+}
+
+#group-name-header{
+    margin: 10px;
+    padding: 10px;
+    border-top: 1px solid #ffa500;
+    border-bottom: 1px solid #ffa500;
+}
+
+#group-body{
+    height: 150px;
+    margin: 20px;
+}
+
+#community-group-body{
+    height: auto;
+    background-image: url(../images/rockclimbing6.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#group-footer{
+    margin: 10px;
+}

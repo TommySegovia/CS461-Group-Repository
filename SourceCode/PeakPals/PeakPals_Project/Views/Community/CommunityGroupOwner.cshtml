@@ -1,0 +1,36 @@
+@using PeakPals_Project.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@model CommunityGroup
+
+<body id="community-group-body">
+
+    <div class="justify-context-center text-center" id="community-group-card">
+        <div class="container">
+            <div class="row">
+                <div class="col" id="group-name-header">
+                    <h1>@Model.Name</h1>
+
+                </div>
+            </div>
+            <div class="row" id="group-body">
+                <div class="col">
+                    <p>X members</p>
+                </div>
+                <div class="col">
+                    <p>@Model.Description</p>
+                </div>
+            </div>
+            <div class="row" id="group-footer">
+                <div class="col">
+                    <button type="submit" class="btn btn-warning" id="community-group-join-button"
+                        style="border-radius: 5px;">Join</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/communityGroup.css">
+    <link rel="stylesheet" href="~/css/site.css">
+}
