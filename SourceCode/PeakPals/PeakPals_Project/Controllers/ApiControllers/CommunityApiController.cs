@@ -25,12 +25,14 @@ namespace PeakPals_Project.Controllers
         private readonly IClimberService _climberService;
         private readonly IClimberRepository _climberRepository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ICommunityGroupRepository _communityGroupRepository;
 
-        public CommunityApiController(IClimberService climberService, IClimberRepository climberRepository, UserManager<ApplicationUser> userManager)
+        public CommunityApiController(IClimberService climberService, IClimberRepository climberRepository, UserManager<ApplicationUser> userManager, ICommunityGroupRepository communityGroupRepository)
         {
             _climberService = climberService;
             _climberRepository = climberRepository;
             _userManager = userManager;
+            _communityGroupRepository = communityGroupRepository;
         }
 
         [HttpGet("search/{username}")]
@@ -62,6 +64,26 @@ namespace PeakPals_Project.Controllers
             }
 
             return Ok(climberDTOs);
+        }
+
+        [HttpGet("search/group/{groupName}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CommunityGroup>))]
+        public async Task<ActionResult<List<CommunityGroup>>> GetGroupResults(string? groupName)
+        {
+            if (string.IsNullOrEmpty(groupName))
+            {
+                return BadRequest(new { Message = "Group name field cannot be empty." });
+            }
+
+            // Fetch groups with names containing the search group name
+            var groups = await _communityGroupRepository.GetGroupsByName(groupName);
+
+            if (groups == null || groups.Count == 0)
+            {
+                return Ok(new List<CommunityGroup>()); // Return an empty list if no group is found
+            }
+
+            return Ok(groups);
         }
 
 

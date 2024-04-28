@@ -14,17 +14,17 @@ public partial class Climber
     [Column("ID")]
     public int Id { get; set; }
 
+    [Required]
     [Column("ASPNetIdentityId")]
-    [StringLength(450)]
     public string AspnetIdentityId { get; set; } = null!;
 
     [StringLength(255)]
-    public string? FirstName { get; set; } = null!;
+    public string? FirstName { get; set; }
 
     [StringLength(255)]
-    public string? LastName { get; set; } = null!;
+    public string? LastName { get; set; }
 
-    [JsonIgnore]
+    [Required]
     [StringLength(255)]
     public string UserName { get; set; } = null!;
 
@@ -36,7 +36,7 @@ public partial class Climber
 
     [StringLength(255)]
     public string? ImageLink { get; set; }
-    
+
     [StringLength(255)]
     public string? CustomLink { get; set; }
 
@@ -48,9 +48,17 @@ public partial class Climber
 
     [StringLength(255)]
     public string? State { get; set; }
-    
+
     public int? Age { get; set; }
 
+    [Column("GroupListID")]
+    public int? GroupListId { get; set; }
+
+    [JsonIgnore]
+    [InverseProperty("Climbers")]
+    public virtual GroupList GroupList { get; set; } = null!;
+
+    [JsonIgnore]
     [InverseProperty("Climber")]
     public virtual ICollection<FitnessDataEntry> FitnessDataEntries { get; set; } = new List<FitnessDataEntry>();
 }
