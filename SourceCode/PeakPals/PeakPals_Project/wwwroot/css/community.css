@@ -69,3 +69,25 @@
     padding: 10px;
 
 }
+
+#community-group-search-results{
+    padding-top: 20px;
+    width: 40%;
+    margin: auto;
+}
+
+#community-group-div{
+    text-align: center;
+    font-family: "Sriracha", cursive;
+}
+
+#group-link-name{
+    background-color: #ffa500;
+    padding: 20px;
+    font-size: large;
+}
+
+#group-description{
+    background-color: #ffffff;    
+    padding: 20px;
+}
