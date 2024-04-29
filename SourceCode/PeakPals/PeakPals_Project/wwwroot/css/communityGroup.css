@@ -79,6 +79,7 @@ p {
 .modal-header{
     text-align: center;
     margin: auto;
+    border: none;
 }
 
 #member-list{
@@ -90,15 +91,6 @@ p {
     font-size: 1.5em;
 }
 
-#modalCloseButton{
-    background-color: #090909;
-    color: #ffffff;
-    border: 1px solid #ffffff;
-    border-radius: 5px;
-    font-family: "Sriracha", cursive;
-    font-size: 1.5em;
-}
-
 table{
     margin: auto;
 }
@@ -107,3 +99,36 @@ td{
     padding: 10px;
 }
 
+#modalCancelButton{
+    background-color: #090909;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+    margin-left: 20px;
+    color: #ffffff;
+}
+
+
+#modalConfirmButton{
+    background-color: #ffa500;
+    border: 1px solid #ffa500;
+    border-radius: 5px;
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+    margin-left: 20px;
+    color: #000000;
+}
+
+.modal-footer{
+    border: none;
+    text-align: center;
+}
+
+#new-owner-select{
+    margin: auto;
+    font-family: "Sriracha", cursive;
+    border: 1px solid #ffa500;
+    border-radius: 5px;
+    color: #000000;
+}

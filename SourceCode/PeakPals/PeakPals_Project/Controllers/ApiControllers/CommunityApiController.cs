@@ -347,5 +347,96 @@ namespace PeakPals_Project.Controllers
 
         }
 
+        //set the new owner of the group
+        [HttpPost("setOwner/group/{groupID}/user/{newOwnerID}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        public async Task<ActionResult<bool>> SetGroupOwner(int groupID, int newOwnerID)
+        {
+            // Get the current user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            // Check if the user is the owner of the group
+            var group = await _communityGroupRepository.GetGroupById(groupID);
+
+            if (group == null)
+            {
+                return NotFound(new { Message = "Group does not exist." });
+            }
+
+            if (group.OwnerID != climber.Id)
+            {
+                return Unauthorized(new { Message = "User is not the owner of this group." });
+            }
+
+            // Check if the new owner is a member of the group
+            var groupListEntry = _groupListRepository.GetGroupListByClimberIDAndGroupID(newOwnerID, groupID);
+
+            if (groupListEntry == null || groupListEntry.Count == 0)
+            {
+                return BadRequest(new { Message = "New owner is not a member of this group." });
+            }
+
+            // Set the new owner of the group
+            group.OwnerID = newOwnerID;
+            _communityGroupRepository.AddOrUpdate(group);
+
+            return Ok(true);
+
+        }
+
+        //delete group
+        [HttpPost("delete/group/{groupID}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        public async Task<ActionResult<bool>> DeleteGroup(int groupID)
+        {
+            // Get the current user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            // Check if the user is the owner of the group
+            var group = await _communityGroupRepository.GetGroupById(groupID);
+
+            if (group == null)
+            {
+                return NotFound(new { Message = "Group does not exist." });
+            }
+
+            if (group.OwnerID != climber.Id)
+            {
+                return Unauthorized(new { Message = "User is not the owner of this group." });
+            }
+
+            // Delete the group
+            _communityGroupRepository.Delete(group);
+
+            return Ok(true);
+
+        }
+
     }
 }

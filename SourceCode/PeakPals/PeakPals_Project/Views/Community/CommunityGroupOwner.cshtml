@@ -34,15 +34,35 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <h5 class="modal-title" id="memberModalLabel">Members</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="modal-body">
                             <div id="member-list"></div>
 
-                            <button type="button" id="modalCloseButton"class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" id="modalCloseButton" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            @* Modal for the owner to select a new owner when they try to leave *@
+            <div class="modal fade" id="newOwnerModal" tabindex="-1" aria-labelledby="newOwnerModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newOwnerModalLabel">Select a new owner</h5>
+                        </div>
+                        <div class="modal-body">
+                            <select id="new-owner-select" class="form-select"></select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="modalCancelButton">Close</button>
+                            <button type="button" class="btn btn-primary" id="modalConfirmButton">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </body>
