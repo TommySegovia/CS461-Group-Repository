@@ -273,5 +273,79 @@ namespace PeakPals_Project.Controllers
             return Ok(members);
         }
 
+        //remove from group
+        [HttpPost("remove/group/{groupID}/member/{memberID}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        public async Task<ActionResult<bool>> RemoveGroupMember(int groupID, int memberID)
+        {
+            // Get the current user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            // Check if the user is the owner of the group
+            var group = await _communityGroupRepository.GetGroupById(groupID);
+
+            if (group == null)
+            {
+                return NotFound(new { Message = "Group does not exist." });
+            }
+
+            if (group.OwnerID != climber.Id)
+            {
+                return Unauthorized(new { Message = "User is not the owner of this group." });
+            }
+
+            // Check if the member is a member of the group before removing
+            var groupListEntry = _groupListRepository.GetGroupListByClimberIDAndGroupID(memberID, groupID);
+
+            if (groupListEntry == null || groupListEntry.Count == 0)
+            {
+                return BadRequest(new { Message = "User is not a member of this group." });
+            }
+
+            // If the member is a member of the group, remove the group from the member's group list
+            _groupListRepository.Delete(groupListEntry[0]);
+
+            return Ok(true);
+
+        }
+
+        //get current user's climber ID
+        [HttpGet("currentUserId")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        public async Task<ActionResult<int>> GetCurrentUserClimberID()
+        {
+            // Get the current user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            return Ok(climber.Id);
+
+        }
+
     }
 }

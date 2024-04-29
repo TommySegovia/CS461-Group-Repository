@@ -103,8 +103,32 @@ async function populateGroupMemberList(groupId) {
         memberDiv.classList.add("member-list-item");
         memberDiv.textContent = member.userName;
 
+        if (member.id !== currentUserId) {
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "Remove from group";
+            removeButton.onclick = function() {
+                removeMemberFromGroup(groupId, member.id).then((success) => {
+                    if (success) {
+                        populateGroupMemberList(groupId);
+                        updateMemberCount(groupId);
+                    }
+                });
+            };
+
+            memberDiv.appendChild(removeButton);
+        }
+
         memberListModalDiv.appendChild(memberDiv);
     });
+}
+
+async function removeMemberFromGroup(groupId, memberId) {
+    const url = `/api/community/remove/group/${groupId}/member/${memberId}`;
+    const response = await fetch(url, { method: "POST" });
+    if (!response.ok) {
+        return false;
+    }
+    return true;
 }
 
 async function getCurrentUserId() {

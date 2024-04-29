@@ -14,7 +14,7 @@
             </div>
             <div class="row" id="group-body">
                 <div class="col">
-                    <p><span id="member-count-span"></span> members</p>
+                    <p id="members-text" data-bs-toggle="modal" data-bs-target="#memberModal"><span id="member-count-span"></span> members</p>
                 </div>
                 <div class="col">
                     <p>@Model.Description</p>
@@ -23,8 +23,26 @@
             <div class="row" id="group-footer">
                 <div class="col">
                     @* <button type="submit" class="btn btn-warning" id="community-group-join-button"
-                        style="border-radius: 5px;">Join</button> *@
-                        <button type="submit" id="community-group-button" data-group-id="@Model.Id"></button>
+                    style="border-radius: 5px;">Join</button> *@
+                    <button type="submit" id="community-group-button" data-group-id="@Model.Id"></button>
+                </div>
+            </div>
+            <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="memberModalLabel">Members</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="member-list"></div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
