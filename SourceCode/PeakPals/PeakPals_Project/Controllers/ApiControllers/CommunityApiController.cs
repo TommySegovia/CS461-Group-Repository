@@ -164,5 +164,77 @@ namespace PeakPals_Project.Controllers
             return Ok(true);
 
         }
+
+        [HttpPost("join/group/{groupID}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        public async Task<ActionResult<bool>> JoinGroup(int groupID)
+        {
+            // Get the current user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            // Check if the user is already a member of the group
+            var existingGroupList = _groupListRepository.GetGroupListByClimberIDAndGroupID(climber.Id, groupID);
+            if (existingGroupList != null && existingGroupList.Any())
+            {
+                return BadRequest(new { Message = "User is already a member of this group." });
+            }
+
+            // Add the group to the climber's group list
+            _groupListRepository.AddOrUpdate(new GroupList
+            {
+                ClimberID = climber.Id,
+                CommunityGroupID = groupID
+            });
+
+            return Ok(true);
+        }
+
+        [HttpPost("leave/group/{groupID}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        public async Task<ActionResult<bool>> LeaveGroup(int groupID)
+        {
+            // Get the current user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            // Check if the user is a member of the group before removing
+            var groupListEntry = _groupListRepository.GetGroupListByClimberIDAndGroupID(climber.Id, groupID);
+
+            if (groupListEntry == null || groupListEntry.Count == 0)
+            {
+                return BadRequest(new { Message = "User is not a member of this group." });
+            }
+
+            // If the user is a member of the group, remove the group from the climber's group list
+            _groupListRepository.Delete(groupListEntry[0]);
+
+            return Ok(true);
+        }
+
     }
 }

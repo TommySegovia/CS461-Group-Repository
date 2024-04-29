@@ -29,18 +29,6 @@ namespace PeakPals_Project.DAL.Concrete
             // Add the new GroupList object to the GroupList table
             _groupList.Add(groupList);
         }
-
-        public void RemoveGroupFromGroupList(int climberID, int communityGroupID)
-        {
-            // Search the GroupList table for a GroupList object with the specified climber ID and community group ID
-            // If the object exists, remove it from the table
-            var groupList = _groupList.FirstOrDefault(c => c.ClimberID == climberID && c.CommunityGroupID == communityGroupID);
-
-            if (groupList != null)
-            {
-                _groupList.Remove(groupList);
-            }
-        }
         
         public List<GroupList> GetGroupListByClimberIDAndGroupID(int climberID, int communityGroupID)
         {
