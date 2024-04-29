@@ -247,5 +247,31 @@ namespace PeakPals_Project.Controllers
             return Ok(numberOfMembers);
         }
 
+        //get members of a group
+        [HttpGet("members/group/{groupID}/list")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Climber>))]
+        public async Task<ActionResult<List<Climber>>> GetGroupMembers(int groupID)
+        {
+            // Get the group list entries for the group
+            var groupListEntries = _groupListRepository.GetGroupListByGroupID(groupID);
+
+            if (groupListEntries == null || groupListEntries.Count == 0)
+            {
+                return Ok(new List<Climber>()); // Return an empty list if no member is found
+            }
+
+            var members = new List<Climber>();
+            foreach (var entry in groupListEntries)
+            {
+                var climber = _climberRepository.GetClimberByClimberId(entry.ClimberID);
+                if (climber != null)
+                {
+                    members.Add(climber);
+                }
+            }
+
+            return Ok(members);
+        }
+
     }
 }

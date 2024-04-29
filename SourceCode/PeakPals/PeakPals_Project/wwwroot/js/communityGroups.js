@@ -3,7 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const groupId = communityGroupButton.getAttribute("data-group-id");
     console.log(groupId);
     updateMemberCount(groupId);
-    
+
+    const memberModal = document.getElementById("memberModal");
+    memberModal.addEventListener("show.bs.modal", function () {
+        populateGroupMemberList(groupId);
+    });
   
     function updateMembershipStatus() {
         updateMemberCount(groupId)
@@ -82,3 +86,21 @@ async function getGroupMemberCount(groupId) {
         const memberCount = await getGroupMemberCount(groupId);
         memberCountSpan.innerHTML = memberCount;
     }
+
+//populate the group member list modal
+async function populateGroupMemberList(groupId) {
+    const memberListModalDiv = document.getElementById("member-list");
+    memberListModalDiv.innerHTML = "";
+    const url = `/api/community/members/group/${groupId}/list`;
+    const response = await fetch(url);
+    if (!response.ok) {
+        return;
+    }
+    const members = await response.json();
+    members.forEach((member) => {
+        const memberDiv = document.createElement("div");
+        memberDiv.classList.add("member-list-item");
+        memberDiv.textContent = member.userName;
+        memberListModalDiv.appendChild(memberDiv);
+    });
+}

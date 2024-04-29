@@ -52,3 +52,13 @@ p {
     font-family: "Sriracha", cursive;
     font-size: 1.5em;
 }
+
+#members-text{
+    cursor: pointer;
+    color: #ffffff;
+    
+}
+
+#members-text:hover{
+    color: #ffa500;
+}

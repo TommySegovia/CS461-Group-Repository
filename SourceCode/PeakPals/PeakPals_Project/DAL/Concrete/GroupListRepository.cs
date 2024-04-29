@@ -53,5 +53,20 @@ namespace PeakPals_Project.DAL.Concrete
             return _groupList.Where(c => c.CommunityGroupID == communityGroupID).Count();
         }
 
+        public List<GroupList> GetGroupListByGroupID(int communityGroupID)
+        {
+            // Search the GroupList table for GroupList objects with the specified community group ID
+            // If there are any, return the list; otherwise, return an empty list
+            var groupList = _groupList.Where(c => c.CommunityGroupID == communityGroupID).ToList();
+
+            if (groupList != null)
+            {
+                return groupList;
+            }
+            else
+            {
+                return new List<GroupList>();
+            }
+        }
     }
 }
