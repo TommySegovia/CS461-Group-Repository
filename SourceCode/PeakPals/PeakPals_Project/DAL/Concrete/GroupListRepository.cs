@@ -46,5 +46,12 @@ namespace PeakPals_Project.DAL.Concrete
             }
         }
 
+        public int GetGroupMemberCountByGroupID(int communityGroupID)
+        {
+            // Search the GroupList table for GroupList objects with the specified community group ID
+            // Return the count of the GroupList objects
+            return _groupList.Where(c => c.CommunityGroupID == communityGroupID).Count();
+        }
+
     }
 }

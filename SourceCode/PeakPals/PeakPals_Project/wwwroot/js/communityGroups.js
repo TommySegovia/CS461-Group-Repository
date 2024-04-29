@@ -1,8 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     const communityGroupButton = document.getElementById("community-group-button");
     const groupId = communityGroupButton.getAttribute("data-group-id");
+    console.log(groupId);
+    updateMemberCount(groupId);
+    
   
     function updateMembershipStatus() {
+        updateMemberCount(groupId)
       checkUserGroupMembership(groupId).then((isMember) => {
         if (isMember) {
           communityGroupButton.textContent = "Leave Group";
@@ -59,3 +63,22 @@ async function joinGroup(groupId) {
   }
   return true;
 }
+
+async function getGroupMemberCount(groupId) {
+    //gets the number of members in the group
+    const url = `/api/community/members/group/${groupId}`;
+    const response = await fetch(url);
+    if (!response.ok) {
+        return 0;
+    }
+    const memberCount = await response.json();
+    console.log(memberCount);
+    return memberCount;
+    }
+
+    async function updateMemberCount(groupId) {
+        //updates the number of members in the group
+        const memberCountSpan = document.getElementById("member-count-span");
+        const memberCount = await getGroupMemberCount(groupId);
+        memberCountSpan.innerHTML = memberCount;
+    }

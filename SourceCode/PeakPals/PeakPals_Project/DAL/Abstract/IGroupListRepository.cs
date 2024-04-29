@@ -8,5 +8,6 @@ namespace PeakPals_Project.DAL.Abstract
     {
         void AddGroupToGroupList(int climberID, int communityGroupID);
         List<GroupList> GetGroupListByClimberIDAndGroupID(int climberID, int communityGroupID);
+        int GetGroupMemberCountByGroupID(int communityGroupID);
     }
 }

@@ -236,5 +236,16 @@ namespace PeakPals_Project.Controllers
             return Ok(true);
         }
 
+        //get number of members in a group
+        [HttpGet("members/group/{groupID}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        public async Task<ActionResult<int>> GetGroupMemberCount(int groupID)
+        {
+            // Get the group list entries for the group
+            var numberOfMembers = _groupListRepository.GetGroupMemberCountByGroupID(groupID);
+
+            return Ok(numberOfMembers);
+        }
+
     }
 }
