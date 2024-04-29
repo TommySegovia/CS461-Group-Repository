@@ -17,6 +17,7 @@ p {
     font-family: "Sriracha", cursive;
     color: #ffffff;
     font-size: 1.5em;
+    word-wrap: break-word;
 }
 
 #group-name-header{
@@ -62,3 +63,47 @@ p {
 #members-text:hover{
     color: #ffa500;
 }
+
+.modal-content{
+    background-color: #000000;
+    color: #ffa500;
+    border-radius: 10px;
+    border: 2px solid #ffa500;
+}
+
+.modal-title{
+    font-family: "Sriracha", cursive;
+    font-size: 2.5em;
+}
+
+.modal-header{
+    text-align: center;
+    margin: auto;
+}
+
+#member-list{
+    margin: 10px;
+    padding: 10px;
+    font-family: "Sriracha", cursive;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 1.5em;
+}
+
+#modalCloseButton{
+    background-color: #090909;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+}
+
+table{
+    margin: auto;
+}
+
+td{
+    padding: 10px;
+}
+

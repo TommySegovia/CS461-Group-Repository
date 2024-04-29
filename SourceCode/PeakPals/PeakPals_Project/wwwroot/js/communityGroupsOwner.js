@@ -89,37 +89,49 @@ async function getGroupMemberCount(groupId) {
 
 //populate the group member list modal
 async function populateGroupMemberList(groupId) {
-    const memberListModalDiv = document.getElementById("member-list");
-    memberListModalDiv.innerHTML = "";
-    const url = `/api/community/members/group/${groupId}/list`;
-    const response = await fetch(url);
-    if (!response.ok) {
-        return;
-    }
-    const members = await response.json();
-    const currentUserId = await getCurrentUserId(); // Function to get the current user
-    members.forEach((member) => {
-        const memberDiv = document.createElement("div");
-        memberDiv.classList.add("member-list-item");
-        memberDiv.textContent = member.userName;
+  const memberListModalDiv = document.getElementById("member-list");
+  memberListModalDiv.innerHTML = "";
+  const table = document.createElement("table");
+  memberListModalDiv.appendChild(table);
+  const url = `/api/community/members/group/${groupId}/list`;
+  const response = await fetch(url);
+  if (!response.ok) {
+      return;
+  }
+  const members = await response.json();
+  const currentUserId = await getCurrentUserId(); // Function to get the current user
+  members.forEach((member) => {
+      const row = document.createElement("tr");
 
-        if (member.id !== currentUserId) {
-            const removeButton = document.createElement("button");
-            removeButton.textContent = "Remove from group";
-            removeButton.onclick = function() {
-                removeMemberFromGroup(groupId, member.id).then((success) => {
-                    if (success) {
-                        populateGroupMemberList(groupId);
-                        updateMemberCount(groupId);
-                    }
-                });
-            };
+      const nameCell = document.createElement("td");
+      nameCell.textContent = member.userName;
+      row.appendChild(nameCell);
 
-            memberDiv.appendChild(removeButton);
-        }
+      if (member.id !== currentUserId) {
+          const buttonCell = document.createElement("td");
+          const removeButton = document.createElement("button");
+          removeButton.classList.add("btn", "btn-danger");
+          removeButton.textContent = "Remove from group";
+          removeButton.onclick = function() {
+              removeMemberFromGroup(groupId, member.id).then((success) => {
+                  if (success) {
+                      populateGroupMemberList(groupId);
+                      updateMemberCount(groupId);
+                  }
+              });
+          };
+          buttonCell.appendChild(removeButton);
+          row.appendChild(buttonCell);
+      }
+      else{
+          const buttonCell = document.createElement("td");
+          buttonCell.classList.add("text-muted");
+          buttonCell.textContent = "(You)";
+          row.appendChild(buttonCell);
+      }
 
-        memberListModalDiv.appendChild(memberDiv);
-    });
+      table.appendChild(row);
+  });
 }
 
 async function removeMemberFromGroup(groupId, memberId) {

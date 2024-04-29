@@ -148,6 +148,7 @@ async function communityGroupSearchButtonClicked(e){
         groupLink.innerHTML = communityGroup.name;
 
         const groupDescription = clone.getElementById('group-description');
+        groupDescription.href = `/Community/Group/${communityGroup.id}`;
         groupDescription.innerHTML = communityGroup.description;
 
         searchResultsDiv.appendChild(clone);

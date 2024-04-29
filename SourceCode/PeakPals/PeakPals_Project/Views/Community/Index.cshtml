@@ -43,15 +43,15 @@
         <div class="input-group" id="community-group-input" style="height: 3.5em;">
             <input type="text" class="form-control" id="community-group-search-input" aria-label="sizing example input"
                 aria-describedby="inputGroup-sizing-default" placeholder="Find a Group">
-            <button type="submit" class="btn btn-warning" id="community-group-search-button"
+            <button type="submit" class="community-buttons" id="community-group-search-button"
                 style="border-radius: 5px;">Search</button>
         </div>
         <div id="or-text-div" class="text-center">
             <div class="text-white" id="or-text">or</div>
         </div>
         <div class="text-center">
-            <button type="submit" class="btn btn-warning" id="community-group-create-button" data-bs-toggle="modal" data-bs-target="#createGroupModal"
-                style="border-radius: 5px;">Create One!</button>
+            <button type="submit" class="community-buttons" id="community-group-create-button" data-bs-toggle="modal"
+                data-bs-target="#createGroupModal" style="border-radius: 5px;">Create One!</button>
         </div>
 
         <div id="community-group-search-results"></div>
@@ -63,25 +63,23 @@
     <template id="community-group-template">
         <div class="card" id="community-group-div">
             <div class="row">
-                <div class="col-3 d-flex align-items-center">
+                <div class="col-3 d-flex align-items-center community-group-name">
                     <a id="group-link-name"></a>
                 </div>
-                <div class="col-9 d-flex flex-column justify-content-center">
-                    <div id="group-description"></div>
+                <div class="col-9 d-flex flex-column justify-content-center community-group-description">
+                    <a id="group-description"></a>
                 </div>
             </div>
         </div>
     </template>
 
- 
+
     <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createGroupModalLabel">Create a Group</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+                <h5 class="modal-title" id="createGroupModalLabel">Create a Group</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="modal-body">
                     <form id="createGroupForm">
                         <div class="mb-3">
@@ -90,9 +88,10 @@
                         </div>
                         <div class="mb-3">
                             <label for="groupDescription" class="form-label">Group Description</label>
-                            <input type="text" class="form-control" id="groupDescription" name="groupDescription">
+                            <textarea class="form-control" maxlength="100" id="groupDescription" name="groupDescription"
+                                rows="5"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button type="submit" id="create-group-button" class="btn btn-primary">Create</button>
                     </form>
                 </div>
             </div>
