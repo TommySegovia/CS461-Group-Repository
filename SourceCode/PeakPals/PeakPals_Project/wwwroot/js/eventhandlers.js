@@ -183,10 +183,11 @@ export async function handleClimbAttemptFormSubmit() {
 export async function displayClimbingLog() {
 
     let logs = await getClimbAttempts();
+    console.log(logs);
     const climbLogTemplate = document.getElementById("climb-log-template");
     const climbLogDisplayArea = document.getElementById("display-log-list");
 
-    if (logs != null) {
+    if (logs != null && logs.length > 0) {
 
         logs.forEach(log => {
             //Setup
@@ -223,8 +224,20 @@ export async function displayClimbingLog() {
         })
     }
     else {
-        console.log(logs);
-        console.log("what");
+        const emptyLogMessage = document.createElement('div');
+        emptyLogMessage.style.width = '622px';
+        emptyLogMessage.style.height = '600px';
+        emptyLogMessage.style.backgroundColor = 'white';
+        emptyLogMessage.style.display = 'flex';
+        emptyLogMessage.style.justifyContent = 'center';
+        emptyLogMessage.style.alignItems = 'flex-start';
+        emptyLogMessage.style.paddingTop = '60px';
+        emptyLogMessage.style.margin = 'auto';
+        emptyLogMessage.style.textAlign = 'center';
+        emptyLogMessage.style.fontSize = '22px';
+        emptyLogMessage.style.fontWeight = 'bold';
+        emptyLogMessage.textContent = 'Go out and attempt some climbs to see this fill up!';
+        climbLogDisplayArea.append(emptyLogMessage);
     }
 }
 
