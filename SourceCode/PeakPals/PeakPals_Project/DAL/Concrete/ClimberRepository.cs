@@ -98,5 +98,19 @@ namespace PeakPals_Project.DAL.Concrete
                 throw new Exception("Climber not found");
             }
         }
+
+        public Climber GetClimberByClimberId(int climberId)
+        {
+            var climber = _climber.FirstOrDefault(c => c.Id == climberId);
+
+            if (climber != null)
+            {
+                return climber;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

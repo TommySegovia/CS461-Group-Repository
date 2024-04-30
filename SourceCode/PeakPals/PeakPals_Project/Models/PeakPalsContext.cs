@@ -20,6 +20,8 @@ public partial class PeakPalsContext : DbContext
     public virtual DbSet<FitnessDataEntry> FitnessDataEntry { get; set; }
 
     public virtual DbSet<FitnessTest> FitnessTest { get; set; }
+    public virtual DbSet<GroupList> GroupList { get; set; }
+    public virtual DbSet<CommunityGroup> CommunityGroup { get; set; }
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //    => optionsBuilder.UseSqlServer("Server=DESKTOP-S6LLSAN\\SQLEXPRESS;Database=PeakPals;Trusted_Connection=True;MultipleActiveResultSets=true;Encrypt=False");
