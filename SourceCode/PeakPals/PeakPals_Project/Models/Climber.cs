@@ -53,4 +53,8 @@ public partial class Climber
 
     [InverseProperty("Climber")]
     public virtual ICollection<FitnessDataEntry> FitnessDataEntries { get; set; } = new List<FitnessDataEntry>();
+
+    [InverseProperty("Climber")]
+    public virtual ICollection<ClimbAttempt> ClimbAttempts { get; set; } = new List<ClimbAttempt>();
+
 }

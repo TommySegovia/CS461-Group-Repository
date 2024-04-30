@@ -6,8 +6,8 @@ namespace PeakPals_Project.Models.DTO
     {
         public int Id { get; set; }
         public string AspnetIdentityId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
         public string UserName { get; set; }
         public string? DisplayName { get; set; }
         public string? Bio { get; set; }

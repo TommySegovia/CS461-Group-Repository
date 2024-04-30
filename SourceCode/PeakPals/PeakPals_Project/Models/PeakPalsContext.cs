@@ -21,8 +21,8 @@ public partial class PeakPalsContext : DbContext
 
     public virtual DbSet<FitnessTest> FitnessTest { get; set; }
 
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //    => optionsBuilder.UseSqlServer("Server=DESKTOP-S6LLSAN\\SQLEXPRESS;Database=PeakPals;Trusted_Connection=True;MultipleActiveResultSets=true;Encrypt=False");
+    public virtual DbSet<ClimbAttempt> ClimbAttempt { get; set; }
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,6 +43,12 @@ public partial class PeakPalsContext : DbContext
         modelBuilder.Entity<FitnessTest>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__FitnessT__3214EC27C00405FE");
+        });
+
+        modelBuilder.Entity<ClimbAttempt>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasOne(d => d.Climber).WithMany(p => p.ClimbAttempts).HasConstraintName("FK_ClimbAttempt_Climber_ID");
         });
 
         OnModelCreatingPartial(modelBuilder);

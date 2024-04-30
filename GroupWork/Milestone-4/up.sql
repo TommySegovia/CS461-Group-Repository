@@ -3,8 +3,8 @@
 CREATE TABLE [Climber] (
   [ID]        int           PRIMARY KEY IDENTITY(1, 1),
   [ASPNetIdentityId] nvarchar(450) NOT NULL,
-  [FirstName]     nvarchar(255) NOT NULL,
-  [LastName]  nvarchar(255) NOT NULL,
+  [FirstName]     nvarchar(255) NULL,
+  [LastName]  nvarchar(255) NULL,
   [UserName] nvarchar(255) NOT NULL,
   [DisplayName] nvarchar(25) NULL, 
   [Bio] nvarchar(1600) NULL,
@@ -35,8 +35,22 @@ CREATE TABLE [FitnessDataEntry] (
   [EntryDate] datetime
 );
 
+CREATE TABLE [ClimbAttempt] (
+  [ID]    int     PRIMARY KEY IDENTITY(1, 1),
+  [ClimberID]     int,
+  [ClimbName] nvarchar(200) NULL,
+  [Attempts]   int, 
+  [Rating]  int,
+  [ClimbId]     nvarchar(50) NOT NULL, 
+  [SuggestedGrade] nvarchar(8) NULL,
+  [EntryDate] datetime
+)
+
 ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Climber_ID] 
   FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
 
 ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Test_ID]
   FOREIGN KEY ([TestID]) REFERENCES [FitnessTest] ([ID]);
+
+ALTER TABLE [ClimbAttempt] ADD CONSTRAINT [FK_ClimbAttempt_Climber_ID]
+  FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
