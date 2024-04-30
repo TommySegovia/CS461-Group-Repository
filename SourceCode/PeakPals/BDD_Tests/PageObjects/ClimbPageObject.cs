@@ -18,6 +18,7 @@ namespace PeakPals_BDD_Tests.PageObjects
         private IWebElement ClimbLocation => _webDriver.FindElement(By.Id("climb-location"));
         private IWebElement ClimbGrade => _webDriver.FindElement(By.Id("climb-protection"));
         private IWebElement ClimbProtection => _webDriver.FindElement(By.Id("grade-button"));
+        private IWebElement ClimbImages => _webDriver.FindElement(By.Id("area-images"));
 
 
 
@@ -52,6 +53,20 @@ namespace PeakPals_BDD_Tests.PageObjects
         public IWebElement GetFirstAscentElement()
         {
             return FirstAscent;
+        }
+
+        public bool DoesClimbImagesExist()
+        {
+            System.Threading.Thread.Sleep(3005);
+            try
+            {
+                var element = ClimbImages;
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
 
 
