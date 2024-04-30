@@ -66,10 +66,9 @@ ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Climber_ID]
 ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Test_ID]
   FOREIGN KEY ([TestID]) REFERENCES [FitnessTest] ([ID]);
 
-<<<<<<< HEAD
 ALTER TABLE [ClimbAttempt] ADD CONSTRAINT [FK_ClimbAttempt_Climber_ID]
   FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
-=======
+
 ALTER TABLE [GroupList] ADD CONSTRAINT [FK_GroupList_Climber_ID] 
   FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
 
@@ -78,4 +77,3 @@ ALTER TABLE [GroupList] ADD CONSTRAINT [FK_GroupList_CommunityGroup_ID]
 
 ALTER TABLE [CommunityGroup] ADD CONSTRAINT [FK_CommunityGroup_Climber_OwnerID] 
   FOREIGN KEY ([OwnerID]) REFERENCES [Climber] ([ID]);
->>>>>>> dev
