@@ -20,6 +20,9 @@ namespace PeakPals_BDD_Tests.PageObjects
         private IWebElement AreaCreationDate => _webDriver.FindElement(By.Id("createdOn"));
         private IWebElement AreaTotalClimbs => _webDriver.FindElement(By.Id("pages-total-climbs"));
         private IWebElement AreaOrganization => _webDriver.FindElement(By.Id("organizations-text"));
+        private IWebElement AreaImages => _webDriver.FindElement(By.Id("area-images"));
+        private IWebElement AreaImageModal => _webDriver.FindElement(By.Id("modal-view"));
+        private IWebElement ModalImages => _webDriver.FindElement(By.Id("modal-image"));
 
 
         public void GoToAreaPage(string areaId)
@@ -78,6 +81,55 @@ namespace PeakPals_BDD_Tests.PageObjects
         {
             return AreaOrganization;
         }
+
+        public bool DoesAreaImagesExist()
+        {
+            try
+            {
+                var element = AreaImages;
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        public bool DoesImageModalExist()
+        {
+            
+            try
+            {
+                var element = AreaImageModal;
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        public bool DoesImageModalContainImages()
+        {
+            
+            try
+            {
+                var element = ModalImages;
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        public void ClickMoreImagesButton()
+        {
+            AreaImages.Click();
+            System.Threading.Thread.Sleep(3000);
+        }
+
+
 
     }
 }

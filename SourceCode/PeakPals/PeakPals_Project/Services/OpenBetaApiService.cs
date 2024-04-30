@@ -96,6 +96,10 @@ public class OpenBetaApiService : IOpenBetaApiService
                                 website
                             }
                         }
+                        media
+                        {
+                            mediaUrl
+                        }
                         children
                         {
                             uuid
@@ -191,6 +195,10 @@ public class OpenBetaApiService : IOpenBetaApiService
                             mixed
                             aid
                             tr
+                        }
+                        media
+                        {
+                            mediaUrl
                         }
                     }
                 }",
