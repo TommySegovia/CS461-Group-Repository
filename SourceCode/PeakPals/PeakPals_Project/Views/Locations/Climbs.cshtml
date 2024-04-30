@@ -1,11 +1,17 @@
+@using PeakPals_Project.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
 @model OBClimb;
 
 @{
+    // data
     var jsonClimbAncestors = Json.Serialize(Model.Climb.Ancestors);
+    // user
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <script>
-    // var climbPageAncestors = @Html.Raw(jsonClimbAncestors);
     window.climbPageAncestors = @Html.Raw(jsonClimbAncestors);
 </script>
 
@@ -13,27 +19,35 @@
 <body id="area-body">
     <div class="container">
         <div class="row">
-            @if (Model.Climb?.Media?.Count > 0) {
-                @for(int i = 0; i < 3; i++) {
-                    @if (i < Model.Climb.Media.Count) {
+            @if (Model.Climb?.Media?.Count > 0)
+            {
+                @for (int i = 0; i < 3; i++)
+                {
+                    @if (i < Model.Climb.Media.Count)
+                    {
                         <div class="col col-4">
-                            <div id="area-images" style="width: 100%; height: 340px; overflow: hidden; position: relative;" data-bs-toggle="modal" data-bs-target="#imageModal">
-                                <img src="@("https://media.openbeta.io" + Model.Climb.Media[i].MediaUrl)" style="position: absolute; top: -100px; width: 100%; height: calc(100% + 200px); object-fit: scale-down;">
-                                @if (i == 2) {
-                                    <div class="bg-primary" style="position: absolute; bottom: 0; right: 0; display: inline-block; border-radius: 2px; cursor: pointer">
-                                        <p class="text-white m-0 px-2 py-1" style="position: relative; top: 0%;">View More Images</p> 
+                            <div id="area-images" style="width: 100%; height: 340px; overflow: hidden; position: relative;"
+                                data-bs-toggle="modal" data-bs-target="#imageModal">
+                                <img src="@("https://media.openbeta.io" + Model.Climb.Media[i].MediaUrl)"
+                                    style="position: absolute; top: -100px; width: 100%; height: calc(100% + 200px); object-fit: scale-down;">
+                                @if (i == 2)
+                                {
+                                    <div class="bg-primary"
+                                        style="position: absolute; bottom: 0; right: 0; display: inline-block; border-radius: 2px; cursor: pointer">
+                                        <p class="text-white m-0 px-2 py-1" style="position: relative; top: 0%;">View More Images</p>
                                     </div>
-                                }   
+                                }
                             </div>
                         </div>
-                        
+
                     }
-                    else {
+                    else
+                    {
                         <div class="col col-4">
                             <div id="area-images" style="width: 100%; height: 340px; overflow: hidden; position: relative;">
-                                
-                            </div>   
-                        </div>   
+
+                            </div>
+                        </div>
                     }
                 }
             }
@@ -48,10 +62,17 @@
             </div>
         </div>
         <hr>
-        <div class="row my-5 p-2">
-            <div>
+        <div class="row my-2 p-2">
+            <div class="col col-9">
                 <h1 id="pages-title-name"><b>@Model.Climb.Name</b></h1>
             </div>
+            @if(user != null && SignInManager.IsSignedIn(User))
+            {
+                <div class="col col-3 d-flex align-items-center">
+                    <button class="btn btn-danger mr-0" id="log-attempt-button" data-bs-toggle="modal"
+                        data-bs-target="#climbAttemptModal">Log Your Climbing Attempt</button>
+                </div>
+            }
         </div>
         <div class="row">
             <div class="col col-5">
@@ -234,16 +255,65 @@
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header-pages sticky-top d-flex align-items-center">
-                    <h4 class="text-white text-center flex-grow-1 m-0 align-middle" style="font-weight: bold;">@Model.Climb.Name's Images</h4>
-                    <button type="button" class="btn-close btn-close-white ms-auto align-middle" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h4 class="text-white text-center flex-grow-1 m-0 align-middle" style="font-weight: bold;">
+                    @Model.Climb.Name's Images</h4>
+                <button type="button" class="btn-close btn-close-white ms-auto align-middle" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                    @foreach (var image in Model.Climb.Media)
-                    {
-                        <img data-src="@("https://media.openbeta.io" + image.MediaUrl)" style="height: 600px; width: 100%; object-fit: scale-down;" class="lazyload">
-                    }
+                @foreach (var image in Model.Climb.Media)
+                {
+                    <img data-src="@("https://media.openbeta.io" + image.MediaUrl)"
+                        style="height: 600px; width: 100%; object-fit: scale-down;" class="lazyload">
+                }
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="climbAttemptModal" tabindex="-1" aria-labelledby="climbAttemptModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="max-height: 30vh;">
+            <div class="modal-header-pages sticky-top d-flex align-items-center">
+                <h4 class="text-white text-center flex-grow-1 m-0 align-middle" style="font-weight: bold;">Logging a
+                    Climb Attempt</h4>
+                <button type="button" class="btn-close btn-close-white ms-auto align-middle" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-4" style="overflow-y: auto; max-height: 60vh;">
+                <form id="climb-attempt-form">
+                    <div class="form-group row align-items-center mb-3">
+                        <label for="attempts" class="col-sm-2 col-form-label">Attempts</label>
+                        <div class="col-sm-10">
+                            <input type="number" required id="attempts" min="0" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row align-items-center mb-3">
+                        <label for="rating" class="col-sm-2 col-form-label">Rating</label>
+                        <div class="col-sm-10">
+                            <input type="number" required id="rating" min="0" max="5" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row align-items-center mb-3">
+                        <label for="suggested-grade" class="col-sm-2 col-form-label">Suggested Grade</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="suggested-grade" maxlength="8" class="form-control">
+                        </div>
+                    </div>
+                    <div id="climb-id" data-id="@Model.Climb.Uuid" data-name="@Model.Climb.Name"></div>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-primary" type="submit" id="submit-button" data-bs-dismiss="modal"
+                            data-bs-toggle="#climbAttemptModal">Record Log</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="confirmation-popup" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <div style="background-color: blue; color: white; padding: 15px 20px; border-radius: 4px;">
+        <span>Your climbing attempt has been logged successfully!</span>
     </div>
 </div>
 
@@ -265,6 +335,22 @@
             .addTo(staticMap);
 
         //////////////
+    </script>
+    <script>
+        window.onload = function () {
+            // Check if the formSubmitted flag is set in localStorage
+            if (localStorage.getItem('formSubmitted') === 'true') {
+
+                const popup = document.getElementById('confirmation-popup');
+                popup.style.display = 'flex';
+                setTimeout(function () {
+                    popup.style.display = "none";
+                }, 5000);
+
+                // Clear the flag
+                localStorage.removeItem('formSubmitted');
+            }
+        };
     </script>
 }
 
