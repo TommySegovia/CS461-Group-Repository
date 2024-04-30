@@ -17,3 +17,208 @@
 {
     font-size: 1.5em;
 }
+
+#user-search-div{
+    height: 800px;
+}
+
+#community-group-search-div{
+    background-image: url(../images/rockclimbing5.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 1080px;
+    box-shadow: 0 0 10px 10px black inset;
+}
+
+.container {
+    max-width: 100%;
+    padding: 0;
+}
+
+#community-page-break{
+    background-color: black;
+    padding: 100px;
+    box-shadow: 0 0 10px 10px black inset, 0 0 10px 10px black;
+}
+
+#community-group-input{
+    padding-top: 20px;
+    width: 50%;
+    margin: auto;
+}
+
+#community-group-search-input{
+    height: 56px;
+}
+
+.pb-3 {
+    padding-bottom: 0rem !important;
+}
+
+#or-text{
+    font-size: 1.5em;
+    font-family: "Sriracha", cursive;
+}
+
+#or-text-div{
+    padding-top: 60px;
+}
+
+#community-group-create-button{
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #000000;
+}
+
+#community-group-search-results{
+    padding-top: 20px;
+    width: 40%;
+    margin: auto;
+}
+
+#community-group-div{
+    text-align: center;
+    font-family: "Sriracha", cursive;
+    border-radius: 10px;
+    border: 2px solid #000000;
+    margin-bottom: 20px;
+}
+
+#group-link-name {
+    background-color: #ffa500;
+    padding: 20px;
+    font-size: large;
+    color: black;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#community-group-div:hover{
+    border: 2px solid #ffa500;
+}
+
+#group-description{
+    background-color: #ffffff;    
+    padding: 20px;
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.community-group-name{
+    padding-right: 0px;
+    border-radius: 10px;
+}
+
+.community-group-description{
+    padding-left: 0px;
+    border-radius: 10px;
+}
+
+.modal-content{
+    background-color: #000000;
+    color: #ffa500;
+    border-radius: 10px;
+    border: 2px solid #ffa500;
+    text-align: center;
+}
+
+.modal-title{
+    text-align: center;
+    margin: auto;
+    font-family: "Sriracha", cursive;
+    font-size: 2.5em;
+}
+
+.form-label{
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+}
+
+#create-group-button{
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ffa500;
+    border-radius: 5px;
+    background-color: #ffa500;
+    color: #000000;
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+}
+
+.community-buttons{
+    margin: 0px;
+    padding: 5px;
+    border: 1px solid #ffa500;
+    border-radius: 5px;
+    background-color: #ffa500;
+    color: #000000;
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+}
+
+#joined-group-text{
+    font-family: "Sriracha", cursive;
+    font-size: 4.5em;
+    color: #ffffff;
+    background-color: #000000;
+    width: fit-content;
+    margin: auto;
+    padding: 20px;
+}
+
+#joined-community-groups{
+    padding-top: 50px;
+}
+
+#joined-groups{
+    padding-top: 20px;
+    width: 40%;
+    margin: auto;
+}
+
+#community-group-validation-warning{
+    font-family: "Sriracha", cursive;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 1.75em;
+    text-shadow: red 3px 3px 3px;
+    color: white;
+    padding-top: 20px;
+    text-align: center;
+}
+
+#createGroupValidation{
+    font-family: "Sriracha", cursive;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 1.25em;
+    text-shadow: red 3px 3px 3px;
+    color: white;
+    padding-top: 20px;
+    text-align: center;
+}
+
+#search-button{
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background-color: #ffa500;
+    color: #000000;
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+}
+
+#community-group-search-button{
+    border: 1px solid #000000;
+}
