@@ -40,11 +40,22 @@
     </div>
 
     <div id="community-group-search-div">
+
+        <div id="joined-community-groups">
+            <h2 class="text-center text-white" id="joined-group-text">Groups You've Joined</h2>
+            <div id="joined-groups" class="row g-0">
+                @* JS will instantiate the template and put a bunch of them here.*@
+            </div>
+        </div>
         <div class="input-group" id="community-group-input" style="height: 3.5em;">
             <input type="text" class="form-control" id="community-group-search-input" aria-label="sizing example input"
                 aria-describedby="inputGroup-sizing-default" placeholder="Find a Group">
             <button type="submit" class="community-buttons" id="community-group-search-button"
                 style="border-radius: 5px;">Search</button>
+
+        </div>
+        <div>
+            <p id="community-group-validation-warning"></p>
         </div>
         <div id="or-text-div" class="text-center">
             <div class="text-white" id="or-text">or</div>
@@ -56,6 +67,19 @@
 
         <div id="community-group-search-results"></div>
     </div>
+
+    <template id="joined-community-group-template">
+        <div class="card" id="community-group-div">
+            <div class="row">
+                <div class="col-3 d-flex align-items-center community-group-name">
+                    <a id="group-link-name"></a>
+                </div>
+                <div class="col-9 d-flex flex-column justify-content-center community-group-description">
+                    <a id="group-description"></a>
+                </div>
+            </div>
+        </div>
+    </template>
 
 
 
@@ -80,6 +104,7 @@
             <div class="modal-content">
                 <h5 class="modal-title" id="createGroupModalLabel">Create a Group</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <p id="createGroupValidation"></p>
                 <div class="modal-body">
                     <form id="createGroupForm">
                         <div class="mb-3">

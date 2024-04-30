@@ -68,5 +68,21 @@ namespace PeakPals_Project.DAL.Concrete
                 return new List<GroupList>();
             }
         }
+
+        public List<GroupList> GetGroupListByClimberID(int climberID)
+        {
+            // Search the GroupList table for GroupList objects with the specified climber ID
+            // If there are any, return the list; otherwise, return an empty list
+            var groupList = _groupList.Where(c => c.ClimberID == climberID).ToList();
+
+            if (groupList != null)
+            {
+                return groupList;
+            }
+            else
+            {
+                return new List<GroupList>();
+            }
+        }
     }
 }

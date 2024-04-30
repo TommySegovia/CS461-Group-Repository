@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function()
 
     const createGroupForm = document.getElementById("createGroupForm");
     createGroupForm.addEventListener("submit", createGroupButtonClicked, false);
+
+    populateJoinedGroups();
 });
 
 async function searchButtonClicked(e)
@@ -94,7 +96,7 @@ async function communityGroupSearchButtonClicked(e){
     const searchResultsDiv = document.getElementById("community-group-search-results");
     searchResultsDiv.innerHTML = "";
     const errorMessage = document.createElement("p");
-    const validationWarning = document.getElementById("community-validation-warning");
+    const validationWarning = document.getElementById("community-group-validation-warning");
     validationWarning.innerHTML = "";
 
     const searchInput = document.getElementById("community-group-search-input");
@@ -162,11 +164,31 @@ async function createGroupButtonClicked(e){
     console.log("create group button clicked.")
     e.preventDefault();
     const errorMessage = document.createElement("p");
-    const validationWarning = document.getElementById("community-validation-warning");
+    const validationWarning = document.getElementById("createGroupValidation");
     validationWarning.innerHTML = "";
 
     const groupName = document.getElementById("groupName").value;
     const groupDescription = document.getElementById("groupDescription").value;
+
+    const nameIsValid = /^[a-z0-9]+$/i.test(groupName);
+    const descriptionIsValid = /^[a-z0-9]+$/i.test(groupDescription);
+
+    if(!nameIsValid)
+    {
+        errorMessage.textContent = "Invalid input. Please enter a group name with valid characters.";
+        errorMessage.classList.add("error-message");
+        validationWarning.appendChild(errorMessage);
+        return;
+    }
+
+    if(!descriptionIsValid)
+    {
+        errorMessage.textContent = "Invalid input. Please enter a group description with valid characters.";
+        errorMessage.classList.add("error-message");
+        validationWarning.appendChild(errorMessage);
+        return;
+    }
+
 
     if (groupName === "")
     {
@@ -203,4 +225,42 @@ async function createGroupButtonClicked(e){
     const communityGroup = await response.json();
     console.log(communityGroup);
     window.location.href = `/Community/Group/${communityGroup.id}`;
+}
+
+async function populateJoinedGroups()
+{
+    //populates the joined groups div with the users joined groups
+    console.log("populate joined groups.")
+    const url = `/api/community/joinedGroups`;
+    console.log(url);
+    const response = await fetch(url);
+    console.log(response);
+    if (!response.ok)
+    {
+        console.log("error")
+        return;
+    }
+    const communityGroups = await response.json();
+    console.log(communityGroups);
+    const joinedGroupsDiv = document.getElementById("joined-groups");
+    const resultTemplate = document.getElementById("community-group-template");
+
+    communityGroups.forEach(communityGroup => 
+    {
+        //creates a new clone of the template for each community group and populates the template with the groups name and description
+        const clone = resultTemplate.content.cloneNode(true);
+        const groupLink = clone.getElementById('group-link-name');
+        groupLink.href = `/Community/Group/${communityGroup.id}`;
+        groupLink.innerHTML = communityGroup.name;
+
+        const groupDescription = clone.getElementById('group-description');
+        groupDescription.href = `/Community/Group/${communityGroup.id}`;
+        groupDescription.innerHTML = communityGroup.description;
+
+        joinedGroupsDiv.appendChild(clone);
+        console.log("created a new community group object to show.");
+
+    }
+
+    )
 }

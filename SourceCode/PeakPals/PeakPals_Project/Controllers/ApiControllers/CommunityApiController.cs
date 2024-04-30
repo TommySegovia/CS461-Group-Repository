@@ -438,5 +438,48 @@ namespace PeakPals_Project.Controllers
 
         }
 
+        //get joined groups of the current user
+        [HttpGet("joinedGroups")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CommunityGroup>))]
+        public async Task<ActionResult<List<CommunityGroup>>> GetJoinedGroups()
+        {
+            // Get the current user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            // Get the group list entries for the climber
+            var groupListEntries = _groupListRepository.GetGroupListByClimberID(climber.Id);
+
+            if (groupListEntries == null || groupListEntries.Count == 0)
+            {
+                return Ok(new List<CommunityGroup>()); // Return an empty list if no group is found
+            }
+
+            var groups = new List<CommunityGroup>();
+            foreach (var entry in groupListEntries)
+            {
+                var group = await _communityGroupRepository.GetGroupById(entry.CommunityGroupID);
+                if (group != null)
+                {
+                    groups.Add(group);
+                }
+            }
+
+            return Ok(groups);
+
+        }
+
     }
 }

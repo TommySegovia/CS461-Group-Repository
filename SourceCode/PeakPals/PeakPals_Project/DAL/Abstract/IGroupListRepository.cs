@@ -10,5 +10,6 @@ namespace PeakPals_Project.DAL.Abstract
         List<GroupList> GetGroupListByClimberIDAndGroupID(int climberID, int communityGroupID);
         int GetGroupMemberCountByGroupID(int communityGroupID);
         List<GroupList> GetGroupListByGroupID(int communityGroupID);
+        List<GroupList> GetGroupListByClimberID(int climberID);
     }
 }
