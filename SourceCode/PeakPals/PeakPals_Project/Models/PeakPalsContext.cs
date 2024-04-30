@@ -20,6 +20,8 @@ public partial class PeakPalsContext : DbContext
     public virtual DbSet<FitnessDataEntry> FitnessDataEntry { get; set; }
 
     public virtual DbSet<FitnessTest> FitnessTest { get; set; }
+    public virtual DbSet<GroupList> GroupList { get; set; }
+    public virtual DbSet<CommunityGroup> CommunityGroup { get; set; }
 
     public virtual DbSet<ClimbAttempt> ClimbAttempt { get; set; }
     

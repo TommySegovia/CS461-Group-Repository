@@ -13,8 +13,22 @@ CREATE TABLE [Climber] (
   [LinkText] nvarchar(255) NULL,
   [City] nvarchar(255) NULL,
   [State] nvarchar(255) NULL,
-  [Age] int NULL
+  [Age] int NULL,
+  [GroupListID] int NULL
 );
+
+CREATE TABLE [GroupList](
+  [ID]  int PRIMARY KEY IDENTITY(1,1),
+  [ClimberID] int NOT NULL,
+  [CommunityGroupID] int NOT NULL
+)
+
+CREATE TABLE [CommunityGroup](
+  [ID] int PRIMARY KEY IDENTITY(1,1),
+  [OwnerID] int,
+  [Name] NVARCHAR(255) NOT NULL,
+  [Description] NVARCHAR(1600) NULL
+)
 
 CREATE TABLE [FitnessTest] (
   [ID]          int           PRIMARY KEY IDENTITY(1, 1),
@@ -52,5 +66,16 @@ ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Climber_ID]
 ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Test_ID]
   FOREIGN KEY ([TestID]) REFERENCES [FitnessTest] ([ID]);
 
+<<<<<<< HEAD
 ALTER TABLE [ClimbAttempt] ADD CONSTRAINT [FK_ClimbAttempt_Climber_ID]
   FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
+=======
+ALTER TABLE [GroupList] ADD CONSTRAINT [FK_GroupList_Climber_ID] 
+  FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
+
+ALTER TABLE [GroupList] ADD CONSTRAINT [FK_GroupList_CommunityGroup_ID] 
+  FOREIGN KEY ([CommunityGroupID]) REFERENCES [CommunityGroup] ([ID]);
+
+ALTER TABLE [CommunityGroup] ADD CONSTRAINT [FK_CommunityGroup_Climber_OwnerID] 
+  FOREIGN KEY ([OwnerID]) REFERENCES [Climber] ([ID]);
+>>>>>>> dev
