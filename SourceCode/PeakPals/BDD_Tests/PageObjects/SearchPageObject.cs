@@ -1,6 +1,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using PeakPals_BDD_Tests.Shared;
+using System;
 using System.Collections.ObjectModel;
 
 namespace PeakPals_BDD_Tests.PageObjects
@@ -20,10 +21,8 @@ namespace PeakPals_BDD_Tests.PageObjects
         private IWebElement ErrorMessage => _webDriver.FindElement(By.ClassName("error-message"));
         private IWebElement SearchResults => _webDriver.FindElement(By.Id("areas-div"));
 
-        private IWebElement PullupWeightField => _webDriver.FindElement(By.Id("pull-test-input"));
-        private IWebElement BodyweightField => _webDriver.FindElement(By.Id("pull-test-bodyweight-input"));
-        private IWebElement RecordButton => _webDriver.FindElement(By.Id("pull-test-submit-button"));
-        private IWebElement PullTestAccordion => _webDriver.FindElement(By.Id("test-accordion-pull"));
+        private IWebElement ClimbingLogsName => _webDriver.FindElement(By.Id("climb-attempt-name"));
+        
 
         public void OpenSearchModal()
         {
@@ -94,7 +93,18 @@ namespace PeakPals_BDD_Tests.PageObjects
             }
         }
 
-  
-
+        public bool DoesClimbingLogsExist()
+        {
+            System.Threading.Thread.Sleep(3000);
+            try
+            {
+                var element = ClimbingLogsName;
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
     }
 }

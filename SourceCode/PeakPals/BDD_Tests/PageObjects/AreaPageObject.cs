@@ -53,7 +53,7 @@ namespace PeakPals_BDD_Tests.PageObjects
 
         public bool IsOnAreaPage(string areaId)
         {
-            System.Threading.Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(1500);
             return _webDriver.Url == Common.UrlForArea(areaId);
         }
 
