@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using PeakPals_Project.ExtensionMethods;
 using PeakPals_Project.DAL.Abstract;
 using PeakPals_Project.Services;
+using PeakPals_Project.Areas.Identity.Data;
 
 namespace PeakPals_Project.Controllers;
 
@@ -15,20 +16,27 @@ public class ProfileController : Controller
     private readonly ILogger<ProfileController> _logger;
     private readonly IClimberRepository _climberRepository;
     private readonly IClimberService _climberService;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public ProfileController(ILogger<ProfileController> logger, IClimberRepository climberRepository, IClimberService climberService)
+    public ProfileController(ILogger<ProfileController> logger, IClimberRepository climberRepository, IClimberService climberService, UserManager<ApplicationUser> userManager)
     {
         _logger = logger;
         _climberRepository = climberRepository;
         _climberService = climberService;
+        _userManager = userManager;
     }
 
 
     [HttpGet("Profile/{username}")]
-    public IActionResult GetProfile(string username)
+    public async Task<IActionResult> GetProfile(string username)
     {
         var currentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var climberProfile = _climberRepository.GetClimberByUsername(username);
+        //find the user by username in the aspnetusers table
+        var user = await _userManager.FindByNameAsync(username);
+        _logger.LogInformation("Username: " + username);
+        _logger.LogInformation("User: " + user);
+        //find the climber by aspnetidentityid in the climber repository with a matching aspnetidentityid
+        var climberProfile = _climberRepository.GetClimberModelByAspNetIdentityId(user.Id);
         
         if (climberProfile == null) {
             return NotFound();
@@ -74,6 +82,13 @@ public class ProfileController : Controller
         currentUser.DisplayName = model.DisplayName;
         currentUser.ImageLink = model.ImageLink;
         currentUser.Bio = model.Bio;
+        currentUser.CustomLink = model.CustomLink;
+        currentUser.LinkText = model.LinkText;
+        currentUser.City = model.City;
+        currentUser.State = model.State;
+        currentUser.Age = model.Age;
+        currentUser.FirstName = model.FirstName;
+        currentUser.LastName = model.LastName;
 
         _climberService.UpdateClimber(currentUser);
 

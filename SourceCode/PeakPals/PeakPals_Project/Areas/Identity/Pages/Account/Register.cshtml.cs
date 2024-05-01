@@ -121,7 +121,7 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Email.Split('@')[0], CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -134,11 +134,9 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account
                     var climber = new Climber
                     {
                         AspnetIdentityId = user.Id,
-                        UserName = userName,
-                        FirstName = "John",
-                        LastName = "Doe"
+                        UserName = userName
                     };
-                    _climberService.AddNewClimber(climber.AspnetIdentityId, climber.FirstName, climber.LastName, climber.UserName);
+                    _climberService.AddNewClimber(climber.AspnetIdentityId, climber.UserName);
 
 
                     var userId = await _userManager.GetUserIdAsync(user);

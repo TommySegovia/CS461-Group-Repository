@@ -25,6 +25,48 @@ namespace PeakPals_Project.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PeakPals_Project.Models.ClimbAttempt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Attempts")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClimbId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("ClimberID")
+                        .HasColumnType("int")
+                        .HasColumnName("ClimberID");
+
+                    b.Property<int?>("ClimberId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EntryDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SuggestedGrade")
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClimberID");
+
+                    b.HasIndex("ClimberId");
+
+                    b.ToTable("ClimbAttempt");
+                });
+
             modelBuilder.Entity("PeakPals_Project.Models.Climber", b =>
                 {
                     b.Property<int>("Id")
@@ -34,8 +76,10 @@ namespace PeakPals_Project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("Age")
+                        .HasColumnType("int");
+
                     b.Property<string>("AspnetIdentityId")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("ASPNetIdentityId");
@@ -44,12 +88,19 @@ namespace PeakPals_Project.Migrations
                         .HasMaxLength(1600)
                         .HasColumnType("nvarchar(1600)");
 
+                    b.Property<string>("City")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("CustomLink")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<string>("DisplayName")
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -58,12 +109,18 @@ namespace PeakPals_Project.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("LinkText")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("State")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -82,6 +139,9 @@ namespace PeakPals_Project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("Age")
+                        .HasColumnType("int");
+
                     b.Property<int?>("BodyWeight")
                         .HasColumnType("int");
 
@@ -89,8 +149,17 @@ namespace PeakPals_Project.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ClimberID");
 
+                    b.Property<string>("ClimbingExperience")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClimbingGrade")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("EntryDate")
                         .HasColumnType("datetime");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Result")
                         .HasColumnType("int");
@@ -123,7 +192,6 @@ namespace PeakPals_Project.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -131,6 +199,21 @@ namespace PeakPals_Project.Migrations
                         .HasName("PK__FitnessT__3214EC27C00405FE");
 
                     b.ToTable("FitnessTest");
+                });
+
+            modelBuilder.Entity("PeakPals_Project.Models.ClimbAttempt", b =>
+                {
+                    b.HasOne("PeakPals_Project.Models.Climber", null)
+                        .WithMany()
+                        .HasForeignKey("ClimberID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PeakPals_Project.Models.Climber", "Climber")
+                        .WithMany("ClimbAttempts")
+                        .HasForeignKey("ClimberId");
+
+                    b.Navigation("Climber");
                 });
 
             modelBuilder.Entity("PeakPals_Project.Models.FitnessDataEntry", b =>
@@ -152,6 +235,8 @@ namespace PeakPals_Project.Migrations
 
             modelBuilder.Entity("PeakPals_Project.Models.Climber", b =>
                 {
+                    b.Navigation("ClimbAttempts");
+
                     b.Navigation("FitnessDataEntries");
                 });
 

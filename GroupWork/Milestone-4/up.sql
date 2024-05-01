@@ -3,13 +3,32 @@
 CREATE TABLE [Climber] (
   [ID]        int           PRIMARY KEY IDENTITY(1, 1),
   [ASPNetIdentityId] nvarchar(450) NOT NULL,
-  [FirstName]     nvarchar(255) NOT NULL,
-  [LastName]  nvarchar(255) NOT NULL,
+  [FirstName]     nvarchar(255) NULL,
+  [LastName]  nvarchar(255) NULL,
   [UserName] nvarchar(255) NOT NULL,
   [DisplayName] nvarchar(25) NULL, 
   [Bio] nvarchar(1600) NULL,
-  [ImageLink] nvarchar(255) NULL
+  [ImageLink] nvarchar(255) NULL,
+  [CustomLink] nvarchar(255) NULL,
+  [LinkText] nvarchar(255) NULL,
+  [City] nvarchar(255) NULL,
+  [State] nvarchar(255) NULL,
+  [Age] int NULL,
+  [GroupListID] int NULL
 );
+
+CREATE TABLE [GroupList](
+  [ID]  int PRIMARY KEY IDENTITY(1,1),
+  [ClimberID] int NOT NULL,
+  [CommunityGroupID] int NOT NULL
+)
+
+CREATE TABLE [CommunityGroup](
+  [ID] int PRIMARY KEY IDENTITY(1,1),
+  [OwnerID] int,
+  [Name] NVARCHAR(255) NOT NULL,
+  [Description] NVARCHAR(1600) NULL
+)
 
 CREATE TABLE [FitnessTest] (
   [ID]          int           PRIMARY KEY IDENTITY(1, 1),
@@ -30,8 +49,31 @@ CREATE TABLE [FitnessDataEntry] (
   [EntryDate] datetime
 );
 
+CREATE TABLE [ClimbAttempt] (
+  [ID]    int     PRIMARY KEY IDENTITY(1, 1),
+  [ClimberID]     int,
+  [ClimbName] nvarchar(200) NULL,
+  [Attempts]   int, 
+  [Rating]  int,
+  [ClimbId]     nvarchar(50) NOT NULL, 
+  [SuggestedGrade] nvarchar(8) NULL,
+  [EntryDate] datetime
+)
+
 ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Climber_ID] 
   FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
 
 ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Test_ID]
   FOREIGN KEY ([TestID]) REFERENCES [FitnessTest] ([ID]);
+
+ALTER TABLE [ClimbAttempt] ADD CONSTRAINT [FK_ClimbAttempt_Climber_ID]
+  FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
+
+ALTER TABLE [GroupList] ADD CONSTRAINT [FK_GroupList_Climber_ID] 
+  FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
+
+ALTER TABLE [GroupList] ADD CONSTRAINT [FK_GroupList_CommunityGroup_ID] 
+  FOREIGN KEY ([CommunityGroupID]) REFERENCES [CommunityGroup] ([ID]);
+
+ALTER TABLE [CommunityGroup] ADD CONSTRAINT [FK_CommunityGroup_Climber_OwnerID] 
+  FOREIGN KEY ([OwnerID]) REFERENCES [Climber] ([ID]);

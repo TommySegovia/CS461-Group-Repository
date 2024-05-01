@@ -4,6 +4,7 @@ using System;
 using PeakPals_Project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Text.Json;
 
 namespace PeakPals_Project.Services;
 
@@ -16,6 +17,7 @@ public class OpenBetaApiService : IOpenBetaApiService
     {
         _client = client;
         _logger = logger;
+
     }
 
     public async Task<OpenBetaQueryResult> FindMatchingAreas(string userQuery, int numResults = 8)
@@ -78,9 +80,25 @@ public class OpenBetaApiService : IOpenBetaApiService
                             lat
                             lng
                         }
+                        authorMetadata
+                        {
+                            createdAt
+                        }
                         content 
                         {
                             description
+                        }
+                        organizations
+                        {
+                            displayName
+                            content
+                            {
+                                website
+                            }
+                        }
+                        media
+                        {
+                            mediaUrl
                         }
                         children
                         {
@@ -151,6 +169,7 @@ public class OpenBetaApiService : IOpenBetaApiService
                     {
                         uuid
                         name
+                        fa
                         ancestors
                         metadata {
                             lat
@@ -158,6 +177,28 @@ public class OpenBetaApiService : IOpenBetaApiService
                         }
                         content {
                             description
+                            location
+                            protection
+                        }
+                        grades {
+                            yds
+                            vscale
+                        }
+                        type {
+                            trad
+                            sport
+                            bouldering
+                            deepwatersolo
+                            alpine
+                            snow
+                            ice
+                            mixed
+                            aid
+                            tr
+                        }
+                        media
+                        {
+                            mediaUrl
                         }
                     }
                 }",

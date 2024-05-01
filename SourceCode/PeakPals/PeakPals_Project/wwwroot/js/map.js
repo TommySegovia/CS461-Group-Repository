@@ -63,7 +63,7 @@ export function initializeDynamicMapArea(lng, lat, name, id, mode) {
     else {
         dynamicMap = new maplibregl.Map({
             container: 'dynamic-map', // container id
-            style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', // style URL
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=UOg2RBrpGopXMv4mVlUW', // style URL
             center: [lng, lat], // starting position [lng, lat]
             zoom: 13, // starting zoom
         })
@@ -319,7 +319,7 @@ export function initializeDynamicMapClimb(lng, lat, name, id, ancestors, mode) {
     else {
         dynamicMap = new maplibregl.Map({
             container: 'dynamic-map-climb', // container id
-            style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', // style URL
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=UOg2RBrpGopXMv4mVlUW', // style URL
             center: [lng, lat], // starting position [lng, lat]
             zoom: 20, // starting zoom
         })

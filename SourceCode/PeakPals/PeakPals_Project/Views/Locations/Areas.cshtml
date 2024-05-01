@@ -1,17 +1,42 @@
 @model OBArea;
 
 @{
-    var jsonAncestors = Json.Serialize(Model.Area.Ancestors);
+    var jsonAncestors = Model.Area != null && Model.Area.Ancestors != null ? Json.Serialize(Model.Area.Ancestors).ToString() : "[]";
 }
 
 <script>
-    // var areaPageAncestors = @Html.Raw(jsonAncestors);
-    window.areaPageAncestors = @Html.Raw(jsonAncestors);
+    window.areaPageAncestors = @Html.Raw(jsonAncestors ?? "[]");
 </script>
 
-
 <body id="area-body">
-    <hr>
+    <div class="container">
+        <div class="row">
+            @if (Model.Area?.Media?.Count > 0) {
+                @for(int i = 0; i < 3; i++) {
+                    @if (i < Model.Area.Media.Count) {
+                        <div class="col col-4">
+                            <div id="area-images" style="width: 100%; height: 340px; overflow: hidden; position: relative;" data-bs-toggle="modal" data-bs-target="#imageModal">
+                                <img src="@("https://media.openbeta.io" + Model.Area.Media[i].MediaUrl)" style="position: absolute; top: -100px; width: 100%; height: calc(100% + 200px); object-fit: scale-down;">
+                                @if (i == 2) {
+                                    <div class="bg-primary" style="position: absolute; bottom: 0; right: 0; display: inline-block; border-radius: 2px; cursor: pointer">
+                                        <p class="text-white m-0 px-2 py-1" style="position: relative; top: 0%;">View More Images</p> 
+                                    </div>
+                                }   
+                            </div>
+                        </div>
+                        
+                    }
+                    else {
+                        <div class="col col-4">
+                            <div id="area-images" style="width: 100%; height: 340px; overflow: hidden; position: relative;">
+                                
+                            </div>   
+                        </div>   
+                    }
+                }
+            }
+        </div>
+    </div>
     <div class="container border border-dark" id="locations-pages-box">
         <div class="row">
             <div class="col col-12">
@@ -21,16 +46,20 @@
             </div>
         </div>
         <hr>
-        <div class="row my-5 p-2">
+        <div class="row my-3 p-2">
             <div>
-                <h1 id="pages-title-name"><b>@Model.Area.Area_Name</b></h1>
+                <h1 id="pages-title-name"><b>@Model.Area?.Area_Name?</b></h1>
             </div>
         </div>
         <div class="row">
             <div class="col col-5">
-                <p class="my-0">Latitude and Longitude:</p>
-                <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng" id="pages-coordinates">@Model.Area.Metadata.Lat,
+                <p class="small">Listing Created on:  <span style="color:orange;" id="createdOn">@((Model.Area.AuthorMetadata.CreatedAt.HasValue) ? DateTimeOffset.FromUnixTimeMilliseconds(Model.Area.AuthorMetadata.CreatedAt.Value).DateTime.ToString("MMMM dd, yyyy") : "N/A")</span> </p>
+                <hr>
+                <p style="text-decoration: underline; font-weight: bold">Number of Climbs: <span id="pages-total-climbs">@Model.Area.TotalClimbs</span></p>
+                <p class="my-0 small">Latitude and Longitude:
+                    <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng" id="pages-coordinates">@Model.Area.Metadata.Lat,
                     @Model.Area.Metadata.Lng</a>
+                </p>
                 <!-- Map -->
                 <div id="static-map" class="my-4"></div>
                 <!---->
@@ -39,32 +68,48 @@
                 </div>
             </div>
             <div class="col col-7"  id="pages-description">
-                <h5>Description:</h5>
+                <h5 class="pages-category text-warning">Description:</h5>
                 @if (@Model.Area.Content == null || string.IsNullOrWhiteSpace(@Model.Area.Content.Description))
                 {
                     <h4 class="my-5">No information available.</h4>
                 }
                 else
                 {
-                    <h4 class="my-5" id="pages-description-text">@Model.Area.Content.Description</h4>
+                    <h4 class="my-5 pages-description-text" id="area-description">@Model.Area.Content.Description</h4>
+                }
+                
+                @if (@Model.Area.Organizations.Count > 0)
+                {
+                    <h5 class="my-3 pages-category text-warning">Organizations:</h5>
+                    @for (var i = 0; i < @Model.Area.Organizations.Count; i++)
+                    {
+                        <div>
+                            <p id="organizations-text">@Model.Area.Organizations[i].DisplayName <br>
+                            <a href="@Model.Area.Organizations[i].Content.Website" class="small">@Model.Area.Organizations[i].Content.Website</a>
+                            </p>
+                            
+                        </div>           
+                    }
+                }
+                else
+                {
+                    <h5 class="my-3 pages-category text-warning">Organizations:</h5>
+                    <p class="my-4" id="organizations-text">No organizations listed.</p>
                 }
 
             </div>
         </div>
-
     </div>
-
     <hr>
-
     <div>
         @if (Model.Area.Children != null && Model.Area.Children.Count > 0)
         {
-            <h3 class="mx-3 my-4 card-descript"><u><b>Children:</b></u></h3>
-            @for (var i = 0; i < Model.Area.Children.Count; i += 3)
+            <h3 class="my-4 card-descript"><u><b>Children:</b></u></h3>
+            @for (var i = 0; i < Model.Area.Children.Count; i += 4)
             {
 
                 <div class="row" id="card-rows">
-                    <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+                    <div class="card col-md-2 bg-dark border mb-4 p-2">
                         <div class="table">
                             <a href="/locations/areas/@Model.Area.Children[i].Uuid"
                                 class="text-white card-title" id="child-name"><b>@Model.Area.Children[i].Area_Name</b></a>
@@ -75,9 +120,10 @@
                         </div>
                     </div>
                     <div class="col-md-1"></div>
+                    
                     @if (i + 1 < Model.Area.Children.Count)
                     {
-                        <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+                        <div class="card col-md-2 bg-dark border mb-4 p-2">
                             <div class="table">
                                 <a href="/locations/areas/@Model.Area.Children[i + 1].Uuid"
                                     class="text-white card-title"><b>@Model.Area.Children[i + 1].Area_Name</b></a>
@@ -91,7 +137,7 @@
                     }
                     @if (i + 2 < Model.Area.Children.Count)
                     {
-                        <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+                        <div class="card col-md-2 bg-dark border mb-4 p-2">
 
                             <div class="table">
                                 <a href="/locations/areas/@Model.Area.Children[i + 2].Uuid"
@@ -102,20 +148,34 @@
                                     @Model.Area.Children[i + 2].Metadata.Lng</a>
                             </div>
                         </div>
+                        <div class="col-md-1"></div>
+                    }
+                    @if (i + 3 < Model.Area.Children.Count)
+                    {
+                        <div class="card col-md-2 bg-dark border mb-4 p-2">
+
+                            <div class="table">
+                                <a href="/locations/areas/@Model.Area.Children[i + 3].Uuid"
+                                    class="text-white card-title"><b>@Model.Area.Children[i + 3].Area_Name</b></a>
+                                <br>
+                                <a href="https://www.google.com/maps/place/@Model.Area.Children[i + 3].Metadata.Lat,@Model.Area.Children[i + 3].Metadata.Lng"
+                                    id="child-coords" class="small">Lat, Long: @Model.Area.Children[i + 3].Metadata.Lat,
+                                    @Model.Area.Children[i + 3].Metadata.Lng</a>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
                     }
                 </div>
             }
         }
-
 
         @if (Model.Area.Climbs != null && Model.Area.Climbs.Count > 0)
         {
             <h4 class="mx-3 my-4 card-descript"><u><b>Climbs:</b></u></h4>
             @for (var i = 0; i < Model.Area.Climbs.Count; i += 3)
             {
-
                 <div class="row" id="card-rows">
-                    <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+                    <div class="card col-md-2 bg-dark border m-1 mb-4 p-2">
                         <div class="table">
                             <a href="/locations/climbs/@Model.Area.Climbs[i].Uuid"
                                 class="text-white card-title"><b>@Model.Area.Climbs[i].Name</b></a>
@@ -125,10 +185,9 @@
                                 @Model.Area.Climbs[i].Metadata.Lng</a>
                         </div>
                     </div>
-                    <div class="col-md-1"></div>
                     @if (i + 1 < Model.Area.Climbs.Count)
                     {
-                        <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+                        <div class="card col-md-2 bg-dark border m-1 mb-4 p-2">
                             <div class="table">
                                 <a href="/locations/climbs/@Model.Area.Climbs[i + 1].Uuid"
                                     class="text-white card-title"><b>@Model.Area.Climbs[i + 1].Name</b></a>
@@ -138,11 +197,10 @@
                                     @Model.Area.Climbs[i + 1].Metadata.Lng</a>
                             </div>
                         </div>
-                        <div class="col-md-1"></div>
                     }
                     @if (i + 2 < Model.Area.Climbs.Count)
                     {
-                        <div class="card col-md-3 bg-dark border m-1 mb-4 p-2">
+                        <div class="card col-md-2 bg-dark border m-1 mb-4 p-2">
 
                             <div class="table">
                                 <a href="/locations/climbs/@Model.Area.Climbs[i + 2].Uuid"
@@ -154,34 +212,60 @@
                             </div>
                         </div>
                     }
+                    @if (i + 3 < Model.Area.Climbs.Count)
+                    {
+                        <div class="card col-md-2 bg-dark border m-1 mb-4 p-2">
+
+                            <div class="table">
+                                <a href="/locations/climbs/@Model.Area.Climbs[i + 3].Uuid"
+                                    class="text-white card-title"><b>@Model.Area.Climbs[i + 3].Name</b></a>
+                                <br>
+                                <a href="https://www.google.com/maps/place/@Model.Area.Climbs[i + 3].Metadata.Lat,@Model.Area.Climbs[i + 3].Metadata.Lng"
+                                    id="child-coords" class="small">Lat, Long: @Model.Area.Climbs[i + 3].Metadata.Lat,
+                                    @Model.Area.Climbs[i + 3].Metadata.Lng</a>
+                            </div>
+                        </div>
+                    }
                 </div>
             }
         }
     </div>
-
     <hr>
 
-    
     <div id="dynamic-map-box" class="my-3">
         
         <div id="dynamic-map" data-latitude="@Model.Area.Metadata.Lat" data-longitude="@Model.Area.Metadata.Lng" data-name="@Model.Area.Area_Name" data-id="@Model.Area.Uuid" data-mode="2d">
             <button class="btn btn-primary my-1" id="dimension-button" style="position: absolute; z-index: 1;">2D/3D Toggle</button>
         </div>
     </div>
-
-
 </body>
+
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content" id="modal-view">
+            <div class="modal-header-pages sticky-top d-flex align-items-center">
+                    <h4 class="text-white text-center flex-grow-1 m-0 align-middle" style="font-weight: bold;">@Model.Area.Area_Name's Images</h4>
+                    <button type="button" class="btn-close btn-close-white ms-auto align-middle" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    @foreach (var image in Model.Area.Media)
+                    {
+                        <img data-src="@("https://media.openbeta.io" + image.MediaUrl)" style="height: 600px; width: 100%; object-fit: scale-down;" class="lazyload my-1" id="modal-image">
+                    }
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts
 {
- 
     <script type="module" src="~/js/site.js"></script>
+        
     <script>
-
         // static map //
         const staticMap = new maplibregl.Map({
             container: 'static-map', // container id
-            style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', // style URL
+            style: 'https://api.maptiler.com/maps/streets/style.json?key=UOg2RBrpGopXMv4mVlUW', // style URL
             center: [@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat], // starting position [lng, lat]
             zoom: 7, // starting zoom
         });
@@ -190,9 +274,6 @@
         const staticMapMarker = new maplibregl.Marker()
             .setLngLat([@Model.Area.Metadata.Lng, @Model.Area.Metadata.Lat])
             .addTo(staticMap);
-        
-        //////////////
-
     </script>
 }
 

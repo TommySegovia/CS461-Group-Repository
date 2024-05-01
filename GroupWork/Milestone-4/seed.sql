@@ -3,6 +3,7 @@
 -- Populate Climber table
 SET IDENTITY_INSERT [Climber] ON;
 
+
 INSERT INTO [Climber] (ID, ASPNetIdentityId, FirstName, LastName, UserName, DisplayName, Bio, ImageLink)
 VALUES
     (1, '0', 'Tommy', 'Segovia', 'TomSeg1', 'Tommy', 'Bio for Tommy', 'image_link_for_tommy'),
@@ -117,3 +118,26 @@ VALUES
     (2, 7, 159, 135, 24, 'Male', 'Advanced', 11, '2024-02-14 10:30:00'),
     (3, 7, 135, 160, 27, 'Male', 'Advanced', 9, '2024-05-14 10:30:00'),
     (4, 7, 135, 170, 21, 'Male', 'Advanced', 9, '2024-06-14 10:30:00');
+
+--Seed data for CommunityGroup
+SET IDENTITY_INSERT [CommunityGroup] ON;
+
+INSERT INTO [CommunityGroup] (ID, OwnerID, Name, Description)
+VALUES
+    (1, 1, 'The RockBoxx', 'Rock climbing gym located in Salem, Oregon.');
+
+SET IDENTITY_INSERT [CommunityGroup] OFF;
+
+--Seed data for GroupList
+SET IDENTITY_INSERT [GroupList] ON;
+
+INSERT INTO [GroupList] (ID, ClimberID, CommunityGroupID)
+VALUES
+    (1, 1, 1)
+
+SET IDENTITY_INSERT [GroupList] OFF;
+
+--Add climber with ID = 1 to CommunityGroup with ID = 1
+UPDATE [Climber]
+SET [GroupListID] = 1
+WHERE [ID] = 1;
