@@ -4,6 +4,7 @@ using OpenQA.Selenium.Firefox;
 using PeakPals_BDD_Tests.PageObjects;
 using PeakPals_BDD_Tests.Shared;
 using NUnit.Framework;
+using PeakPals_BDD_Tests.Drivers;
 
 namespace PeakPals_BDD_Tests.StepDefinitions;
 
@@ -13,9 +14,10 @@ public sealed class ClimbAreaInfo
     private readonly AreaPageObject _areaPage;
     private readonly ClimbPageObject _climbPage;
     private readonly IWebDriver _webDriver;
-    public ClimbAreaInfo()
+
+    public ClimbAreaInfo(BrowserDriver browserDriver)
     {
-        _webDriver = new FirefoxDriver();
+        _webDriver = browserDriver.Current;
         _areaPage = new AreaPageObject(_webDriver);
         _climbPage = new ClimbPageObject(_webDriver);
         _webDriver.Manage().Window.Maximize();

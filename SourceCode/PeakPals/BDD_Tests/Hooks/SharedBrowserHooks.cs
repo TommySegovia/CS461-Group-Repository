@@ -1,6 +1,7 @@
 using BoDi;
 using PeakPals_BDD_Tests.Drivers;
 using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,14 @@ namespace PeakPals_BDD_Tests.Hooks
             //Reset the browser state after each scenario
             browserDriver.Current.Navigate().GoToUrl(Common.UrlFor("Home"));
             //log out
-            //browserDriver.Current.FindElement(By.CssSelector("button[type='submit']")).Click();
+            try
+            {
+                browserDriver.Current.FindElement(By.Id("logout-button")).Click();
+            }
+            catch (NoSuchElementException)
+            {
+                //do nothing
+            }
         }
     }
 }
