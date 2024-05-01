@@ -16,8 +16,10 @@ public class OBArea
         public AuthorMetadata? AuthorMetadata { get; set; }
         public Content? Content { get; set; }
         public List<Organizations> Organizations { get; set; }
+        public List<Media>? Media { get; set;}
         public List<Children>? Children { get; set; }
         public List<Climb>? Climbs { get; set; }
+
     }
 
     public class Metadata
@@ -45,6 +47,11 @@ public class OBArea
     public class OrganizationContent
     {
         public string Website { get; set; }
+    }
+
+    public class Media
+    {
+        public string? MediaUrl { get; set; }
     }
 
     public class Children

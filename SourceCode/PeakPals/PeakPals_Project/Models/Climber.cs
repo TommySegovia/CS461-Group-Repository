@@ -57,10 +57,12 @@ namespace PeakPals_Project.Models
         [JsonIgnore]
         public virtual ICollection<GroupList> GroupLists { get; set; } = new List<GroupList>();
 
-
         // Navigation property for FitnessDataEntries
         [JsonIgnore]
         [InverseProperty("Climber")]
         public virtual ICollection<FitnessDataEntry> FitnessDataEntries { get; set; } = new List<FitnessDataEntry>();
+
+        [InverseProperty("Climber")]
+        public virtual ICollection<ClimbAttempt> ClimbAttempts { get; set; } = new List<ClimbAttempt>();
     }
 }

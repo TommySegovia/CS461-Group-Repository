@@ -146,3 +146,34 @@ export async function fetchClimbData(climbs)
     console.log(climbs);
     return updatedClimbs;
 }
+
+export async function postClimbAttempt(climbId, climbName, suggestedGrade, attempts, rating) 
+{
+    var url = '/api/climb/log/record';
+    var data = {
+      "id": 0,
+      "climbId": climbId,
+      "climbName": climbName,
+      "suggestedGrade": suggestedGrade,
+      "attempts": parseInt(attempts), // Convert to integer
+      "rating": parseInt(rating),
+      "entryDate": new Date().toISOString()
+    };
+    var response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'accept': '*/*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    
+}
+
+export async function getClimbAttempts()
+{
+    const url = '/api/climb/log/view';
+    const response = await fetch(url);
+    const result = response.json();
+    return result;
+}

@@ -39,7 +39,7 @@ namespace PeakPals_BDD_Tests.Hooks
             //Reset the browser state after each scenario
             browserDriver.Current.Navigate().GoToUrl(Common.UrlFor("Home"));
             //log out
-            browserDriver.Current.FindElement(By.CssSelector("button[type='submit']")).Click();
+            //browserDriver.Current.FindElement(By.CssSelector("button[type='submit']")).Click();
         }
     }
 }
