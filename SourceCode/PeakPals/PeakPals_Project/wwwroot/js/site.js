@@ -27,6 +27,18 @@ document.addEventListener("DOMContentLoaded", async function()
     if (climbingLog) {
         displayClimbingLog();
     }
+    const searchMap = document.getElementById("dynamic-map-search")
+    if (searchMap) {
+        const mapElement = document.querySelector("#dynamic-map")
+        if (mapElement) {
+            const lat = mapElement.dataset.latitude;
+            const lng = mapElement.dataset.longitude;
+            const name = "";
+            const mode = mapElement.dataset.mode;
+            const id = mapElement.dataset.id;
+            initializeDynamicMapArea(lng, lat, name, id, mode);
+        }
+    }
     
     // areas.cshtml
     const ancestorLinksDiv = document.getElementById("areas-ancestor-links");
@@ -39,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async function()
             ancestorLinksDiv.appendChild(ancestorLink);
         });
     }
-    if (document.querySelector("#dynamic-map")){
+    if (document.querySelector("#dynamic-map-box")){
         const mapElement = document.querySelector('#dynamic-map');
         const buttonElement = document.querySelector('#dimension-button')
         if (mapElement) {
@@ -88,18 +100,20 @@ document.addEventListener("DOMContentLoaded", async function()
             });
         }
     }
-
-    document.getElementById('climbAttemptModal').addEventListener('shown.bs.modal', function (e) {
-        console.log("logAttemptButton exists!");
-
-        $('#climbAttemptModal').on('hidden.bs.modal', function (e) {
-            $(this).find('form').trigger('reset');
-        });
-
-        handleClimbAttemptFormSubmit();
-
-
-    })
+    if (document.querySelector("#climbAttemptModal")) {
+        document.getElementById('climbAttemptModal').addEventListener('shown.bs.modal', function (e) {
+            console.log("logAttemptButton exists!");
+    
+            $('#climbAttemptModal').on('hidden.bs.modal', function (e) {
+                $(this).find('form').trigger('reset');
+            });
+    
+            handleClimbAttemptFormSubmit();
+    
+    
+        })
+    }
+    
 
 });
 

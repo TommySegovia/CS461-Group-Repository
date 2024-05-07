@@ -20,6 +20,14 @@
   margin-right: auto;
 }
 
+.search-map
+{
+    border-radius: 3px;
+    border-style: groove;
+    border-width: 5px;
+    
+}
+
 
 .welcome-locations {
     /*font-style:oblique; */
@@ -262,7 +270,7 @@
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
-#dynamic-map
+.dynamic-map-class
 {
     height: 1000px;
     width: 100%;
