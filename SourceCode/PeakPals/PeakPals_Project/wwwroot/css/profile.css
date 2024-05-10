@@ -23,6 +23,50 @@
     }
 }
 
+#joinedCommunityGroupsHeader{
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#joinedCommunityGroupsDiv{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #000000 white;
+}
+
+
+.joinedGroupLink{
+    text-decoration: none;
+    color: black;
+    font-family: "Sriracha", cursive;
+}
+
+.joinedGroupLink:hover{
+    color: white;
+}
+
+.joinedCommunityGroup{
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+    color: #ffa500;
+    margin: 20px;
+    text-align: center;
+    background-color: #ffa500;
+    border-radius: 10px;
+    border: 2px solid #000000;
+
+}
+
 .profile-box {
     width: auto;
     padding: 20px;
