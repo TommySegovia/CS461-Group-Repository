@@ -20,7 +20,43 @@
 
     @if (user != null && SignInManager.IsSignedIn(User))
     {
-        <div id="climb-and-map">
+        <div id="climb-and-map" data-user="true">
+            <div class="container">
+                <div class="row">
+                    <div class="col col-6">
+                        <div class="card bg-dark">
+                            <div class="card-header">
+                                <h2 class="text-center text-white">Climbing Logs</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-6">
+                        <div class="card bg-light d-flex justify-content-center">
+                            <div class="card-header">
+                                <h2 class="text-center text-dark">Regional Map Search</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-6">
+                        <div id="display-log-list" class="log-list">
+                        </div>
+                        <div id="pagination-area" class="d-flex justify-content-center bg-dark"></div>
+                    </div>
+                    <div class="col col-6">
+                        <div id="dynamic-map-search" class="my-3">
+                            <p style="text-align: center; color: white;"></p>
+                            <div id="dynamic-map" class="search-map" data-latitude="40.13665337358668" data-longitude="-95.46584201532418" data-id="1db1e8ba-a40e-587c-88a4-64f5ea814b8e" data-mode="2d" style="width: 625px; height: 600px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div id="climb-and-map" data-user="false">
             <div class="container">
                 <div class="row">
                     <div class="col col-6">
