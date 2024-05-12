@@ -76,7 +76,25 @@ namespace PeakPals_Project.Controllers
             }
         }
 
-        
+        //log a climb attempt with the selected tags
+        [HttpPost("log/record/tags")]
+        public ActionResult RecordClimbAttemptWithTags(ClimbAttemptDTO climbAttemptDTO)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (climberDTO == null) {
+                    return NotFound( new { Message = "Climber not found."});
+                }
+                _climbAttemptRepository.RecordClimbAttemptWithTags(climberDTO.Id, climbAttemptDTO.ClimbId, climbAttemptDTO.ClimbName, climbAttemptDTO.SuggestedGrade, climbAttemptDTO.EntryDate, climbAttemptDTO.Attempts, climbAttemptDTO.Rating, climbAttemptDTO.ClimbTagEntries);
+                return Ok();
+
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated"});
+            }
+        }
 
         
 
