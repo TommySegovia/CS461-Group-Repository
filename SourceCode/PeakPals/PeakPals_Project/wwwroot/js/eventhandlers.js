@@ -158,38 +158,44 @@ export async function handleClimbAttemptFormSubmit() {
 
     document.getElementById("climb-attempt-form").addEventListener("submit", async function (event) {
         event.preventDefault();
-            const attempts = document.getElementById("attempts").value;
-            const rating = document.getElementById("rating").value;
-            const suggestedGrade = document.getElementById("suggested-grade").value;
-            const climbId = document.getElementById("climb-id").dataset.id;
-            const climbName = document.getElementById("climb-id").dataset.name;
+        const attempts = document.getElementById("attempts").value;
+        const rating = document.getElementById("rating").value;
+        const suggestedGrade = document.getElementById("suggested-grade").value;
+        const climbId = document.getElementById("climb-id").dataset.id;
+        const climbName = document.getElementById("climb-id").dataset.name;
 
-            console.log('Before postClimbAttempt');
-            await postClimbAttempt(climbId, climbName, suggestedGrade, attempts, rating);
-            console.log('After postClimbAttempt');
-            
-            
-            localStorage.setItem('formSubmitted', 'true');
+        console.log('Before postClimbAttempt');
+        await postClimbAttempt(climbId, climbName, suggestedGrade, attempts, rating);
+        console.log('After postClimbAttempt');
 
-            location.reload();
-            console.log("log submitted!");
+
+        localStorage.setItem('formSubmitted', 'true');
+
+        location.reload();
+        console.log("log submitted!");
     });
 }
 
 
-
 // Climbing Log Display
 
-export async function displayClimbingLog() {
+export async function displayClimbingLog(user) {
 
     let logs = await getClimbAttempts();
     console.log(logs);
     const climbLogTemplate = document.getElementById("climb-log-template");
     const climbLogDisplayArea = document.getElementById("display-log-list");
+    const paginationArea = document.getElementById("pagination-area");
+    const itemsPerPage = 6;
+    let currentPage = 1;
 
-    if (logs != null && logs.length > 0) {
+    function renderItems() {
+        climbLogDisplayArea.innerHTML = '';
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const itemsToDisplay = logs.slice(startIndex, endIndex);
 
-        logs.forEach(log => {
+        itemsToDisplay.forEach(log => {
             //Setup
             const clone = climbLogTemplate.content.cloneNode(true);
             console.log(log.rating);
@@ -223,6 +229,48 @@ export async function displayClimbingLog() {
 
         })
     }
+
+    function renderPagination() {
+        const totalPages = Math.ceil(logs.length / itemsPerPage);
+        paginationArea.innerHTML = ''; // Clear the pagination area
+
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '<';
+        prevButton.style.width = '50px'; 
+        prevButton.style.height = '50px';
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderItems();
+                renderPagination();
+            }
+        });
+        paginationArea.appendChild(prevButton);
+
+        const currentButton = document.createElement('button');
+        currentButton.textContent = currentPage;
+        currentButton.style.width = '50px'; 
+        currentButton.style.height = '50px'; 
+        paginationArea.appendChild(currentButton);
+
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '>';
+        nextButton.style.width = '50px';
+        nextButton.style.height = '50px';
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderItems();
+                renderPagination();
+            }
+        });
+        paginationArea.appendChild(nextButton);
+    }
+
+    if (user == "true" && logs != null && logs.length > 0) {
+        renderItems();
+        renderPagination();
+    }
     else {
         const emptyLogMessage = document.createElement('div');
         emptyLogMessage.style.width = '622px';
@@ -236,7 +284,7 @@ export async function displayClimbingLog() {
         emptyLogMessage.style.textAlign = 'center';
         emptyLogMessage.style.fontSize = '22px';
         emptyLogMessage.style.fontWeight = 'bold';
-        emptyLogMessage.textContent = 'Go out and attempt some climbs to see this fill up!';
+        emptyLogMessage.textContent = 'Attempt some climbs to see this fill up!';
         climbLogDisplayArea.append(emptyLogMessage);
     }
 }
