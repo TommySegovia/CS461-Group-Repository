@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using PeakPals_Project.Models;
 
 namespace PeakPals_Project.Models;
 
@@ -57,4 +58,6 @@ public partial class PeakPalsContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+public DbSet<PeakPals_Project.Models.ClimbTagEntry> ClimbTagEntry { get; set; }
 }

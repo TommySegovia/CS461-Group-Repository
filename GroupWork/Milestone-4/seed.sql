@@ -141,3 +141,26 @@ SET IDENTITY_INSERT [GroupList] OFF;
 UPDATE [Climber]
 SET [GroupListID] = 1
 WHERE [ID] = 1;
+
+--Seed tag data
+SET IDENTITY_INSERT [Tag] ON;
+
+INSERT INTO [Tag] (ID, TagName)
+VALUES
+    (1, 'Crimpy'),
+    (2, 'Slopers'),
+    (3, 'Pockets'),
+    (4, 'Juggy'),
+    (5, 'Pinches'),
+    (6, 'Technical'),
+    (7, 'Powerful'),
+    (8, 'Compression'),
+    (9, 'Highball'),
+    (10, 'Slab'),
+    (11, 'Tension'),
+    (12, 'Pumpy'),
+    (13, 'Dyno'),
+    (14, 'Classic'),
+    (15, 'Unique')
+
+SET IDENTITY_INSERT [Tag] OFF;

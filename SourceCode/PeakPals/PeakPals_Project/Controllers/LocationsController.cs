@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PeakPals_Project.Models;
 using PeakPals_Project.Services;
+using GraphQL.Client.Http;
 
 namespace PeakPals_Project.Controllers;
 
@@ -18,16 +19,17 @@ public class LocationsController : Controller
     }
 
     public IActionResult Search()
-    {   
+    {
         return View();
     }
 
     [HttpGet("Locations/Areas/{id}")]
     public IActionResult GetArea(string id)
     {
-        Task<OBArea> area =  _openBetaApiService.FindAreaById(id);
+        Task<OBArea> area = _openBetaApiService.FindAreaById(id);
 
-        if (area == null) {
+        if (area == null)
+        {
             return NotFound();
         }
 
@@ -35,14 +37,23 @@ public class LocationsController : Controller
     }
 
     [HttpGet("Locations/Climbs/{id}")]
-    public IActionResult GetClimb(string id)
+    public async Task<IActionResult> GetClimb(string id)
     {
-        Task<OBClimb> climb = _openBetaApiService.FindClimbById(id);
+        try
+        {
+            OBClimb climb = await _openBetaApiService.FindClimbById(id);
 
-        if (climb == null){
-            return NotFound();
+            if (climb == null)
+            {
+                return NotFound();
+            }
+
+            return View("Climbs", climb);
         }
-
-        return View("Climbs", climb.Result);
+        catch (GraphQLHttpRequestException ex)
+        {
+            _logger.LogError(ex, "Error occurred while fetching climb with id {Id}", id);
+            return StatusCode(502); // Bad Gateway
+        }
     }
 }

@@ -366,3 +366,20 @@
     }
         
 }
+
+.climbTags
+{
+    font-family: "Sriracha";
+    margin: 5px;
+    border-radius: 5px;
+}
+
+#addTagButton
+{
+    margin: 5px;
+
+}
+
+.climbTagBadge{
+    margin: 2px;
+}
