@@ -230,7 +230,7 @@ export async function displayClimbingLog() {
             if (tagsElement) {
                 if (tags.length === 0) {
                     const noTagsElement = document.createElement('span');
-                    noTagsElement.className = "badge bg-secondary";
+                    noTagsElement.className = "badge bg-secondary climbTagBadge";
                     noTagsElement.textContent = "No Tags";
                     tagsElement.appendChild(noTagsElement);
                 }
@@ -238,7 +238,7 @@ export async function displayClimbingLog() {
                     tags.forEach(tag => {
                         console.log(tag);
                         const tagElement = document.createElement('span');
-                        tagElement.className = "badge bg-secondary";
+                        tagElement.className = "badge bg-secondary climbTagBadge";
                         tagElement.textContent = tag;
                         tagsElement.appendChild(tagElement);
                     });
