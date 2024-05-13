@@ -13,7 +13,6 @@ namespace PeakPals_Project.Models.DTO
         public DateTime EntryDate { get; set; }
         public int Attempts { get; set; }
         public int Rating { get; set; }
-        public List<ClimbTagEntry>? ClimbTagEntries { get; set; }
 
     }
 }
@@ -33,8 +32,7 @@ namespace PeakPals_Project.ExtensionMethods
                 SuggestedGrade = climbAttempt.SuggestedGrade,
                 EntryDate = climbAttempt.EntryDate,
                 Attempts = climbAttempt.Attempts,
-                Rating = climbAttempt.Rating,
-                ClimbTagEntries = climbAttempt.ClimbTagEntries
+                Rating = climbAttempt.Rating
 
             };
         }

@@ -7,7 +7,6 @@ public interface IClimbAttemptRepository
 {
     public List<ClimbAttemptDTO> ViewAllClimbingAttempts(int climberId);
     public ClimbAttempt ViewClimbingAttempt(int climberId, string climbId);
-    public void RecordClimbingAttempt(int climberId, string climbId, string climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating);
-    public void RecordClimbAttemptWithTags(int climberId, string climbId, string climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating, List<ClimbTagEntry> climbTagEntries);
+    public int RecordClimbingAttempt(int climberId, string climbId, string climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating);
     
 }

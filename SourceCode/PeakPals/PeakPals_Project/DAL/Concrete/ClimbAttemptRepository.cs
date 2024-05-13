@@ -22,20 +22,11 @@ namespace PeakPals_Project.DAL.Concrete
 
     public List<ClimbAttemptDTO> ViewAllClimbingAttempts(int climberId)
     {
-      var climbAttempts = _climbAttempt.Where(f => f.ClimberId == climberId).ToList();
-      if (climbAttempts != null)
-      {
-        var climbAttemptDTOs = new List<ClimbAttemptDTO>();
-        foreach (var climbAttempt in climbAttempts)
-        {
-          climbAttemptDTOs.Add(climbAttempt.ToDTO());
-        }
-        return climbAttemptDTOs;
-      }
-      else
-      {
-        return null;
-      }
+      return _climbAttempt
+          .Where(f => f.ClimberId == climberId)
+          .OrderBy(f => f.EntryDate)
+          .Select(f => f.ToDTO())
+          .ToList();
     }
 
     public ClimbAttempt ViewClimbingAttempt(int climberId, string climbId)
@@ -51,7 +42,7 @@ namespace PeakPals_Project.DAL.Concrete
       }
     }
 
-    public void RecordClimbingAttempt(int climberId, string climbId, string? climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating)
+    public int RecordClimbingAttempt(int climberId, string climbId, string? climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating)
     {
       var newClimbAttempt = ViewClimbingAttempt(climberId, climbId) ?? new ClimbAttempt();
 
@@ -75,33 +66,10 @@ namespace PeakPals_Project.DAL.Concrete
 
       _context.SaveChanges();
 
+      return newClimbAttempt.Id;
+
     }
 
-    public void RecordClimbAttemptWithTags(int climberId, string climbId, string climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating, List<ClimbTagEntry> climbTagEntries)
-    {
-      var newClimbAttempt = ViewClimbingAttempt(climberId, climbId) ?? new ClimbAttempt();
-
-      newClimbAttempt.ClimberId = climberId;
-      newClimbAttempt.ClimbId = climbId;
-      newClimbAttempt.ClimbName = climbName;
-      newClimbAttempt.SuggestedGrade = suggestedGrade;
-      newClimbAttempt.EntryDate = entryDate;
-      newClimbAttempt.Attempts = attempts;
-      newClimbAttempt.Rating = rating;
-      newClimbAttempt.ClimbTagEntries = climbTagEntries;
-
-      var exists = _climbAttempt.Any(e => e.ClimberId == climberId && e.ClimbId == climbId);
-      if (!exists)
-      {
-        _context.Add(newClimbAttempt);
-      }
-      else
-      {
-        _context.Update(newClimbAttempt);
-      }
-
-      _context.SaveChanges();
-    }
   }
 }
 
