@@ -1,5 +1,6 @@
 import { toggleLoadingSpinner } from "/js/ui.js";
 import { displayErrorMessage } from "/js/ui.js";
+import { SubmitTags } from "/js/climbsTags.js";
 
 export async function fetchAreas(query, loadingSpinner, validationWarning)
 {
@@ -151,14 +152,14 @@ export async function postClimbAttempt(climbId, climbName, suggestedGrade, attem
 {
     var url = '/api/climb/log/record';
     var data = {
-      "id": 0,
-      "climbId": climbId,
-      "climbName": climbName,
-      "suggestedGrade": suggestedGrade,
-      "attempts": parseInt(attempts), // Convert to integer
-      "rating": parseInt(rating),
-      "entryDate": new Date().toISOString()
-    };
+        "id": 0,
+        "climbId": climbId,
+        "climbName": climbName,
+        "suggestedGrade": suggestedGrade,
+        "attempts": parseInt(attempts), // Convert to integer
+        "rating": parseInt(rating),
+        "entryDate": new Date().toISOString()
+      };
     var response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -167,7 +168,17 @@ export async function postClimbAttempt(climbId, climbName, suggestedGrade, attem
       },
       body: JSON.stringify(data)
     });
-    
+    if (response.ok) {
+        const responseData = await response.json();
+        console.log("api.js response:" + responseData.id);
+        if (responseData.id) {
+            SubmitTags(responseData.id);
+        } else {
+            console.error('Climb attempt has not been submitted yet');
+        }
+    } else {
+        console.error('Failed to post climb attempt', response);
+    }
 }
 
 export async function getClimbAttempts()
