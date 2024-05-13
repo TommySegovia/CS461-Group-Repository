@@ -25,7 +25,8 @@ document.addEventListener("DOMContentLoaded", async function()
     }
     const climbingLog = document.getElementById("climb-and-map");
     if (climbingLog) {
-        displayClimbingLog();
+        const user = climbingLog.dataset.user;
+        displayClimbingLog(user);
     }
     const searchMap = document.getElementById("dynamic-map-search")
     if (searchMap) {
