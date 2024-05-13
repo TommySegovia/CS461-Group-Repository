@@ -4,7 +4,7 @@
 
 <body id="report-body">
     <div class="text-center" id="report-div">
-        <h1 class="display-4 text-white welcome">See your performance</h1>
+        <h1 class="text-white display-text">See your Performance</h1>
 
         <button class="nav-buttons active-tab" id="history-button"><a class="nav-link active" id="history-tab"
                 data-toggle="tab" href="#test-history">History</a></button>
@@ -17,25 +17,39 @@
                 @{
                     var tests = new[]
                     {
-                new { Name = "Hang", id = "hang" },
-                new { Name = "Pull", id = "pull" },
-                new { Name = "Hammer Curl", id = "hammerCurl" },
-                new { Name = "Hip Flexibility", id = "hipFlexibility" },
-                new { Name = "Hamstring Flexibility", id = "hamstringFlexibility" },
-                new { Name = "Repeater", id = "repeater"},
-                new { Name = "Smallest Edge", id = "smallestEdge" },
-                new { Name = "Campus Board", id = "campusBoard" },
-                };
+                        new { Name = "Hang", id = "hang" },
+                        new { Name = "Pull", id = "pull" },
+                        new { Name = "Hammer Curl", id = "hammerCurl" },
+                        new { Name = "Hip Flexibility", id = "hipFlexibility" },
+                        new { Name = "Hamstring Flexibility", id = "hamstringFlexibility" },
+                        new { Name = "Repeater", id = "repeater"},
+                        new { Name = "Smallest Edge", id = "smallestEdge" },
+                        new { Name = "Campus Board", id = "campusBoard" },
+                    };
                 }
 
                 <div class="row">
                     @foreach (var test in tests)
                     {
-                        <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
                             <div class="history-card">
                                 <h2 class="text-white text-center history-card-header">@test.Name</h2>
-                                <div class="history-graph-div" id="@test.id-test-graph"></div>
-                                <div class="history-table-div" id="@test.id-test-table"></div>
+
+                                <a href="@Url.Action("Test", "Report", new { testName = test.id })" class="text-white btn btn-danger" style="text-decoration: none;">Expand</a>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <div class="history-graph-div" id="@test.id-test-graph"></div>
+                                        </div>
+                                        <div class="col col-6">
+                                            <div class="history-table-div" id="@test.id-test-table"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                
                                 <div class="history-results-div" id="@test.id-test-results"></div>
                             </div>
                         </div>
@@ -51,7 +65,8 @@
             </button>
 
             <!-- filter modal -->
-            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
+            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
 
@@ -199,9 +214,9 @@
             <div class="row">
                 @foreach (var test in tests)
                 {
-                    <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
                         <div class="history-card">
-                            <h2 class="text-white text-center history-card-header">@test.Name</h2>
+                            <h2 class="text-white text-center history-card-header py-3">@test.Name</h2>
                             <div class="recent-test col-5" id="@test.id-test-recent">
 
                             </div>
