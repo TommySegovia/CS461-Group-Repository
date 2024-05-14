@@ -79,6 +79,20 @@ namespace PeakPals_BDD_Tests.PageObjects
 
         }
 
+        public bool DoesCommunityGroupExist(string communityGroupName)
+        {
+            //checks if community group exists on profile page
+            System.Threading.Thread.Sleep(500);
+            return _webDriver.FindElement(By.XPath($"//a[text()='{communityGroupName}']")) != null;
+        }
+
+        public bool DoesClimbExist()
+        {
+            //checks if climb exists on profile page
+            System.Threading.Thread.Sleep(500);
+            return _webDriver.FindElement(By.ClassName("loggedClimb")) != null;
+        }
+
 
 
     }

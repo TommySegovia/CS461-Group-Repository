@@ -48,7 +48,7 @@
         <hr>
         <div class="row my-3 p-2">
             <div>
-                <h1 id="pages-title-name"><b>@Model.Area?.Area_Name?</b></h1>
+                <h1 id="pages-title-name"><b>@Model.Area?.Area_Name</b></h1>
             </div>
         </div>
         <div class="row">
@@ -234,7 +234,7 @@
 
     <div id="dynamic-map-box" class="my-3">
         
-        <div id="dynamic-map" data-latitude="@Model.Area.Metadata.Lat" data-longitude="@Model.Area.Metadata.Lng" data-name="@Model.Area.Area_Name" data-id="@Model.Area.Uuid" data-mode="2d">
+        <div id="dynamic-map" class="dynamic-map-class" data-latitude="@Model.Area.Metadata.Lat" data-longitude="@Model.Area.Metadata.Lng" data-name="@Model.Area.Area_Name" data-id="@Model.Area.Uuid" data-mode="2d">
             <button class="btn btn-primary my-1" id="dimension-button" style="position: absolute; z-index: 1;">2D/3D Toggle</button>
         </div>
     </div>

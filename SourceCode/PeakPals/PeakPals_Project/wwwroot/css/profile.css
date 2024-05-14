@@ -23,6 +23,50 @@
     }
 }
 
+#joinedCommunityGroupsHeader{
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#joinedCommunityGroupsDiv{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #000000 white;
+}
+
+
+.joinedGroupLink{
+    text-decoration: none;
+    color: black;
+    font-family: "Sriracha", cursive;
+}
+
+.joinedGroupLink:hover{
+    color: white;
+}
+
+.joinedCommunityGroup{
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+    color: #ffa500;
+    margin: 20px;
+    text-align: center;
+    background-color: #ffa500;
+    border-radius: 10px;
+    border: 2px solid #000000;
+
+}
+
 .profile-box {
     width: auto;
     padding: 20px;
@@ -51,6 +95,10 @@
 .bio-textarea {
     max-height: 300px; /* Adjust this value as needed */
     overflow-y: auto;
+}
+
+.bio{
+    height: 300px;
 }
 
 .profile-image {
@@ -122,4 +170,61 @@
         max-height: 140px; 
         overflow-y: auto;
     }
+}
+
+#loggedClimbsHeader{
+    font-family: "Sriracha", cursive;
+    font-size: 2em;
+    color: #ffffff;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.loggedClimbName{
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+    margin: 10px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+.loggedClimbName:hover{
+    color: #ffffff;
+}
+
+.loggedClimb{
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+    color: #000000;
+    margin: 10px;
+    text-align: center;
+    background-color: #ffa500;
+    border-radius: 10px;
+    border: 2px solid #000000;
+}
+
+#loggedClimbsDiv{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    
+}
+
+.tag{
+    display: inline-block;
+    padding: 3px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 3px;
+    border-radius: 5px;
+    border: 2px solid #000000;
+    background-color: #1fff44;
 }

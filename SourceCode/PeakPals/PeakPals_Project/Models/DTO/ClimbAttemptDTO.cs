@@ -1,4 +1,4 @@
-
+using System.Collections.Generic;
 using PeakPals_Project.Models;
 
 namespace PeakPals_Project.Models.DTO
@@ -33,6 +33,7 @@ namespace PeakPals_Project.ExtensionMethods
                 EntryDate = climbAttempt.EntryDate,
                 Attempts = climbAttempt.Attempts,
                 Rating = climbAttempt.Rating
+
             };
         }
 

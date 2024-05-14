@@ -29,6 +29,8 @@
                     @if (@Model.CustomLink != null ){
                         <a href="@Model.CustomLink" class="link-text" target="_blank">@Model.LinkText</a>
                     }
+                    <div id="joinedCommunityGroupsHeader"></div>
+                    <div style="display: none;" id="joinedCommunityGroupsDiv"></div>
                 </div>
                 <div class="col-9">
                      @* <div class="row align-items-start my-2">
@@ -71,6 +73,10 @@
     
 
 </body>
+
+@section Scripts {
+    <script src="~/js/otherProfile.js"></script>
+}
 
 @section Styles {
     <link rel="stylesheet" href="~/css/profile.css">

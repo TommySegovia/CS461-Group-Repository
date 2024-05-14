@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ReqnrollObsoleteCodeBehindFiles Remove="Features\ClimbingAreas - Copy.feature.cs" />
     <ReqnrollObsoleteCodeBehindFiles Remove="Features\RecordingAndReport - Copy.feature.cs" />
     <ReqnrollObsoleteCodeBehindFiles Remove="Features\TBD-108 - Copy.feature.cs" />
   </ItemGroup>
@@ -22,6 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Features\TBD-114.feature.cs">
+      <DependentUpon>TBD-114.feature</DependentUpon>
+    </Compile>
     <Compile Update="Features\ClimbingAreas.feature.cs">
       <DependentUpon>ClimbingAreas.feature</DependentUpon>
     </Compile>
@@ -31,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ReqnrollFeatureFiles Update="Features\TBD-114.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </ReqnrollFeatureFiles>
     <ReqnrollFeatureFiles Update="Features\ClimbingAreas.feature">
       <Visible>$(UsingMicrosoftNETSdk)</Visible>
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>

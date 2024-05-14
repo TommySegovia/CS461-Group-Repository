@@ -25,6 +25,21 @@ public class ReportController : Controller
 
         }
     }
+    
+    public IActionResult Test(string testName)
+    {
+        if (User.Identity.IsAuthenticated)
+        {
+            
+            ViewBag.TestName = testName;
+            return View();
+        }
+        else
+        {
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+
+        }
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

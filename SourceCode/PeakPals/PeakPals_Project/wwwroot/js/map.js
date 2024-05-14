@@ -61,11 +61,15 @@ export function initializeDynamicMapArea(lng, lat, name, id, mode) {
         }));
     }
     else {
+        let zoom = 13;
+        if (id == "1db1e8ba-a40e-587c-88a4-64f5ea814b8e") {
+            zoom = 3;
+        }
         dynamicMap = new maplibregl.Map({
             container: 'dynamic-map', // container id
             style: 'https://api.maptiler.com/maps/streets/style.json?key=UOg2RBrpGopXMv4mVlUW', // style URL
             center: [lng, lat], // starting position [lng, lat]
-            zoom: 13, // starting zoom
+            zoom: zoom, // starting zoom
         })
     }
 
@@ -153,7 +157,7 @@ export function initializeDynamicMapArea(lng, lat, name, id, mode) {
 
             const hull = turf.convex(geojson);
 
-            if (hull) {
+            if (hull && id != "1db1e8ba-a40e-587c-88a4-64f5ea814b8e") {
                 const bufferedHull = turf.buffer(hull, 0.5, { units: 'kilometers' });
 
                 dynamicMap.addSource('hull', {

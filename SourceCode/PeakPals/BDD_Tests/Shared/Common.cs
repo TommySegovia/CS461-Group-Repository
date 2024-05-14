@@ -33,7 +33,8 @@ namespace PeakPals_BDD_Tests.Shared
             { "Search", "/locations/search" },
             { "Area", "/locations/areas" },
             { "Climb", "/locations/climbs" },
-            { "Profile", "/Profile"}
+            { "Profile", "/Profile"},
+            { "Community", "/Community"}
         };
 
         public static string PathFor(string pathName) => Paths[pathName];
