@@ -190,12 +190,15 @@ export async function displayClimbingLog(user) {
     let currentPage = 1;
 
     function renderItems() {
+        if (logs.length === 0) {
+            return;
+        }
         climbLogDisplayArea.innerHTML = '';
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const itemsToDisplay = logs.slice(startIndex, endIndex);
 
-        itemsToDisplay.forEach(log => {
+        itemsToDisplay.forEach(async log => {
             //Setup
             const clone = climbLogTemplate.content.cloneNode(true);
             console.log(log.rating);
@@ -225,6 +228,33 @@ export async function displayClimbingLog(user) {
             const attemptLinkElement = clone.getElementById("climb-attempt-link-button");
             attemptLinkElement.href = `/Locations/Climbs/${log.climbId}`;
 
+            
+
+            // Tags
+            const tags = await getClimbTags(log.id);
+            console.log('tags',tags);
+            const tagsElement = clone.getElementById("climb-attempt-tags");
+
+            // Check if tagsElement is not null before proceeding
+            if (tagsElement) {
+                if (tags.length === 0) {
+                    const noTagsElement = document.createElement('span');
+                    noTagsElement.className = "badge bg-secondary climbTagBadge";
+                    noTagsElement.textContent = "No Tags";
+                    tagsElement.appendChild(noTagsElement);
+                }
+                else{
+                    tags.forEach(tag => {
+                        console.log(tag);
+                        const tagElement = document.createElement('span');
+                        tagElement.className = "badge bg-secondary climbTagBadge";
+                        tagElement.textContent = tag;
+                        tagsElement.appendChild(tagElement);
+                    });
+                }
+            } else {
+                console.error('Element with id "climb-attempt-tags" not found');
+            }
             climbLogDisplayArea.append(clone);
 
         })
@@ -289,3 +319,17 @@ export async function displayClimbingLog(user) {
     }
 }
 
+async function getClimbTags(climbAttemptId){
+    console.log("getting tags");
+    const tags = fetchClimbTags(climbAttemptId);
+    console.log(tags);
+    return tags;
+}
+
+async function fetchClimbTags(climbAttemptId){
+    var url = `/api/ClimbTagEntryApi/log/view/${climbAttemptId}`;
+    var response = await fetch(url);
+    var result = await response.json();
+    console.log('fetchclimbtags: ', result);
+    return result;
+}
