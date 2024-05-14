@@ -20,8 +20,8 @@ namespace PeakPals_BDD_Tests.PageObjects
         private IWebElement SearchButton => _webDriver.FindElement(By.Id("search-button"));
         private IWebElement ErrorMessage => _webDriver.FindElement(By.ClassName("error-message"));
         private IWebElement SearchResults => _webDriver.FindElement(By.Id("areas-div"));
-
         private IWebElement ClimbingLogsName => _webDriver.FindElement(By.Id("climb-attempt-name"));
+        private IWebElement MapElement => _webDriver.FindElement(By.Id("dynamic-map"));
         
 
         public void OpenSearchModal()
@@ -99,6 +99,19 @@ namespace PeakPals_BDD_Tests.PageObjects
             try
             {
                 var element = ClimbingLogsName;
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        public bool DoesMapExist()
+        {
+            try
+            {
+                var element = MapElement;
                 return true;
             }
             catch (NoSuchElementException)

@@ -60,56 +60,68 @@ const testData = [
 ];
 
 function initializePage() {
-  //console.log("Report.js loaded");
+  console.log("Report.js loaded");
 
-  //filter form
-
-  var filterForm = document.getElementById("filter-form");
-  filterForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    //console.log("Filter button clicked");
-    var minAge = document.getElementById("minAge").value;
-    var maxAge = document.getElementById("maxAge").value;
-    var gender = document.getElementById("gender").value;
-    var climbingExperience =
-      document.getElementById("climbingExperience").value;
-    var minimumClimbingGrade = document.getElementById(
-      "minimumClimbingGrade"
-    ).value;
-    var maximumClimbingGrade = document.getElementById(
-      "maximumClimbingGrade"
-    ).value;
-    //create a object to store the filter data
-    var filterData = {
-      minAge: minAge,
-      maxAge: maxAge,
-      gender: gender,
-      climbingExperience: climbingExperience,
-      minimumClimbingGrade: minimumClimbingGrade,
-      maximumClimbingGrade: maximumClimbingGrade,
-    };
-    try {
-      updateClimberData(testData, filterData);
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-  testData.forEach((test) => {
-    var tableDiv = document.getElementById(test.id);
-    var averageDiv = document.getElementById(test.averageId);
-    var recentDiv = document.getElementById(test.recentId);
+  const testDetails = document.getElementById("test-details-div");
+  if (testDetails) {
+    console.log(testDetails.dataset.test + "-test-table");
+    var testName = testDetails.dataset.test + "-test-table";
+    const test = testData.find(test => test.id === testName);
+    var tableDiv = document.getElementById(test.id); 
     var resultsDiv = document.getElementById(test.resultsId);
     getTestRecords(test.index, tableDiv, resultsDiv);
-    getTestAverage(test.index, averageDiv, recentDiv, {
-      minAge: 0,
-      maxAge: 100,
-      gender: "All",
-      climbingExperience: "All",
-      minimumClimbingGrade: 0,
-      maximumClimbingGrade: 100,
-    });
-  });
+  }
+
+  //filter form
+    var filterForm = document.getElementById("filter-form");
+    if ( filterForm) {
+      filterForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        //console.log("Filter button clicked");
+        var minAge = document.getElementById("minAge").value;
+        var maxAge = document.getElementById("maxAge").value;
+        var gender = document.getElementById("gender").value;
+        var climbingExperience =
+          document.getElementById("climbingExperience").value;
+        var minimumClimbingGrade = document.getElementById(
+          "minimumClimbingGrade"
+        ).value;
+        var maximumClimbingGrade = document.getElementById(
+          "maximumClimbingGrade"
+        ).value;
+        //create a object to store the filter data
+        var filterData = {
+          minAge: minAge,
+          maxAge: maxAge,
+          gender: gender,
+          climbingExperience: climbingExperience,
+          minimumClimbingGrade: minimumClimbingGrade,
+          maximumClimbingGrade: maximumClimbingGrade,
+        };
+        try {
+          updateClimberData(testData, filterData);
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    
+
+    testData.forEach((test) => {
+      var tableDiv = document.getElementById(test.id);
+      var averageDiv = document.getElementById(test.averageId);
+      var recentDiv = document.getElementById(test.recentId);
+      var resultsDiv = document.getElementById(test.resultsId);
+      getTestRecords(test.index, tableDiv, resultsDiv);
+      getTestAverage(test.index, averageDiv, recentDiv, {
+        minAge: 0,
+        maxAge: 100,
+        gender: "All",
+        climbingExperience: "All",
+        minimumClimbingGrade: 0,
+        maximumClimbingGrade: 100,
+        });
+      });
+  }
 }
 
 //update data
@@ -154,7 +166,7 @@ async function getTestRecords(testId, tableDiv, resultsDiv) {
     if (data.length > 1) {
       addGraphToResults(testId);
     }
-    else{
+    else {
       var graphDiv = document.getElementById(testId === 0 ? "hang-test-graph" : testId === 1 ? "pull-test-graph" : testId === 2 ? "hammerCurl-test-graph" : testId === 3 ? "hipFlexibility-test-graph" : testId === 4 ? "hamstringFlexibility-test-graph" : testId === 5 ? "repeater-test-graph" : testId === 6 ? "smallestEdge-test-graph" : "");
       var missingDataMessage = document.createElement("p");
       missingDataMessage.appendChild(document.createTextNode("Need more data to generate a graph"));
@@ -162,8 +174,8 @@ async function getTestRecords(testId, tableDiv, resultsDiv) {
       graphDiv.appendChild(missingDataMessage);
       createButtonToRecordPage(resultsDiv);
     }
-    
-  } 
+
+  }
   else {
     var graphDiv = document.getElementById(testId === 0 ? "hang-test-graph" : testId === 1 ? "pull-test-graph" : testId === 2 ? "hammerCurl-test-graph" : testId === 3 ? "hipFlexibility-test-graph" : testId === 4 ? "hamstringFlexibility-test-graph" : testId === 5 ? "repeater-test-graph" : testId === 6 ? "smallestEdge-test-graph" : "");
     var missingDataMessage = document.createElement("p");
@@ -177,7 +189,7 @@ async function getTestRecords(testId, tableDiv, resultsDiv) {
     noResultsDiv.appendChild(noResults);
 
     createButtonToRecordPage(resultsDiv);
-    
+
   }
 }
 
@@ -192,13 +204,13 @@ async function addGraphToResults(testId) {
   var graphRepeaterDiv = document.getElementById("repeater-test-graph");
   var graphSmallestEdgeDiv = document.getElementById("smallestEdge-test-graph");
 
-  graphHangDiv.classList.add("history-graph-div");
-  graphPullDiv.classList.add("history-graph-div");
-  graphHammerCurlDiv.classList.add("history-graph-div");
-  graphHipFlexibilityDiv.classList.add("history-graph-div");
-  graphHamstringFlexibilityDiv.classList.add("history-graph-div");
-  graphRepeaterDiv.classList.add("history-graph-div");
-  graphSmallestEdgeDiv.classList.add("history-graph-div");
+  if (graphHangDiv) { graphHangDiv.classList.add("history-graph-div"); }
+  if (graphPullDiv) { graphPullDiv.classList.add("history-graph-div"); }
+  if (graphHammerCurlDiv) { graphHammerCurlDiv.classList.add("history-graph-div"); }
+  if (graphHipFlexibilityDiv) { graphHipFlexibilityDiv.classList.add("history-graph-div"); }
+  if (graphHamstringFlexibilityDiv) { graphHamstringFlexibilityDiv.classList.add("history-graph-div"); }
+  if (graphRepeaterDiv) { graphRepeaterDiv.classList.add("history-graph-div"); }
+  if (graphSmallestEdgeDiv) { graphSmallestEdgeDiv.classList.add("history-graph-div"); }
 
   // add graph images from wwwroot/images, but first check which test it is
   switch (testId) {
@@ -261,31 +273,31 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
         var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " lbs";
         var weightText = "Bodyweight: " + '<span class="orange-text">' + recentWeight + '</span>' + " lbs";
         var ratioText = '<span class="orange-text">' + ((recentResult / recentWeight).toFixed(2) * 100 + 100) + '%</span>' + " of total body weight";
-    
+
         recentText.innerHTML = resultText + "<br>" + weightText + "<br>" + ratioText;
-    
+
         recentDiv.appendChild(recentText);
-    }
+      }
       //flexibility test
       else if (testId === 3 || testId === 4) {
-          var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " inches";
-          
-          recentText.innerHTML = resultText;
-          recentDiv.appendChild(recentText);
+        var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " inches";
+
+        recentText.innerHTML = resultText;
+        recentDiv.appendChild(recentText);
       }
       //repeater test
       else if (testId === 5) {
-          var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " seconds";
+        var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " seconds";
 
-          recentText.innerHTML = resultText;
-          recentDiv.appendChild(recentText);
+        recentText.innerHTML = resultText;
+        recentDiv.appendChild(recentText);
       }
       //smallest edge test
       else if (testId === 6) {
-          var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " mm";
+        var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " mm";
 
-          recentText.innerHTML = resultText;
-          recentDiv.appendChild(recentText);
+        recentText.innerHTML = resultText;
+        recentDiv.appendChild(recentText);
       }
       //campus board test
       else if (testId === 7) {
@@ -294,12 +306,12 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
         var br1 = document.createElement("br");
         recentText.appendChild(br1);
         recentDiv.appendChild(recentText);
-        } else {
-          var noResults = document.createElement("p");
-          noResults.appendChild(document.createTextNode("No Recent Test Found"));
-          recentDiv.appendChild(noResults);
-        }
+      } else {
+        var noResults = document.createElement("p");
+        noResults.appendChild(document.createTextNode("No Recent Test Found"));
+        recentDiv.appendChild(noResults);
       }
+    }
   } catch (error) {
     console.log(error);
     recentDiv.appendChild(document.createTextNode("No recent test found"));
@@ -316,7 +328,7 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
       //if the test is campus board, get the average of all campus board tests
     }
     var averageResponse = await fetch("/api/FitnessDataEntryApi/Test/Results/" + endpointString + testId + "/" + filterData.minAge + "/" + filterData.maxAge + "/" + filterData.gender +
-        "/" +  filterData.climbingExperience + "/" + filterData.minimumClimbingGrade + "/" + filterData.maximumClimbingGrade);
+      "/" + filterData.climbingExperience + "/" + filterData.minimumClimbingGrade + "/" + filterData.maximumClimbingGrade);
 
     var averageData = await averageResponse.json();
     //console.log("average: " + JSON.stringify(averageData));
@@ -335,41 +347,41 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
         percentDifferenceText.appendChild(noAverageFoundText);
       }
       return percentDifferenceText;
-  }
-  
-  if (averageResponse.ok) {
+    }
+
+    if (averageResponse.ok) {
       var average = averageData;
       var averageText = document.createElement("p");
       var testDescriptions = {
-          0: "<span class='orange-text'>%</span> of total body weight",
-          1: "<span class='orange-text'>%</span> of total body weight",
-          2: "<span class='orange-text'>%</span> of total body weight",
-          3: " inches",
-          4: " inches",
-          5: " seconds",
-          6: " mm",
-          7: " " + average.toString().split("").join("-")
+        0: "<span class='orange-text'>%</span> of total body weight",
+        1: "<span class='orange-text'>%</span> of total body weight",
+        2: "<span class='orange-text'>%</span> of total body weight",
+        3: " inches",
+        4: " inches",
+        5: " seconds",
+        6: " mm",
+        7: " " + average.toString().split("").join("-")
       };
       var testDescription = testDescriptions[testId];
       var averageValue = (testId === 0 || testId === 1 || testId === 2) ? (average * 100 + 100).toFixed(2) : average.toFixed(2);
       if (testId === 7) {
         averageText.innerHTML = "The overall average for this test is: " + '<span class="orange-text">' + testDescription + '</span>';
-    } else {
+      } else {
         averageText.innerHTML = "The overall average for this test is: " + '<span class="orange-text">' + averageValue + '</span>' + testDescription;
-    }
-    
-      averageDiv.appendChild(averageText);
-  
-      if (testId !== 7) {
-          var percentDifference = ((recentResult / (testId === 0 || testId === 1 || testId === 2 ? recentWeight : average)) * 100 - 100).toFixed(0);
-          var percentDifferenceText = createPercentDifferenceText(percentDifference);
-          averageDiv.appendChild(percentDifferenceText);
       }
-  } else {
+
+      averageDiv.appendChild(averageText);
+
+      if (testId !== 7) {
+        var percentDifference = ((recentResult / (testId === 0 || testId === 1 || testId === 2 ? recentWeight : average)) * 100 - 100).toFixed(0);
+        var percentDifferenceText = createPercentDifferenceText(percentDifference);
+        averageDiv.appendChild(percentDifferenceText);
+      }
+    } else {
       var noResults = document.createElement("p");
       noResults.appendChild(document.createTextNode("No Results Found"));
       averageDiv.appendChild(noResults);
-  }
+    }
   } catch (error) {
     console.log(error);
     var noAverageFoundText = document.createElement("p");
