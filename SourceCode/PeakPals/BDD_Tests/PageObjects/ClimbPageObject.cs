@@ -28,6 +28,7 @@ namespace PeakPals_BDD_Tests.PageObjects
         private IWebElement ClimbingRating => _webDriver.FindElement(By.Id("rating"));
         private IWebElement SubmitButton => _webDriver.FindElement(By.Id("submit-button"));
         private IWebElement ConfirmationButton => _webDriver.FindElement(By.Id("confirmation-popup"));
+        private IWebElement AddTagButton => _webDriver.FindElement(By.Id("addTagButton"));
 
 
 
@@ -46,6 +47,20 @@ namespace PeakPals_BDD_Tests.PageObjects
                 var element3 = ClimbLocation;
                 var element4 = ClimbGrade;
                 var element5 = ClimbProtection;
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        public bool DoesTagExist(string tag)
+        {
+            System.Threading.Thread.Sleep(3005);
+            try
+            {
+                var element = _webDriver.FindElement(By.XPath($"//span[text()='{tag}']"));
                 return true;
             }
             catch (NoSuchElementException)
@@ -137,6 +152,16 @@ namespace PeakPals_BDD_Tests.PageObjects
         {
             ClimbingGrade.SendKeys(v);
         }
+
+        public void EnterClimbTag()
+        {
+            AddTagButton.Click();
+            System.Threading.Thread.Sleep(2000);
+            
+
+        }
+
+
 
         public void ClickSubmitButton()
         {

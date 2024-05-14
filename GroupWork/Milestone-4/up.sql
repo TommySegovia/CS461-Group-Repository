@@ -60,6 +60,18 @@ CREATE TABLE [ClimbAttempt] (
   [EntryDate] datetime
 )
 
+CREATE TABLE [Tag](
+  [ID] int PRIMARY KEY IDENTITY(1, 1),
+  [TagName] NVARCHAR(200)
+)
+
+CREATE TABLE [ClimbTagEntry] (
+  [ID] int PRIMARY KEY IDENTITY(1, 1),
+  [ClimbAttemptID] int,
+  [TagID] int
+);
+
+
 ALTER TABLE [FitnessDataEntry] ADD CONSTRAINT [FK_FitnessDataEntry_Climber_ID] 
   FOREIGN KEY ([ClimberID]) REFERENCES [Climber] ([ID]);
 
@@ -77,3 +89,10 @@ ALTER TABLE [GroupList] ADD CONSTRAINT [FK_GroupList_CommunityGroup_ID]
 
 ALTER TABLE [CommunityGroup] ADD CONSTRAINT [FK_CommunityGroup_Climber_OwnerID] 
   FOREIGN KEY ([OwnerID]) REFERENCES [Climber] ([ID]);
+
+ALTER TABLE [ClimbTagEntry]
+ADD CONSTRAINT [FK_ClimbTagEntry_ClimbAttemptID] FOREIGN KEY ([ClimbAttemptID]) REFERENCES [ClimbAttempt]([ID]);
+
+ALTER TABLE [ClimbTagEntry]
+ADD CONSTRAINT [FK_ClimbTagEntry_TagID] FOREIGN KEY ([TagID]) REFERENCES [Tag]([ID]);
+

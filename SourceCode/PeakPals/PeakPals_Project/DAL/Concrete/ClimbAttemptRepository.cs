@@ -42,7 +42,7 @@ namespace PeakPals_Project.DAL.Concrete
       }
     }
 
-    public void RecordClimbingAttempt(int climberId, string climbId, string? climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating)
+    public int RecordClimbingAttempt(int climberId, string climbId, string? climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating)
     {
       var newClimbAttempt = ViewClimbingAttempt(climberId, climbId) ?? new ClimbAttempt();
 
@@ -65,6 +65,8 @@ namespace PeakPals_Project.DAL.Concrete
       }
 
       _context.SaveChanges();
+
+      return newClimbAttempt.Id;
 
     }
 

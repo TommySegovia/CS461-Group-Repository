@@ -40,4 +40,8 @@ public partial class ClimbAttempt
     [InverseProperty("ClimbAttempts")]
     public virtual Climber? Climber { get; set; }
 
+    [JsonIgnore]
+    [InverseProperty("ClimbAttempt")]
+    public virtual List<ClimbTagEntry>? ClimbTagEntries { get; set; } = new List<ClimbTagEntry>();
+
 }
