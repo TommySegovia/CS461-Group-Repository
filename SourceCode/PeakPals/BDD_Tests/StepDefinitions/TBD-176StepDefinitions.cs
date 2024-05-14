@@ -8,14 +8,14 @@ using PeakPals_BDD_Tests.Drivers;
 namespace PeakPals_BDD_Tests.StepDefinitions;
 
 [Binding]
-public sealed class TBD_114StepDefinitions
+public sealed class TBD_176StepDefinitions
 {
     private readonly AreaPageObject _areaPage;
     private readonly ClimbPageObject _climbPage;
     private readonly SearchPageObject _searchPage;
     private readonly LoginPageObject _loginPage;
     private readonly IWebDriver _webDriver;
-    public TBD_114StepDefinitions(BrowserDriver browserDriver)
+    public TBD_176StepDefinitions(BrowserDriver browserDriver)
     {
         _webDriver = browserDriver.Current;
         _searchPage = new SearchPageObject(_webDriver);

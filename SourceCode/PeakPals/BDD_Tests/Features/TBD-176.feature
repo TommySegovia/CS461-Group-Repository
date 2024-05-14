@@ -5,7 +5,7 @@ Feature: TBD-176
 
  
 
-    Scenario: The climbing log will have pagionation buttons available
+    Scenario: The climbing log will have pagination buttons available
         Given I am a user with climbs logged
         When I go to the location page
         And I see that my climbing log has multiple entries
