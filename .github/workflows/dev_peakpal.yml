@@ -24,11 +24,13 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+        working-directory: ./SourceCode/PeakPals/PeakPals_Project
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        working-directory: ./SourceCode/PeakPals/PeakPals_Project
 
-      - name: Upload artifact for deployment job
+      - name: Upload artifact for deployment job]
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
@@ -52,9 +54,7 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B52BEFF2FD414A47B989307A0695A36E }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C27488FD14F74A7BA748905842CAB943 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F87D2C7F111242DB83A426B35406C027 }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -63,4 +63,3 @@ jobs:
           app-name: 'PeakPal'
           slot-name: 'Production'
           package: .
-          
