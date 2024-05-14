@@ -153,7 +153,6 @@ export async function handleClimbAttemptFormSubmit() {
 
     const form = document.getElementById("climb-attempt-form");
     var climbAttemptModalElement = document.getElementById('climbAttemptModal');
-    var climbAttemptModal = new bootstrap.Modal(climbAttemptModalElement);
 
 
     document.getElementById("climb-attempt-form").addEventListener("submit", async function (event) {
@@ -265,6 +264,7 @@ export async function displayClimbingLog(user) {
         paginationArea.innerHTML = ''; // Clear the pagination area
 
         const prevButton = document.createElement('button');
+        prevButton.id = 'prev-button';
         prevButton.textContent = '<';
         prevButton.style.width = '50px'; 
         prevButton.style.height = '50px';
@@ -278,12 +278,14 @@ export async function displayClimbingLog(user) {
         paginationArea.appendChild(prevButton);
 
         const currentButton = document.createElement('button');
+        currentButton.id = 'current-button';
         currentButton.textContent = currentPage;
         currentButton.style.width = '50px'; 
         currentButton.style.height = '50px'; 
         paginationArea.appendChild(currentButton);
 
         const nextButton = document.createElement('button');
+        nextButton.id = 'next-button';
         nextButton.textContent = '>';
         nextButton.style.width = '50px';
         nextButton.style.height = '50px';

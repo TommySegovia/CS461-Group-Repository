@@ -21,6 +21,7 @@ namespace PeakPals_BDD_Tests.Shared
         {
             { "Home" , "/" },
             { "Report", "/Report/Report" },
+            { "Test", "/Report/Test" },
             { "Record", "/Record/Record" },
             { "Login", "/Identity/Account/Login" },
             { "Register", "/Identity/Account/Register" },
