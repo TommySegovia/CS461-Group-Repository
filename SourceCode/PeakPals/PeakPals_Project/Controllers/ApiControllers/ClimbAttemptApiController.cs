@@ -58,6 +58,24 @@ namespace PeakPals_Project.Controllers
             }
         }
 
+        //view all climb attempts by username
+        [HttpGet("log/view/{username}")]
+        public ActionResult<List<ClimbAttemptDTO>> ViewAllClimbingAttemptsByUsername(string username)
+        {
+            var climberDTO = _climberRepository.GetClimberByUsername(username);
+            if (climberDTO == null)
+            {
+                return NotFound(new { Message = "No climber associated with this account." });
+            }
+            var climbAttemptsList = _climbAttemptRepository.ViewAllClimbingAttempts(climberDTO.Id);
+            if (climbAttemptsList.IsNullOrEmpty())
+            {
+                return NotFound(new { Message = "No climb attempts logged or found so far." });
+            }
+
+            return Ok(climbAttemptsList);
+        }
+
         [HttpPost("log/record")]
         public ActionResult RecordClimbAttempt(ClimbAttemptDTO climbAttemptDTO)
         {
