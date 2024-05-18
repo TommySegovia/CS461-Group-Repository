@@ -7,10 +7,11 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h1 class="display-4 text-white welcome">Record Your Tests</h1>
+                    <h1 class="display-4 text-white" id="welcome-text">Record Your Tests</h1>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="bg-dark" id="record-box">
+                <div class="row justify-content-center">
                 <div class="col-6">
                     <div class="confirmation-popup" id="record-confirmation-popup" style="display: none;">
                         <p>Test Successfully Logged</p>
@@ -19,11 +20,12 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <h1 class="text-white welcome-text"> Keep track of your performance</h1>
+                    <h1 class="text-white welcome-text mx-4">Track your performances below!</h1>
+                    <h1 class="text-white welcome-text mx-4">Click the <strong>?</strong> button for help on each test.</h1>
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-6">
+                <div class="col-lg-10 col-md-7 col-md-11">
 
                     @{
                         var tests = new[]
@@ -44,13 +46,13 @@
                     @foreach (var test in tests)
                     {
                         <div class="accordion" id="test-accordion-@test.Id">
-                            <div class="accordion-item">
+                            <div class="accordion-item" style="background-color: rgb(132, 146, 167);">
                                 <h2 class="accordion-header d-flex justify-content-between">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@test.Id">
-                                        @test.Name
+                                       <strong>@test.Name</strong>
                                     </button>
-                                    <button type="button" class="btn btn-warning btn-circle" data-bs-toggle="modal" data-bs-target="#@test.ModalId" id="@test.HelpButtonId">
-                                        <span class="text-black">?</span>
+                                    <button type="button" class="btn btn-lg btn-warning btn-circle" data-bs-toggle="modal" data-bs-target="#@test.ModalId" id="@test.HelpButtonId">
+                                        <span class="text-dark"><strong>?</strong></span>
                                     </button>
                                 </h2>
                                 <div id="collapse-@test.Id" class="accordion-collapse collapse">
@@ -95,7 +97,7 @@
                                                     </div>
                                                 }
                                                 
-                                                <button class="btn btn-outline-secondary" type="submit" id="@($"{test.Id}-test-submit-button")">Record</button>
+                                                <button class="btn btn-outline-secondary btn-warning record-btn" type="submit" id="@($"{test.Id}-test-submit-button")">Record</button>
                                             </div>
                                         </form>
                                     </div>
@@ -117,6 +119,7 @@
                 </div>
             </div>
         </div>
+        <div class="my-5"></div>
     </div>
 
     @{
@@ -309,10 +312,10 @@
             Warning = "This test is maximal and comes with risk to the user. Always start at a relatively low intensity, gradually increase the distance on each pull. If your form begins to fail, return back to standing flat on the ground and reevaluate. Safety is always more important than potentially risking an injury!",
             LogResults = "Select the furthest set of pulls you were able to complete. Example: If you were able to pull from the first rung to the second rung as well as the third and match, select 1-2-3. If you were able to pull from the first rung to the third rung as well as the fifth and match, select 1-3-5."
         }
-        
-        
     };
 }
+            </div>
+            
 
 @foreach (var exercise in exercises)
 {
@@ -323,7 +326,7 @@
                     <h5 class="modal-title px-3 py-2 text-center" id="@exercise.LabelId">@exercise.Title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body bg-dark text-white">
                     <p>@exercise.Info</p>
                     <h6>Requirements:</h6>
                     <ul>
