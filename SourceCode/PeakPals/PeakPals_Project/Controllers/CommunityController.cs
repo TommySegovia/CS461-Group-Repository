@@ -29,6 +29,7 @@ public class CommunityController : Controller
         _climberService = climberService;
         _communityGroupRepository = communityGroupRepository;
         _userManager = userManager;
+
     }
 
     public IActionResult Index()
@@ -69,13 +70,21 @@ public class CommunityController : Controller
         // Check if the current user's climber ID is the owner ID of the group
         if (group.OwnerID == climber.Id)
         {
+            
             // Return the owner view if the current user's climber ID is the owner ID
             return View("CommunityGroupOwner", group);
         }
         else
         {
+            
             // Return the regular view if the current user's climber ID is not the owner ID
             return View("CommunityGroup", group);
         }
+    }
+
+    [HttpPost("Community/Group/{groupID}")]
+    public async Task<IActionResult> GetGroup(int groupID, string message)
+    {
+        return View();
     }
 }

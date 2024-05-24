@@ -1,4 +1,6 @@
 -- Drop foreign key constraints
+ALTER TABLE [CommunityMessage] DROP CONSTRAINT [FK_CommunityMessage_Climber_ID];
+ALTER TABLE [CommunityMessage] DROP CONSTRAINT [FK_CommunityMessage_CommunityGroup_ID];
 ALTER TABLE [ClimbTagEntry] DROP CONSTRAINT [FK_ClimbTagEntry_ClimbAttemptID];
 ALTER TABLE [ClimbTagEntry] DROP CONSTRAINT [FK_ClimbTagEntry_TagID];
 ALTER TABLE [FitnessDataEntry] DROP CONSTRAINT [FK_FitnessDataEntry_Climber_ID];

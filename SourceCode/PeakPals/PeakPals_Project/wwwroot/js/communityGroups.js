@@ -1,10 +1,14 @@
+import { getAllMessagesApiCall } from "/js/api.js";
+import { populateGroupComments } from "/js/eventhandlers.js";
+
+
 document.addEventListener("DOMContentLoaded", function () {
   const communityGroupButton = document.getElementById(
     "community-group-button"
   );
   const groupId = communityGroupButton.getAttribute("data-group-id");
-  console.log(groupId);
   updateMemberCount(groupId);
+  getGroupMessages(groupId);
 
   const memberModal = document.getElementById("memberModal");
   memberModal.addEventListener("show.bs.modal", function () {
@@ -35,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
   updateMembershipStatus();
 });
 
@@ -128,4 +131,23 @@ async function getCurrentUserId() {
   }
   const user = await response.json();
   return user;
+}
+
+// community message functionality
+
+function getGroupMessages(groupId)
+{
+  
+  const messages = getAllMessagesApiCall(groupId);
+  console.log(messages);
+  if (messages != null  && messages.length > 0) {
+    populateGroupComments(messages);
+  }
+  else {
+    const elseTemplate = document.getElementById("else-template");
+    const elseArea = document.getElementById("comment-else");
+    const clone = elseTemplate.content.cloneNode(true);
+    elseArea.appendChild(clone);
+  }
+
 }

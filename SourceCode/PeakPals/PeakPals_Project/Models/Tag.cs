@@ -12,6 +12,7 @@ namespace PeakPals_Project.Models
         [Key]
         [Column("ID")]
         public int ID { get; set; }
+        
         [Column("TagName")]
         [Required]
         [StringLength(200)]
