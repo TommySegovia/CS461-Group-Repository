@@ -13,3 +13,50 @@
     font-family: "Sriracha", cursive;
     width: 2em;
 }
+
+#welcome-text {
+/*font-style:oblique; */
+  font-family: "Rock Salt", cursive;
+  font-weight: 400;
+  font-style: normal;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  font-size: 4.5em;
+  text-shadow: black 2px 2px 2px;
+}
+
+#record-box {
+    margin-left: 14em;
+    margin-right: 14em;
+    padding-top: 2em;
+    border-radius: 10px;
+    padding-left: 2em;
+    padding-right: 2em;
+    box-shadow: black 0px 0px 10px;
+}
+
+.accordion-body {
+    font-family: "Sriracha", cursive;
+    font-size: 1.5em;
+}
+
+.record-btn {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+@media screen and (max-width: 1199px) {
+    #record-box {
+        margin-left: 2em;
+        margin-right: 2em;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    #record-box {
+        margin-left: 0em;
+        margin-right: 0em;
+        padding-left: 0.3em;
+        padding-right: 0.3em;
+    }
+    
+}
