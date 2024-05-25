@@ -35,7 +35,7 @@
                             <div class="history-card">
                                 <h2 class="text-white text-center history-card-header">@test.Name</h2>
 
-                                <a href="@Url.Action("Test", "Report", new { testName = test.id })" class="text-white btn btn-danger my-3" style="text-decoration: none;">Expand</a>
+                                <a href="@Url.Action("Test", "Report", new { testName = test.id })" class="text-white btn btn-danger my-3" style="text-decoration: none;" id="test-expand-button">Expand</a>
 
                                 <div class="container">
                                     <div class="row">
@@ -46,9 +46,7 @@
                                             <div class="history-table-div" id="@test.id-test-table"></div>
                                         </div>
                                     </div>
-                                </div>
-                                
-                                
+                                </div>    
                                 
                                 <div class="history-results-div" id="@test.id-test-results"></div>
                             </div>

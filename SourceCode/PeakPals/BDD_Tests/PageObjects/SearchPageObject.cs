@@ -22,6 +22,10 @@ namespace PeakPals_BDD_Tests.PageObjects
         private IWebElement SearchResults => _webDriver.FindElement(By.Id("areas-div"));
         private IWebElement ClimbingLogsName => _webDriver.FindElement(By.Id("climb-attempt-name"));
         private IWebElement MapElement => _webDriver.FindElement(By.Id("dynamic-map"));
+        private IWebElement PaginationElement => _webDriver.FindElement(By.Id("pagination-area"));
+        private IWebElement RightPaginationButton => _webDriver.FindElement(By.Id("next-button"));
+        private IWebElement CurrentPageIcon => _webDriver.FindElement(By.Id("current-button"));
+
         
 
         public void OpenSearchModal()
@@ -115,6 +119,36 @@ namespace PeakPals_BDD_Tests.PageObjects
                 return true;
             }
             catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        public bool DoesPaginationExist()
+        {
+            try
+            {
+                var element = PaginationElement;
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            } 
+        }
+
+        public void ClickPaginationButton()
+        {
+            RightPaginationButton.Click();
+        }
+
+        public bool IsNextPage()
+        {
+            if(CurrentPageIcon.Text == "2")
+            {
+                return true;
+            }
+            else
             {
                 return false;
             }
