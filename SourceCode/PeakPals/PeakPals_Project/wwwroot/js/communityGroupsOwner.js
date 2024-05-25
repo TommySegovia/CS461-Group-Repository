@@ -1,11 +1,20 @@
 import { getAllMessagesApiCall } from "/js/api.js";
 import { populateGroupComments } from "/js/eventhandlers.js";
+import { postMessage } from "/js/api.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const communityGroupButton = document.getElementById("community-group-button");
   const groupId = communityGroupButton.getAttribute("data-group-id");
   updateMemberCount(groupId);
   getGroupMessages(groupId);
+
+  if (document.querySelector("#createMessageModal")) {
+    document.getElementById('createMessageModal').addEventListener('shown.bs.modal', function (e) {
+      console.log("modal shown!");
+      handleCommentFormSubmit(groupId);
+    });
+  }
+  
 
   // Event listener for modal cancel button
   document.getElementById("modalCancelButton").addEventListener("click", closeModal);
@@ -270,4 +279,24 @@ async function getGroupMessages(groupId) {
     elseArea.appendChild(clone);
   }
 
+}
+
+async function handleCommentFormSubmit(groupId) {
+
+  const form = document.getElementById("comment-form");
+
+  form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const comment = document.getElementById("comment-textarea").value;
+
+
+      console.log('Before postComment');
+      postMessage(comment, groupId);
+      console.log('After postComment: ');
+
+
+      localStorage.setItem('formSubmitted', 'true');
+
+      location.reload();
+  });
 }

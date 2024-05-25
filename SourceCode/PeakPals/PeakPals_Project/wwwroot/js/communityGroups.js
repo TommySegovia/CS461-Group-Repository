@@ -1,5 +1,6 @@
 import { getAllMessagesApiCall } from "/js/api.js";
 import { populateGroupComments } from "/js/eventhandlers.js";
+import { postMessage } from "/js/api.js";
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -9,6 +10,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const groupId = communityGroupButton.getAttribute("data-group-id");
   updateMemberCount(groupId);
   getGroupMessages(groupId);
+
+  if (document.querySelector("#createMessageModal")) {
+    document.getElementById('createMessageModal').addEventListener('shown.bs.modal', function (e) {
+      handleCommentFormSubmit(groupId);
+    })
+  }
+  
 
   const memberModal = document.getElementById("memberModal");
   memberModal.addEventListener("show.bs.modal", function () {
@@ -135,12 +143,13 @@ async function getCurrentUserId() {
 
 // community message functionality
 
-function getGroupMessages(groupId)
+async function getGroupMessages(groupId)
 {
   
-  const messages = getAllMessagesApiCall(groupId);
+  const messages = await getAllMessagesApiCall(groupId);
   console.log(messages);
-  if (messages != null  && messages.length > 0) {
+  if (messages != null && messages.length > 0) {
+    console.log('Before populateGroupComments');
     populateGroupComments(messages);
   }
   else {
@@ -150,4 +159,24 @@ function getGroupMessages(groupId)
     elseArea.appendChild(clone);
   }
 
+}
+
+async function handleCommentFormSubmit(groupId) {
+
+  const form = document.getElementById("comment-form");
+
+  form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const comment = document.getElementById("comment-textarea").value;
+
+
+      console.log('Before postComment');
+      postMessage(comment, groupId);
+      console.log('After postComment: ');
+
+
+      localStorage.setItem('formSubmitted', 'true');
+
+      location.reload();
+  });
 }

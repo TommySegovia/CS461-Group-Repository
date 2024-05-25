@@ -542,6 +542,31 @@ namespace PeakPals_Project.Controllers
             return Ok(messages);
         }
 
-        
+        [HttpPost("group/{groupId}/messages/{comment}")]
+        public async Task<ActionResult> PostMessage(string comment, string groupId)
+        {
+            if (comment == null)
+            {
+                return BadRequest(new { Message = "Comment is null"});
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            int.TryParse(groupId, out int communityGroupId);
+
+            await _communityMessageRepository.CreateMessage(climber.Id, communityGroupId, climber.UserName, comment);
+
+            return Ok();
+        }
     }
 }

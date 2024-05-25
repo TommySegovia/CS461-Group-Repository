@@ -16,6 +16,7 @@ namespace PeakPals_Project.DAL.Concrete
         public CommunityMessageRepository(PeakPalsContext context) : base(context)
         {
             _communityMessage = context.CommunityMessage;
+            _context = context;
         }
 
         // get all messages by group id
@@ -30,20 +31,21 @@ namespace PeakPals_Project.DAL.Concrete
         }
 
         // create a new message
-        public async Task<CommunityMessage> CreateMessage(int ClimberId, int CommunityGroupId, string DisplayName, string Message)
+        public async Task CreateMessage(int ClimberId, int CommunityGroupId, string DisplayName, string Message)
         {
             // Add a new message to the community message table
             // and return the message.
-            CommunityMessage message = new CommunityMessage();
-            message.ClimberId = ClimberId;
-            message.CommunityGroupId = CommunityGroupId;
-            message.DisplayName = DisplayName;
-            message.Message = Message;
+            CommunityMessage message = new CommunityMessage
+            {
+                ClimberId = ClimberId,
+                CommunityGroupId = CommunityGroupId,
+                DisplayName = DisplayName,
+                Message = Message
+            };
 
 
             _communityMessage.Add(message);
             await _context.SaveChangesAsync();
-            return message;
         }
     }
 }
