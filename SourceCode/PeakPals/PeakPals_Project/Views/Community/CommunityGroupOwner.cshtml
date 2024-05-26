@@ -86,6 +86,37 @@
                         data-bs-target="#createMessageModal">Add Comment</button>
                 </div>
             </div>
+            <div id="climb-and-map">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-6">
+                            <div class="card bg-dark">
+                                <div class="card-header">
+                                    <h2 class="text-center text-white">Climbing Logs</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-6">
+                            <!--
+                            <div class="card bg-light d-flex justify-content-center">
+                                <div class="card-header">
+                                    <h2 class="text-center text-dark">Regional Map Search</h2>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-6">
+                            <div id="display-log-list" class="log-list">
+                            </div>
+                            <div id="pagination-area" class="d-flex justify-content-center bg-dark"></div>
+                        </div>
+                        <div class="col col-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -135,6 +166,46 @@
     <div class="card text-body">
         <h4 class="mb-0 py-3">No comments yet...</h4>
         <hr class="my-2" style="height: 1px;" />
+    </div>
+</template>
+
+<template id="climb-log-template">
+    <div class="row">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <strong>Climb: <h5 class="card-title mx-3 my-1 d-inline-block" id="climb-attempt-name"></h5>
+                </strong>
+                <a href="" class="btn btn-primary mt-3" id="climb-attempt-link-button">Go to Climb</a>
+            </div>
+            <div class="card-body">
+                <div class="row pb-2">
+                    <div class="col-6 border-right">
+                        <strong>Climber:</strong>
+                        <p class="card-text small d-inline-block text-dark" id="climb-attempt-climber-name"></p>
+                        <br>
+                        <strong>Date Climbed:</strong>
+                        <p class="card-text small d-inline-block text-dark" id="climb-attempt-date"></p>    
+                    </div>
+                    <div class="col-6">
+                        <strong>Number of Attempts:</strong>
+                        <p class="card-text small d-inline-block text-dark" id="climb-attempt-attempts"></p>
+                        <br>
+                        <strong>Suggested Grade:</strong>
+                        <p class="card-text small d-inline-block text-dark" id="climb-attempt-grade"></p>
+                    </div>
+                </div>
+                <div class="row pb-2">
+                    <strong>Rating:</strong>
+                    <p class="card-text small d-inline-block text-dark" id="climb-attempt-rating"></p>
+                </div>
+                <div class="row pb-2">
+                    <div class="col">
+                        <strong>Tags:</strong>
+                        <p class="card-text d-inline-block" id="climb-attempt-tags"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
