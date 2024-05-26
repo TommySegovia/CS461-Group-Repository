@@ -60,7 +60,7 @@ namespace PeakPals_Project.Controllers
                 return BadRequest(new { Message = "User not authenticated" });
             }
         }
-        
+
         [HttpDelete("Test/Results/Delete/{id}/{testId}")]
         public ActionResult DeleteTestResult(int id, int testId)
         {
@@ -79,7 +79,7 @@ namespace PeakPals_Project.Controllers
                 return BadRequest(new { Message = "User not authenticated" });
             }
         }
-        
+
 
         [HttpGet("Test/Results/MostRecent/{testId}")]
         public ActionResult<object> GetMostRecentUserTestValueAndBodyWeight(int testId)
@@ -206,6 +206,58 @@ namespace PeakPals_Project.Controllers
                     _fitnessDataEntryService.RecordTestResult(climberDTO.Id, testId, fitnessDataEntryDTO.Result, fitnessDataEntryDTO.BodyWeight, age, gender, climbingExperience, maxClimbGrade);
                     return Ok(new { Message = "Test #" + testId + " Recorded" });
                 }
+            }
+            else
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
+        }
+
+        [HttpGet("Test/Results/All/RadarChart")]
+        public ActionResult<object> GetRadarChartData()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (climberDTO == null || _fitnessDataEntryRepository == null)
+                {
+                    return NotFound();
+                }
+                //get most recent test results for each test
+                var userTests = new List<FitnessDataEntryDTO>();
+                var averageTests = new List<double>();
+                for (int i = 0; i <= 7; i++)
+                {
+                    var userResults = _fitnessDataEntryRepository.GetUserResultsWithTimesInChronologicalOrder(climberDTO.Id, i);
+                    if (userResults.Any())
+                    {
+                        userTests.Add(userResults.Last());
+
+                    }
+                    else
+                    {
+                        userTests.Add(new FitnessDataEntryDTO { Result = 0 });
+                    }
+                    double? result;
+
+                    if (i <= 2) //strength tests
+                    {
+                        result = _fitnessDataEntryRepository.GetAverageResultDividedByBodyweight(i, 0, 100, "All", "All", 0, 100);
+                    }
+                    else if (i <= 6) //all tests except strength and campus board
+                    {
+                        result = _fitnessDataEntryRepository.GetAverageResult(i, 0, 100, "All", "All", 0, 100);
+                    }
+                    else //campus board test
+                    {
+                        result = _fitnessDataEntryRepository.GetMostCommonResultCampusBoard(i, 0, 100, "All", "All", 0, 100);
+                    }
+
+                    averageTests.Add(result ?? 0);
+                }
+
+                var radarGen = _fitnessDataEntryService.GenerateRadarChart(userTests, averageTests, climberDTO.Id);
+                return Ok(radarGen);
             }
             else
             {

@@ -26,6 +26,21 @@
     padding: 0px;
 }
 
+#recommendations-tab{
+    color: white;
+    font-size: larger;
+    font-family: "Sriracha", cursive;
+    border-radius: 10px;
+    margin: 0px;
+    padding: 0px;
+}
+
+#recommendations-button{
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .nav-item{
     font-size: 1.5em;
     font-family: "Sriracha", cursive;
