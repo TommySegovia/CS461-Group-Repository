@@ -11,9 +11,12 @@ using PeakPals_Project.Areas.Identity.Data;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 using Microsoft.OpenApi.Models;
+using PeakPals_Project;
+using PeakPals_Project.Controllers;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
+//using Azure.Security.KeyVault.Secrets;
 
 namespace PeakPals_Project;
 
@@ -37,6 +40,7 @@ public class Program
         //var connectionStringApp = connectionAppSecret.Value.Value;
         //var SendGridKey = sendGridApiKeySecret.Value.Value;
 
+
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
                                     .UseSqlServer(connectionStringAuth, sqlServerOptionsAction: sqlOptions =>
                                     {
@@ -57,6 +61,9 @@ public class Program
                                         })
                                         .UseLazyLoadingProxies());
 
+
+
+        
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
