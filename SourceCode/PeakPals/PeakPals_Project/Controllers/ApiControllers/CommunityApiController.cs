@@ -542,6 +542,7 @@ namespace PeakPals_Project.Controllers
             return Ok(messages);
         }
 
+        // post a message to a group
         [HttpPost("group/{groupId}/messages/{comment}")]
         public async Task<ActionResult> PostMessage(string comment, string groupId)
         {
@@ -568,5 +569,7 @@ namespace PeakPals_Project.Controllers
 
             return Ok();
         }
+
+        // 
     }
 }

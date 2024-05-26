@@ -1,6 +1,9 @@
 import { getAllMessagesApiCall } from "/js/api.js";
 import { populateGroupComments } from "/js/eventhandlers.js";
 import { postMessage } from "/js/api.js";
+import { getCommunityClimbingLog } from "/js/api.js";
+import { getClimbersFromGroupId } from "/js/api.js";
+import { displayGroupClimbingLog } from "/js/eventhandlers.js";
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -10,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const groupId = communityGroupButton.getAttribute("data-group-id");
   updateMemberCount(groupId);
   getGroupMessages(groupId);
+  getClimbingLogsForGroup(groupId);
 
   if (document.querySelector("#createMessageModal")) {
     document.getElementById('createMessageModal').addEventListener('shown.bs.modal', function (e) {
@@ -145,7 +149,6 @@ async function getCurrentUserId() {
 
 async function getGroupMessages(groupId)
 {
-  
   const messages = await getAllMessagesApiCall(groupId);
   console.log(messages);
   if (messages != null && messages.length > 0) {
@@ -158,13 +161,11 @@ async function getGroupMessages(groupId)
     const clone = elseTemplate.content.cloneNode(true);
     elseArea.appendChild(clone);
   }
-
 }
 
 async function handleCommentFormSubmit(groupId) {
 
   const form = document.getElementById("comment-form");
-
   form.addEventListener("submit", async function (event) {
       event.preventDefault();
       const comment = document.getElementById("comment-textarea").value;
@@ -179,4 +180,11 @@ async function handleCommentFormSubmit(groupId) {
 
       location.reload();
   });
+}
+
+async function getClimbingLogsForGroup(groupId) {
+  const climbers = await getClimbersFromGroupId(groupId);
+  console.log(climbers);
+  const logs = await getCommunityClimbingLog(climbers);
+  displayGroupClimbingLog(logs);
 }

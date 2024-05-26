@@ -1,12 +1,16 @@
 import { getAllMessagesApiCall } from "/js/api.js";
 import { populateGroupComments } from "/js/eventhandlers.js";
 import { postMessage } from "/js/api.js";
+import { getCommunityClimbingLog } from "/js/api.js";
+import { getClimbersFromGroupId } from "/js/api.js";
+import { displayGroupClimbingLog } from "/js/eventhandlers.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const communityGroupButton = document.getElementById("community-group-button");
   const groupId = communityGroupButton.getAttribute("data-group-id");
   updateMemberCount(groupId);
   getGroupMessages(groupId);
+  getClimbingLogsForGroup(groupId);
 
   if (document.querySelector("#createMessageModal")) {
     document.getElementById('createMessageModal').addEventListener('shown.bs.modal', function (e) {
@@ -299,4 +303,11 @@ async function handleCommentFormSubmit(groupId) {
 
       location.reload();
   });
+}
+
+async function getClimbingLogsForGroup(groupId) {
+  const climbers = await getClimbersFromGroupId(groupId);
+  console.log(climbers);
+  const logs = await getCommunityClimbingLog(climbers);
+  displayGroupClimbingLog(logs);
 }
