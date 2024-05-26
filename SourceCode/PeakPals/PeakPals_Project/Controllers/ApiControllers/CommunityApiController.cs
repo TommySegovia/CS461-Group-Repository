@@ -14,6 +14,9 @@ using PeakPals_Project.Services;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using PeakPals_Project.Areas.Identity.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Castle.Components.DictionaryAdapter.Xml;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace PeakPals_Project.Controllers
 {
@@ -27,15 +30,17 @@ namespace PeakPals_Project.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICommunityGroupRepository _communityGroupRepository;
         private readonly IGroupListRepository _groupListRepository;
+        private readonly ICommunityMessageRepository _communityMessageRepository;
 
         public CommunityApiController(IClimberService climberService, IClimberRepository climberRepository, UserManager<ApplicationUser> userManager
-                                    , ICommunityGroupRepository communityGroupRepository, IGroupListRepository groupListRepository)
+                                    , ICommunityGroupRepository communityGroupRepository, IGroupListRepository groupListRepository, ICommunityMessageRepository communityMessageRepository)
         {
             _climberService = climberService;
             _climberRepository = climberRepository;
             _userManager = userManager;
             _communityGroupRepository = communityGroupRepository;
             _groupListRepository = groupListRepository;
+            _communityMessageRepository = communityMessageRepository;
         }
 
         [HttpGet("search/{username}")]
@@ -514,6 +519,54 @@ namespace PeakPals_Project.Controllers
 
             return Ok(groups);
 
+        }
+
+        // get all messages from a particular group
+        [HttpGet("group/messages/{groupId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CommunityMessage>))]
+        public async Task<ActionResult<List<CommunityMessage>>> GetAllMessages(string groupId)
+        {
+            if (groupId == null)
+            {
+                return BadRequest(new { Message = "groupId is null"});
+            }
+
+            int.TryParse(groupId, out int id);
+            var messages = _communityMessageRepository.GetMessagesById(id);
+
+            if (messages == null)
+            {
+                return NotFound(new { Message = "Group does not exist."});
+            }
+
+            return Ok(messages);
+        }
+
+        [HttpPost("group/{groupId}/messages/{comment}")]
+        public async Task<ActionResult> PostMessage(string comment, string groupId)
+        {
+            if (comment == null)
+            {
+                return BadRequest(new { Message = "Comment is null"});
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "User is not authenticated." });
+            }
+            // Get the climber associated with the current user
+            var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
+            if (climber == null)
+            {
+                return NotFound(new { Message = "Climber does not exist." });
+            }
+
+            int.TryParse(groupId, out int communityGroupId);
+
+            await _communityMessageRepository.CreateMessage(climber.Id, communityGroupId, climber.UserName, comment);
+
+            return Ok();
         }
     }
 }

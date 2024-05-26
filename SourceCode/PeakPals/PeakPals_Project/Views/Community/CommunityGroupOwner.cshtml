@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @model CommunityGroup
 
+
 <body id="community-group-body">
 
     <div class="justify-context-center text-center" id="community-group-card">
@@ -9,7 +10,6 @@
             <div class="row">
                 <div class="col" id="group-name-header">
                     <h1>Owner of @Model.Name</h1>
-
                 </div>
             </div>
             <div class="row" id="group-body">
@@ -23,8 +23,8 @@
             </div>
             <div class="row" id="group-footer">
                 <div class="col">
-                    @* <button type="submit" class="btn btn-warning" id="community-group-join-button"
-                    style="border-radius: 5px;">Join</button> *@
+                    <!-- <button type="submit" class="btn btn-warning" id="community-group-join-button"
+                    style="border-radius: 5px;">Join</button> -->
                     <button type="submit" id="community-group-button" data-group-id="@Model.Id"></button>
                 </div>
             </div>
@@ -63,13 +63,84 @@
                 </div>
             </div>
 
+            <div style="background-color: black;">
+                <div class="container my-5 py-5">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-sm-12 col-md-11 col-lg-10">
+                            <!-- if (messages != null) -->
+
+                            <div class="card text-body">
+                                <h4 class="mb-0">Most Recent Comments</h4>
+                                <hr class="my-4" style="height: 1px;" />
+                                <div id="comment-area">
+                                    <!-- comments will be iteriated here -->
+                                </div>
+                            </div>
+
+                            <!-- else -->
+                            <div id="comment-else">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary my-4" data-bs-toggle="modal"
+                        data-bs-target="#createMessageModal">Add Comment</button>
+                </div>
+            </div>
+
         </div>
     </div>
+
+    <div class="modal fade bd-example-modal-md" id="createMessageModal" tabindex="-1"
+        aria-labelledby="createMessageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Leave a comment on this community</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5 d-flex align-items-center">
+                    <div class="container">
+                        <form id="comment-form">
+                            <textarea id="comment-textarea" class="form-control" rows="7" maxlength="512"
+                                maxrows="20"></textarea>
+                            <button type="submit" class="btn btn-primary mt-3" id="submitMessageButton">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
+
+<template id="comment-template">
+    <div class="card-body p-4 text-dark">
+        <div class="d-flex flex-start text-dark">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <p class="fw-bold mb-1 text-dark mr-auto p-2" id="comment-name">
+                </p>
+                <p class="mb-0 text-dark p-2" id="comment-date">
+                    <!-- to-do possibly another time -->
+                </p>
+            </div>
+            <p class="mb-0 py-2 text-black" id="comment-message">
+                <!--- message.Message -->
+            </p>
+        </div>
+    </div>
+    <hr class="my-0" style="height: 1px;" />
+</template>
+
+<template id="else-template">
+    <div class="card text-body">
+        <h4 class="mb-0 py-3">No comments yet...</h4>
+        <hr class="my-2" style="height: 1px;" />
+    </div>
+</template>
 
 @section Scripts
 {
-    <script src="~/js/communityGroupsOwner.js"></script>
+    <script src="~/js/communityGroupsOwner.js" type="module"></script>
 }
 
 @section Styles {

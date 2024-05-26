@@ -1,65 +1,78 @@
+import { getAllMessagesApiCall } from "/js/api.js";
+import { populateGroupComments } from "/js/eventhandlers.js";
+import { postMessage } from "/js/api.js";
+
 document.addEventListener("DOMContentLoaded", function () {
-    const communityGroupButton = document.getElementById("community-group-button");
-    const groupId = communityGroupButton.getAttribute("data-group-id");
-    console.log(groupId);
-    updateMemberCount(groupId);
+  const communityGroupButton = document.getElementById("community-group-button");
+  const groupId = communityGroupButton.getAttribute("data-group-id");
+  updateMemberCount(groupId);
+  getGroupMessages(groupId);
 
-    // Event listener for modal cancel button
-    document.getElementById("modalCancelButton").addEventListener("click", closeModal);
-
-    // Event listener for modal confirm button
-    document.getElementById("modalConfirmButton").addEventListener("click", () => {
-      confirmNewOwner(groupId);
-});
-
-    const memberModal = document.getElementById("memberModal");
-    memberModal.addEventListener("show.bs.modal", function () {
-        populateGroupMemberList(groupId);
+  if (document.querySelector("#createMessageModal")) {
+    document.getElementById('createMessageModal').addEventListener('shown.bs.modal', function (e) {
+      console.log("modal shown!");
+      handleCommentFormSubmit(groupId);
     });
+  }
   
-    function updateMembershipStatus() {
-      updateMemberCount(groupId)
-      checkUserGroupMembership(groupId).then((isMember) => {
-        if (isMember) {
-          communityGroupButton.textContent = "Leave Group";
-          communityGroupButton.onclick = function () {
 
-            getGroupMemberCount(groupId).then((memberCount) => {
-              console.log(memberCount);
-              if (memberCount > 1) {
-                openNewOwnerModal(groupId).then((success) => {
-                  if (success) {
-                    updateMembershipStatus();
-                  }
-                });
-              }
-              else {
-                leaveGroup(groupId).then((success) => {
-                  if (success) {
-                    deleteGroup(groupId).then((success) => {
-                      if (success) {
-                        window.location.href = "/Community";
-                      }
-                    });
-                  }
-                });
-              }
-            });
-          };
-        } else {
-          communityGroupButton.textContent = "Join Group";
-          communityGroupButton.onclick = function () {
-            joinGroup(groupId).then((success) => {
-              if (success) {
-                updateMembershipStatus();
-              }
-            });
-          };
-        }
-      });
-    }
-    updateMembershipStatus();
+  // Event listener for modal cancel button
+  document.getElementById("modalCancelButton").addEventListener("click", closeModal);
+
+  // Event listener for modal confirm button
+  document.getElementById("modalConfirmButton").addEventListener("click", () => {
+    confirmNewOwner(groupId);
   });
+
+  const memberModal = document.getElementById("memberModal");
+  memberModal.addEventListener("show.bs.modal", function () {
+    populateGroupMemberList(groupId);
+  });
+
+  function updateMembershipStatus() {
+    updateMemberCount(groupId)
+    checkUserGroupMembership(groupId).then((isMember) => {
+      if (isMember) {
+        communityGroupButton.textContent = "Leave Group";
+        communityGroupButton.onclick = function () {
+
+          getGroupMemberCount(groupId).then((memberCount) => {
+            console.log(memberCount);
+            if (memberCount > 1) {
+              openNewOwnerModal(groupId).then((success) => {
+                if (success) {
+                  updateMembershipStatus();
+                }
+              });
+            }
+            else {
+              leaveGroup(groupId).then((success) => {
+                if (success) {
+                  deleteGroup(groupId).then((success) => {
+                    if (success) {
+                      window.location.href = "/Community";
+                    }
+                  });
+                }
+              });
+            }
+          });
+        };
+      } else {
+        communityGroupButton.textContent = "Join Group";
+        communityGroupButton.onclick = function () {
+          joinGroup(groupId).then((success) => {
+            if (success) {
+              updateMembershipStatus();
+            }
+          });
+        };
+      }
+    });
+  }
+  updateMembershipStatus();
+
+});
 
 async function checkUserGroupMembership(groupId) {
   //checks if the user is a member of the group
@@ -80,61 +93,61 @@ async function openNewOwnerModal(groupId) {
   // Fetch the list of members
   const url = `/api/community/members/group/${groupId}/list`;
   try {
-      const response = await fetch(url);
-      if (!response.ok) {
-          throw new Error("Failed to fetch members");
-      }
-      const members = await response.json();
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch members");
+    }
+    const members = await response.json();
 
-      // Fetch the current owner's ID
-      const ownerId = await getCurrentUserId();
-      if (!ownerId) {
-          throw new Error("Failed to fetch owner's ID");
-      }
+    // Fetch the current owner's ID
+    const ownerId = await getCurrentUserId();
+    if (!ownerId) {
+      throw new Error("Failed to fetch owner's ID");
+    }
 
-      // Filter the members to exclude the owner
-      const nonOwnerMembers = members.filter(member => member.id !== ownerId);
+    // Filter the members to exclude the owner
+    const nonOwnerMembers = members.filter(member => member.id !== ownerId);
 
-      nonOwnerMembers.forEach((member) => {
-          const option = document.createElement("option");
-          option.value = member.id;
-          option.textContent = member.userName;
-          newOwnerSelect.appendChild(option);
-      });
+    nonOwnerMembers.forEach((member) => {
+      const option = document.createElement("option");
+      option.value = member.id;
+      option.textContent = member.userName;
+      newOwnerSelect.appendChild(option);
+    });
 
-      $('#newOwnerModal').modal('show');
+    $('#newOwnerModal').modal('show');
   } catch (error) {
-      console.error("Failed to populate new owner modal: ", error);
+    console.error("Failed to populate new owner modal: ", error);
   }
 }
 
 // Function to close the modal
 function closeModal() {
-    $('#newOwnerModal').modal('hide');
+  $('#newOwnerModal').modal('hide');
 }
 
 // Function to handle confirming the new owner selection
 function confirmNewOwner(groupId) {
-    const newOwnerId = document.getElementById("new-owner-select").value;
-    if (!newOwnerId) {
-        return;
-    }
+  const newOwnerId = document.getElementById("new-owner-select").value;
+  if (!newOwnerId) {
+    return;
+  }
 
-    // Set the new owner
-    const setOwnerUrl = `/api/community/setOwner/group/${groupId}/user/${newOwnerId}`;
-    fetch(setOwnerUrl, { method: "POST" })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Failed to set new owner");
-            }
-            // Leave the group
-            leaveGroup(groupId);
-            //redirect to communityGroup page
-            window.location.href = `/Community/Group/${groupId}`;
-        })
-        .catch((error) => {
-            console.error("Failed to confirm new owner: ", error);
-        });
+  // Set the new owner
+  const setOwnerUrl = `/api/community/setOwner/group/${groupId}/user/${newOwnerId}`;
+  fetch(setOwnerUrl, { method: "POST" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to set new owner");
+      }
+      // Leave the group
+      leaveGroup(groupId);
+      //redirect to communityGroup page
+      window.location.href = `/Community/Group/${groupId}`;
+    })
+    .catch((error) => {
+      console.error("Failed to confirm new owner: ", error);
+    });
 }
 
 async function deleteGroup(groupId) {
@@ -142,7 +155,7 @@ async function deleteGroup(groupId) {
   const url = `/api/community/delete/group/${groupId}`;
   const response = await fetch(url, { method: "POST" });
   if (!response.ok) {
-      return false;
+    return false;
   }
   return true;
 }
@@ -152,7 +165,7 @@ async function leaveGroup(groupId) {
   const url = `/api/community/leave/group/${groupId}`;
   const response = await fetch(url, { method: "POST" });
   if (!response.ok) {
-      return false;
+    return false;
   }
   return true;
 }
@@ -172,7 +185,7 @@ async function getGroupMemberCount(groupId) {
   const url = `/api/community/members/group/${groupId}`;
   const response = await fetch(url);
   if (!response.ok) {
-      return 0;
+    return 0;
   }
   const memberCount = await response.json();
   console.log(memberCount);
@@ -195,59 +208,95 @@ async function populateGroupMemberList(groupId) {
   const url = `/api/community/members/group/${groupId}/list`;
   const response = await fetch(url);
   if (!response.ok) {
-      return;
+    return;
   }
   const members = await response.json();
   const currentUserId = await getCurrentUserId(); // Function to get the current user
   members.forEach((member) => {
-      const row = document.createElement("tr");
+    const row = document.createElement("tr");
 
-      const nameCell = document.createElement("td");
-      nameCell.textContent = member.userName;
-      row.appendChild(nameCell);
+    const nameCell = document.createElement("td");
+    nameCell.textContent = member.userName;
+    row.appendChild(nameCell);
 
-      if (member.id !== currentUserId) {
-          const buttonCell = document.createElement("td");
-          const removeButton = document.createElement("button");
-          removeButton.classList.add("btn", "btn-danger");
-          removeButton.textContent = "Remove from group";
-          removeButton.onclick = function() {
-              removeMemberFromGroup(groupId, member.id).then((success) => {
-                  if (success) {
-                      populateGroupMemberList(groupId);
-                      updateMemberCount(groupId);
-                  }
-              });
-          };
-          buttonCell.appendChild(removeButton);
-          row.appendChild(buttonCell);
-      }
-      else{
-          const buttonCell = document.createElement("td");
-          buttonCell.classList.add("text-muted");
-          buttonCell.textContent = "(You)";
-          row.appendChild(buttonCell);
-      }
+    if (member.id !== currentUserId) {
+      const buttonCell = document.createElement("td");
+      const removeButton = document.createElement("button");
+      removeButton.classList.add("btn", "btn-danger");
+      removeButton.textContent = "Remove from group";
+      removeButton.onclick = function () {
+        removeMemberFromGroup(groupId, member.id).then((success) => {
+          if (success) {
+            populateGroupMemberList(groupId);
+            updateMemberCount(groupId);
+          }
+        });
+      };
+      buttonCell.appendChild(removeButton);
+      row.appendChild(buttonCell);
+    }
+    else {
+      const buttonCell = document.createElement("td");
+      buttonCell.classList.add("text-muted");
+      buttonCell.textContent = "(You)";
+      row.appendChild(buttonCell);
+    }
 
-      table.appendChild(row);
+    table.appendChild(row);
   });
 }
 
 async function removeMemberFromGroup(groupId, memberId) {
-    const url = `/api/community/remove/group/${groupId}/member/${memberId}`;
-    const response = await fetch(url, { method: "POST" });
-    if (!response.ok) {
-        return false;
-    }
-    return true;
+  const url = `/api/community/remove/group/${groupId}/member/${memberId}`;
+  const response = await fetch(url, { method: "POST" });
+  if (!response.ok) {
+    return false;
+  }
+  return true;
 }
 
 async function getCurrentUserId() {
-    const url = "/api/community/currentUserId";
-    const response = await fetch(url);
-    if (!response.ok) {
-        return null;
-    }
-    const user = await response.json();
-    return user;
+  const url = "/api/community/currentUserId";
+  const response = await fetch(url);
+  if (!response.ok) {
+    return null;
+  }
+  const user = await response.json();
+  return user;
+}
+
+async function getGroupMessages(groupId) {
+  
+  const messages = await getAllMessagesApiCall(groupId);
+  console.log(messages);
+  if (messages != null && messages.length > 0) {
+    populateGroupComments(messages);
+  }
+  else {
+    const elseTemplate = document.getElementById("else-template");
+    const elseArea = document.getElementById("comment-else");
+    const clone = elseTemplate.content.cloneNode(true);
+    elseArea.appendChild(clone);
+  }
+
+}
+
+async function handleCommentFormSubmit(groupId) {
+
+  const form = document.getElementById("comment-form");
+
+  form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const comment = document.getElementById("comment-textarea").value;
+
+
+      console.log('Before postComment');
+      postMessage(comment, groupId);
+      console.log('After postComment: ');
+
+
+      localStorage.setItem('formSubmitted', 'true');
+
+      location.reload();
+  });
 }

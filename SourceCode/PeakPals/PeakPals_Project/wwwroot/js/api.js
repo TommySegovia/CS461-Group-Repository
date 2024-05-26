@@ -188,3 +188,19 @@ export async function getClimbAttempts()
     const result = response.json();
     return result;
 }
+
+export async function getAllMessagesApiCall(groupId)
+{
+    const url = `/api/community/group/messages/${groupId}`;
+    const response = await fetch(url);
+    const result = response.json();
+    return result;
+}
+
+export async function postMessage(comment, groupId)
+{
+    const url = `/api/community/group/${groupId}/messages/${comment}`;
+    const response = await fetch(url, { method: "POST" });
+    const result = response.json();
+    return result;
+}

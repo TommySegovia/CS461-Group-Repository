@@ -335,3 +335,47 @@ async function fetchClimbTags(climbAttemptId){
     console.log('fetchclimbtags: ', result);
     return result;
 }
+
+// group page -- message submission
+
+export async function handleCommentFormSubmit() {
+
+    const form = document.getElementById("comment-form");
+    var createMessageModalElement = document.getElementById('createMessageModal');
+
+    document.getElementById("comment-form").addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const attempts = document.getElementById("attempts").value;
+        const rating = document.getElementById("rating").value;
+        const suggestedGrade = document.getElementById("suggested-grade").value;
+        const climbId = document.getElementById("climb-id").dataset.id;
+        const climbName = document.getElementById("climb-id").dataset.name;
+
+        console.log('Before post');
+        await postComment();
+        console.log('After post');
+
+
+        localStorage.setItem('formSubmitted', 'true');
+
+        location.reload();
+        console.log("log submitted!");
+    });
+}
+
+export async function populateGroupComments(messages) {
+
+    const templateId = document.getElementById("comment-template");
+    const commentArea = document.getElementById("comment-area");
+    
+    messages.forEach(message => {
+        const clone = templateId.content.cloneNode(true);
+        const commentName = clone.getElementById("comment-name");
+        const commentMessage = clone.getElementById("comment-message");
+
+        commentName.textContent = message.displayName;
+        commentMessage.textContent = message.message;
+
+        commentArea.appendChild(clone);
+    });
+}
