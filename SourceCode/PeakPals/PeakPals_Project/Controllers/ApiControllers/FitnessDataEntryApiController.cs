@@ -214,7 +214,7 @@ namespace PeakPals_Project.Controllers
         }
 
         [HttpGet("Test/Results/All/RadarChart")]
-        public ActionResult<object> GenerateRadarChart()
+        public async Task<ActionResult> GenerateRadarChart()
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -239,6 +239,7 @@ namespace PeakPals_Project.Controllers
                         userTests.Add(new FitnessDataEntryDTO { Result = 0 });
                     }
                     double? result;
+                    
 
                     if (i <= 2) //strength tests
                     {
@@ -257,7 +258,7 @@ namespace PeakPals_Project.Controllers
                 }
 
                 _fitnessDataEntryService.GenerateRadarChart(userTests, averageTests, climberDTO.Id);
-                return Ok();
+                return Ok(new { Message = "Radar Chart Generated" });
             }
             else
             {
