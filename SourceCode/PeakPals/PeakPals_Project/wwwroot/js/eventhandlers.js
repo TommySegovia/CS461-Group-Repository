@@ -8,12 +8,12 @@ import { getClimbAttempts, postClimbAttempt } from "/js/api.js";
 export async function locationsSearchButtonClicked(e, searchType) {
     console.log("Search button clicked");
     const searchResultsAreaDiv = document.getElementById("search-results-areas");
-    searchResultsAreaDiv.innerHTML = "";
+    searchResultsAreaDiv.textContent = "";
     const searchResultsClimbDiv = document.getElementById("search-results-climbs");
-    searchResultsClimbDiv.innerHTML = "";
+    searchResultsClimbDiv.textContent = "";
 
     const validationWarning = document.getElementById("locations-validation-warning")
-    validationWarning.innerHTML = "";
+    validationWarning.textContent = "";
 
     const searchInput = document.getElementById("search-input");
     const query = searchInput.value;
@@ -192,7 +192,7 @@ export async function displayClimbingLog(user) {
         if (logs.length === 0) {
             return;
         }
-        climbLogDisplayArea.innerHTML = '';
+        climbLogDisplayArea.textContent = '';
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const itemsToDisplay = logs.slice(startIndex, endIndex);
@@ -204,24 +204,24 @@ export async function displayClimbingLog(user) {
 
             //ClimbName
             const attemptNameElement = clone.getElementById("climb-attempt-name");
-            attemptNameElement.innerHTML = log.climbName;
+            attemptNameElement.textContent = log.climbName;
 
             // EntryDate
             const attemptDateElement = clone.getElementById("climb-attempt-date");
             let options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-            attemptDateElement.innerHTML = new Date(log.entryDate).toLocaleString('en-US', options);
+            attemptDateElement.textContent = new Date(log.entryDate).toLocaleString('en-US', options);
 
             // SuggestedGrade
             const attemptGradeElement = clone.getElementById("climb-attempt-grade");
-            attemptGradeElement.innerHTML = log.suggestedGrade;
+            attemptGradeElement.textContent = log.suggestedGrade;
 
             // Climbing Attempts
             const attemptsNumElement = clone.getElementById("climb-attempt-attempts");
-            attemptsNumElement.innerHTML = log.attempts;
+            attemptsNumElement.textContent = log.attempts;
 
             // Rating
             const attemptRatingElement = clone.getElementById("climb-attempt-rating");
-            attemptRatingElement.innerHTML = log.rating;
+            attemptRatingElement.textContent = log.rating;
 
             // Link 4 Button
             const attemptLinkElement = clone.getElementById("climb-attempt-link-button");
@@ -261,7 +261,7 @@ export async function displayClimbingLog(user) {
 
     function renderPagination() {
         const totalPages = Math.ceil(logs.length / itemsPerPage);
-        paginationArea.innerHTML = ''; // Clear the pagination area
+        paginationArea.textContent = ''; // Clear the pagination area
 
         const prevButton = document.createElement('button');
         prevButton.id = 'prev-button';
@@ -338,31 +338,6 @@ async function fetchClimbTags(climbAttemptId){
 
 // group page -- message submission
 
-export async function handleCommentFormSubmit() {
-
-    const form = document.getElementById("comment-form");
-    var createMessageModalElement = document.getElementById('createMessageModal');
-
-    document.getElementById("comment-form").addEventListener("submit", async function (event) {
-        event.preventDefault();
-        const attempts = document.getElementById("attempts").value;
-        const rating = document.getElementById("rating").value;
-        const suggestedGrade = document.getElementById("suggested-grade").value;
-        const climbId = document.getElementById("climb-id").dataset.id;
-        const climbName = document.getElementById("climb-id").dataset.name;
-
-        console.log('Before post');
-        await postComment();
-        console.log('After post');
-
-
-        localStorage.setItem('formSubmitted', 'true');
-
-        location.reload();
-        console.log("log submitted!");
-    });
-}
-
 export async function populateGroupComments(messages) {
 
     const templateId = document.getElementById("comment-template");
@@ -379,3 +354,151 @@ export async function populateGroupComments(messages) {
         commentArea.appendChild(clone);
     });
 }
+
+export async function displayGroupClimbingLog(logs) {
+
+    console.log(logs);
+    const climbLogTemplate = document.getElementById("climb-log-template");
+    const climbLogDisplayArea = document.getElementById("display-log-list");
+    const paginationArea = document.getElementById("pagination-area");
+    const itemsPerPage = 6;
+    let currentPage = 1;
+
+    function renderItems() {
+        if (logs.length === 0) {
+            return;
+        }
+        climbLogDisplayArea.textContent = '';
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const itemsToDisplay = logs.slice(startIndex, endIndex);
+
+        itemsToDisplay.forEach(async log => {
+            //Setup
+            const clone = climbLogTemplate.content.cloneNode(true);
+            console.log(log.rating);
+
+            //ClimbName
+            const attemptNameElement = clone.getElementById("climb-attempt-name");
+            attemptNameElement.textContent = log.climbName;
+
+            const attemptClimberNameElement = clone.getElementById("climb-attempt-climber-name");
+            attemptClimberNameElement.textContent = log.climberName;
+
+            // EntryDate
+            const attemptDateElement = clone.getElementById("climb-attempt-date");
+            let options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+            attemptDateElement.textContent = new Date(log.entryDate).toLocaleString('en-US', options);
+
+            // SuggestedGrade
+            const attemptGradeElement = clone.getElementById("climb-attempt-grade");
+            attemptGradeElement.textContent = log.suggestedGrade;
+
+            // Climbing Attempts
+            const attemptsNumElement = clone.getElementById("climb-attempt-attempts");
+            attemptsNumElement.textContent = log.attempts;
+
+            // Rating
+            const attemptRatingElement = clone.getElementById("climb-attempt-rating");
+            attemptRatingElement.textContent = log.rating;
+
+            // Link 4 Button
+            const attemptLinkElement = clone.getElementById("climb-attempt-link-button");
+            attemptLinkElement.href = `/Locations/Climbs/${log.climbId}`;
+
+            
+
+            // Tags
+            const tags = await getClimbTags(log.id);
+            console.log('tags',tags);
+            const tagsElement = clone.getElementById("climb-attempt-tags");
+
+            // Check if tagsElement is not null before proceeding
+            if (tagsElement) {
+                if (tags.length === 0) {
+                    const noTagsElement = document.createElement('span');
+                    noTagsElement.className = "badge bg-secondary climbTagBadge";
+                    noTagsElement.textContent = "No Tags";
+                    tagsElement.appendChild(noTagsElement);
+                }
+                else{
+                    tags.forEach(tag => {
+                        console.log(tag);
+                        const tagElement = document.createElement('span');
+                        tagElement.className = "badge bg-secondary climbTagBadge";
+                        tagElement.textContent = tag;
+                        tagsElement.appendChild(tagElement);
+                    });
+                }
+            } else {
+                console.error('Element with id "climb-attempt-tags" not found');
+            }
+            climbLogDisplayArea.append(clone);
+
+        })
+    }
+
+    function renderPagination() {
+        const totalPages = Math.ceil(logs.length / itemsPerPage);
+        paginationArea.textContent = ''; // Clear the pagination area
+
+        const prevButton = document.createElement('button');
+        prevButton.id = 'prev-button';
+        prevButton.textContent = '<';
+        prevButton.style.width = '50px'; 
+        prevButton.style.height = '50px';
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderItems();
+                renderPagination();
+            }
+        });
+        paginationArea.appendChild(prevButton);
+
+        const currentButton = document.createElement('button');
+        currentButton.id = 'current-button';
+        currentButton.textContent = currentPage;
+        currentButton.style.width = '50px'; 
+        currentButton.style.height = '50px'; 
+        paginationArea.appendChild(currentButton);
+
+        const nextButton = document.createElement('button');
+        nextButton.id = 'next-button';
+        nextButton.textContent = '>';
+        nextButton.style.width = '50px';
+        nextButton.style.height = '50px';
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderItems();
+                renderPagination();
+            }
+        });
+        paginationArea.appendChild(nextButton);
+    }
+
+    if (logs) {
+        renderItems();
+        renderPagination();
+    }
+    else {
+        /*
+        const emptyLogMessage = document.createElement('div');
+        emptyLogMessage.style.width = '622px';
+        emptyLogMessage.style.height = '600px';
+        emptyLogMessage.style.backgroundColor = 'white';
+        emptyLogMessage.style.display = 'flex';
+        emptyLogMessage.style.justifyContent = 'center';
+        emptyLogMessage.style.alignItems = 'flex-start';
+        emptyLogMessage.style.paddingTop = '60px';
+        emptyLogMessage.style.margin = 'auto';
+        emptyLogMessage.style.textAlign = 'center';
+        emptyLogMessage.style.fontSize = '22px';
+        emptyLogMessage.style.fontWeight = 'bold';
+        emptyLogMessage.textContent = 'Attempt some climbs to see this fill up!';
+        climbLogDisplayArea.append(emptyLogMessage);
+        */
+    }
+}
+
