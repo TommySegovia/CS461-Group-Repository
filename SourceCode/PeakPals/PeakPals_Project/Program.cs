@@ -16,7 +16,7 @@ using PeakPals_Project.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Azure.Identity;
-//using Azure.Security.KeyVault.Secrets;
+using Azure.Security.KeyVault.Secrets;
 
 namespace PeakPals_Project;
 
@@ -27,43 +27,27 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         //string keyVaultName = Environment.GetEnvironmentVariable("KEY_VAULT_NAME");
-        //var kvUri = "https://" + "peakpalsvaults" + ".vault.azure.net";
-        //var secretClient = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
-        //var connectionAppSecret = secretClient.GetSecret("AppConnectString");
-        //var connectionAuthSecret = secretClient.GetSecret("AuthConnectString");
-        //var sendGridApiKeySecret = secretClient.GetSecret("SendGridApiKey");
+        var kvUri = "https://" + "peakpalsvaults" + ".vault.azure.net";
+        var secretClient = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+        var connectionAppSecret = secretClient.GetSecret("AppConnectString");
+        var connectionAuthSecret = secretClient.GetSecret("AuthConnectString");
+        var sendGridApiKeySecret = secretClient.GetSecret("SendGridApiKey");
 
         // Add services to the container.
-        var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
-        var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
-        //var connectionStringAuth = connectionAuthSecret.Value.Value;
-        //var connectionStringApp = connectionAppSecret.Value.Value;
-        //var SendGridKey = sendGridApiKeySecret.Value.Value;
-
+        //var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
+        //var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
+        var connectionStringAuth = connectionAuthSecret.Value.Value;
+        var connectionStringApp = connectionAppSecret.Value.Value;
+        var SendGridKey = sendGridApiKeySecret.Value.Value;
 
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
-                                    .UseSqlServer(connectionStringAuth, sqlServerOptionsAction: sqlOptions =>
-                                    {
-                                        sqlOptions.EnableRetryOnFailure(
-                                            maxRetryCount: 5,
-                                            maxRetryDelay: TimeSpan.FromSeconds(15),
-                                            errorNumbersToAdd: null);
-                                    })
+                                    .UseSqlServer(connectionStringAuth)
                                     .UseLazyLoadingProxies());
 
         builder.Services.AddDbContext<PeakPalsContext>(options => options
-                                        .UseSqlServer(connectionStringApp, sqlServerOptionsAction: sqlOptions =>
-                                        {
-                                            sqlOptions.EnableRetryOnFailure(
-                                                maxRetryCount: 5,
-                                                maxRetryDelay: TimeSpan.FromSeconds(15),
-                                                errorNumbersToAdd: null);
-                                        })
+                                        .UseSqlServer(connectionStringApp)
                                         .UseLazyLoadingProxies());
 
-
-
-        
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -92,8 +76,8 @@ public class Program
         builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
         builder.Services.AddTransient<IEmailSender, EmailSender>();
-        //builder.Services.Configure<AuthMessageSenderOptions>(options => { options.SendGridKey = SendGridKey; });
-        builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+        builder.Services.Configure<AuthMessageSenderOptions>(options => { options.SendGridKey = SendGridKey; });
+        //builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
         builder.Services.AddScoped(sp => new GraphQLHttpClient("https://api.openbeta.io", new NewtonsoftJsonSerializer()));
 
@@ -178,4 +162,6 @@ public class Program
         app.Run();
 
     }
+
+   
 }
