@@ -379,6 +379,7 @@ p{
     font-family: "Sriracha", cursive;
     color: white;
     min-height: 50px;
+    text-align: left;
 }
 
 .recommended-climb-tag-div{
@@ -431,8 +432,8 @@ p{
 .recommended-climb-header{
     border-bottom: 1px solid #ffa500;
     margin: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
 
 }
 

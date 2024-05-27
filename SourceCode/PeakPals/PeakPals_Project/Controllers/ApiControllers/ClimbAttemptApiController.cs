@@ -96,7 +96,18 @@ namespace PeakPals_Project.Controllers
             }
         }
 
+        //view all climb attempts by climb id
+        [HttpGet("log/view/climb/{climbId}")]
+        public ActionResult<List<ClimbAttemptDTO>> ViewAllClimbingAttemptsByClimbId(string climbId)
+        {
+            var climbAttemptsList = _climbAttemptRepository.ViewAllClimbingAttemptsByClimbId(climbId);
+            if (climbAttemptsList.IsNullOrEmpty())
+            {
+                return NotFound(new { Message = "No climb attempts logged or found so far." });
+            }
 
+            return Ok(climbAttemptsList);
+        }
 
     }
 }
