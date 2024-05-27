@@ -387,8 +387,11 @@ p{
     margin: 15px;
     color: white;
     font-family: "srisacha", cursive;
-    height: 80px;
+    min-height: 80px;
     border-bottom: 1px solid #ffa500;
+    display: flex; /* Added */
+    flex-wrap: wrap; /* Added */
+    justify-content: center; /* Added */
 }
 
 .recommended-climb-description-div{
@@ -399,6 +402,7 @@ p{
     font-family: "srisacha", cursive;
     min-height: 250px;
     border-bottom: 1px solid #ffa500;
+    padding-bottom: 20px;
 }
 
 .recommend-climb-button{
@@ -434,4 +438,15 @@ p{
 #radar-chart{
     border-radius: 25px;
     border: 1px solid #ffa500;
+}
+
+.recommended-climb-tag{
+    font-family: "Sriracha", cursive;
+    border-radius: 5px;
+    margin: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    height: 50px;
 }

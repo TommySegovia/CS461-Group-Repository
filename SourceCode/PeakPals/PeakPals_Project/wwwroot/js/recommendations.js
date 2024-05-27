@@ -117,7 +117,54 @@ async function PopulateRecommendedClimbs(climbs, stats) {
 
       var climbTags = await GetClimbTags(climb.id);
       var climbDescription = await GetClimbDescription(climbTags, stats);
-      clone.querySelector('.recommended-climb-tag-div').textContent = climbTags.join(', ');
+      let tagDiv = clone.querySelector('.recommended-climb-tag-div');
+        climbTags.forEach(tag => {
+            let tagElement = document.createElement('span');
+            tagElement.className = 'recommended-climb-tag';
+            switch (tag) {
+                case "Crimpy":
+                    tagElement.style.backgroundColor = "#ff0000";
+                    break;
+                case "Tension":
+                    tagElement.style.backgroundColor = "#ff8000";
+                    break;
+                case "Classic":
+                    tagElement.style.backgroundColor = "#aaaaaa";
+                    break;
+                case "Pinches":
+                    tagElement.style.backgroundColor = "#80ff00";
+                    break;
+                case "Powerful":
+                    tagElement.style.backgroundColor = "#00ff00";
+                    break;
+                case "Compression":
+                    tagElement.style.backgroundColor = "#00ff80";
+                    break;
+                case "Dyno":
+                    tagElement.style.backgroundColor = "#00ffff";
+                    break;
+                case "Pumpy":
+                    tagElement.style.backgroundColor = "#0080ff";
+                    break;
+                case "Slab":
+                    tagElement.style.backgroundColor = "#0000ff";
+                    break;
+                case "Highball":
+                    tagElement.style.backgroundColor = "#8000ff";
+                    break;
+                case "Technical":
+                    tagElement.style.backgroundColor = "#ff00ff";
+                    break;
+                case "Unique":
+                    tagElement.style.backgroundColor = "#ff0080";
+                    break;
+            
+                default:
+                    break;
+            }
+            tagElement.textContent = tag;
+            tagDiv.appendChild(tagElement);
+        });
       clone.querySelector('.recommended-climb-description-div').textContent = climbDescription;
       clone.querySelector('.recommend-climb-button').addEventListener('click', function() {
         window.location.href = "/Locations/Climbs/" + climb.climbId;
@@ -125,7 +172,7 @@ async function PopulateRecommendedClimbs(climbs, stats) {
   
       // Create a column div and append the clone to it
       var col = document.createElement('div');
-      col.className = 'col-4';
+      col.className = 'col-lg-4';
       col.appendChild(clone);
   
       // Append the column to the current row
