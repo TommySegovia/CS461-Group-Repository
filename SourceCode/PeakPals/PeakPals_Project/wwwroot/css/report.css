@@ -358,3 +358,80 @@ p{
     scrollbar-width: thin; /* Adjust width as needed */
     scrollbar-color: #ffa500 #000000; /* Adjust thumb and track color as needed */
 }
+
+.recommended-climb{
+    background-color: #000000;
+    border: 3px solid #ffa500;
+    border-radius: 15px;
+    margin: 5px;
+    padding: 10px;
+    min-height: 500px;
+}
+
+.recommended-climb-header-name{
+    font-size: 2.2em;
+    font-family: "Sriracha", cursive;
+    color: white;
+    min-height: 50px;
+}
+.recommended-climb-header-grade{
+    font-size: 2.2em;
+    font-family: "Sriracha", cursive;
+    color: white;
+    min-height: 50px;
+}
+
+.recommended-climb-tag-div{
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 15px;
+    color: white;
+    font-family: "srisacha", cursive;
+    height: 80px;
+    border-bottom: 1px solid #ffa500;
+}
+
+.recommended-climb-description-div{
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 15px;
+    color: white;
+    font-family: "srisacha", cursive;
+    min-height: 250px;
+    border-bottom: 1px solid #ffa500;
+}
+
+.recommend-climb-button{
+    background-color: #ffa500;
+    color: black;
+    border: 1px solid black;
+    font-family: "Sriracha", cursive;
+    border-radius: 5px;
+    height: 50px;
+    margin-bottom: 10px;
+    font-size: 1.35em;
+}
+
+#refresh-button{
+    background-color: #ffa500;
+    color: black;
+    border: 1px solid black;
+    font-family: "Sriracha", cursive;
+    border-radius: 5px;
+    height: 50px;
+    margin-bottom: 10px;
+    font-size: 1.35em;
+}
+
+.recommended-climb-header{
+    border-bottom: 1px solid #ffa500;
+    margin: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+#radar-chart{
+    border-radius: 25px;
+    border: 1px solid #ffa500;
+}

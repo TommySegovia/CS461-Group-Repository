@@ -70,6 +70,20 @@ namespace PeakPals_Project.DAL.Concrete
 
     }
 
+    public ClimbAttempt ViewClimbingAttemptByClimbAttemptID(int climbAttemptID)
+    {
+      var climbingAttempt = _climbAttempt.SingleOrDefault(f => f.Id == climbAttemptID);
+      if (climbingAttempt != null)
+      {
+        return climbingAttempt;
+      }
+      else
+      {
+        return null;
+      }
+
+    }
+
   }
 }
 

@@ -227,9 +227,40 @@
         </div>
 
         <div style="display: none;" id="test-recommendations">
-            <div>Climbs</div>
+            <div id="recommended-climbs-div"></div>
+            <button id="refresh-button">Refresh</button>
             <div id="radar-chart-div"></div>
         </div>
+
+        <template id="recommended-climb-template">
+            <div class="recommended-climb">
+                <div class="container">
+                    <div class="row recommended-climb-header">
+                        <div class="col-10">
+                            <h2 class="text-white text-center recommended-climb-header-name"></h2>
+                        </div>
+                        <div class="col-2">
+                            <h2 class="text-white text-center recommended-climb-header-grade"></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="text-center recommended-climb-tag-div"></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="text-center recommended-climb-description-div"></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="recommend-climb-button">Go to Climb</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
 
     </div>
 </body>
