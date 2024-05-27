@@ -416,7 +416,7 @@ p{
     font-size: 1.35em;
 }
 
-#refresh-button{
+.refresh-button{
     background-color: #ffa500;
     color: black;
     border: 1px solid black;
@@ -425,6 +425,7 @@ p{
     height: 50px;
     margin-bottom: 10px;
     font-size: 1.35em;
+    
 }
 
 .recommended-climb-header{

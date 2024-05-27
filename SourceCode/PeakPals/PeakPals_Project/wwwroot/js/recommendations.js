@@ -2,17 +2,37 @@ document.addEventListener("DOMContentLoaded", initializePage);
 
 async function initializePage() {
   console.log("Recommendations.js loaded");
-  await GenerateRadarChart();
-  await AddRadarChart();
-  var stats = await GetStrongestStats();
-  var tags = await ConvertStatsToTags(stats);
-  var climbs = await GetRecommendedClimbs(tags);
-  await PopulateRecommendedClimbs(climbs, stats);
+  var strongestStatResponseData = await GetStrongestStats();
+  var strongestValue = strongestStatResponseData[0].split(":")[1].trim();
+  console.log(strongestStatResponseData);
+  if (strongestValue == "0") {
+    MissingInfo();
+  }
+  else {
+    await GenerateRadarChart();
+    await AddRadarChart();
+    var stats = await GetStrongestStats();
+    var tags = await ConvertStatsToTags(stats);
+    var climbs = await GetRecommendedClimbs(tags);
+    await PopulateRecommendedClimbs(climbs, stats);
 
-  var refreshButton = document.getElementById('refresh-button');
-  refreshButton.addEventListener('click', function() {
-    PopulateRecommendedClimbs(climbs, stats);
-  });
+    var refreshButtonDiv = document.getElementById('refresh-button-div');
+    var refreshButton = document.createElement('button');
+    refreshButton.className = 'refresh-button';
+    refreshButton.textContent = 'Refresh Recommendations';
+    refreshButtonDiv.appendChild(refreshButton);
+    refreshButton.addEventListener('click', function() {
+        PopulateRecommendedClimbs(climbs, stats);
+    });
+    }
+}
+
+function MissingInfo() {
+    console.log("Missing Info");
+    var missingInfoDiv = document.getElementById("missing-info-div");
+    missingInfoDiv.innerHTML = `<h3>It looks like you haven't entered enough data to get a proper recommendation.</h3>
+    <a href="/Record/Record" class="btn btn-primary">Enter Fitness Data</a>`;
+    
 }
 
 async function GenerateRadarChart() {
@@ -20,6 +40,7 @@ async function GenerateRadarChart() {
   var response = await fetch(url);
   var data = await response.json();
   console.log(data);
+  return response;
 }
 
 async function AddRadarChart() {
@@ -125,14 +146,20 @@ async function PopulateRecommendedClimbs(climbs, stats) {
                 case "Crimpy":
                     tagElement.style.backgroundColor = "#ff0000";
                     break;
-                case "Tension":
+                case "Slopers":
+                    tagElement.style.backgroundColor = "#ff4000";
+                    break;
+                case "Pockets":
                     tagElement.style.backgroundColor = "#ff8000";
                     break;
-                case "Classic":
-                    tagElement.style.backgroundColor = "#aaaaaa";
+                case "Juggy":
+                    tagElement.style.backgroundColor = "#ffbf00";
                     break;
                 case "Pinches":
                     tagElement.style.backgroundColor = "#80ff00";
+                    break;
+                case "Technical":
+                    tagElement.style.backgroundColor = "#ff00ff";
                     break;
                 case "Powerful":
                     tagElement.style.backgroundColor = "#00ff00";
@@ -140,20 +167,23 @@ async function PopulateRecommendedClimbs(climbs, stats) {
                 case "Compression":
                     tagElement.style.backgroundColor = "#00ff80";
                     break;
-                case "Dyno":
-                    tagElement.style.backgroundColor = "#00ffff";
-                    break;
-                case "Pumpy":
-                    tagElement.style.backgroundColor = "#0080ff";
+                case "Highball":
+                    tagElement.style.backgroundColor = "#8000ff";
                     break;
                 case "Slab":
                     tagElement.style.backgroundColor = "#0000ff";
                     break;
-                case "Highball":
-                    tagElement.style.backgroundColor = "#8000ff";
+                case "Tension":
+                    tagElement.style.backgroundColor = "#ff8000";
                     break;
-                case "Technical":
-                    tagElement.style.backgroundColor = "#ff00ff";
+                case "Pumpy":
+                    tagElement.style.backgroundColor = "#0080ff";
+                    break;
+                case "Dyno":
+                    tagElement.style.backgroundColor = "#00ffff";
+                    break;
+                case "Classic":
+                    tagElement.style.backgroundColor = "#aaaaaa";
                     break;
                 case "Unique":
                     tagElement.style.backgroundColor = "#ff0080";
