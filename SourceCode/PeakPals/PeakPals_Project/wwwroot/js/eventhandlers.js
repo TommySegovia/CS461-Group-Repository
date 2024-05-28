@@ -224,7 +224,14 @@ export async function displayClimbingLog(user) {
 
             // Rating
             const attemptRatingElement = clone.getElementById("climb-attempt-rating");
-            attemptRatingElement.textContent = log.rating;
+            const starRating = log.rating;
+            for (let i = 0; i < starRating; i++) {
+                let img = document.createElement('img');
+                img.src = "/images/star.svg";
+                img.width = 40;
+                img.height = 40;
+                attemptRatingElement.appendChild(img);
+            }
 
             // Link 4 Button
             const attemptLinkElement = clone.getElementById("climb-attempt-link-button");
@@ -403,7 +410,14 @@ export async function displayGroupClimbingLog(logs) {
 
             // Rating
             const attemptRatingElement = clone.getElementById("climb-attempt-rating");
-            attemptRatingElement.textContent = log.rating;
+            const starRating = log.rating;
+            for (let i = 0; i < starRating; i++) {
+                let img = document.createElement('img');
+                img.src = "/images/star.svg";
+                img.width = 40;
+                img.height = 40;
+                attemptRatingElement.appendChild(img);
+            }
 
             // Link 4 Button
             const attemptLinkElement = clone.getElementById("climb-attempt-link-button");

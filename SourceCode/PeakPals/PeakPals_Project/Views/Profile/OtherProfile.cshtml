@@ -21,14 +21,16 @@
                     else{
                         <img src="@Model.ImageLink" onerror="this.onerror=null; this.src='/images/blank_profile.png';" class="profile-image" />
                     }   
-                    <p class="text-light">@Model.FirstName @Model.LastName</p>
-                        <p class="text-light">@Model.City @Model.State</p>
+                    <hr class="bg-white">
+                    <p class="text-light my-2"><strong>Fullname: </strong> @Model.FirstName @Model.LastName</p>
+                        <p class="text-light my-2"><strong>Location: </strong> @Model.City @Model.State</p>
                         @if (@Model.Age != null){
-                            <p class="text-light">@Model.Age years old</p>
+                            <p class="text-light my-2"><strong>Age: </strong>@Model.Age years old</p>
                         }
                     @if (@Model.CustomLink != null ){
-                        <a href="@Model.CustomLink" class="link-text" target="_blank">@Model.LinkText</a>
+                        <a href="@Model.CustomLink" class="link-text" target="_blank">URL: @Model.LinkText</a>
                     }
+                    <hr class="bg-white">
                     <div id="joinedCommunityGroupsHeader"></div>
                     <div style="display: none;" id="joinedCommunityGroupsDiv"></div>
                 </div>
