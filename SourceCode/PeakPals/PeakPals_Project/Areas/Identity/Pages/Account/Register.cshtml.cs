@@ -131,12 +131,8 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account
 
                     
                     var userName = Input.Email.Split('@')[0];   // added TBD-43: making a climber as soon as new user is created and assigning name part of the email to username in climber table
-                    var climber = new Climber
-                    {
-                        AspnetIdentityId = user.Id,
-                        UserName = userName
-                    };
-                    _climberService.AddNewClimber(climber.AspnetIdentityId, climber.UserName);
+                    _climberService.AddNewClimber(user.Id, userName);
+                    
 
 
                     var userId = await _userManager.GetUserIdAsync(user);

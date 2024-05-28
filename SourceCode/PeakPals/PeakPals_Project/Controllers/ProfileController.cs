@@ -36,19 +36,27 @@ public class ProfileController : Controller
         _logger.LogInformation("Username: " + username);
         _logger.LogInformation("User: " + user);
         //find the climber by aspnetidentityid in the climber repository with a matching aspnetidentityid
-        var climberProfile = _climberRepository.GetClimberModelByAspNetIdentityId(user.Id);
-        
-        if (climberProfile == null) {
+        if (user == null)
+        {
             return NotFound();
         }
+        var climberProfile = _climberRepository.GetClimberModelByAspNetIdentityId(user.Id);
 
-        if (currentUserID == climberProfile.AspnetIdentityId)
-        {;
+        if (currentUserID == user.Id)
+        {
+            if (climberProfile == null) {
+                _climberService.AddNewClimber(currentUserID, username);
+                var newClimberProfile = _climberRepository.GetClimberModelByAspNetIdentityId(user.Id);
+                return View("UserProfile", newClimberProfile);
+            }
             // This is for when the user views their own profile.
             return View("UserProfile", climberProfile);
         }
         else
         {
+            if (climberProfile == null) {
+                return NotFound();
+            }
             // This is for when the user views another user's profile.
             return View("OtherProfile", climberProfile);
         }
