@@ -171,7 +171,10 @@ async function getTestRecords(testId, tableDiv, resultsDiv) {
       var missingDataMessage = document.createElement("p");
       missingDataMessage.appendChild(document.createTextNode("Need more data to generate a graph"));
       missingDataMessage.classList.add("missing-data-message");
-      graphDiv.appendChild(missingDataMessage);
+      if (graphDiv)
+        {
+          graphDiv.appendChild(missingDataMessage);
+        }
       createButtonToRecordPage(resultsDiv);
     }
 
