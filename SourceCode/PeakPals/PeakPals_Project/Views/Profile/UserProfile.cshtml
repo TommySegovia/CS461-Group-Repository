@@ -23,7 +23,7 @@
                     <a button class="btn btn-warning my-3" id="edit-btn" asp-controller="Profile" asp-action="EditProfile">Edit Profile</a>
                     <hr class="bg-white">
                     <p class="text-light" id="first-name-text"><strong>Fullname: </strong> @Model.FirstName @Model.LastName</p>
-                    <p class="text-light" id="location-text"><strong>Location:</strong> @Model.City @Model.State</p>
+                    <p class="text-light" id="location-text"><strong>Location: </strong> @Model.City @Model.State</p>
                     @if (@Model.Age != null){
                         <p class="text-light"><strong>Age:</strong> @Model.Age years old</p>
                     }
