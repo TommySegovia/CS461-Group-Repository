@@ -65,7 +65,14 @@ async function populateLoggedClimbs() {
 
         const climbBodyCol2 = document.createElement("div");
         climbBodyCol2.className = "col";
-        climbBodyCol2.innerHTML = "Rating: " + climb.rating + "/5";
+            const starRating = climb.rating;
+            for (let i = 0; i < starRating; i++) {
+                let img = document.createElement('img');
+                img.src = "/images/star.svg";
+                img.width = 40;
+                img.height = 40;
+                climbBodyCol2.appendChild(img);
+            }
 
         const climbBodyCol3 = document.createElement("div");
         climbBodyCol3.className = "col";
