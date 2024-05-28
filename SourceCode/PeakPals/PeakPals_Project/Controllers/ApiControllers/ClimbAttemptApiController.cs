@@ -93,12 +93,12 @@ namespace PeakPals_Project.Controllers
             var climberDTO = _climberRepository.GetClimberByUsername(username);
             if (climberDTO == null)
             {
-                return NotFound(new { Message = "No climber associated with this account." });
+                return NotFound();
             }
             var climbAttemptsList = _climbAttemptRepository.ViewAllClimbingAttempts(climberDTO.Id);
             if (climbAttemptsList.IsNullOrEmpty())
             {
-                return NotFound(new { Message = "No climb attempts logged or found so far." });
+                return NotFound();
             }
 
             return Ok(climbAttemptsList);

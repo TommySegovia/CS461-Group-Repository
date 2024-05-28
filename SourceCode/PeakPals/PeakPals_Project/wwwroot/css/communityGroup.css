@@ -1,20 +1,20 @@
 #community-group-card {
-    margin: 40px;
-    margin-top: 100px;
-    padding: 20px;
-    background-color: #000000;
+    margin: 10px;
+    margin-top: 50px;
+    padding: 10px;
     border-radius: 10px;
-    border: 2px solid #ffa500
+    border: 2px solid #ffa500;
+    box-shadow: black 0px 0px 10px;
 }
 
 h1 {
-    font-family: "Sriracha", cursive;
+    font-family: 'Quando', serif;
     color: #ffa500;
     font-size: 4em;
 }
 
 p {
-    font-family: "Sriracha", cursive;
+    font-family: 'Quando', serif;
     color: #ffffff;
     font-size: 1.5em;
     word-wrap: break-word;
@@ -34,13 +34,21 @@ p {
 
 #community-group-body{
     height: auto;
-    background-image: url(../images/rockclimbing6.jpg);
+    background-image: url(../images/background_image_4.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    font-family: 'Quando', serif;
 }
 
-#group-footer{
-    margin: 10px;
+
+#member-box
+{
+    padding: 5px;
+    margin-left: 0em;
+    margin-right: 0em;
+    box-shadow: 2px 2px 2px 2px black;
+    background: rgb(56, 28, 28);
+    border-radius: 5px;
 }
 
 #community-group-button{
@@ -48,16 +56,52 @@ p {
     padding: 10px;
     border: 1px solid #ffa500;
     border-radius: 5px;
-    background-color: #ffa500;
-    color: #000000;
-    font-family: "Sriracha", cursive;
+    background-color: #f19114;
+    color: #e0e2e5;
+    text-shadow: black 2px 2px 2px;
+    font-family: 'Quando', serif;
     font-size: 1.5em;
 }
+#community-group-button:hover{
+    border-color: white;
+    background-color: #ffa500;
+
+}
+
+#climbing-log-text {
+    text-shadow: 2px 2px 10x white !important;
+    padding-top: 4px;
+}
+
+#logs-header {
+    background-color: #ef8d04;
+}
+
+#messageModal{
+    font-family: "Quando", serif !important;
+    font-weight: 400;
+    font-style: normal;
+    background-color: rgba(12, 12, 12, 0.80);
+}
+
+#member-content {
+    font-family: "Quando", serif !important;
+    font-weight: 400;
+    font-style: normal;
+    background-color: rgba(12, 12, 12, 0.80);
+
+}
+
 
 #members-text{
     cursor: pointer;
     color: #ffffff;
     
+}
+
+#card-comments {
+    border-radius: 10px !important; 
+    box-shadow: 2px 2px 2px 10px white !important;
 }
 
 #members-text:hover{
@@ -69,10 +113,11 @@ p {
     color: #ffa500;
     border-radius: 10px;
     border: 2px solid #ffa500;
+    font-family: "Quando", serif;
 }
 
 .modal-title{
-    font-family: "Sriracha", cursive;
+    font-family: "Quando", serif;
     font-size: 2.5em;
 }
 
@@ -88,7 +133,7 @@ p {
     font-family: "Sriracha", cursive;
     margin-right: auto;
     margin-left: auto;
-    font-size: 1.5em;
+    font-size: 2em;
 }
 
 table{

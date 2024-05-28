@@ -20,15 +20,17 @@
                     else{
                         <img src="@Model.ImageLink" onerror="this.onerror=null; this.src='/images/blank_profile.png';" class="profile-image"/>
                     }
-                    <a button class="btn btn-warning my-5" id="edit-btn" asp-controller="Profile" asp-action="EditProfile">Edit Profile</a>
-                    <p class="text-light" id="first-name-text">@Model.FirstName @Model.LastName</p>
-                    <p class="text-light" id="location-text">@Model.City @Model.State</p>
+                    <a button class="btn btn-warning my-3" id="edit-btn" asp-controller="Profile" asp-action="EditProfile">Edit Profile</a>
+                    <hr class="bg-white">
+                    <p class="text-light" id="first-name-text"><strong>Fullname: </strong> @Model.FirstName @Model.LastName</p>
+                    <p class="text-light" id="location-text"><strong>Location:</strong> @Model.City @Model.State</p>
                     @if (@Model.Age != null){
-                        <p class="text-light">@Model.Age years old</p>
+                        <p class="text-light"><strong>Age:</strong> @Model.Age years old</p>
                     }
                     @if (@Model.CustomLink != null ){
-                        <a href="@Model.CustomLink" class="link-text" target="_blank">@Model.LinkText</a>
+                        <a href="@Model.CustomLink" class="link-text" target="_blank"><strong>Website:</strong> @Model.LinkText</a>
                     }
+                    <hr class="bg-white">
                     <div id="joinedCommunityGroupsHeader"></div>
                     <div style="display: none;" id="joinedCommunityGroupsDiv"></div>
                 </div>
