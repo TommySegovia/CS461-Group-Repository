@@ -24,6 +24,8 @@ public partial class PeakPalsContext : DbContext
     public virtual DbSet<GroupList> GroupList { get; set; }
     public virtual DbSet<CommunityGroup> CommunityGroup { get; set; }
 
+    public virtual DbSet<CommunityMessage> CommunityMessage { get; set;}
+
     public virtual DbSet<ClimbAttempt> ClimbAttempt { get; set; }
     
 
@@ -60,4 +62,6 @@ public partial class PeakPalsContext : DbContext
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
 public DbSet<PeakPals_Project.Models.ClimbTagEntry> ClimbTagEntry { get; set; }
+
+
 }

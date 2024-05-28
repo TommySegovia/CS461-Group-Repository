@@ -2,6 +2,8 @@ import { toggleLoadingSpinner } from "/js/ui.js";
 import { displayErrorMessage } from "/js/ui.js";
 import { SubmitTags } from "/js/climbsTags.js";
 
+
+// location pages for areas and climbs functionality
 export async function fetchAreas(query, loadingSpinner, validationWarning)
 {
     const url = `/api/locations/search/${query}`
@@ -41,7 +43,6 @@ export async function fetchAreas(query, loadingSpinner, validationWarning)
 
     return areas;
 }
-
 export async function getAreaData(id)
 {
     const url = `/api/locations/search/area/${id}`
@@ -56,7 +57,6 @@ export async function getAreaData(id)
     }
     return result;
 }
-
 export async function fetchClimbs(query, loadingSpinner, validationWarning)
 {
     const url = `/api/locations/search/climbs/${query}`
@@ -105,8 +105,6 @@ export async function fetchClimbs(query, loadingSpinner, validationWarning)
 
     return climbs;
 }
-
-
 export async function fetchAreaAncestors(ancestors)
 {
     if (ancestors === null || ancestors.length === 0)
@@ -127,7 +125,6 @@ export async function fetchAreaAncestors(ancestors)
     
     return ancestorsAreas;
 }
-
 export async function fetchClimbData(climbs)
 {
     if (climbs === null || climbs.length === 0)
@@ -148,6 +145,7 @@ export async function fetchClimbData(climbs)
     return updatedClimbs;
 }
 
+// climb attempts functionality
 export async function postClimbAttempt(climbId, climbName, suggestedGrade, attempts, rating) 
 {
     var url = '/api/climb/log/record';
@@ -180,11 +178,51 @@ export async function postClimbAttempt(climbId, climbName, suggestedGrade, attem
         console.error('Failed to post climb attempt', response);
     }
 }
-
 export async function getClimbAttempts()
 {
     const url = '/api/climb/log/view';
     const response = await fetch(url);
+    const result = response.json();
+    return result;
+}
+
+// community messages functionality
+export async function getAllMessagesApiCall(groupId)
+{
+    const url = `/api/community/group/messages/${groupId}`;
+    const response = await fetch(url);
+    const result = response.json();
+    return result;
+}
+export async function postMessage(comment, groupId)
+{
+    const url = `/api/community/group/${groupId}/messages/${comment}`;
+    const response = await fetch(url, { method: "POST" });
+    const result = response.json();
+    return result;
+}
+
+// community climbing log functionality
+export async function getClimbersFromGroupId(groupID)
+{
+    // get climbers from group id
+    const url = `/api/community/members/group/${groupID}/list`;
+    const response = await fetch(url);
+    const result = response.json();
+    return result;
+}
+
+export async function getCommunityClimbingLog(climbers)
+{
+    // get climbing log for climbers
+    const url = `/api/climb/log/view/list/${climbers}`;
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(climbers)
+    });
     const result = response.json();
     return result;
 }

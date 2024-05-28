@@ -3,17 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using PeakPals_Project.Data;
 using PeakPals_Project.DAL.Abstract;
 using PeakPals_Project.DAL.Concrete;
-using Microsoft.Extensions.DependencyInjection;
 using PeakPals_Project.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using WebPWrecover.Services;
 using PeakPals_Project.Models;
-using PeakPals_Project.Controllers;
 using PeakPals_Project.Areas.Identity.Data;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
-using PeakPals_Project;
 using Microsoft.OpenApi.Models;
+using System;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+
 namespace PeakPals_Project;
 
 public class Program
@@ -22,28 +23,39 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        //builder.Configuration.AddAzureKeyVault(new Uri("https://peakpalsvaults.vault.azure.net/"), new DefaultAzureCredential());
+        //string keyVaultName = Environment.GetEnvironmentVariable("KEY_VAULT_NAME");
+        var kvUri = "https://" + "peakpalsvaults" + ".vault.azure.net";
+        var secretClient = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+        var connectionAppSecret = secretClient.GetSecret("AppConnectString");
+        var connectionAuthSecret = secretClient.GetSecret("AuthConnectString");
+        var sendGridApiKeySecret = secretClient.GetSecret("SendGridApiKey");
 
         // Add services to the container.
-        //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-        var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
-        var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
-
-        //var connectionStringAuth = builder.Configuration.GetValue<string>("ConnectionStrings:PeakPalsAuthDB") ?? throw new InvalidOperationException("Secret 'PeakPalsAuthDB' not found.");
-        //var connectionStringApp = builder.Configuration.GetValue<string>("ConnectionStrings:PeakPalsAppDB") ?? throw new InvalidOperationException("Secret 'PeakPalsAppDB' not found.");
-
+        //var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
+        //var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
+        var connectionStringAuth = connectionAuthSecret.Value.Value;
+        var connectionStringApp = connectionAppSecret.Value.Value;
+        var SendGridKey = sendGridApiKeySecret.Value.Value;
 
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
-                                    .UseSqlServer(connectionStringAuth)
-                                    //.UseSqlServer(connectionString)
+                                    .UseSqlServer(connectionStringAuth, sqlServerOptionsAction: sqlOptions =>
+                                    {
+                                        sqlOptions.EnableRetryOnFailure(
+                                            maxRetryCount: 5,
+                                            maxRetryDelay: TimeSpan.FromSeconds(15),
+                                            errorNumbersToAdd: null);
+                                    })
                                     .UseLazyLoadingProxies());
-        
 
         builder.Services.AddDbContext<PeakPalsContext>(options => options
-                                .UseSqlServer(connectionStringApp)
-                                //.UseSqlServer(connectionString) 
-                                .UseLazyLoadingProxies());
-
+                                        .UseSqlServer(connectionStringApp, sqlServerOptionsAction: sqlOptions =>
+                                        {
+                                            sqlOptions.EnableRetryOnFailure(
+                                                maxRetryCount: 5,
+                                                maxRetryDelay: TimeSpan.FromSeconds(15),
+                                                errorNumbersToAdd: null);
+                                        })
+                                        .UseLazyLoadingProxies());
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -63,6 +75,7 @@ public class Program
         builder.Services.AddScoped<ICommunityGroupRepository, CommunityGroupRepository>();
         builder.Services.AddScoped<IGroupListRepository, GroupListRepository>();
         builder.Services.AddScoped<IClimbTagEntryRepository, ClimbTagEntryRepository>();
+        builder.Services.AddScoped<ICommunityMessageRepository, CommunityMessageRepository>();
 
         //services
         builder.Services.AddScoped<IFitnessDataEntryService, FitnessDataEntryService>();
@@ -72,7 +85,7 @@ public class Program
         builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
         builder.Services.AddTransient<IEmailSender, EmailSender>();
-        builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+        builder.Services.Configure<AuthMessageSenderOptions>(options => { options.SendGridKey = SendGridKey; });
 
         builder.Services.AddScoped(sp => new GraphQLHttpClient("https://api.openbeta.io", new NewtonsoftJsonSerializer()));
 
@@ -131,7 +144,7 @@ public class Program
             name: "profile",
             pattern: "Profile/{username}",
             defaults: new { controller = "Profile", action = "GetProfile" });
-        
+
         app.MapControllerRoute(
             name: "profile",
             pattern: "Profile/Edit",
@@ -141,16 +154,16 @@ public class Program
             name: "admin",
             pattern: "admin",
             defaults: new { controller = "Admin", action = "UserList" });
-        
+
         app.MapControllerRoute(
             name: "area",
             pattern: "locations/areas/{id}",
-            defaults: new { controller = "Locations", action = "Areas"});
-        
+            defaults: new { controller = "Locations", action = "Areas" });
+
         app.MapControllerRoute(
             name: "climb",
             pattern: "locations/climbs/{id}",
-            defaults: new { controller = "Locations", action = "Climbs"});
+            defaults: new { controller = "Locations", action = "Climbs" });
 
         app.MapRazorPages();
 

@@ -58,6 +58,31 @@ namespace PeakPals_Project.Controllers
             }
         }
 
+        [HttpPost("log/view/list/{climbers}")]
+        public ActionResult<List<ClimbAttemptDTO>> ViewAllClimbingAttemptsByListOfClimbers(List<Climber> climbers)
+        {
+            var climbAttemptsList = new List<ClimbAttemptDTO>();
+            foreach (var climber in climbers)
+            {
+                var climberDTO = _climberRepository.GetClimberByUsername(climber.UserName);
+                if (climberDTO == null)
+                {
+                    return NotFound(new { Message = "No climber associated with this account." });
+                }
+                var climbAttempts = _climbAttemptRepository.ViewAllClimbingAttempts(climberDTO.Id);
+                if (!climbAttempts.IsNullOrEmpty())
+                {
+                    climbAttemptsList.AddRange(climbAttempts);
+                }
+            }
+            if (climbAttemptsList.IsNullOrEmpty())
+            {
+                return NotFound(new { Message = "No climb attempts logged or found so far." });
+            }
+
+            return Ok(climbAttemptsList);
+        }
+
         //view all climb attempts by username
         [HttpGet("log/view/{username}")]
         public ActionResult<List<ClimbAttemptDTO>> ViewAllClimbingAttemptsByUsername(string username)
@@ -86,7 +111,7 @@ namespace PeakPals_Project.Controllers
                 {
                     return NotFound(new { Message = "Climber not found." });
                 }
-                var generatedId = _climbAttemptRepository.RecordClimbingAttempt(climberDTO.Id, climbAttemptDTO.ClimbId, climbAttemptDTO.ClimbName, climbAttemptDTO.SuggestedGrade, climbAttemptDTO.EntryDate, climbAttemptDTO.Attempts, climbAttemptDTO.Rating);
+                var generatedId = _climbAttemptRepository.RecordClimbingAttempt(climberDTO.Id, climberDTO.UserName, climbAttemptDTO.ClimbId, climbAttemptDTO.ClimbName, climbAttemptDTO.SuggestedGrade, climbAttemptDTO.EntryDate, climbAttemptDTO.Attempts, climbAttemptDTO.Rating);
                 climbAttemptDTO.Id = generatedId; // Set the generated ID on the DTO
                 return Ok(climbAttemptDTO);
             }

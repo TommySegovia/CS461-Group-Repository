@@ -104,18 +104,22 @@ document.addEventListener("DOMContentLoaded", async function()
     if (document.querySelector("#climbAttemptModal")) {
         document.getElementById('climbAttemptModal').addEventListener('shown.bs.modal', function (e) {
             console.log("logAttemptButton exists!");
-    
             $('#climbAttemptModal').on('hidden.bs.modal', function (e) {
                 $(this).find('form').trigger('reset');
             });
-    
             handleClimbAttemptFormSubmit();
-    
-    
         })
     }
     
-
+    // community groups
+    if (document.querySelector("#createMessageModal")) {
+        document.getElementById('createMessageModal').addEventListener('shown.bs.modal', function (e) {
+            $('#createMessageModal').on('hidden.bs.modal', function (e) {
+                $(this).find('form').trigger('reset');
+            });
+            handleCommentFormSubmit();
+        })
+    }
 });
 
 

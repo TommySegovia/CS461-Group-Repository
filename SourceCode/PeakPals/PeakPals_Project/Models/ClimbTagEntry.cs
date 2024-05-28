@@ -12,8 +12,10 @@ namespace PeakPals_Project.Models
         [Key]
         [Column("ID")]
         public int ID { get; set; }
+
         [Column("ClimbAttemptID")]
         public int ClimbAttemptID { get; set; }
+        
         [Column("TagID")]
         public int TagID { get; set; }
 

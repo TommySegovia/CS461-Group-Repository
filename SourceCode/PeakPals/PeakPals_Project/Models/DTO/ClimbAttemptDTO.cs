@@ -7,6 +7,7 @@ namespace PeakPals_Project.Models.DTO
     {
         public int Id { get; set; }
         public int ClimberId { get; set;}
+        public string ClimberName { get; set; }
         public string ClimbId { get; set; }
         public string? ClimbName { get; set; }
         public string? SuggestedGrade { get; set; }
@@ -27,6 +28,7 @@ namespace PeakPals_Project.ExtensionMethods
             {
                 Id = climbAttempt.Id,
                 ClimberId = climbAttempt.ClimberId,
+                ClimberName = climbAttempt.ClimberName,
                 ClimbId = climbAttempt.ClimbId,
                 ClimbName = climbAttempt.ClimbName,
                 SuggestedGrade = climbAttempt.SuggestedGrade,
@@ -43,6 +45,7 @@ namespace PeakPals_Project.ExtensionMethods
             {
                 Id = climbAttemptDTO.Id,
                 ClimberId = climbAttemptDTO.ClimberId,
+                ClimberName = climbAttemptDTO.ClimberName,
                 ClimbId = climbAttemptDTO.ClimbId,
                 ClimbName = climbAttemptDTO.ClimbName,
                 SuggestedGrade = climbAttemptDTO.SuggestedGrade,
