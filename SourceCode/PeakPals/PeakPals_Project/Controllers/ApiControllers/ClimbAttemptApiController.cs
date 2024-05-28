@@ -25,18 +25,21 @@ namespace PeakPals_Project.Controllers
     {
         private readonly IClimbAttemptRepository _climbAttemptRepository;
         private readonly IClimberRepository _climberRepository;
+        private readonly IClimberService _climberService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ClimbAttemptApiController(IClimbAttemptRepository climbAttemptRepository, IClimberRepository climberRepository, UserManager<ApplicationUser> userManager)
+        public ClimbAttemptApiController(IClimbAttemptRepository climbAttemptRepository, IClimberRepository climberRepository, IClimberService climberService, UserManager<ApplicationUser> userManager)
         {
             _climbAttemptRepository = climbAttemptRepository;
             _climberRepository = climberRepository;
             _userManager = userManager;
+            _climberService = climberService;
         }
 
         [HttpGet("log/view")]
         public ActionResult<List<ClimbAttemptDTO>> ViewAllClimbingAttemptsByUser()
         {
+            
             if (User.Identity.IsAuthenticated)
             {
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -106,10 +109,13 @@ namespace PeakPals_Project.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                var aspNetIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userName = User.Identity.Name;
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 if (climberDTO == null)
                 {
-                    return NotFound(new { Message = "Climber not found." });
+                    //return NotFound(new { Message = "Climber not found." });
+                    climberDTO = _climberService.AddNewClimber(aspNetIdentityId, userName);
                 }
                 var generatedId = _climbAttemptRepository.RecordClimbingAttempt(climberDTO.Id, climberDTO.UserName, climbAttemptDTO.ClimbId, climbAttemptDTO.ClimbName, climbAttemptDTO.SuggestedGrade, climbAttemptDTO.EntryDate, climbAttemptDTO.Attempts, climbAttemptDTO.Rating);
                 climbAttemptDTO.Id = generatedId; // Set the generated ID on the DTO

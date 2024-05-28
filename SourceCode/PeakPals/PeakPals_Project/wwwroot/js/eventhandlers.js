@@ -67,8 +67,10 @@ export async function locationsSearchButtonClicked(e, searchType) {
             const areaName = clone.getElementById('area-name');
 
             // refactor possibly to remove template use
-            let ancestors = await fetchAreaAncestors(area.ancestors);
-            ancestors = ancestors.slice(0, -1);
+            //let ancestors = await fetchAreaAncestors(area.ancestors);
+            //ancestors = ancestors.slice(0, -1);
+            console.log(area);
+            let ancestors = area.pathTokens;
 
             const ancestorsTemplate = document.getElementById("ancestors-template");
             const ancestorsList = clone.getElementById("ancestors-list");
@@ -76,7 +78,7 @@ export async function locationsSearchButtonClicked(e, searchType) {
             ancestors.forEach(ancestor => {
 
                 const areaAncestors = ancestorClone.getElementById('area-ancestors');
-                areaAncestors.textContent += ancestor.area.area_Name + "  >  ";
+                areaAncestors.textContent += ancestor + "  >  ";
             })
             ancestorsList.appendChild(ancestorClone);
 

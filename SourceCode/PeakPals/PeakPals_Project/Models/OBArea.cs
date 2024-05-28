@@ -12,6 +12,7 @@ public class OBArea
         public string? Area_Name { get; set; }
         public int TotalClimbs { get; set; }
         public List<string>? Ancestors { get; set; }
+        public List<string>? PathTokens { get; set; }
         public Metadata? Metadata { get; set; }
         public AuthorMetadata? AuthorMetadata { get; set; }
         public Content? Content { get; set; }

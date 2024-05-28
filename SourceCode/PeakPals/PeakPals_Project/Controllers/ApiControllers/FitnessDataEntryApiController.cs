@@ -186,7 +186,7 @@ namespace PeakPals_Project.Controllers
                 if (climberDTO == null)
                 {
                     // placeholder userName that extracts first 3 characters of the UserName in Identity (which is just the email)
-                    string? email = User.Identity.Name;
+                    string? email = _userManager.GetEmailAsync(user).Result;
                     if (email == null || email.Contains("@") == false)
                     {
                         return BadRequest(new { Message = "User not authenticated or username is not in the form of a email" });
