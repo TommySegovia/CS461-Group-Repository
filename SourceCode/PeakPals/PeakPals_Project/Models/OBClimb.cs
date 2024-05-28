@@ -12,6 +12,7 @@ public class OBClimb
         public string? Name { get; set; }
         public string? Fa { get; set; }
         public List<string> Ancestors { get; set; }
+        public List<string> PathTokens { get; set; }
         public Metadata Metadata { get; set; }
         public Content Content { get; set; } 
         public Grades Grades { get; set; }

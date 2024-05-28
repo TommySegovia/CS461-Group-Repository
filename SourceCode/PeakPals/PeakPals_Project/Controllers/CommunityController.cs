@@ -10,6 +10,7 @@ using PeakPals_Project.Services;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using PeakPals_Project.Areas.Identity.Data;
+using PeakPals_Project.Models.DTO;
 
 namespace PeakPals_Project.Controllers;
 
@@ -60,11 +61,12 @@ public class CommunityController : Controller
 
         // Get the climber associated with the current user
         var climber = _climberRepository.GetClimberModelByAspNetIdentityId(currentUser.Id);
-
         if (climber == null)
         {
             // Handle the case where the climber does not exist
-            return NotFound();
+            ClimberDTO climberDTO = _climberService.AddNewClimber(currentUser.Id, currentUser.UserName);
+            climber = climberDTO.ToModel();
+            //return NotFound();
         }
 
         // Check if the current user's climber ID is the owner ID of the group

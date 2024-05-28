@@ -11,6 +11,9 @@ using PeakPals_Project.Areas.Identity.Data;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 using Microsoft.OpenApi.Models;
+using PeakPals_Project;
+using PeakPals_Project.Controllers;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
@@ -38,23 +41,11 @@ public class Program
         var SendGridKey = sendGridApiKeySecret.Value.Value;
 
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
-                                    .UseSqlServer(connectionStringAuth, sqlServerOptionsAction: sqlOptions =>
-                                    {
-                                        sqlOptions.EnableRetryOnFailure(
-                                            maxRetryCount: 5,
-                                            maxRetryDelay: TimeSpan.FromSeconds(15),
-                                            errorNumbersToAdd: null);
-                                    })
+                                    .UseSqlServer(connectionStringAuth)
                                     .UseLazyLoadingProxies());
 
         builder.Services.AddDbContext<PeakPalsContext>(options => options
-                                        .UseSqlServer(connectionStringApp, sqlServerOptionsAction: sqlOptions =>
-                                        {
-                                            sqlOptions.EnableRetryOnFailure(
-                                                maxRetryCount: 5,
-                                                maxRetryDelay: TimeSpan.FromSeconds(15),
-                                                errorNumbersToAdd: null);
-                                        })
+                                        .UseSqlServer(connectionStringApp)
                                         .UseLazyLoadingProxies());
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -86,6 +77,7 @@ public class Program
 
         builder.Services.AddTransient<IEmailSender, EmailSender>();
         builder.Services.Configure<AuthMessageSenderOptions>(options => { options.SendGridKey = SendGridKey; });
+        //builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
         builder.Services.AddScoped(sp => new GraphQLHttpClient("https://api.openbeta.io", new NewtonsoftJsonSerializer()));
 
@@ -170,4 +162,6 @@ public class Program
         app.Run();
 
     }
+
+   
 }
