@@ -145,6 +145,15 @@ export async function fetchClimbData(climbs)
     return updatedClimbs;
 }
 
+export async function fetchClimbDataById(id)
+{
+    const url = `/api/locations/climb/${id}`;
+    const response = await fetch(url);
+    const result = await response.json();
+    return result;
+
+}
+
 // climb attempts functionality
 export async function postClimbAttempt(climbId, climbName, suggestedGrade, attempts, rating) 
 {
