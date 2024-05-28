@@ -169,7 +169,6 @@ SET IDENTITY_INSERT [CommunityMessage] ON;
 
 INSERT INTO [CommunityMessage] (ID, ClimberID, CommunityGroupID, DisplayName, Message)
 VALUES
-    (1, 2, 1, 'Janet', 'Hello, this is a test comment!'),
-    (2, 2, 2, 'Phil', 'Hello, this is a test comment!')
+    (1, 2, 1, 'Janet', 'Hello, this is a test comment!')
 
 SET IDENTITY_INSERT [CommunityMessage] OFF;

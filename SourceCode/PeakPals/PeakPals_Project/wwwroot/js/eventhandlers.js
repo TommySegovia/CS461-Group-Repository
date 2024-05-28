@@ -4,6 +4,7 @@ import { fetchAreas } from "/js/api.js";
 import { fetchClimbs } from "/js/api.js";
 import { fetchAreaAncestors } from "/js/api.js";
 import { getClimbAttempts, postClimbAttempt } from "/js/api.js";
+import { fetchClimbDataById } from "/js/api.js";
 
 export async function locationsSearchButtonClicked(e, searchType) {
     console.log("Search button clicked");
@@ -101,11 +102,11 @@ export async function locationsSearchButtonClicked(e, searchType) {
             const clone = areaTemplate.content.cloneNode(true);
             const climbName = clone.getElementById('area-name');
 
-            console.log(climb);
-            console.log(climb.ancestors);
-            let ancestors = await fetchAreaAncestors(climb.ancestors);
+            const returnedClimb = await fetchClimbDataById(climb.uuid);
+            console.log(returnedClimb);
+            console.log(returnedClimb.climb);
+            const ancestors = returnedClimb.climb.pathTokens;
             console.log(ancestors);
-            ancestors = ancestors.slice(0, -1);
 
             const ancestorsTemplate = document.getElementById("ancestors-template");
             const ancestorsList = clone.getElementById("ancestors-list");
@@ -113,7 +114,7 @@ export async function locationsSearchButtonClicked(e, searchType) {
             ancestors.forEach(ancestor => {
 
                 const areaAncestors = ancestorClone.getElementById('area-ancestors');
-                areaAncestors.textContent += ancestor.area.area_Name + "  >  ";
+                areaAncestors.textContent += ancestor + "  >  ";
             });
             ancestorsList.appendChild(ancestorClone);
 
