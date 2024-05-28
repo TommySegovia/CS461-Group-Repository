@@ -171,6 +171,45 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            if (Input.Age != user.Age)
+            {
+                user.Age = Input.Age;
+            }
+
+            if (Input.Gender != user.Gender)
+            {
+                user.Gender = Input.Gender;
+            }
+
+            if (Input.Height != user.Height)
+            {
+                user.Height = Input.Height;
+            }
+
+            if (Input.Weight != user.Weight)
+            {
+                user.Weight = Input.Weight;
+            }
+
+            if (Input.ClimbingExperience != user.ClimbingExperience)
+            {
+                user.ClimbingExperience = Input.ClimbingExperience;
+            }
+
+            if (Input.MaxClimbGrade != user.MaxClimbGrade)
+            {
+                user.MaxClimbGrade = Input.MaxClimbGrade;
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                StatusMessage = "Unexpected error when trying to update your profile.";
+                return RedirectToPage();
+            }
+
+            await _signInManager.RefreshSignInAsync(user);
+
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }

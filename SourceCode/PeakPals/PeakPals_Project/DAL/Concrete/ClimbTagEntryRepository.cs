@@ -43,5 +43,14 @@ namespace PeakPals_Project.DAL.Concrete
                 .Distinct() // Add this line to remove duplicates
                 .ToList();
         }
+
+        public List<int> GetClimbTagEntryIdByTag(string tag)
+        {
+            //return the climbTagEntryIDs for a specific tag
+            return _climbTagEntry
+                .Where(f => f.Tag.TagName == tag)
+                .Select(f => f.ClimbAttemptID)
+                .ToList();
+        }
     }
 }
