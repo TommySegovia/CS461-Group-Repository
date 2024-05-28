@@ -16,6 +16,9 @@ namespace PeakPals_BDD_Tests.PageObjects
 
         private IWebElement PullTestTableDiv => _webDriver.FindElement(By.Id("pull-test-table"));
         private IWebElement HistoryCardButton => _webDriver.FindElement(By.Id("test-expand-button"));
+        private IWebElement RecommendationsTab => _webDriver.FindElement(By.Id("recommendations-tab"));
+        private IWebElement DataMissingMessage => _webDriver.FindElement(By.Id("missing-info-div"));
+        private IWebElement RecommendedClimbsDiv => _webDriver.FindElement(By.Id("recommended-climbs-div"));
 
         public bool IsPullTestTableCreated()
         {
@@ -28,5 +31,21 @@ namespace PeakPals_BDD_Tests.PageObjects
         {
             HistoryCardButton.Click();
         }
+
+        public void ClickRecommendationsTab()
+        {
+            RecommendationsTab.Click();
+        }
+
+        public bool IsDataMissingMessageDisplayed()
+        {
+            return DataMissingMessage.Displayed;
+        }
+        public bool IsClimbRecommended()
+        {
+            return RecommendedClimbsDiv.Displayed;
+        }
+
+
     }
 }

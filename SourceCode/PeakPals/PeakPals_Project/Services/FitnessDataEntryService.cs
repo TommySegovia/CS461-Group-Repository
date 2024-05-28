@@ -63,7 +63,7 @@ public class FitnessDataEntryService : IFitnessDataEntryService
         {
             return;
         }
-        
+
         // Created using ScottPlot library, visit website to learn more.
         // create plot
         var plt = new ScottPlot.Plot(300, 250);
@@ -97,7 +97,7 @@ public class FitnessDataEntryService : IFitnessDataEntryService
             plt.YAxis.Label("Smallest Edge Test (mm)");
 
         }
-        
+
         else
         {
             plt.YAxis.Label("% of Body Weight");
@@ -110,6 +110,192 @@ public class FitnessDataEntryService : IFitnessDataEntryService
         // overwrite existing image for new analytics
         plt.SaveFig($"wwwroot/Images/Test_{testId}_ResultsOverTime.png");
 
+    }
+
+    public void GenerateRadarChart(List<FitnessDataEntryDTO> userTests, List<double> averageTests, int userId)
+    {
+        //possilby include a scale factor for each test
+        double userHangTestResults = (double)userTests[0].Result / userTests[0].BodyWeight ?? 0;
+        double userPullTestResults = (double)userTests[1].Result / userTests[1].BodyWeight ?? 0;
+        double userHammerCurlTestResults = (double)userTests[2].Result / userTests[2].BodyWeight ?? 0;
+        double HipFlexorTestResults = (double)(userTests[3].Result ?? 0);
+        double userHamstringFlexibilityTestResults = (double)(userTests[4].Result ?? 0);
+        double userRepeatersTestResults = (double)(userTests[5].Result ?? 0);
+        double userSmallestEdgeTestResults = (double)(userTests[6].Result ?? 0);
+        double userCampusBoardTestResults = (double)(userTests[7].Result ?? 0);
+
+        double averageHangTestResults = averageTests[0];
+        double averagePullTestResults = averageTests[1];
+        double averageHammerCurlTestResults = averageTests[2];
+        double averageHipFlexorTestResults = averageTests[3];
+        double averageHamstringFlexibilityTestResults = averageTests[4];
+        double averageRepeatersTestResults = averageTests[5];
+        double averageSmallestEdgeTestResults = averageTests[6];
+        double averageCampusBoardTestResults = averageTests[7];
+
+
+        //finger strength stat
+        var userFingerStrengthStat = 0.0;
+        if (userHangTestResults != 0 && userSmallestEdgeTestResults != 0)
+        {
+            userFingerStrengthStat = (((userHangTestResults / averageHangTestResults) * 100)
+                                               + ((userSmallestEdgeTestResults / averageSmallestEdgeTestResults) * 100)) / 2;
+        }
+
+        //pull strength stat
+        var userPullStrengthStat = 0.0;
+        if (userPullTestResults != 0 && userHammerCurlTestResults != 0)
+        {
+            userPullStrengthStat = (((userPullTestResults / averagePullTestResults) * 100)
+                                        + ((userHammerCurlTestResults / averageHammerCurlTestResults) * 100)) / 2;
+        }
+
+        //Power stat
+        var userPowerStat = 0.0;
+        if (userCampusBoardTestResults != 0 && userPullTestResults != 0)
+        {
+
+            double userCampusBoardConversionValue = GetCampusBoardConversionValue(userCampusBoardTestResults);
+            double averageCampusBoardConversionValue = GetCampusBoardConversionValue(averageCampusBoardTestResults);
+            userPowerStat = (((userCampusBoardConversionValue / averageCampusBoardConversionValue) * 100)
+                                        + ((userPullTestResults / averagePullTestResults) * 100)) / 2;
+        }
+
+        //Endurance stat
+        var userEnduranceStat = 0.0;
+        if (userRepeatersTestResults != 0)
+        {
+            userEnduranceStat = (userRepeatersTestResults / averageRepeatersTestResults) * 100;
+        }
+
+        //Flexibility stat
+        var userFlexibilityStat = 0.0;
+        if (userHamstringFlexibilityTestResults != 0 && HipFlexorTestResults != 0)
+        {
+            userFlexibilityStat = (((userHamstringFlexibilityTestResults / averageHamstringFlexibilityTestResults) * 100)
+                                        + ((HipFlexorTestResults / averageHipFlexorTestResults) * 100)) / 2;
+        }
+
+        //generate a 5 point radar chart labeled with the stats above where the user's stats are compared to the average stats where the average stats are the 100% mark
+        var plt = new ScottPlot.Plot(500, 500);
+        double[,] values = { { userFingerStrengthStat, userPullStrengthStat, userPowerStat, userEnduranceStat, userFlexibilityStat },
+                     { 100, 100, 100, 100, 100 } };
+        string[] labels = { "Finger Strength: " + Math.Round(userFingerStrengthStat, 2), "Pull Strength: " + Math.Round(userPullStrengthStat, 2), "Power: " + Math.Round(userPowerStat, 2), "Endurance: " + Math.Round(userEnduranceStat, 2), "Flexibility: " + Math.Round(userFlexibilityStat, 2) };
+        string[] groupLabels = { "User", "Average" };
+
+        var radarPlot = plt.PlotRadar(values, independentAxes: true);
+        radarPlot.GroupLabels = groupLabels;
+        radarPlot.CategoryLabels = labels;
+        radarPlot.ShowAxisValues = false;
+
+        plt.Legend(location: ScottPlot.Alignment.UpperRight);
+
+        plt.XAxis.LabelStyle(color: Color.White);
+        plt.YAxis.LabelStyle(color: Color.White);
+        plt.Style(figureBackground: Color.Black, tick: Color.White);
+        plt.Margins(x: .10, y: .20);
+        plt.SaveFig($"wwwroot/Images/User_{userId}_RadarChart.png");
+
+        return;
+    }
+
+    public List<string> GetUsersStrongestStats(List<FitnessDataEntryDTO> userTests, List<double> averageTests, int userId)
+    {
+        //possilby include a scale factor for each test
+        double userHangTestResults = (double)userTests[0].Result / userTests[0].BodyWeight ?? 0;
+        double userPullTestResults = (double)userTests[1].Result / userTests[1].BodyWeight ?? 0;
+        double userHammerCurlTestResults = (double)userTests[2].Result / userTests[2].BodyWeight ?? 0;
+        double HipFlexorTestResults = (double)(userTests[3].Result ?? 0);
+        double userHamstringFlexibilityTestResults = (double)(userTests[4].Result ?? 0);
+        double userRepeatersTestResults = (double)(userTests[5].Result ?? 0);
+        double userSmallestEdgeTestResults = (double)(userTests[6].Result ?? 0);
+        double userCampusBoardTestResults = (double)(userTests[7].Result ?? 0);
+
+        double averageHangTestResults = averageTests[0];
+        double averagePullTestResults = averageTests[1];
+        double averageHammerCurlTestResults = averageTests[2];
+        double averageHipFlexorTestResults = averageTests[3];
+        double averageHamstringFlexibilityTestResults = averageTests[4];
+        double averageRepeatersTestResults = averageTests[5];
+        double averageSmallestEdgeTestResults = averageTests[6];
+        double averageCampusBoardTestResults = averageTests[7];
+
+
+        //finger strength stat
+        var userFingerStrengthStat = 0.0;
+        if (userHangTestResults != 0 && userSmallestEdgeTestResults != 0)
+        {
+            userFingerStrengthStat = (((userHangTestResults / averageHangTestResults) * 100)
+                                               + ((userSmallestEdgeTestResults / averageSmallestEdgeTestResults) * 100)) / 2;
+        }
+
+        //pull strength stat
+        var userPullStrengthStat = 0.0;
+        if (userPullTestResults != 0 && userHammerCurlTestResults != 0)
+        {
+            userPullStrengthStat = (((userPullTestResults / averagePullTestResults) * 100)
+                                        + ((userHammerCurlTestResults / averageHammerCurlTestResults) * 100)) / 2;
+        }
+
+        //Power stat
+        var userPowerStat = 0.0;
+        if (userCampusBoardTestResults != 0 && userPullTestResults != 0)
+        {
+
+            double userCampusBoardConversionValue = GetCampusBoardConversionValue(userCampusBoardTestResults);
+            double averageCampusBoardConversionValue = GetCampusBoardConversionValue(averageCampusBoardTestResults);
+            userPowerStat = (((userCampusBoardConversionValue / averageCampusBoardConversionValue) * 100)
+                                        + ((userPullTestResults / averagePullTestResults) * 100)) / 2;
+        }
+
+        //Endurance stat
+        var userEnduranceStat = 0.0;
+        if (userRepeatersTestResults != 0)
+        {
+            userEnduranceStat = (userRepeatersTestResults / averageRepeatersTestResults) * 100;
+        }
+
+        //Flexibility stat
+        var userFlexibilityStat = 0.0;
+        if (userHamstringFlexibilityTestResults != 0 && HipFlexorTestResults != 0)
+        {
+            userFlexibilityStat = (((userHamstringFlexibilityTestResults / averageHamstringFlexibilityTestResults) * 100)
+                                        + ((HipFlexorTestResults / averageHipFlexorTestResults) * 100)) / 2;
+        }
+
+        //return the two stats that the user is strongest in
+        List<double> values = new List<double> { userFingerStrengthStat, userPullStrengthStat, userPowerStat, userEnduranceStat, userFlexibilityStat };
+        List<string> labels = new List<string> { "Finger Strength", "Pull Strength", "Power", "Endurance", "Flexibility" };
+
+        // Create a list of (value, label) pairs and sort it in descending order by value
+        var sortedPairs = values.Zip(labels, (value, label) => (value, label))
+                                .OrderByDescending(pair => pair.value)
+                                .ToList();
+
+        // Take the labels of the first two pairs (which have the highest values)
+        List<string> stats = new List<string>();
+        stats.Add(sortedPairs[0].label + ": " + Math.Round(sortedPairs[0].value, 2));
+        stats.Add(sortedPairs[1].label + ": " + Math.Round(sortedPairs[1].value, 2));
+
+        //return the two stats that the user is strongest in along with their values
+        return stats;
+    }
+
+    public double GetCampusBoardConversionValue(double testResult)
+    {
+        switch (testResult)
+        {
+            case 123:
+                return 0.25;
+            case 135:
+                return 0.5;
+            case 147:
+                return 0.75;
+            case 159:
+                return 1;
+            default:
+                return 0;
+        }
     }
 }
 

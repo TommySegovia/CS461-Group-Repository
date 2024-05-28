@@ -6,10 +6,9 @@
     <div class="text-center" id="report-div">
         <h1 class="text-white display-text">See your Performance</h1>
 
-        <button class="nav-buttons active-tab" id="history-button"><a class="nav-link active" id="history-tab"
-                data-toggle="tab" href="#test-history">History</a></button>
-        <button class="nav-buttons" id="analysis-button"><a class="nav-link" id="analysis-tab" data-toggle="tab"
-                href="#test-analysis">Analysis</a></button>
+        <button class="nav-buttons active-tab" id="history-button"><a class="nav-link active" id="history-tab" data-toggle="tab" href="#test-history">History</a></button>
+        <button class="nav-buttons" id="analysis-button"><a class="nav-link" id="analysis-tab" data-toggle="tab" href="#test-analysis">Analysis</a></button>
+        <button class="nav-buttons" id="recommendations-button"><a class="nav-link" id="recommendations-tab" data-toggle="tab" href="#test-recommendations">Recommendations</a></button>
 
         <div id="test-history">
             <div class="container">
@@ -227,11 +226,49 @@
             </div>
         </div>
 
+        <div style="display: none;" id="test-recommendations">
+            <div id="missing-info-div"></div>
+            <div id="recommended-climbs-div"></div>
+            <div id="refresh-button-div"></div>
+            <div id="radar-chart-div"></div>
+        </div>
+
+        <template id="recommended-climb-template">
+            <div class="recommended-climb">
+                <div class="container">
+                    <div class="row recommended-climb-header">
+                        <div class="col-9">
+                            <h2 class="text-white text-center recommended-climb-header-name"></h2>
+                        </div>
+                        <div class="col-3">
+                            <h2 class="text-white text-center recommended-climb-header-grade"></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="text-center recommended-climb-tag-div"></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="text-center recommended-climb-description-div"></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="recommend-climb-button">Go to Climb</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
     </div>
 </body>
 
 @section Scripts {
     <script src="~/js/report.js"></script>
+    <script src="~/js/recommendations.js"></script>
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/report.css">
