@@ -172,6 +172,7 @@ public class OpenBetaApiService : IOpenBetaApiService
                         name
                         fa
                         ancestors
+                        pathTokens
                         metadata {
                             lat
                             lng

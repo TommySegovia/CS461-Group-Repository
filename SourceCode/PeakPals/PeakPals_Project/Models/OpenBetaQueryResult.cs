@@ -26,6 +26,7 @@ public class OpenBetaQueryResult
     {
         public string? Uuid { get; set; }
         public string? Name { get; set; }
+        public string? PathTokens { get; set; }
         public List<string>? Ancestors { get; set; }
     }
 }

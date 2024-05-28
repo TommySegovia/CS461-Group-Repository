@@ -19,3 +19,4 @@ DROP TABLE [ClimbAttempt];
 DROP TABLE [GroupList];
 DROP TABLE [CommunityGroup];
 DROP TABLE [Climber];
+DROP TABLE [CommunityMessage];
