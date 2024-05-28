@@ -11,7 +11,7 @@ async function populateJoinedGroups() {
     const joinedCommunityGroupsDiv = document.getElementById("joinedCommunityGroupsDiv");
     if (groups.length > 0) {
         const joinedCommunityGroupsHeader = document.getElementById("joinedCommunityGroupsHeader");
-        joinedCommunityGroupsHeader.innerHTML = "Joined Community Groups";
+        joinedCommunityGroupsHeader.innerHTML = "Joined Groups:";
         joinedCommunityGroupsDiv.style.display = "block";
     }
     groups.forEach(group => {
