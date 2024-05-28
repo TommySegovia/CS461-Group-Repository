@@ -34,8 +34,8 @@ public class Program
         var sendGridApiKeySecret = secretClient.GetSecret("SendGridApiKey");
 
         // Add services to the container.
-        // var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
-        // var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
+        //var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
+        //var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
         var connectionStringAuth = connectionAuthSecret.Value.Value;
         var connectionStringApp = connectionAppSecret.Value.Value;
         var SendGridKey = sendGridApiKeySecret.Value.Value;
