@@ -10,5 +10,6 @@ namespace PeakPals_Project.DAL.Abstract
         public double? GetUserAverageResultDividedByBodyweight(int climberId, int testId);
         public double? GetAverageResult (int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade);
         public double? GetMostCommonResultCampusBoard (int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade);
+        
     }
 }

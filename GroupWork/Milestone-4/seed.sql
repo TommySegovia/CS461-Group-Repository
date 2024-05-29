@@ -164,3 +164,45 @@ VALUES
     (15, 'Unique')
 
 SET IDENTITY_INSERT [Tag] OFF;
+
+SET IDENTITY_INSERT [CommunityMessage] ON;
+
+INSERT INTO [CommunityMessage] (ID, ClimberID, CommunityGroupID, DisplayName, Message)
+VALUES
+    (1, 2, 1, 'Janet', 'Hello, this is a test comment!')
+
+SET IDENTITY_INSERT [CommunityMessage] OFF;
+--Seed climb attempt data
+SET IDENTITY_INSERT [ClimbAttempt] ON;
+
+INSERT INTO [ClimbAttempt] (ID, ClimberID, ClimbName, Attempts, Rating, ClimbId, SuggestedGrade, EntryDate)
+VALUES
+    (1, 1, 'Evergreen', 3, 5, '4af5ee1d-280a-5e8e-bb03-2528dc508792', 5, '2024-05-26T22:58:21.657'),
+    (2, 1, 'The Mandala', 3, 5, 'c2bc20b8-eaca-54d6-a1ea-503a0031f0b6', 12, '2024-05-26T22:58:21.657'),
+    (3, 1, 'Necromancer', 3, 5, '7c78d6fe-2e74-5d3a-b5e3-87e07ec100e7', 5.9, '2024-05-26T22:58:21.657'),
+    (4, 1, 'Let''s Lay Back', 3, 5, '6dbaeb8f-b65f-5808-a71e-14d7d623396b', 4, '2024-05-26T22:58:21.657');
+
+SET IDENTITY_INSERT [ClimbAttempt] OFF;
+
+--Seed climb tag entry data
+SET IDENTITY_INSERT [ClimbTagEntry] ON;
+
+INSERT INTO [ClimbTagEntry] (ID, ClimbAttemptID, TagID)
+VALUES
+    (0, 1, 1),
+    (1, 1, 3),
+    (2, 1, 6),
+
+    (3, 2, 1),
+    (4, 2, 9),
+    (5, 2, 7),
+    (6, 2, 6),
+
+    (7, 3, 3),
+    (8, 3, 5),
+    (9, 3, 8),
+
+    (10, 4, 1),
+    (11, 4, 6)
+    
+SET IDENTITY_INSERT [ClimbTagEntry] OFF;

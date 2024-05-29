@@ -18,10 +18,10 @@ async function searchButtonClicked(e)
 {
     console.log("search button clicked.")
     const searchResultsDiv = document.getElementById("search-results");
-    searchResultsDiv.innerHTML = "";
+    searchResultsDiv.textContent = "";
     const errorMessage = document.createElement("p");
     const validationWarning = document.getElementById("community-validation-warning");
-    validationWarning.innerHTML = "";
+    validationWarning.textContent = "";
 
     const searchInput = document.getElementById("search-input");
     const username = searchInput.value;
@@ -71,7 +71,7 @@ async function searchButtonClicked(e)
         const clone = resultTemplate.content.cloneNode(true);
         const profileLink = clone.getElementById('profile-link');
         profileLink.href = `/Profile/${climber.userName}`;
-        profileLink.innerHTML = climber.userName;
+        profileLink.textContent = climber.userName;
 
         const userImage = clone.getElementById('userImage');
         if (climber.imageLink !== null)
@@ -94,10 +94,10 @@ async function communityGroupSearchButtonClicked(e){
     //searches for community groups and populates the search results div with the results by building the template for each group using the groups name and description
     console.log("community group search button clicked.")
     const searchResultsDiv = document.getElementById("community-group-search-results");
-    searchResultsDiv.innerHTML = "";
+    searchResultsDiv.textContent = "";
     const errorMessage = document.createElement("p");
     const validationWarning = document.getElementById("community-group-validation-warning");
-    validationWarning.innerHTML = "";
+    validationWarning.textContent = "";
 
     const searchInput = document.getElementById("community-group-search-input");
     const groupName = searchInput.value;
@@ -140,6 +140,8 @@ async function communityGroupSearchButtonClicked(e){
     console.log(communityGroups);
 
     const resultTemplate = document.getElementById("community-group-template");
+    const searchResultsText = document.getElementById("group-results-text");
+    searchResultsText.textContent = "Search Results:";
 
     communityGroups.forEach(communityGroup => 
     {
@@ -147,11 +149,11 @@ async function communityGroupSearchButtonClicked(e){
         const clone = resultTemplate.content.cloneNode(true);
         const groupLink = clone.getElementById('group-link-name');
         groupLink.href = `/Community/Group/${communityGroup.id}`;
-        groupLink.innerHTML = communityGroup.name;
+        groupLink.textContent = communityGroup.name;
 
         const groupDescription = clone.getElementById('group-description');
         groupDescription.href = `/Community/Group/${communityGroup.id}`;
-        groupDescription.innerHTML = communityGroup.description;
+        groupDescription.textContent = communityGroup.description;
 
         searchResultsDiv.appendChild(clone);
         console.log("created a new community group object to show.");
@@ -165,7 +167,7 @@ async function createGroupButtonClicked(e){
     e.preventDefault();
     const errorMessage = document.createElement("p");
     const validationWarning = document.getElementById("createGroupValidation");
-    validationWarning.innerHTML = "";
+    validationWarning.textContent = "";
 
     const groupName = document.getElementById("groupName").value;
     const groupDescription = document.getElementById("groupDescription").value;
@@ -243,6 +245,8 @@ async function populateJoinedGroups()
     const communityGroups = await response.json();
     console.log(communityGroups);
     const joinedGroupsDiv = document.getElementById("joined-groups");
+    const joinedGroupsText = document.getElementById("joined-groups-text");
+    joinedGroupsText.textContent = "Joined Groups:";
     const resultTemplate = document.getElementById("community-group-template");
 
     communityGroups.forEach(communityGroup => 
@@ -251,11 +255,11 @@ async function populateJoinedGroups()
         const clone = resultTemplate.content.cloneNode(true);
         const groupLink = clone.getElementById('group-link-name');
         groupLink.href = `/Community/Group/${communityGroup.id}`;
-        groupLink.innerHTML = communityGroup.name;
+        groupLink.textContent = communityGroup.name;
 
         const groupDescription = clone.getElementById('group-description');
         groupDescription.href = `/Community/Group/${communityGroup.id}`;
-        groupDescription.innerHTML = communityGroup.description;
+        groupDescription.textContent = communityGroup.description;
 
         joinedGroupsDiv.appendChild(clone);
         console.log("created a new community group object to show.");

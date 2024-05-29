@@ -42,11 +42,12 @@ namespace PeakPals_Project.DAL.Concrete
       }
     }
 
-    public int RecordClimbingAttempt(int climberId, string climbId, string? climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating)
+    public int RecordClimbingAttempt(int climberId, string climberName, string climbId, string? climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating)
     {
       var newClimbAttempt = ViewClimbingAttempt(climberId, climbId) ?? new ClimbAttempt();
 
       newClimbAttempt.ClimberId = climberId;
+      newClimbAttempt.ClimberName = climberName;
       newClimbAttempt.ClimbId = climbId;
       newClimbAttempt.ClimbName = climbName;
       newClimbAttempt.SuggestedGrade = suggestedGrade;
@@ -68,6 +69,29 @@ namespace PeakPals_Project.DAL.Concrete
 
       return newClimbAttempt.Id;
 
+    }
+
+    public ClimbAttempt ViewClimbingAttemptByClimbAttemptID(int climbAttemptID)
+    {
+      var climbingAttempt = _climbAttempt.SingleOrDefault(f => f.Id == climbAttemptID);
+      if (climbingAttempt != null)
+      {
+        return climbingAttempt;
+      }
+      else
+      {
+        return null;
+      }
+
+    }
+
+    public List<ClimbAttemptDTO> ViewAllClimbingAttemptsByClimbId(string climbId)
+    {
+      return _climbAttempt
+          .Where(f => f.ClimbId == climbId)
+          .OrderBy(f => f.EntryDate)
+          .Select(f => f.ToDTO())
+          .ToList();
     }
 
   }

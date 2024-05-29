@@ -4,16 +4,17 @@ import { fetchAreas } from "/js/api.js";
 import { fetchClimbs } from "/js/api.js";
 import { fetchAreaAncestors } from "/js/api.js";
 import { getClimbAttempts, postClimbAttempt } from "/js/api.js";
+import { fetchClimbDataById } from "/js/api.js";
 
 export async function locationsSearchButtonClicked(e, searchType) {
     console.log("Search button clicked");
     const searchResultsAreaDiv = document.getElementById("search-results-areas");
-    searchResultsAreaDiv.innerHTML = "";
+    searchResultsAreaDiv.textContent = "";
     const searchResultsClimbDiv = document.getElementById("search-results-climbs");
-    searchResultsClimbDiv.innerHTML = "";
+    searchResultsClimbDiv.textContent = "";
 
     const validationWarning = document.getElementById("locations-validation-warning")
-    validationWarning.innerHTML = "";
+    validationWarning.textContent = "";
 
     const searchInput = document.getElementById("search-input");
     const query = searchInput.value;
@@ -67,8 +68,10 @@ export async function locationsSearchButtonClicked(e, searchType) {
             const areaName = clone.getElementById('area-name');
 
             // refactor possibly to remove template use
-            let ancestors = await fetchAreaAncestors(area.ancestors);
-            ancestors = ancestors.slice(0, -1);
+            //let ancestors = await fetchAreaAncestors(area.ancestors);
+            //ancestors = ancestors.slice(0, -1);
+            console.log(area);
+            let ancestors = area.pathTokens;
 
             const ancestorsTemplate = document.getElementById("ancestors-template");
             const ancestorsList = clone.getElementById("ancestors-list");
@@ -76,7 +79,7 @@ export async function locationsSearchButtonClicked(e, searchType) {
             ancestors.forEach(ancestor => {
 
                 const areaAncestors = ancestorClone.getElementById('area-ancestors');
-                areaAncestors.textContent += ancestor.area.area_Name + "  >  ";
+                areaAncestors.textContent += ancestor + "  >  ";
             })
             ancestorsList.appendChild(ancestorClone);
 
@@ -99,11 +102,11 @@ export async function locationsSearchButtonClicked(e, searchType) {
             const clone = areaTemplate.content.cloneNode(true);
             const climbName = clone.getElementById('area-name');
 
-            console.log(climb);
-            console.log(climb.ancestors);
-            let ancestors = await fetchAreaAncestors(climb.ancestors);
+            const returnedClimb = await fetchClimbDataById(climb.uuid);
+            console.log(returnedClimb);
+            console.log(returnedClimb.climb);
+            const ancestors = returnedClimb.climb.pathTokens;
             console.log(ancestors);
-            ancestors = ancestors.slice(0, -1);
 
             const ancestorsTemplate = document.getElementById("ancestors-template");
             const ancestorsList = clone.getElementById("ancestors-list");
@@ -111,7 +114,7 @@ export async function locationsSearchButtonClicked(e, searchType) {
             ancestors.forEach(ancestor => {
 
                 const areaAncestors = ancestorClone.getElementById('area-ancestors');
-                areaAncestors.textContent += ancestor.area.area_Name + "  >  ";
+                areaAncestors.textContent += ancestor + "  >  ";
             });
             ancestorsList.appendChild(ancestorClone);
 
@@ -153,7 +156,6 @@ export async function handleClimbAttemptFormSubmit() {
 
     const form = document.getElementById("climb-attempt-form");
     var climbAttemptModalElement = document.getElementById('climbAttemptModal');
-    var climbAttemptModal = new bootstrap.Modal(climbAttemptModalElement);
 
 
     document.getElementById("climb-attempt-form").addEventListener("submit", async function (event) {
@@ -193,7 +195,7 @@ export async function displayClimbingLog(user) {
         if (logs.length === 0) {
             return;
         }
-        climbLogDisplayArea.innerHTML = '';
+        climbLogDisplayArea.textContent = '';
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const itemsToDisplay = logs.slice(startIndex, endIndex);
@@ -205,24 +207,31 @@ export async function displayClimbingLog(user) {
 
             //ClimbName
             const attemptNameElement = clone.getElementById("climb-attempt-name");
-            attemptNameElement.innerHTML = log.climbName;
+            attemptNameElement.textContent = log.climbName;
 
             // EntryDate
             const attemptDateElement = clone.getElementById("climb-attempt-date");
             let options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-            attemptDateElement.innerHTML = new Date(log.entryDate).toLocaleString('en-US', options);
+            attemptDateElement.textContent = new Date(log.entryDate).toLocaleString('en-US', options);
 
             // SuggestedGrade
             const attemptGradeElement = clone.getElementById("climb-attempt-grade");
-            attemptGradeElement.innerHTML = log.suggestedGrade;
+            attemptGradeElement.textContent = log.suggestedGrade;
 
             // Climbing Attempts
             const attemptsNumElement = clone.getElementById("climb-attempt-attempts");
-            attemptsNumElement.innerHTML = log.attempts;
+            attemptsNumElement.textContent = log.attempts;
 
             // Rating
             const attemptRatingElement = clone.getElementById("climb-attempt-rating");
-            attemptRatingElement.innerHTML = log.rating;
+            const starRating = log.rating;
+            for (let i = 0; i < starRating; i++) {
+                let img = document.createElement('img');
+                img.src = "/images/star.svg";
+                img.width = 40;
+                img.height = 40;
+                attemptRatingElement.appendChild(img);
+            }
 
             // Link 4 Button
             const attemptLinkElement = clone.getElementById("climb-attempt-link-button");
@@ -262,9 +271,10 @@ export async function displayClimbingLog(user) {
 
     function renderPagination() {
         const totalPages = Math.ceil(logs.length / itemsPerPage);
-        paginationArea.innerHTML = ''; // Clear the pagination area
+        paginationArea.textContent = ''; // Clear the pagination area
 
         const prevButton = document.createElement('button');
+        prevButton.id = 'prev-button';
         prevButton.textContent = '<';
         prevButton.style.width = '50px'; 
         prevButton.style.height = '50px';
@@ -278,12 +288,14 @@ export async function displayClimbingLog(user) {
         paginationArea.appendChild(prevButton);
 
         const currentButton = document.createElement('button');
+        currentButton.id = 'current-button';
         currentButton.textContent = currentPage;
         currentButton.style.width = '50px'; 
         currentButton.style.height = '50px'; 
         paginationArea.appendChild(currentButton);
 
         const nextButton = document.createElement('button');
+        nextButton.id = 'next-button';
         nextButton.textContent = '>';
         nextButton.style.width = '50px';
         nextButton.style.height = '50px';
@@ -333,3 +345,178 @@ async function fetchClimbTags(climbAttemptId){
     console.log('fetchclimbtags: ', result);
     return result;
 }
+
+// group page -- message submission
+
+export async function populateGroupComments(messages) {
+
+    const templateId = document.getElementById("comment-template");
+    const commentArea = document.getElementById("comment-area");
+    
+    messages.forEach(message => {
+        const clone = templateId.content.cloneNode(true);
+        const commentName = clone.getElementById("comment-name");
+        const commentMessage = clone.getElementById("comment-message");
+
+        commentName.textContent = message.displayName;
+        commentMessage.textContent = message.message;
+
+        commentArea.appendChild(clone);
+    });
+}
+
+export async function displayGroupClimbingLog(logs) {
+
+    console.log(logs);
+    const climbLogTemplate = document.getElementById("climb-log-template");
+    const climbLogDisplayArea = document.getElementById("display-log-list");
+    const paginationArea = document.getElementById("pagination-area");
+    const itemsPerPage = 6;
+    let currentPage = 1;
+
+    function renderItems() {
+        if (logs.length === 0 || logs == null || logs.message == "No climb attempts logged or found so far.") {
+            return;
+        }
+        climbLogDisplayArea.textContent = '';
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const itemsToDisplay = logs.slice(startIndex, endIndex);
+
+        itemsToDisplay.forEach(async log => {
+            //Setup
+            const clone = climbLogTemplate.content.cloneNode(true);
+            console.log(log.rating);
+
+            //ClimbName
+            const attemptNameElement = clone.getElementById("climb-attempt-name");
+            attemptNameElement.textContent = log.climbName;
+
+            const attemptClimberNameElement = clone.getElementById("climb-attempt-climber-name");
+            attemptClimberNameElement.textContent = log.climberName;
+
+            // EntryDate
+            const attemptDateElement = clone.getElementById("climb-attempt-date");
+            let options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+            attemptDateElement.textContent = new Date(log.entryDate).toLocaleString('en-US', options);
+
+            // SuggestedGrade
+            const attemptGradeElement = clone.getElementById("climb-attempt-grade");
+            attemptGradeElement.textContent = log.suggestedGrade;
+
+            // Climbing Attempts
+            const attemptsNumElement = clone.getElementById("climb-attempt-attempts");
+            attemptsNumElement.textContent = log.attempts;
+
+            // Rating
+            const attemptRatingElement = clone.getElementById("climb-attempt-rating");
+            const starRating = log.rating;
+            for (let i = 0; i < starRating; i++) {
+                let img = document.createElement('img');
+                img.src = "/images/star.svg";
+                img.width = 40;
+                img.height = 40;
+                attemptRatingElement.appendChild(img);
+            }
+
+            // Link 4 Button
+            const attemptLinkElement = clone.getElementById("climb-attempt-link-button");
+            attemptLinkElement.href = `/Locations/Climbs/${log.climbId}`;
+
+            
+
+            // Tags
+            const tags = await getClimbTags(log.id);
+            console.log('tags',tags);
+            const tagsElement = clone.getElementById("climb-attempt-tags");
+
+            // Check if tagsElement is not null before proceeding
+            if (tagsElement) {
+                if (tags.length === 0) {
+                    const noTagsElement = document.createElement('span');
+                    noTagsElement.className = "badge bg-secondary climbTagBadge";
+                    noTagsElement.textContent = "No Tags";
+                    tagsElement.appendChild(noTagsElement);
+                }
+                else{
+                    tags.forEach(tag => {
+                        console.log(tag);
+                        const tagElement = document.createElement('span');
+                        tagElement.className = "badge bg-secondary climbTagBadge";
+                        tagElement.textContent = tag;
+                        tagsElement.appendChild(tagElement);
+                    });
+                }
+            } else {
+                console.error('Element with id "climb-attempt-tags" not found');
+            }
+            climbLogDisplayArea.append(clone);
+
+        })
+    }
+
+    function renderPagination() {
+        const totalPages = Math.ceil(logs.length / itemsPerPage);
+        paginationArea.textContent = ''; // Clear the pagination area
+
+        const prevButton = document.createElement('button');
+        prevButton.id = 'prev-button';
+        prevButton.textContent = '<';
+        prevButton.style.width = '50px'; 
+        prevButton.style.height = '50px';
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderItems();
+                renderPagination();
+            }
+        });
+        paginationArea.appendChild(prevButton);
+
+        const currentButton = document.createElement('button');
+        currentButton.id = 'current-button';
+        currentButton.textContent = currentPage;
+        currentButton.style.width = '50px'; 
+        currentButton.style.height = '50px'; 
+        paginationArea.appendChild(currentButton);
+
+        const nextButton = document.createElement('button');
+        nextButton.id = 'next-button';
+        nextButton.textContent = '>';
+        nextButton.style.width = '50px';
+        nextButton.style.height = '50px';
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderItems();
+                renderPagination();
+            }
+        });
+        paginationArea.appendChild(nextButton);
+    }
+
+    if (logs && logs.message != "No climb attempts logged or found so far.") {
+        renderItems();
+        renderPagination();
+    }
+    else {
+        
+        const emptyLogMessage = document.createElement('div');
+        emptyLogMessage.style.width = '622px';
+        emptyLogMessage.style.height = '600px';
+        emptyLogMessage.style.backgroundColor = 'white';
+        emptyLogMessage.style.display = 'flex';
+        emptyLogMessage.style.justifyContent = 'center';
+        emptyLogMessage.style.alignItems = 'flex-start';
+        emptyLogMessage.style.paddingTop = '60px';
+        emptyLogMessage.style.margin = 'auto';
+        emptyLogMessage.style.textAlign = 'center';
+        emptyLogMessage.style.fontSize = '22px';
+        emptyLogMessage.style.fontWeight = 'bold';
+        emptyLogMessage.textContent = 'No climbs found!';
+        emptyLogMessage.style.overflowY = 'hidden';
+        climbLogDisplayArea.append(emptyLogMessage);
+        
+    }
+}
+

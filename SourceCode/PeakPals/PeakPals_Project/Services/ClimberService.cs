@@ -12,7 +12,6 @@ namespace PeakPals_Project.Services
     public class ClimberService : IClimberService
     {
         private readonly IClimberRepository _climberRepository;
-        //private readonly ApplicationDbContext _context;
         private readonly PeakPalsContext _context;
 
         public ClimberService(IClimberRepository climberRepository, PeakPalsContext context)
@@ -23,16 +22,25 @@ namespace PeakPals_Project.Services
 
         public ClimberDTO AddNewClimber(string? aspNetIdentityId, string? userName)
         {
-            Climber climber = new Climber
+            try
             {
-                Id = 0,
-                AspnetIdentityId = aspNetIdentityId,
-                UserName = userName
-            };
-            _climberRepository.AddOrUpdate(climber);
-            _context.SaveChanges();
-
-            return climber.ToDTO();
+                Climber climber = new Climber
+                {
+                    Id = 0,
+                    AspnetIdentityId = aspNetIdentityId,
+                    UserName = userName
+                };
+                _climberRepository.AddOrUpdate(climber);
+                _context.SaveChanges();
+                return climber.ToDTO();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+           
         }
 
         public void UpdateClimber(Climber climber)
@@ -42,4 +50,5 @@ namespace PeakPals_Project.Services
 
         }
     }
+
 }

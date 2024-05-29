@@ -32,6 +32,9 @@ public partial class ClimbAttempt
     [Column(TypeName = "datetime")]
     public DateTime EntryDate { get; set; }
 
+    [JsonIgnore]
+    [StringLength(50)]
+    public string ClimberName { get; set; }
     public int Attempts { get; set; }
     public int Rating { get; set; }
 
@@ -43,5 +46,4 @@ public partial class ClimbAttempt
     [JsonIgnore]
     [InverseProperty("ClimbAttempt")]
     public virtual List<ClimbTagEntry>? ClimbTagEntries { get; set; } = new List<ClimbTagEntry>();
-
 }

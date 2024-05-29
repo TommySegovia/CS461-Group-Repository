@@ -1,10 +1,26 @@
+import { getAllMessagesApiCall } from "/js/api.js";
+import { populateGroupComments } from "/js/eventhandlers.js";
+import { postMessage } from "/js/api.js";
+import { getCommunityClimbingLog } from "/js/api.js";
+import { getClimbersFromGroupId } from "/js/api.js";
+import { displayGroupClimbingLog } from "/js/eventhandlers.js";
+
+
 document.addEventListener("DOMContentLoaded", function () {
   const communityGroupButton = document.getElementById(
     "community-group-button"
   );
   const groupId = communityGroupButton.getAttribute("data-group-id");
-  console.log(groupId);
   updateMemberCount(groupId);
+  getGroupMessages(groupId);
+  getClimbingLogsForGroup(groupId);
+
+  if (document.querySelector("#createMessageModal")) {
+    document.getElementById('createMessageModal').addEventListener('shown.bs.modal', function (e) {
+      handleCommentFormSubmit(groupId);
+    })
+  }
+  
 
   const memberModal = document.getElementById("memberModal");
   memberModal.addEventListener("show.bs.modal", function () {
@@ -35,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
   updateMembershipStatus();
 });
 
@@ -128,4 +143,48 @@ async function getCurrentUserId() {
   }
   const user = await response.json();
   return user;
+}
+
+// community message functionality
+
+async function getGroupMessages(groupId)
+{
+  const messages = await getAllMessagesApiCall(groupId);
+  console.log(messages);
+  if (messages != null && messages.length > 0) {
+    console.log('Before populateGroupComments');
+    populateGroupComments(messages);
+  }
+  else {
+    const elseTemplate = document.getElementById("else-template");
+    const elseArea = document.getElementById("comment-else");
+    const clone = elseTemplate.content.cloneNode(true);
+    elseArea.appendChild(clone);
+  }
+}
+
+async function handleCommentFormSubmit(groupId) {
+
+  const form = document.getElementById("comment-form");
+  form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const comment = document.getElementById("comment-textarea").value;
+
+
+      console.log('Before postComment');
+      postMessage(comment, groupId);
+      console.log('After postComment: ');
+
+
+      localStorage.setItem('formSubmitted', 'true');
+
+      location.reload();
+  });
+}
+
+async function getClimbingLogsForGroup(groupId) {
+  const climbers = await getClimbersFromGroupId(groupId);
+  console.log(climbers);
+  const logs = await getCommunityClimbingLog(climbers);
+  displayGroupClimbingLog(logs);
 }

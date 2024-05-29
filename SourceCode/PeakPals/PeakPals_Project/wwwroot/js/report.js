@@ -171,7 +171,10 @@ async function getTestRecords(testId, tableDiv, resultsDiv) {
       var missingDataMessage = document.createElement("p");
       missingDataMessage.appendChild(document.createTextNode("Need more data to generate a graph"));
       missingDataMessage.classList.add("missing-data-message");
-      graphDiv.appendChild(missingDataMessage);
+      if (graphDiv)
+        {
+          graphDiv.appendChild(missingDataMessage);
+        }
       createButtonToRecordPage(resultsDiv);
     }
 
@@ -706,11 +709,11 @@ function createButtonToRecordPage(tableDiv) {
 }
 
 $(document).ready(function () {
-  // Show 'test-history' and hide 'test-analysis' when 'history-tab' is clicked
+  // Show 'test-history' and hide others when 'history-tab' is clicked
   $("#history-tab").click(function (event) {
     event.preventDefault();
     $("#test-history").show();
-    $("#test-analysis").hide();
+    $("#test-analysis, #test-recommendations").hide();
 
     // Remove the active state from all tabs
     $(".nav-buttons").removeClass("active-tab");
@@ -718,16 +721,28 @@ $(document).ready(function () {
     $("#history-button").addClass("active-tab");
   });
 
-  // Show 'test-analysis' and hide 'test-history' when 'analysis-tab' is clicked
+  // Show 'test-analysis' and hide others when 'analysis-tab' is clicked
   $("#analysis-tab").click(function (event) {
     event.preventDefault();
     $("#test-analysis").show();
-    $("#test-history").hide();
+    $("#test-history, #test-recommendations").hide();
 
     // Remove the active state from all tabs
     $(".nav-buttons").removeClass("active-tab");
     // Add the active state to the clicked tab
     $("#analysis-button").addClass("active-tab");
+  });
+
+  // Show 'test-recommendations' and hide others when 'recommendations-tab' is clicked
+  $("#recommendations-tab").click(function (event) {
+    event.preventDefault();
+    $("#test-recommendations").show();
+    $("#test-history, #test-analysis").hide();
+
+    // Remove the active state from all tabs
+    $(".nav-buttons").removeClass("active-tab");
+    // Add the active state to the clicked tab
+    $("#recommendations-button").addClass("active-tab");
   });
 });
 

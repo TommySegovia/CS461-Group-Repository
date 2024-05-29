@@ -12,6 +12,7 @@ public class OpenBetaQueryResult
         public string? Area_Name { get; set; }
         public string? Uuid { get; set; }
         public Metadata? Metadata { get; set; }
+        public List<string>? PathTokens { get; set; }
         public List<string>? Ancestors { get; set; }
         public List<Climb>? Climbs { get; set; }
 
@@ -25,6 +26,7 @@ public class OpenBetaQueryResult
     {
         public string? Uuid { get; set; }
         public string? Name { get; set; }
+        public string? PathTokens { get; set; }
         public List<string>? Ancestors { get; set; }
     }
 }

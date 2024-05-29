@@ -25,18 +25,21 @@ namespace PeakPals_Project.Controllers
     {
         private readonly IClimbAttemptRepository _climbAttemptRepository;
         private readonly IClimberRepository _climberRepository;
+        private readonly IClimberService _climberService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ClimbAttemptApiController(IClimbAttemptRepository climbAttemptRepository, IClimberRepository climberRepository, UserManager<ApplicationUser> userManager)
+        public ClimbAttemptApiController(IClimbAttemptRepository climbAttemptRepository, IClimberRepository climberRepository, IClimberService climberService, UserManager<ApplicationUser> userManager)
         {
             _climbAttemptRepository = climbAttemptRepository;
             _climberRepository = climberRepository;
             _userManager = userManager;
+            _climberService = climberService;
         }
 
         [HttpGet("log/view")]
         public ActionResult<List<ClimbAttemptDTO>> ViewAllClimbingAttemptsByUser()
         {
+            
             if (User.Identity.IsAuthenticated)
             {
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -58,17 +61,63 @@ namespace PeakPals_Project.Controllers
             }
         }
 
+        [HttpPost("log/view/list/{climbers}")]
+        public ActionResult<List<ClimbAttemptDTO>> ViewAllClimbingAttemptsByListOfClimbers(List<Climber> climbers)
+        {
+            var climbAttemptsList = new List<ClimbAttemptDTO>();
+            foreach (var climber in climbers)
+            {
+                var climberDTO = _climberRepository.GetClimberByUsername(climber.UserName);
+                if (climberDTO == null)
+                {
+                    return NotFound(new { Message = "No climber associated with this account." });
+                }
+                var climbAttempts = _climbAttemptRepository.ViewAllClimbingAttempts(climberDTO.Id);
+                if (!climbAttempts.IsNullOrEmpty())
+                {
+                    climbAttemptsList.AddRange(climbAttempts);
+                }
+            }
+            if (climbAttemptsList.IsNullOrEmpty())
+            {
+                return NotFound(new { Message = "No climb attempts logged or found so far." });
+            }
+
+            return Ok(climbAttemptsList);
+        }
+
+        //view all climb attempts by username
+        [HttpGet("log/view/{username}")]
+        public ActionResult<List<ClimbAttemptDTO>> ViewAllClimbingAttemptsByUsername(string username)
+        {
+            var climberDTO = _climberRepository.GetClimberByUsername(username);
+            if (climberDTO == null)
+            {
+                return NotFound();
+            }
+            var climbAttemptsList = _climbAttemptRepository.ViewAllClimbingAttempts(climberDTO.Id);
+            if (climbAttemptsList.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
+            return Ok(climbAttemptsList);
+        }
+
         [HttpPost("log/record")]
         public ActionResult RecordClimbAttempt(ClimbAttemptDTO climbAttemptDTO)
         {
             if (User.Identity.IsAuthenticated)
             {
+                var aspNetIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userName = User.Identity.Name;
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 if (climberDTO == null)
                 {
-                    return NotFound(new { Message = "Climber not found." });
+                    //return NotFound(new { Message = "Climber not found." });
+                    climberDTO = _climberService.AddNewClimber(aspNetIdentityId, userName);
                 }
-                var generatedId = _climbAttemptRepository.RecordClimbingAttempt(climberDTO.Id, climbAttemptDTO.ClimbId, climbAttemptDTO.ClimbName, climbAttemptDTO.SuggestedGrade, climbAttemptDTO.EntryDate, climbAttemptDTO.Attempts, climbAttemptDTO.Rating);
+                var generatedId = _climbAttemptRepository.RecordClimbingAttempt(climberDTO.Id, climberDTO.UserName, climbAttemptDTO.ClimbId, climbAttemptDTO.ClimbName, climbAttemptDTO.SuggestedGrade, climbAttemptDTO.EntryDate, climbAttemptDTO.Attempts, climbAttemptDTO.Rating);
                 climbAttemptDTO.Id = generatedId; // Set the generated ID on the DTO
                 return Ok(climbAttemptDTO);
             }
@@ -78,7 +127,18 @@ namespace PeakPals_Project.Controllers
             }
         }
 
+        //view all climb attempts by climb id
+        [HttpGet("log/view/climb/{climbId}")]
+        public ActionResult<List<ClimbAttemptDTO>> ViewAllClimbingAttemptsByClimbId(string climbId)
+        {
+            var climbAttemptsList = _climbAttemptRepository.ViewAllClimbingAttemptsByClimbId(climbId);
+            if (climbAttemptsList.IsNullOrEmpty())
+            {
+                return NotFound(new { Message = "No climb attempts logged or found so far." });
+            }
 
+            return Ok(climbAttemptsList);
+        }
 
     }
 }

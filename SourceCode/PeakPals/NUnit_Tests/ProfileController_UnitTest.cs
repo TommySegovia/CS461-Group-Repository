@@ -7,6 +7,8 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using PeakPals_Project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using PeakPals_Project.Areas.Identity.Data;
 
 namespace NUnit_Tests;
 
@@ -16,6 +18,7 @@ public class ProfileControllerTests
     private ILogger<ProfileController> _iLogger;
     private Mock<IClimberRepository> _climberRepositoryMock;
     private Mock<IClimberService> _climberServiceMock;
+    private Mock<UserManager<ApplicationUser>> _userManagerMock;
     private ProfileController _controller;
 
     [SetUp]
@@ -23,7 +26,7 @@ public class ProfileControllerTests
     {
         _climberRepositoryMock = new Mock<IClimberRepository>();
         _climberServiceMock = new Mock<IClimberService>();
-        _controller = new ProfileController(_iLogger, _climberRepositoryMock.Object, _climberServiceMock.Object);
+        _controller = new ProfileController(_iLogger, _climberRepositoryMock.Object, _climberServiceMock.Object, _userManagerMock.Object);
     }
 
 /*/////// Need to research testing with Identity first.
