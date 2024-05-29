@@ -24,8 +24,8 @@ namespace PeakPals_Project.DAL.Concrete
         {
             // Search all community messages that belong to a certain group by their id
             // and return them as a list.
-
-            var messages = _communityMessage.Where(c => c.CommunityGroupId == groupID).ToList();
+            // group by ascending order
+            var messages = _communityMessage.Where(c => c.CommunityGroupId == groupID).OrderByDescending(c => c.Id).ToList();
 
             return messages;
         }

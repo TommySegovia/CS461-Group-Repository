@@ -28,6 +28,42 @@
     
 }
 
+@media (max-width: 1380px) {
+    #dynamic-map
+    {
+        width: 500px !important;
+        height: 500px !important;
+    }
+    #map-title-hide
+    {
+        display: block;
+    }
+}
+@media (max-width: 1000px) {
+    #dynamic-map
+    {
+        width: 450px !important;
+        height: 400px !important;
+        margin-left: 0;
+        margin-right: 0;
+        
+    }
+    #map-title-hide
+    {
+        display: none;
+    }
+}
+
+@media (max-width: 500px) {
+    #dynamic-map
+    {
+        width: 340px !important;
+        height: 400px !important;
+    }
+}
+
+    
+
 
 .welcome-locations {
     /*font-style:oblique; */

@@ -2,9 +2,17 @@ html {
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 861px) {
   html {
     font-size: 16px;
+  }
+}
+
+@media (max-width: 425px) {
+  .nav-custom {
+      display: flex !important;
+      flex-direction: column !important;
+      font-size: 0.1em !important;
   }
 }
 
@@ -14,6 +22,12 @@ html {
 .form-control:focus,
 .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+#navbar-nav-options > #nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #qrCodeText{
@@ -198,7 +212,7 @@ body {
 
 
 #profile-text {
-  margin-top: 19%;
+
 }
 
 #community-input {
@@ -298,7 +312,7 @@ body {
   }
 
   #profile-text {
-    margin-top: 23%;
+   
   }
 
 }
@@ -306,9 +320,7 @@ body {
 @media (max-width: 1200px)
 /* This is for larger mobile sizes */
 {
-  #navbar-options {
-    height: 8em;
-  }
+
 
   #nav-item {
     font-size: small !important;
@@ -318,17 +330,14 @@ body {
     font-size: small !important;
   }
 
-  #profile-text {
-    margin-top: 22%;
-  }
-
 }
 
-@media (max-width: 454px)
+@media (max-width: 550px)
 /* This is for smalll mobile sizes */
 {
   #nav-item {
-    font-size: x-small !important;
+    font-size: xx-small !important;
+    
   }
 
   .nav-link-box-text {
