@@ -224,7 +224,14 @@ export async function displayClimbingLog(user) {
 
             // Rating
             const attemptRatingElement = clone.getElementById("climb-attempt-rating");
-            attemptRatingElement.textContent = log.rating;
+            const starRating = log.rating;
+            for (let i = 0; i < starRating; i++) {
+                let img = document.createElement('img');
+                img.src = "/images/star.svg";
+                img.width = 40;
+                img.height = 40;
+                attemptRatingElement.appendChild(img);
+            }
 
             // Link 4 Button
             const attemptLinkElement = clone.getElementById("climb-attempt-link-button");
@@ -368,7 +375,7 @@ export async function displayGroupClimbingLog(logs) {
     let currentPage = 1;
 
     function renderItems() {
-        if (logs.length === 0) {
+        if (logs.length === 0 || logs == null || logs.message == "No climb attempts logged or found so far.") {
             return;
         }
         climbLogDisplayArea.textContent = '';
@@ -403,7 +410,14 @@ export async function displayGroupClimbingLog(logs) {
 
             // Rating
             const attemptRatingElement = clone.getElementById("climb-attempt-rating");
-            attemptRatingElement.textContent = log.rating;
+            const starRating = log.rating;
+            for (let i = 0; i < starRating; i++) {
+                let img = document.createElement('img');
+                img.src = "/images/star.svg";
+                img.width = 40;
+                img.height = 40;
+                attemptRatingElement.appendChild(img);
+            }
 
             // Link 4 Button
             const attemptLinkElement = clone.getElementById("climb-attempt-link-button");
@@ -481,12 +495,12 @@ export async function displayGroupClimbingLog(logs) {
         paginationArea.appendChild(nextButton);
     }
 
-    if (logs) {
+    if (logs && logs.message != "No climb attempts logged or found so far.") {
         renderItems();
         renderPagination();
     }
     else {
-        /*
+        
         const emptyLogMessage = document.createElement('div');
         emptyLogMessage.style.width = '622px';
         emptyLogMessage.style.height = '600px';
@@ -499,9 +513,10 @@ export async function displayGroupClimbingLog(logs) {
         emptyLogMessage.style.textAlign = 'center';
         emptyLogMessage.style.fontSize = '22px';
         emptyLogMessage.style.fontWeight = 'bold';
-        emptyLogMessage.textContent = 'Attempt some climbs to see this fill up!';
+        emptyLogMessage.textContent = 'No climbs found!';
+        emptyLogMessage.style.overflowY = 'hidden';
         climbLogDisplayArea.append(emptyLogMessage);
-        */
+        
     }
 }
 
