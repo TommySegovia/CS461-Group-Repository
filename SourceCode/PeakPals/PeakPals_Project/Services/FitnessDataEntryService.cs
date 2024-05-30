@@ -177,7 +177,7 @@ public class FitnessDataEntryService : IFitnessDataEntryService
         }
 
         //generate a 5 point radar chart labeled with the stats above where the user's stats are compared to the average stats where the average stats are the 100% mark
-        var plt = new ScottPlot.Plot(500, 500);
+        var plt = new ScottPlot.Plot(700, 700);
         double[,] values = { { userFingerStrengthStat, userPullStrengthStat, userPowerStat, userEnduranceStat, userFlexibilityStat },
                      { 100, 100, 100, 100, 100 } };
         string[] labels = { "Finger Strength: " + Math.Round(userFingerStrengthStat, 2), "Pull Strength: " + Math.Round(userPullStrengthStat, 2), "Power: " + Math.Round(userPowerStat, 2), "Endurance: " + Math.Round(userEnduranceStat, 2), "Flexibility: " + Math.Round(userFlexibilityStat, 2) };
