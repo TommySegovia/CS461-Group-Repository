@@ -162,6 +162,43 @@ body {
 
 }
 
+#about-body {
+    background-image: url('../images/rockclimbing2.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #f0f0f0;
+}
+
+.about-description {
+  font-family: "Sriracha", cursive;
+  text-align: center;
+}
+
+.fancy {
+  font-family: Quando, serif;
+  text-align: center;
+}
+
+.about-us-box {
+  width: auto;
+  padding: 20px;
+  background-color: rgb(28, 28, 28);
+  text-align: center;
+  border-radius: 2px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 4px 4px 4px 4px black;
+
+}
+
+
 #record-body {
   background-image: url('../images/background_image_3.jpg');
   /* Replace with the path to your image */
@@ -231,6 +268,33 @@ body {
   color: white;
 }
 
+#about-us
+{
+  font-family: "Quando", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1em;
+  text-shadow: black 4px 4px 4px;
+  color: white;
+}
+
+#about-box
+{
+    width: auto;
+    padding: 20px;
+    background-color: rgb(28, 28, 28);
+    text-align: center;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 4px 4px 4px 4px black;
+
+}
 
 @media (min-width: 2100px)
 /* This is for resolutions for any devices above 1080p */

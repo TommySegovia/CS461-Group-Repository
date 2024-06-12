@@ -41,7 +41,9 @@ public class CommunityController : Controller
     [HttpGet("Community/Group/{groupID}")]
     public async Task<IActionResult> GetGroup(int groupID)
     {
-        // Fetch the group from the database
+        if (User.Identity.IsAuthenticated)
+        {
+            // Fetch the group from the database
         var group = await _communityGroupRepository.GetGroupById(groupID);
 
         if (group == null)
@@ -82,11 +84,24 @@ public class CommunityController : Controller
             // Return the regular view if the current user's climber ID is not the owner ID
             return View("CommunityGroup", group);
         }
+        }
+        else
+        {
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+        }
+        
     }
 
     [HttpPost("Community/Group/{groupID}")]
     public async Task<IActionResult> GetGroup(int groupID, string message)
     {
-        return View();
+        if (User.Identity.IsAuthenticated)
+        {
+            return View();
+        }
+        else
+        {
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+        }
     }
 }
