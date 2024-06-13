@@ -24,7 +24,7 @@ namespace PeakPals_Project.Controllers
     [ApiController]
     public class CommunityApiController : ControllerBase
     {
-        private readonly IFitnessDataEntryService _fitnessDataEntryService;
+        //private readonly IFitnessDataEntryService _fitnessDataEntryService;
         private readonly IClimberService _climberService;
         private readonly IClimberRepository _climberRepository;
         private readonly UserManager<ApplicationUser> _userManager;

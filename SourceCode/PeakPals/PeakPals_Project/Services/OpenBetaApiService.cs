@@ -59,7 +59,7 @@ public class OpenBetaApiService : IOpenBetaApiService
         return response.Data;      
     }
 
-    public async Task<OBArea> FindAreaById(string idQuery)
+    public async Task<OBArea?> FindAreaById(string idQuery)
     {
         if (string.IsNullOrEmpty(idQuery)) {
             return null;
@@ -131,7 +131,7 @@ public class OpenBetaApiService : IOpenBetaApiService
         return response.Data;
     }
 
-    public async Task<OBArea> FindAncestorNameByAreaId(string idQuery)
+    public async Task<OBArea?> FindAncestorNameByAreaId(string idQuery)
     {
         if (string.IsNullOrEmpty(idQuery)) {
             return null;
@@ -155,7 +155,7 @@ public class OpenBetaApiService : IOpenBetaApiService
         return response.Data;
     }
 
-    public async Task<OBClimb> FindClimbById(string idQuery)
+    public async Task<OBClimb?> FindClimbById(string idQuery)
     {
         if (string.IsNullOrEmpty(idQuery)) {
             return null;

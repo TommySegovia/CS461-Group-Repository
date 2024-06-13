@@ -5,8 +5,13 @@
 @model OBClimb;
 
 @{
-    // data
-    var jsonClimbAncestors = Json.Serialize(Model.Climb.Ancestors);
+    // Initialize jsonClimbAncestors as an empty string to ensure it has a value even if Model.Climb or Model.Climb.Ancestors is null
+    var jsonClimbAncestors = "";
+    if (Model.Climb != null && Model.Climb.Ancestors != null)
+    {
+        // Correctly serialize Model.Climb.Ancestors to a JSON string
+        jsonClimbAncestors = System.Text.Json.JsonSerializer.Serialize(Model.Climb.Ancestors).ToString();
+    }
     // user
     var user = await UserManager.GetUserAsync(User);
 }
@@ -66,7 +71,7 @@
             <div class="col col-9">
                 <h1 id="pages-title-name"><b>@Model.Climb.Name</b></h1>
             </div>
-            @if (user != null && SignInManager.IsSignedIn(User))
+            @if (User != null && user != null && SignInManager.IsSignedIn(User))
             {
                 <div class="col col-3 d-flex align-items-center">
                     <button class="btn btn-danger mr-0" id="log-attempt-button" data-bs-toggle="modal"
@@ -263,10 +268,16 @@
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @foreach (var image in Model.Climb.Media)
+                @if (Model.Climb.Media != null)
                 {
-                    <img data-src="@("https://media.openbeta.io" + image.MediaUrl)"
-                        style="height: 600px; width: 100%; object-fit: scale-down;" class="lazyload">
+                    foreach (var image in Model.Climb.Media)
+                    {
+                        if (image != null && !string.IsNullOrEmpty(image.MediaUrl))
+                        {
+                            <img data-src="@("https://media.openbeta.io" + image.MediaUrl)"
+                                style="height: 600px; width: 100%; object-fit: scale-down;" class="lazyload">
+                        }
+                    }
                 }
             </div>
         </div>
@@ -287,22 +298,25 @@
                     <div class="form-group row align-items-center mb-3">
                         <label for="attempts" class="col-sm-2 col-form-label">Attempts</label>
                         <div class="col-sm-10">
-                            <input type="number" required id="attempts" min="0" placeholder="1-100" max="100" class="form-control">
+                            <input type="number" required id="attempts" min="0" placeholder="1-100" max="100"
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-group row align-items-center mb-3">
                         <label for="rating" class="col-sm-2 col-form-label">Rating</label>
                         <div class="col-sm-10">
-                            <input type="number" placeholder="1-5 stars" required id="rating" min="1" max="5" class="form-control">
+                            <input type="number" placeholder="1-5 stars" required id="rating" min="1" max="5"
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-group row align-items-center mb-3">
                         <label for="suggested-grade" class="col-sm-2 col-form-label">Suggested Grade</label>
                         <div class="col-sm-10">
-                            <input type="text" id="suggested-grade" maxlength="8" placeholder="ex. V0 / 5.9" class="form-control">
+                            <input type="text" id="suggested-grade" maxlength="8" placeholder="ex. V0 / 5.9"
+                                class="form-control">
                         </div>
                     </div>
-                    
+
                     <div id="climb-tag-div"></div>
                     <button type="button" id="addTagButton" class="btn btn-primary">
                         Add Tags
