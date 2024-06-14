@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using ScottPlot.Renderable;
+#nullable enable
 
 namespace PeakPals_Project.Areas.Identity.Data
 {

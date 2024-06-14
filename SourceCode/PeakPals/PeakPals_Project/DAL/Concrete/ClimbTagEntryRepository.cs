@@ -20,7 +20,7 @@ namespace PeakPals_Project.DAL.Concrete
             _context = context;
         }
 
-        public List<ClimbTagEntryDTO> GetAll()
+        public new List<ClimbTagEntryDTO> GetAll()
         {
             return _climbTagEntry
                 .Select(f => f.ToDTO())

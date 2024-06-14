@@ -26,6 +26,14 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        // builder.Host.ConfigureLogging(logging =>
+        // {
+        //     logging.ClearProviders();
+        //     logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
+        //     logging.AddConsole();
+        //     logging.AddDebug();
+        // });
+
         // string keyVaultName = Environment.GetEnvironmentVariable("KEY_VAULT_NAME");
         // var kvUri = "https://" + "peakpalsvaults" + ".vault.azure.net";
         // var secretClient = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
@@ -39,6 +47,13 @@ public class Program
         // var connectionStringAuth = connectionAuthSecret.Value.Value;
         // var connectionStringApp = connectionAppSecret.Value.Value;
         // var SendGridKey = sendGridApiKeySecret.Value.Value;
+
+        builder.Services.AddLogging(config =>
+        {
+            config.AddDebug();
+            config.AddConsole();
+            // You can add other built-in providers here
+        });
 
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
                                     .UseSqlServer(connectionStringAuth)

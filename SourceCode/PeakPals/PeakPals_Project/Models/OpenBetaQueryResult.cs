@@ -1,3 +1,4 @@
+#nullable enable
 
 using Microsoft.CodeAnalysis;
 

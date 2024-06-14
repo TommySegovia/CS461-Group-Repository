@@ -52,24 +52,36 @@
             </div>
         </div>
         <div class="row">
+            @{
+                var createdAt = "N/A";
+                if (Model?.Area?.AuthorMetadata?.CreatedAt.HasValue == true)
+                {
+                    createdAt = DateTimeOffset.FromUnixTimeMilliseconds(Model.Area.AuthorMetadata.CreatedAt.Value).DateTime.ToString("MMMM dd, yyyy");
+                }
+            }
+
             <div class="col col-5">
-                <p class="small">Listing Created on:  <span style="color:orange;" id="createdOn">@((Model.Area.AuthorMetadata.CreatedAt.HasValue) ? DateTimeOffset.FromUnixTimeMilliseconds(Model.Area.AuthorMetadata.CreatedAt.Value).DateTime.ToString("MMMM dd, yyyy") : "N/A")</span> </p>
+                <p class="small">Listing Created on:  <span style="color:orange;" id="createdOn">@createdAt</span> </p>
                 <hr>
-                <p style="text-decoration: underline; font-weight: bold">Number of Climbs: <span id="pages-total-climbs">@Model.Area.TotalClimbs</span></p>
+                <p style="text-decoration: underline; font-weight: bold">Number of Climbs: <span id="pages-total-climbs">@Model.Area?.TotalClimbs</span></p>
                 <p class="my-0 small">Latitude and Longitude:
-                    <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng" id="pages-coordinates">@Model.Area.Metadata.Lat,
-                    @Model.Area.Metadata.Lng</a>
+                    @if (Model?.Area?.Metadata != null)
+                    {
+                        <a href="https://www.google.com/maps/place/@Model.Area.Metadata.Lat,@Model.Area.Metadata.Lng" id="pages-coordinates">@Model.Area.Metadata.Lat,
+                        @Model.Area.Metadata.Lng</a>
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
                 </p>
                 <!-- Map -->
                 <div id="static-map" class="my-4"></div>
                 <!---->
-                <div>
-                    <a href="#dynamic-map" class="btn btn-primary my-0">See Detailed Map</a>
-                </div>
             </div>
             <div class="col col-7"  id="pages-description">
                 <h5 class="pages-category text-warning">Description:</h5>
-                @if (@Model.Area.Content == null || string.IsNullOrWhiteSpace(@Model.Area.Content.Description))
+                @if (@Model?.Area?.Content == null || string.IsNullOrWhiteSpace(@Model.Area.Content.Description))
                 {
                     <h4 class="my-5">No information available.</h4>
                 }

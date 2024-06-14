@@ -6,7 +6,7 @@ namespace PeakPals_Project.DAL.Abstract
 {
     public interface ICommunityMessageRepository : IRepository<CommunityMessage>
     {
-        List<CommunityMessage> GetMessagesById(int groupId);
+        Task<List<CommunityMessage>> GetMessagesById(int groupId);
         Task CreateMessage(int ClimberId, int CommunityGroupId, string DisplayName, string Message);
 
     }

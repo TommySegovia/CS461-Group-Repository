@@ -1,14 +1,15 @@
 using System.ComponentModel.DataAnnotations;
+#nullable enable
 
 namespace PeakPals_Project.Models.DTO
 {
     public class ClimberDTO
     {
         public int Id { get; set; }
-        public string AspnetIdentityId { get; set; }
+        public string AspnetIdentityId { get; set; } = null!;
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string UserName { get; set; }
+        public string UserName { get; set; } = null!;
         public string? DisplayName { get; set; }
         public string? Bio { get; set; }
         public string? ImageLink { get; set; }

@@ -10,6 +10,7 @@ using Humanizer;
 using ScottPlot.Styles;
 using System.Drawing;
 using System.Reflection.Emit;
+#nullable enable
 
 public class FitnessDataEntryService : IFitnessDataEntryService
 {
@@ -69,10 +70,16 @@ public class FitnessDataEntryService : IFitnessDataEntryService
         var plt = new ScottPlot.Plot(300, 250);
 
         // convert DateTime to Double for ScottPlot before plotting
-        double[] xs = fitnessDataEntryListDTO.Where(x => x.EntryDate.HasValue && x.TestId == testId).Select(x => x.EntryDate.Value.ToOADate()).ToArray();
+        double[] xs = fitnessDataEntryListDTO
+            .Where(x => x.EntryDate.HasValue && x.TestId == testId)
+            .Select(x => x.EntryDate?.ToOADate() ?? 0) // Use null-conditional operator with a fallback value.
+            .ToArray();
         if (xs.Length < 2)
         { return; }
-        double[] results = fitnessDataEntryListDTO.Where(x => x.Result.HasValue && x.TestId == testId).Select(x => (double)x.Result.Value).ToArray();
+        double[] results = fitnessDataEntryListDTO
+            .Where(x => x.Result.HasValue && x.TestId == testId)
+            .Select(x => (double)(x.Result ?? 0)) // Use null-coalescing operator directly.
+            .ToArray();
         double[] ys = new double[xs.Length];
 
         // add points to graph
@@ -115,9 +122,9 @@ public class FitnessDataEntryService : IFitnessDataEntryService
     public void GenerateRadarChart(List<FitnessDataEntryDTO> userTests, List<double> averageTests, int userId)
     {
         //possilby include a scale factor for each test
-        double userHangTestResults = (double)userTests[0].Result / userTests[0].BodyWeight ?? 0;
-        double userPullTestResults = (double)userTests[1].Result / userTests[1].BodyWeight ?? 0;
-        double userHammerCurlTestResults = (double)userTests[2].Result / userTests[2].BodyWeight ?? 0;
+        double userHangTestResults = (double)(userTests[0].Result ?? 0) / (userTests[0].BodyWeight ?? 1);
+        double userPullTestResults = (double)(userTests[1].Result ?? 0) / (userTests[1].BodyWeight ?? 1);
+        double userHammerCurlTestResults = (double)(userTests[2].Result ?? 0) / (userTests[2].BodyWeight ?? 1);
         double HipFlexorTestResults = (double)(userTests[3].Result ?? 0);
         double userHamstringFlexibilityTestResults = (double)(userTests[4].Result ?? 0);
         double userRepeatersTestResults = (double)(userTests[5].Result ?? 0);
@@ -177,23 +184,29 @@ public class FitnessDataEntryService : IFitnessDataEntryService
         }
 
         //generate a 5 point radar chart labeled with the stats above where the user's stats are compared to the average stats where the average stats are the 100% mark
+        // Initialize the plot
         var plt = new ScottPlot.Plot(700, 700);
+
+        // Define the values and labels
         double[,] values = { { userFingerStrengthStat, userPullStrengthStat, userPowerStat, userEnduranceStat, userFlexibilityStat },
-                     { 100, 100, 100, 100, 100 } };
+                            { 100, 100, 100, 100, 100 } };
         string[] labels = { "Finger Strength: " + Math.Round(userFingerStrengthStat, 2), "Pull Strength: " + Math.Round(userPullStrengthStat, 2), "Power: " + Math.Round(userPowerStat, 2), "Endurance: " + Math.Round(userEnduranceStat, 2), "Flexibility: " + Math.Round(userFlexibilityStat, 2) };
         string[] groupLabels = { "User", "Average" };
 
-        var radarPlot = plt.PlotRadar(values, independentAxes: true);
+        // Add a radar plot to the plt object
+        var radarPlot = plt.AddRadar(values);
         radarPlot.GroupLabels = groupLabels;
         radarPlot.CategoryLabels = labels;
         radarPlot.ShowAxisValues = false;
 
+        // Customize the plot appearance
         plt.Legend(location: ScottPlot.Alignment.UpperRight);
-
-        plt.XAxis.LabelStyle(color: Color.White);
-        plt.YAxis.LabelStyle(color: Color.White);
-        plt.Style(figureBackground: Color.Black, tick: Color.White);
+        plt.XAxis.LabelStyle(color: System.Drawing.Color.White);
+        plt.YAxis.LabelStyle(color: System.Drawing.Color.White);
+        plt.Style(figureBackground: System.Drawing.Color.Black, tick: System.Drawing.Color.White);
         plt.Margins(x: .10, y: .20);
+
+        // Save the figure
         plt.SaveFig($"wwwroot/Images/User_{userId}_RadarChart.png");
 
         return;
@@ -202,9 +215,9 @@ public class FitnessDataEntryService : IFitnessDataEntryService
     public List<string> GetUsersStrongestStats(List<FitnessDataEntryDTO> userTests, List<double> averageTests, int userId)
     {
         //possilby include a scale factor for each test
-        double userHangTestResults = (double)userTests[0].Result / userTests[0].BodyWeight ?? 0;
-        double userPullTestResults = (double)userTests[1].Result / userTests[1].BodyWeight ?? 0;
-        double userHammerCurlTestResults = (double)userTests[2].Result / userTests[2].BodyWeight ?? 0;
+        double userHangTestResults = (userTests[0].Result.GetValueOrDefault() / userTests[0].BodyWeight.GetValueOrDefault(1));
+        double userPullTestResults = (userTests[1].Result.GetValueOrDefault() / userTests[1].BodyWeight.GetValueOrDefault(1));
+        double userHammerCurlTestResults = (userTests[2].Result.GetValueOrDefault() / userTests[2].BodyWeight.GetValueOrDefault(1));
         double HipFlexorTestResults = (double)(userTests[3].Result ?? 0);
         double userHamstringFlexibilityTestResults = (double)(userTests[4].Result ?? 0);
         double userRepeatersTestResults = (double)(userTests[5].Result ?? 0);
