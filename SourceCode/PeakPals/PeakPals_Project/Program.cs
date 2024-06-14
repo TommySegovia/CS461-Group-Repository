@@ -26,19 +26,34 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        string keyVaultName = Environment.GetEnvironmentVariable("KEY_VAULT_NAME");
-        var kvUri = "https://" + "peakpalsvaults" + ".vault.azure.net";
-        var secretClient = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
-        var connectionAppSecret = secretClient.GetSecret("AppConnectString");
-        var connectionAuthSecret = secretClient.GetSecret("AuthConnectString");
-        var sendGridApiKeySecret = secretClient.GetSecret("SendGridApiKey");
+        // builder.Host.ConfigureLogging(logging =>
+        // {
+        //     logging.ClearProviders();
+        //     logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
+        //     logging.AddConsole();
+        //     logging.AddDebug();
+        // });
+
+        // string keyVaultName = Environment.GetEnvironmentVariable("KEY_VAULT_NAME");
+        // var kvUri = "https://" + "peakpalsvaults" + ".vault.azure.net";
+        // var secretClient = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+        // var connectionAppSecret = secretClient.GetSecret("AppConnectString");
+        // var connectionAuthSecret = secretClient.GetSecret("AuthConnectString");
+        // var sendGridApiKeySecret = secretClient.GetSecret("SendGridApiKey");
 
         // Add services to the container.
-        // var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
-        // var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
-        var connectionStringAuth = connectionAuthSecret.Value.Value;
-        var connectionStringApp = connectionAppSecret.Value.Value;
-        var SendGridKey = sendGridApiKeySecret.Value.Value;
+        var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
+        var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
+        // var connectionStringAuth = connectionAuthSecret.Value.Value;
+        // var connectionStringApp = connectionAppSecret.Value.Value;
+        // var SendGridKey = sendGridApiKeySecret.Value.Value;
+
+        builder.Services.AddLogging(config =>
+        {
+            config.AddDebug();
+            config.AddConsole();
+            // You can add other built-in providers here
+        });
 
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
                                     .UseSqlServer(connectionStringAuth)
@@ -76,8 +91,8 @@ public class Program
         builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
         builder.Services.AddTransient<IEmailSender, EmailSender>();
-        builder.Services.Configure<AuthMessageSenderOptions>(options => { options.SendGridKey = SendGridKey; });
-        // builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+        // builder.Services.Configure<AuthMessageSenderOptions>(options => { options.SendGridKey = SendGridKey; });
+        builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
         builder.Services.AddScoped(sp => new GraphQLHttpClient("https://api.openbeta.io", new NewtonsoftJsonSerializer()));
 

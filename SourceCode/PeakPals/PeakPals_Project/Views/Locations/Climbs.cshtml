@@ -5,8 +5,13 @@
 @model OBClimb;
 
 @{
-    // data
-    var jsonClimbAncestors = Json.Serialize(Model.Climb.Ancestors);
+    // Initialize jsonClimbAncestors as an empty string to ensure it has a value even if Model.Climb or Model.Climb.Ancestors is null
+    var jsonClimbAncestors = "";
+    if (Model.Climb != null && Model.Climb.Ancestors != null)
+    {
+        // Correctly serialize Model.Climb.Ancestors to a JSON string
+        jsonClimbAncestors = System.Text.Json.JsonSerializer.Serialize(Model.Climb.Ancestors).ToString();
+    }
     // user
     var user = await UserManager.GetUserAsync(User);
 }
@@ -64,9 +69,9 @@
         <hr>
         <div class="row my-2 p-2">
             <div class="col col-9">
-                <h1 id="pages-title-name"><b>@Model.Climb.Name</b></h1>
+                <h1 id="pages-title-name"><b>@Model?.Climb?.Name</b></h1>
             </div>
-            @if (user != null && SignInManager.IsSignedIn(User))
+            @if (User != null && user != null && SignInManager.IsSignedIn(User))
             {
                 <div class="col col-3 d-flex align-items-center">
                     <button class="btn btn-danger mr-0" id="log-attempt-button" data-bs-toggle="modal"
@@ -76,32 +81,29 @@
         </div>
         <div class="row">
             <div class="col col-5">
-                @if (@Model.Climb.Fa != null && string.IsNullOrWhiteSpace(@Model.Climb.Fa) == false)
-                {
-                    <p style="font-weight: bold;" id="first-ascent">First Ascent: <span
-                            style="color:orange;">@Model.Climb.Fa</span> </p>
-                }
+                @if (Model?.Climb != null)
+                    {
+                        if (!string.IsNullOrWhiteSpace(Model.Climb.Fa))
+                        {
+                            <p style="font-weight: bold;" id="first-ascent">First Ascent: <span style="color:orange;">@Model.Climb.Fa</span></p>
+                        }
+                    }
                 <div class="row my-2">
                     <div class="col col-2">
-                        @if (Model.Climb.Grades.Yds != null && string.IsNullOrWhiteSpace(Model.Climb.Grades.Yds) ==
-                        false)
+                        @if (Model?.Climb?.Grades?.Yds != null && string.IsNullOrWhiteSpace(Model.Climb.Grades.Yds) == false && !Model.Climb.Grades.Yds.Contains("V"))
+                            {
+                                <a href="https://www.sportrock.com/post/understanding-climbing-grades" target="_blank" id="grade-button">
+                                    <button class="text-white" id="noHoverButton" title="Climbing Grade in Yds Scale -- Click to find out more!">@Model.Climb.Grades.Yds</button>
+                                </a>
+                            }
+                        @if (Model?.Climb?.Grades?.Vscale != null && !string.IsNullOrWhiteSpace(Model.Climb.Grades.Vscale))
                         {
-                            <a href="https://www.sportrock.com/post/understanding-climbing-grades" target="_blank"
-                                id="grade-button">
-                                <button class="text-white" id="noHoverButton"
-                                    title="Climbing Grade in Yds Scale -- Click to find out more!">@Model.Climb.Grades.Yds</button>
-                            </a>
-                        }
-                        @if (Model.Climb.Grades.Vscale != null && string.IsNullOrWhiteSpace(Model.Climb.Grades.Vscale))
-                        {
-                            <a href="https://www.sportrock.com/post/understanding-climbing-grades" target="_blank"
-                                id="grade-button">
-                                <button class="text-white" id="noHoverButton"
-                                    title="Climbing Grade in Yds Scale -- Click to find out more!">@Model.Climb.Grades.Vscale</button>
+                            <a href="https://www.sportrock.com/post/understanding-climbing-grades" target="_blank" id="grade-button">
+                                <button class="text-white" id="noHoverButton" title="Climbing Grade in V Scale -- Click to find out more!">@Model.Climb.Grades.Vscale</button>
                             </a>
                         }
                     </div>
-                    @if (Model.Climb.Type.Trad != null && Model.Climb.Type.Trad == true)
+                    @if (Model?.Climb?.Type?.Trad == true)
                     {
                         <div class="col col-2">
                             <a href="https://www.nicas.co.uk/types-of-climbing/" target="_blank" id="type-button">
@@ -110,7 +112,7 @@
                             </a>
                         </div>
                     }
-                    @if (Model.Climb.Type.Sport != null && Model.Climb.Type.Sport == true)
+                    @if (Model?.Climb?.Type?.Sport == true)
                     {
                         <div class="col col-2">
                             <a href="https://www.nicas.co.uk/types-of-climbing/" target="_blank" id="type-button">
@@ -119,7 +121,7 @@
                             </a>
                         </div>
                     }
-                    @if (Model.Climb.Type.Bouldering != null && Model.Climb.Type.Bouldering == true)
+                    @if (Model?.Climb?.Type?.Bouldering == true)
                     {
                         <div class="col col-2">
                             <a href="https://www.nicas.co.uk/types-of-climbing/" target="_blank" id="type-button">
@@ -128,7 +130,7 @@
                             </a>
                         </div>
                     }
-                    @if (Model.Climb.Type.Deepwatersolo != null && Model.Climb.Type.Deepwatersolo == true)
+                    @if (Model?.Climb?.Type?.Deepwatersolo == true)
                     {
                         <div class="col col-2">
                             <a href="https://www.nicas.co.uk/types-of-climbing/" target="_blank" id="type-button">
@@ -137,7 +139,7 @@
                             </a>
                         </div>
                     }
-                    @if (Model.Climb.Type.Alpine != null && Model.Climb.Type.Alpine == true)
+                    @if (Model?.Climb?.Type?.Alpine == true)
                     {
                         <div class="col col-2">
                             <a href="https://www.nicas.co.uk/types-of-climbing/" target="_blank" id="type-button">
@@ -146,7 +148,7 @@
                             </a>
                         </div>
                     }
-                    @if (Model.Climb.Type.Snow != null && Model.Climb.Type.Snow == true)
+                    @if (Model?.Climb?.Type?.Snow == true)
                     {
                         <div class="col col-2">
                             <a href="https://www.nicas.co.uk/types-of-climbing/" target="_blank" id="type-button">
@@ -155,7 +157,7 @@
                             </a>
                         </div>
                     }
-                    @if (Model.Climb.Type.Ice != null && Model.Climb.Type.Ice == true)
+                    @if (Model?.Climb?.Type?.Ice == true)
                     {
                         <div class="col col-2">
                             <a href="https://www.nicas.co.uk/types-of-climbing/" target="_blank" id="type-button">
@@ -164,7 +166,7 @@
                             </a>
                         </div>
                     }
-                    @if (Model.Climb.Type.Mixed != null && Model.Climb.Type.Mixed == true)
+                    @if (Model?.Climb?.Type?.Mixed == true)
                     {
                         <div class="col col-2">
                             <a href="https://www.nicas.co.uk/types-of-climbing/" target="_blank" id="type-button">
@@ -173,7 +175,7 @@
                             </a>
                         </div>
                     }
-                    @if (Model.Climb.Type.Aid != null && Model.Climb.Type.Aid == true)
+                    @if (Model?.Climb?.Type?.Aid == true)
                     {
                         <div class="col col-2">
                             <a href="https://www.nicas.co.uk/types-of-climbing/" target="_blank" id="type-button">
@@ -182,7 +184,7 @@
                             </a>
                         </div>
                     }
-                    @if (Model.Climb.Type.Tr != null && Model.Climb.Type.Tr == true)
+                    @if (Model?.Climb?.Type?.Tr == true)
                     {
                         <div class="col col-2">
                             <a href="https://www.nicas.co.uk/types-of-climbing/" target="_blank" id="type-button">
@@ -195,10 +197,17 @@
                 </div>
 
 
-                <p class="my-0 small">Latitude and Longitude:
-                    <a href="https://www.google.com/maps/place/@Model.Climb.Metadata.Lat,@Model.Climb.Metadata.Lng">@Model.Climb.Metadata.Lat,
-                        @Model.Climb.Metadata.Lng</a>
-                </p>
+                @if (Model?.Climb?.Metadata?.Lat != null && Model?.Climb?.Metadata?.Lng != null)
+                {
+                    <p class="my-0 small">Latitude and Longitude:
+                        <a href="https://www.google.com/maps/place/@Model.Climb.Metadata.Lat,@Model.Climb.Metadata.Lng">@Model.Climb.Metadata.Lat,
+                            @Model.Climb.Metadata.Lng</a>
+                    </p>
+                }
+                else
+                {
+                    <p class="my-0 small">Latitude and Longitude: Not available</p>
+                }
                 <!-- Map -->
                 <div id="static-map" class="my-4"></div>
                 <!---->
@@ -208,9 +217,9 @@
             </div>
             <div class="col col-7" id="pages-description">
                 <h5 style="font-weight: bold;" class="pages-category text-warning">Description:</h5>
-                @if (@Model.Climb.Content != null)
+                @if (@Model?.Climb?.Content != null)
                 {
-                    @if (string.IsNullOrWhiteSpace(@Model.Climb.Content.Description))
+                    if (string.IsNullOrWhiteSpace(@Model.Climb.Content.Description))
                     {
                         <h4 class="my-4">No information available.</h4>
                     }
@@ -218,13 +227,19 @@
                     {
                         <h4 class="my-4 pages-description-text" id="climb-description">@Model.Climb.Content.Description</h4>
                     }
-                    @if (@Model.Climb.Content.Location == null) { }
+                    if (@Model.Climb.Content.Location == null)
+                    {
+                        // You might want to add some placeholder or message here if necessary
+                    }
                     else
                     {
                         <h5 style="font-weight: bold;" class="pages-category text-warning">Location:</h5>
                         <h4 class="my-4 pages-description-text" id="climb-location">@Model.Climb.Content.Location</h4>
                     }
-                    @if (string.IsNullOrWhiteSpace(@Model.Climb.Content.Protection)) { }
+                    if (string.IsNullOrWhiteSpace(@Model.Climb.Content.Protection))
+                    {
+                        // You might want to add some placeholder or message here if necessary
+                    }
                     else
                     {
                         <h5 style="font-weight: bold;" class="pages-category text-warning">Protection:</h5>
@@ -240,15 +255,21 @@
 
     <!-- Give dynamic data from Model to map js, but also give it the direct parent of this climb. -->
     <div id="dynamic-map-box" class="my-3">
+    @if (Model?.Climb != null && Model.Climb.Ancestors?.Count > 0 && Model.Climb.Metadata != null)
+    {
         <div id="dynamic-map-climb" class="dynamic-map-class"
-            data-ancestors="@Model.Climb.Ancestors[@Model.Climb.Ancestors.Count - 1]"
-            data-latitude="@Model.Climb.Metadata.Lat" data-longitude="@Model.Climb.Metadata.Lng"
+            data-ancestors="@Model.Climb.Ancestors[Model.Climb.Ancestors.Count - 1]"
+            data-latitude="@Model.Climb.Metadata?.Lat" data-longitude="@Model.Climb.Metadata?.Lng"
             data-name="@Model.Climb.Name" data-id="@Model.Climb.Uuid" data-mode="2d">
-            <button class="btn btn-primary my-1" id="dimension-button" style="position: absolute; z-index: 1;">2D/3D
-                Toggle</button>
+            <button class="btn btn-primary my-1" id="dimension-button" style="position: absolute; z-index: 1;">2D/3D Toggle</button>
         </div>
-        <p style="text-align: center; color: red;"> Climb Locations are not Approximate</p>
-    </div>
+    }
+    else
+    {
+        <p>Map information is not available.</p>
+    }
+    <p style="text-align: center; color: red;">Climb Locations are not Approximate</p>
+</div>
 
 
 </body>
@@ -258,15 +279,25 @@
         <div class="modal-content">
             <div class="modal-header-pages sticky-top d-flex align-items-center">
                 <h4 class="text-white text-center flex-grow-1 m-0 align-middle" style="font-weight: bold;">
-                    @Model.Climb.Name's Images</h4>
+                    @(Model?.Climb?.Name ?? "Unknown")'s Images</h4>
                 <button type="button" class="btn-close btn-close-white ms-auto align-middle" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @foreach (var image in Model.Climb.Media)
+                @if (Model?.Climb?.Media != null)
                 {
-                    <img data-src="@("https://media.openbeta.io" + image.MediaUrl)"
-                        style="height: 600px; width: 100%; object-fit: scale-down;" class="lazyload">
+                    foreach (var image in Model.Climb.Media)
+                    {
+                        if (image != null && !string.IsNullOrEmpty(image.MediaUrl))
+                        {
+                            <img data-src="@("https://media.openbeta.io" + image.MediaUrl)"
+                                style="height: 600px; width: 100%; object-fit: scale-down;" class="lazyload">
+                        }
+                    }
+                }
+                else
+                {
+                    <p>No images available.</p>
                 }
             </div>
         </div>
@@ -287,27 +318,30 @@
                     <div class="form-group row align-items-center mb-3">
                         <label for="attempts" class="col-sm-2 col-form-label">Attempts</label>
                         <div class="col-sm-10">
-                            <input type="number" required id="attempts" min="0" placeholder="1-100" max="100" class="form-control">
+                            <input type="number" required id="attempts" min="0" placeholder="1-100" max="100"
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-group row align-items-center mb-3">
                         <label for="rating" class="col-sm-2 col-form-label">Rating</label>
                         <div class="col-sm-10">
-                            <input type="number" placeholder="1-5 stars" required id="rating" min="1" max="5" class="form-control">
+                            <input type="number" placeholder="1-5 stars" required id="rating" min="1" max="5"
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-group row align-items-center mb-3">
                         <label for="suggested-grade" class="col-sm-2 col-form-label">Suggested Grade</label>
                         <div class="col-sm-10">
-                            <input type="text" id="suggested-grade" maxlength="8" placeholder="ex. V0 / 5.9" class="form-control">
+                            <input type="text" id="suggested-grade" maxlength="8" placeholder="ex. V0 / 5.9"
+                                class="form-control">
                         </div>
                     </div>
-                    
+
                     <div id="climb-tag-div"></div>
                     <button type="button" id="addTagButton" class="btn btn-primary">
                         Add Tags
                     </button>
-                    <div id="climb-id" data-id="@Model.Climb.Uuid" data-name="@Model.Climb.Name"></div>
+                    <div id="climb-id" data-id="@(Model?.Climb?.Uuid ?? "default-uuid")" data-name="@(Model?.Climb?.Name ?? "Unknown Climb")"></div>
                     <div class="d-flex justify-content-center">
                         <button class="btn btn-primary" type="submit" id="submit-button" data-bs-dismiss="modal"
                             data-bs-toggle="#climbAttemptModal">Record Log</button>
@@ -327,6 +361,8 @@
 @section Scripts
 {
     <script type="module" src="~/js/site.js"></script>
+    @if (Model?.Climb?.Metadata != null)
+    {
     <script>
         // static map //
         const staticMap = new maplibregl.Map({
@@ -340,9 +376,8 @@
         const staticMapMarker = new maplibregl.Marker()
             .setLngLat([@Model.Climb.Metadata.Lng, @Model.Climb.Metadata.Lat])
             .addTo(staticMap);
-
-        //////////////
     </script>
+    }
     <script>
         window.onload = function () {
             // Check if the formSubmitted flag is set in localStorage

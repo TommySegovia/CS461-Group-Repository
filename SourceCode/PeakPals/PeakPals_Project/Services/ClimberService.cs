@@ -6,6 +6,7 @@ using PeakPals_Project.Services;
 using System;
 using PeakPals_Project.Data;
 using PeakPals_Project.ExtensionMethods;
+#nullable enable
 
 namespace PeakPals_Project.Services
 {
@@ -27,8 +28,8 @@ namespace PeakPals_Project.Services
                 Climber climber = new Climber
                 {
                     Id = 0,
-                    AspnetIdentityId = aspNetIdentityId,
-                    UserName = userName
+                    AspnetIdentityId = aspNetIdentityId ?? "",
+                    UserName = userName ?? "",
                 };
                 _climberRepository.AddOrUpdate(climber);
                 _context.SaveChanges();

@@ -4,7 +4,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    string? aspnetId = Model.AspnetIdentityId;
+    string aspnetId = Model.AspnetIdentityId ?? "";
     var user = await UserManager.FindByIdAsync(aspnetId);
     // Ensure that the user is not null before accessing properties
 }

@@ -1,4 +1,5 @@
 
+#nullable enable
 
 namespace PeakPals_Project.Models;
 
@@ -11,12 +12,12 @@ public class OBClimb
         public string? Uuid { get; set; }
         public string? Name { get; set; }
         public string? Fa { get; set; }
-        public List<string> Ancestors { get; set; }
-        public List<string> PathTokens { get; set; }
-        public Metadata Metadata { get; set; }
-        public Content Content { get; set; } 
-        public Grades Grades { get; set; }
-        public Type Type { get; set; }
+        public List<string> Ancestors { get; set; } = new List<string>();
+        public List<string> PathTokens { get; set; } = new List<string>();
+        public Metadata Metadata { get; set; } = new Metadata();
+        public Content Content { get; set; }  = new Content();
+        public Grades Grades { get; set; } = new Grades();
+        public Type Type { get; set; } = new Type();
         public List<Media>? Media { get; set; }
     }
 

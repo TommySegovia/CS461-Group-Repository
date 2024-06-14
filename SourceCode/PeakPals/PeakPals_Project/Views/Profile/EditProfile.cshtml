@@ -3,9 +3,10 @@
 @inject UserManager<ApplicationUser> UserManager
 @model Climber
 
+
 @{
-    string? email = User.Identity.Name;
-    string? username = email?.Split('@')[0];
+    string email = User.Identity?.Name ?? null;
+    string username = email != null ? email.Split('@')[0] : null;
 }
 
 <body id="profile-body">

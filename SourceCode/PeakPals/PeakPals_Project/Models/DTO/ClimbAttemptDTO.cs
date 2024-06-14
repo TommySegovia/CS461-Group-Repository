@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using PeakPals_Project.Models;
-
+#nullable enable
 namespace PeakPals_Project.Models.DTO
 {
     public class ClimbAttemptDTO
     {
         public int Id { get; set; }
         public int ClimberId { get; set;}
-        public string ClimberName { get; set; }
-        public string ClimbId { get; set; }
+        public string? ClimberName { get; set; }
+        public string ClimbId { get; set; } = null!;
         public string? ClimbName { get; set; }
         public string? SuggestedGrade { get; set; }
         public DateTime EntryDate { get; set; }
@@ -29,7 +29,7 @@ namespace PeakPals_Project.ExtensionMethods
                 Id = climbAttempt.Id,
                 ClimberId = climbAttempt.ClimberId,
                 ClimberName = climbAttempt.ClimberName,
-                ClimbId = climbAttempt.ClimbId,
+                ClimbId = climbAttempt.ClimbId ?? "",
                 ClimbName = climbAttempt.ClimbName,
                 SuggestedGrade = climbAttempt.SuggestedGrade,
                 EntryDate = climbAttempt.EntryDate,
@@ -45,10 +45,10 @@ namespace PeakPals_Project.ExtensionMethods
             {
                 Id = climbAttemptDTO.Id,
                 ClimberId = climbAttemptDTO.ClimberId,
-                ClimberName = climbAttemptDTO.ClimberName,
+                ClimberName = climbAttemptDTO.ClimberName ?? "",
                 ClimbId = climbAttemptDTO.ClimbId,
-                ClimbName = climbAttemptDTO.ClimbName,
-                SuggestedGrade = climbAttemptDTO.SuggestedGrade,
+                ClimbName = climbAttemptDTO.ClimbName ?? "",
+                SuggestedGrade = climbAttemptDTO.SuggestedGrade ?? "",
                 EntryDate = climbAttemptDTO.EntryDate,
                 Attempts = climbAttemptDTO.Attempts,
                 Rating = climbAttemptDTO.Rating

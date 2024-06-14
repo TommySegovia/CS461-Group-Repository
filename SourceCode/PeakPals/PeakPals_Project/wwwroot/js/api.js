@@ -157,6 +157,7 @@ export async function fetchClimbDataById(id)
 // climb attempts functionality
 export async function postClimbAttempt(climbId, climbName, suggestedGrade, attempts, rating) 
 {
+    console.log("api.js postClimbAttempt");
     var url = '/api/climb/log/record';
     var data = {
         "id": 0,
@@ -167,25 +168,41 @@ export async function postClimbAttempt(climbId, climbName, suggestedGrade, attem
         "rating": parseInt(rating),
         "entryDate": new Date().toISOString()
       };
-    var response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'accept': '*/*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
-    if (response.ok) {
-        const responseData = await response.json();
-        console.log("api.js response:" + responseData.id);
-        if (responseData.id) {
-            SubmitTags(responseData.id);
-        } else {
-            console.error('Climb attempt has not been submitted yet');
+    
+    console.log(data);
+        try {
+            var response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                  'accept': '*/*',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+              });
+      
+          console.log("Request sent with data:", data); // Log data before sending
+      
+          if (response.ok) {
+            const responseData = await response.json();
+            console.log("api.js response:", responseData.id);
+            if (responseData.id) {
+              SubmitTags(responseData.id);
+            } else {
+              console.error('Climb attempt has not been submitted yet');
+            }
+          } else {
+            console.error('Failed to post climb attempt', response);
+            // Try to extract more details from the response if possible
+            try {
+              const errorData = await response.json();
+              console.error('Server error details:', errorData);
+            } catch (error) {
+              console.error('Could not parse server error response');
+            }
+          }
+        } catch (error) {
+          console.error('Error during fetch:', error);
         }
-    } else {
-        console.error('Failed to post climb attempt', response);
-    }
 }
 export async function getClimbAttempts()
 {

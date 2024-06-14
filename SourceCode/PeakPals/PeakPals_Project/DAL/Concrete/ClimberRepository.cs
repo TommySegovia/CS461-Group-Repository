@@ -51,15 +51,7 @@ namespace PeakPals_Project.DAL.Concrete
         public Climber GetClimberByUsername(string username)
         {
             var climber = _climber.FirstOrDefault(c => c.UserName == username);
-
-            if (climber != null)
-            {
-                return climber;
-            }
-            else
-            {
-                return null;
-            }
+            return climber;
         }
 
         public List<ClimberDTO> GetClimbersByUsername(string username)
