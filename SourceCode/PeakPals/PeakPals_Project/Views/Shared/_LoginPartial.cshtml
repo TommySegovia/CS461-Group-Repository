@@ -5,8 +5,8 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{ 
-    string? email = User.Identity.Name;
-    string? username = email?.Split('@')[0];
+    string email = User.Identity.Name ?? null;
+    string username = email?.Split('@')[0] ?? null;
 }
 
     @if (SignInManager.IsSignedIn(User))

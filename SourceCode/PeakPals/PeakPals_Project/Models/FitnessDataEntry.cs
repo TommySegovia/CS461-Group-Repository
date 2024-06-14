@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+#nullable enable
 
 namespace PeakPals_Project.Models;
 

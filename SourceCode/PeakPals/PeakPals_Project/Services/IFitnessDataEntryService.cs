@@ -2,6 +2,7 @@
 using PeakPals_Project.Models;
 using PeakPals_Project.Models.DTO;
 using System;
+#nullable enable
 
 
 namespace PeakPals_Project.Services

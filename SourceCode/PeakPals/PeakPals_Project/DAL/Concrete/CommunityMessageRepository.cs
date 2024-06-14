@@ -20,12 +20,12 @@ namespace PeakPals_Project.DAL.Concrete
         }
 
         // get all messages by group id
-        public List<CommunityMessage> GetMessagesById(int groupID)
+        public async Task<List<CommunityMessage>> GetMessagesById(int groupID)
         {
             // Search all community messages that belong to a certain group by their id
             // and return them as a list.
-            // group by ascending order
-            var messages = _communityMessage.Where(c => c.CommunityGroupId == groupID).OrderByDescending(c => c.Id).ToList();
+
+            var messages = await _communityMessage.Where(c => c.CommunityGroupId == groupID).ToListAsync();
 
             return messages;
         }

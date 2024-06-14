@@ -5,6 +5,7 @@ using PeakPals_Project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Text.Json;
+#nullable enable
 
 namespace PeakPals_Project.Services;
 
@@ -20,7 +21,7 @@ public class OpenBetaApiService : IOpenBetaApiService
 
     }
 
-    public async Task<OpenBetaQueryResult> FindMatchingAreas(string userQuery, int numResults = 8)
+    public async Task<OpenBetaQueryResult?> FindMatchingAreas(string userQuery, int numResults = 8)
     {
         if (string.IsNullOrEmpty(userQuery)) {
             return null;
@@ -55,11 +56,12 @@ public class OpenBetaApiService : IOpenBetaApiService
         };
 
         var response = await _client.SendQueryAsync<OpenBetaQueryResult>(request);
+        response.Data.Areas = response.Data.Areas ?? new List<OpenBetaQueryResult.Area>();
         response.Data.Areas = response.Data.Areas.Take(numResults).ToList();
-        return response.Data;      
+        return response.Data;  
     }
 
-    public async Task<OBArea> FindAreaById(string idQuery)
+    public async Task<OBArea?> FindAreaById(string idQuery)
     {
         if (string.IsNullOrEmpty(idQuery)) {
             return null;
@@ -131,7 +133,7 @@ public class OpenBetaApiService : IOpenBetaApiService
         return response.Data;
     }
 
-    public async Task<OBArea> FindAncestorNameByAreaId(string idQuery)
+    public async Task<OBArea?> FindAncestorNameByAreaId(string idQuery)
     {
         if (string.IsNullOrEmpty(idQuery)) {
             return null;
@@ -155,7 +157,7 @@ public class OpenBetaApiService : IOpenBetaApiService
         return response.Data;
     }
 
-    public async Task<OBClimb> FindClimbById(string idQuery)
+    public async Task<OBClimb?> FindClimbById(string idQuery)
     {
         if (string.IsNullOrEmpty(idQuery)) {
             return null;

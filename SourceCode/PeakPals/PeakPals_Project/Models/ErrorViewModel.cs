@@ -1,4 +1,5 @@
 namespace PeakPals_Project.Models;
+#nullable enable
 
 public class ErrorViewModel
 {

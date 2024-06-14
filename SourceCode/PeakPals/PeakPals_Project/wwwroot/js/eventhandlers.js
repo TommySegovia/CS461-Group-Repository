@@ -175,14 +175,21 @@ export async function handleClimbAttemptFormSubmit() {
         }
 
         console.log('Before postClimbAttempt');
-        await postClimbAttempt(climbId, climbName, suggestedGrade, attempts, rating);
+        try {
+            await postClimbAttempt(climbId, climbName, suggestedGrade, attempts, rating);
+            localStorage.setItem('formSubmitted', 'true');
+
+            location.reload();
+            console.log("log submitted!");
+        }
+        catch (error) {
+            console.error(error);
+            
+        }
         console.log('After postClimbAttempt');
 
 
-        localStorage.setItem('formSubmitted', 'true');
-
-        location.reload();
-        console.log("log submitted!");
+        
     });
 }
 

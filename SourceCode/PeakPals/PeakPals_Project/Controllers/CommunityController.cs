@@ -93,7 +93,7 @@ public class CommunityController : Controller
     }
 
     [HttpPost("Community/Group/{groupID}")]
-    public async Task<IActionResult> GetGroup(int groupID, string message)
+    public IActionResult GetGroup(int groupID, string message)
     {
         if (User.Identity.IsAuthenticated)
         {

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+#nullable enable
 
 namespace PeakPals_Project.Models.DTO
 {
