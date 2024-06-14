@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -105,6 +106,11 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            // use regex to check if email is valid and no XSS vulnerabilites
+            if (!Regex.IsMatch(Input.NewEmail, @"^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$"))
+            {
+                ModelState.AddModelError("Input.NewEmail", "Invalid email format.");
             }
 
             if (!ModelState.IsValid)

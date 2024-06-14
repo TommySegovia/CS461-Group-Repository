@@ -5,6 +5,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -131,6 +132,14 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+
+            // validate phone number to make sure it has no obvious XSS vulnerabilities
+            if (!Regex.IsMatch(Input.PhoneNumber, @"^[0-9]+$"))
+            {
+                StatusMessage = "Phone number can only contain numbers.";
+                return RedirectToPage();
+            }
+
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
@@ -144,6 +153,12 @@ namespace PeakPals_Project.Areas.Identity.Pages.Account.Manage
             // Update the username
             if (Input.UserName != user.UserName)
             {
+                // validate the username to make sure it has no obvious XSS vulnerabilities
+                if (!Regex.IsMatch(Input.UserName, @"^[a-zA-Z0-9_]+$"))
+                {
+                    StatusMessage = "Username can only contain alphanumeric characters and underscores.";
+                    return RedirectToPage();
+                }
                 var existingUser = await _userManager.FindByNameAsync(Input.UserName);
                 if (existingUser != null)
                 {

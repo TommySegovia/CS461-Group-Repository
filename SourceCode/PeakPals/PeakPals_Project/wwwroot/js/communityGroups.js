@@ -170,6 +170,8 @@ async function handleCommentFormSubmit(groupId) {
       event.preventDefault();
       const comment = document.getElementById("comment-textarea").value;
 
+      // Escape HTML special characters to prevent XSS
+      comment = escapeHtml(comment);
 
       console.log('Before postComment');
       postMessage(comment, groupId);
@@ -180,6 +182,17 @@ async function handleCommentFormSubmit(groupId) {
 
       location.reload();
   });
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  };
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
 async function getClimbingLogsForGroup(groupId) {

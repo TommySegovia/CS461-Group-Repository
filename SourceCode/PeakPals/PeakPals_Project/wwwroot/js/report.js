@@ -453,7 +453,7 @@ function createClimberStrengthTestTable(data, tableDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.style.backgroundColor = "red";
     deleteButton.classList.add("deleteButton");
-    deleteButton.innerHTML = "Delete";
+    deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
 
@@ -510,7 +510,7 @@ function createClimberFlexibilityTestTable(data, tableDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.style.backgroundColor = "red";
     deleteButton.classList.add("deleteButton");
-    deleteButton.innerHTML = "Delete";
+    deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
 
@@ -565,7 +565,7 @@ function createClimberRepeaterTestTable(data, tableDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.style.backgroundColor = "red";
     deleteButton.classList.add("deleteButton");
-    deleteButton.innerHTML = "Delete";
+    deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
 
@@ -620,7 +620,7 @@ function createClimberSmallestEdgeTestTable(data, tableDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.style.backgroundColor = "red";
     deleteButton.classList.add("deleteButton");
-    deleteButton.innerHTML = "Delete";
+    deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
 
@@ -675,7 +675,7 @@ function createClimberCampusBoardTestTable(data, tableDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.style.backgroundColor = "red";
     deleteButton.classList.add("deleteButton");
-    deleteButton.innerHTML = "Delete";
+    deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
 
