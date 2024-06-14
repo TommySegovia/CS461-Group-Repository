@@ -91,8 +91,8 @@ public class Program
         builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
         builder.Services.AddTransient<IEmailSender, EmailSender>();
-        // builder.Services.Configure<AuthMessageSenderOptions>(options => { options.SendGridKey = SendGridKey; });
-        builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+        builder.Services.Configure<AuthMessageSenderOptions>(options => { options.SendGridKey = SendGridKey; });
+        //builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
         builder.Services.AddScoped(sp => new GraphQLHttpClient("https://api.openbeta.io", new NewtonsoftJsonSerializer()));
 
