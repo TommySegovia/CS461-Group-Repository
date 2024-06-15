@@ -10,6 +10,7 @@
     <ReqnrollObsoleteCodeBehindFiles Remove="Features\TBD-108 - Copy.feature.cs" />
     <ReqnrollObsoleteCodeBehindFiles Remove="Features\TBD-114 - Copy.feature.cs" />
     <ReqnrollObsoleteCodeBehindFiles Remove="Features\TBD-115 - Copy.feature.cs" />
+    <ReqnrollObsoleteCodeBehindFiles Remove="Features\TBD-98 - Copy.feature.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Features\TBD-190.feature.cs">
+      <DependentUpon>TBD-190.feature</DependentUpon>
+    </Compile>
+    <Compile Update="Features\TBD-98.feature.cs">
+      <DependentUpon>TBD-98.feature</DependentUpon>
+    </Compile>
     <Compile Update="Features\TBD-143.feature.cs">
       <DependentUpon>TBD-143.feature</DependentUpon>
     </Compile>
@@ -43,6 +50,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ReqnrollFeatureFiles Update="Features\TBD-190.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </ReqnrollFeatureFiles>
+    <ReqnrollFeatureFiles Update="Features\TBD-98.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </ReqnrollFeatureFiles>
     <ReqnrollFeatureFiles Update="Features\TBD-143.feature">
       <Visible>$(UsingMicrosoftNETSdk)</Visible>
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>

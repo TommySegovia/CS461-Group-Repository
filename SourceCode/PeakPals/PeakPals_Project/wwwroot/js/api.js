@@ -79,7 +79,7 @@ export async function fetchClimbs(query, loadingSpinner, validationWarning)
     catch (error) {
         console.error(error);
         displayErrorMessage("Request timed out. Please try again.", validationWarning);
-        toggleLoadingSpinner(loadingSpinner);
+        //toggleLoadingSpinner(loadingSpinner);
         return;
     }
     

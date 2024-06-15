@@ -84,7 +84,7 @@ namespace PeakPals_Project.DAL.Concrete
     {
       return _climbAttempt
           .Where(f => f.ClimbId == climbId)
-          .OrderBy(f => f.EntryDate)
+          .OrderByDescending(f => f.EntryDate)
           .Select(f => f.ToDTO())
           .ToList();
     }

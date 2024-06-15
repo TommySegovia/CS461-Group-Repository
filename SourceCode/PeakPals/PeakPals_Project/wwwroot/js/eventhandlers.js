@@ -17,7 +17,7 @@ export async function locationsSearchButtonClicked(e, searchType) {
     validationWarning.textContent = "";
 
     const searchInput = document.getElementById("search-input");
-    const query = searchInput.value;
+    const query = searchInput.value.trim();
     const isValidLength = query.length >= 3;
     const isValid = /^[a-z0-9 ]+$/i.test(query);
 
@@ -157,6 +157,8 @@ export async function handleClimbAttemptFormSubmit() {
     const form = document.getElementById("climb-attempt-form");
     var climbAttemptModalElement = document.getElementById('climbAttemptModal');
 
+    
+
 
     document.getElementById("climb-attempt-form").addEventListener("submit", async function (event) {
         event.preventDefault();
@@ -165,6 +167,12 @@ export async function handleClimbAttemptFormSubmit() {
         const suggestedGrade = document.getElementById("suggested-grade").value;
         const climbId = document.getElementById("climb-id").dataset.id;
         const climbName = document.getElementById("climb-id").dataset.name;
+
+        
+        if (suggestedGrade.length < 1 || suggestedGrade.length > 9) {
+            alert("Please enter a valid grade");
+            return;
+        }
 
         console.log('Before postClimbAttempt');
         try {

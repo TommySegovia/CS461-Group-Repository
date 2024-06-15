@@ -13,7 +13,7 @@
     <div class="profile-box justify-context-center flex-nowrap">
         <div class="container">
             <div class="row align-items-start">
-                <div class="col-3">
+                <div class="col-lg-3 col-md-3 col-sm-12">
                     @if (@Model.ImageLink == null){
                         <img src="~/images/blank_profile.png" alt="Blank profile image" class="profile-image">
                     }
@@ -35,7 +35,7 @@
                     <div style="display: none;" id="joinedCommunityGroupsDiv"></div>
                 </div>
                 
-                <div class="col-9">
+                <div class="col-lg-9 col-md-9 col-sm-12">
                     <hr class="bg-warning">
                     @if (user != null)
                     {

@@ -183,11 +183,11 @@
 
         @if (Model.Area.Climbs != null && Model.Area.Climbs.Count > 0)
         {
-            <h4 class="mx-3 my-4 card-descript"><u><b>Climbs:</b></u></h4>
-            @for (var i = 0; i < Model.Area.Climbs.Count; i += 3)
+            <h4 class="my-4 card-descript"><u><b>Climbs:</b></u></h4>
+            @for (var i = 0; i < Model.Area.Climbs.Count; i += 4)
             {
                 <div class="row" id="card-rows">
-                    <div class="card col-md-2 bg-dark border m-1 mb-4 p-2">
+                    <div class="card col-md-2 bg-dark border mb-4 p-2">
                         <div class="table">
                             <a href="/locations/climbs/@Model.Area.Climbs[i].Uuid"
                                 class="text-white card-title"><b>@Model.Area.Climbs[i].Name</b></a>
@@ -197,9 +197,10 @@
                                 @Model.Area.Climbs[i].Metadata.Lng</a>
                         </div>
                     </div>
+                    <div class="col-md-1"></div>
                     @if (i + 1 < Model.Area.Climbs.Count)
                     {
-                        <div class="card col-md-2 bg-dark border m-1 mb-4 p-2">
+                        <div class="card col-md-2 bg-dark border mb-4 p-2">
                             <div class="table">
                                 <a href="/locations/climbs/@Model.Area.Climbs[i + 1].Uuid"
                                     class="text-white card-title"><b>@Model.Area.Climbs[i + 1].Name</b></a>
@@ -209,10 +210,11 @@
                                     @Model.Area.Climbs[i + 1].Metadata.Lng</a>
                             </div>
                         </div>
+                        <div class="col-md-1"></div>
                     }
                     @if (i + 2 < Model.Area.Climbs.Count)
                     {
-                        <div class="card col-md-2 bg-dark border m-1 mb-4 p-2">
+                        <div class="card col-md-2 bg-dark border mb-4 p-2">
 
                             <div class="table">
                                 <a href="/locations/climbs/@Model.Area.Climbs[i + 2].Uuid"
@@ -223,10 +225,11 @@
                                     @Model.Area.Climbs[i + 2].Metadata.Lng</a>
                             </div>
                         </div>
+                        <div class="col-md-1"></div>
                     }
                     @if (i + 3 < Model.Area.Climbs.Count)
                     {
-                        <div class="card col-md-2 bg-dark border m-1 mb-4 p-2">
+                        <div class="card col-md-2 bg-dark border mb-4 p-2">
 
                             <div class="table">
                                 <a href="/locations/climbs/@Model.Area.Climbs[i + 3].Uuid"
@@ -237,6 +240,7 @@
                                     @Model.Area.Climbs[i + 3].Metadata.Lng</a>
                             </div>
                         </div>
+                        <div class="col-md-1"></div>
                     }
                 </div>
             }

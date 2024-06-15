@@ -6,7 +6,7 @@ export function displayErrorMessage(message, validationWarning, loadingSpinner)
     errorMessage.textContent = message;
     errorMessage.classList.add("error-message");
     validationWarning.appendChild(errorMessage);
-    toggleLoadingSpinner(loadingSpinner);
+    //toggleLoadingSpinner(loadingSpinner);
     return;
 }
 
