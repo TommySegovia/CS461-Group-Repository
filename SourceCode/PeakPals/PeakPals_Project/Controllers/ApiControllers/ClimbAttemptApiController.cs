@@ -27,13 +27,15 @@ namespace PeakPals_Project.Controllers
         private readonly IClimberRepository _climberRepository;
         private readonly IClimberService _climberService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<ClimbAttemptApiController> _logger;
 
-        public ClimbAttemptApiController(IClimbAttemptRepository climbAttemptRepository, IClimberRepository climberRepository, IClimberService climberService, UserManager<ApplicationUser> userManager)
+        public ClimbAttemptApiController(IClimbAttemptRepository climbAttemptRepository, IClimberRepository climberRepository, IClimberService climberService, UserManager<ApplicationUser> userManager, ILogger<ClimbAttemptApiController> logger)
         {
             _climbAttemptRepository = climbAttemptRepository;
             _climberRepository = climberRepository;
             _userManager = userManager;
             _climberService = climberService;
+            _logger = logger;
         }
 
         [HttpGet("log/view")]
@@ -109,6 +111,7 @@ namespace PeakPals_Project.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                _logger.LogInformation("User is authenticated");
                 var aspNetIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var userName = User.Identity.Name;
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -117,12 +120,13 @@ namespace PeakPals_Project.Controllers
                     //return NotFound(new { Message = "Climber not found." });
                     climberDTO = _climberService.AddNewClimber(aspNetIdentityId, userName);
                 }
-                var generatedId = _climbAttemptRepository.RecordClimbingAttempt(climberDTO.Id, climberDTO.UserName, climbAttemptDTO.ClimbId, climbAttemptDTO.ClimbName, climbAttemptDTO.SuggestedGrade, climbAttemptDTO.EntryDate, climbAttemptDTO.Attempts, climbAttemptDTO.Rating);
+                var generatedId = _climbAttemptRepository.RecordClimbingAttempt(climberDTO.Id, climberDTO.UserName ?? userName, climbAttemptDTO.ClimbId, climbAttemptDTO.ClimbName, climbAttemptDTO.SuggestedGrade, climbAttemptDTO.EntryDate, climbAttemptDTO.Attempts, climbAttemptDTO.Rating);
                 climbAttemptDTO.Id = generatedId; // Set the generated ID on the DTO
                 return Ok(climbAttemptDTO);
             }
             else
             {
+                _logger.LogInformation("User is not authenticated");
                 return BadRequest(new { Message = "User not authenticated" });
             }
         }

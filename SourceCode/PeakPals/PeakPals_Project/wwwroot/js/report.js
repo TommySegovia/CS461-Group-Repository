@@ -272,10 +272,20 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
       var recentText = document.createElement("p");
 
       //strength test
-      if (testId === 0 || testId === 1 || testId === 2) {
+      if (testId === 0 || testId === 1) {
         var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " lbs";
         var weightText = "Bodyweight: " + '<span class="orange-text">' + recentWeight + '</span>' + " lbs";
-        var ratioText = '<span class="orange-text">' + ((recentResult / recentWeight).toFixed(2) * 100 + 100) + '%</span>' + " of total body weight";
+        var ratioText = '<span class="orange-text">' + ((recentResult / recentWeight) * 100 + 100).toFixed(2) + '%</span>' + " of total body weight";
+
+        recentText.innerHTML = resultText + "<br>" + weightText + "<br>" + ratioText;
+
+        recentDiv.appendChild(recentText);
+      }
+      //hammercurl test
+      else if (testId === 2) {
+        var resultText = "Recent Test: " + '<span class="orange-text">' + recentResult + '</span>' + " lbs";
+        var weightText = "Bodyweight: " + '<span class="orange-text">' + recentWeight + '</span>' + " lbs";
+        var ratioText = '<span class="orange-text">' + ((recentResult / recentWeight) * 100).toFixed(2) + '%</span>' + " of total body weight";
 
         recentText.innerHTML = resultText + "<br>" + weightText + "<br>" + ratioText;
 
@@ -337,9 +347,9 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
     //console.log("average: " + JSON.stringify(averageData));
     function createPercentDifferenceText(percentDifference) {
       var percentDifferenceText = document.createElement("p");
-      if (percentDifference > 0) {
-        percentDifferenceText.innerHTML = "Your score is <span id='higher-score'>" + percentDifference + "%</span> higher than the average";
-      } else if (percentDifference < 0) {
+      if (percentDifference < 0) {
+        percentDifferenceText.innerHTML = "Your score is <span id='higher-score'>" + Math.abs(percentDifference) + "%</span> higher than the average";
+      } else if (percentDifference > 0) {
         percentDifferenceText.innerHTML = "Your score is <span id='lower-score'>" + Math.abs(percentDifference) + "%</span> lower than the average";
       } else if (percentDifference == 0) {
         var percentDifferenceText = document.createElement("p");
@@ -369,14 +379,35 @@ async function getTestAverage(testId, averageDiv, recentDiv, filterData) {
       var averageValue = (testId === 0 || testId === 1 || testId === 2) ? (average * 100 + 100).toFixed(2) : average.toFixed(2);
       if (testId === 7) {
         averageText.innerHTML = "The overall average for this test is: " + '<span class="orange-text">' + testDescription + '</span>';
-      } else {
+      }
+      else if (testId === 2) {
+        averageText.innerHTML = "The overall average for this test is: " + '<span class="orange-text">' + (averageValue - 100).toFixed(2) + '</span>' + testDescription;
+      }
+      else {
         averageText.innerHTML = "The overall average for this test is: " + '<span class="orange-text">' + averageValue + '</span>' + testDescription;
       }
 
       averageDiv.appendChild(averageText);
 
-      if (testId !== 7) {
-        var percentDifference = ((recentResult / (testId === 0 || testId === 1 || testId === 2 ? recentWeight : average)) * 100 - 100).toFixed(0);
+      if (testId === 0 || testId === 1 || testId === 2) {
+        var percentDifference = ((average -(recentResult / (recentWeight))) * 100).toFixed(1);
+        var percentDifferenceText = createPercentDifferenceText(percentDifference);
+        averageDiv.appendChild(percentDifferenceText);
+      }
+      else if (testId === 3 || testId === 5) {
+        var percentDifference = (100-((recentResult / average) * 100)).toFixed(0);
+        var percentDifferenceText = createPercentDifferenceText(percentDifference);
+        averageDiv.appendChild(percentDifferenceText);
+      }
+      else if (testId === 4) {
+        recentResult += Math.abs(average) + 10;
+        average = 10;
+        var percentDifference = (100-((recentResult / average) * 100)).toFixed(0);
+        var percentDifferenceText = createPercentDifferenceText(percentDifference);
+        averageDiv.appendChild(percentDifferenceText);
+      }
+      else if (testId !== 7) {
+        var percentDifference = -(100-((recentResult / average) * 100)).toFixed(0);
         var percentDifferenceText = createPercentDifferenceText(percentDifference);
         averageDiv.appendChild(percentDifferenceText);
       }
@@ -422,7 +453,7 @@ function createClimberStrengthTestTable(data, tableDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.style.backgroundColor = "red";
     deleteButton.classList.add("deleteButton");
-    deleteButton.innerHTML = "Delete";
+    deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
 
@@ -479,7 +510,7 @@ function createClimberFlexibilityTestTable(data, tableDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.style.backgroundColor = "red";
     deleteButton.classList.add("deleteButton");
-    deleteButton.innerHTML = "Delete";
+    deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
 
@@ -534,7 +565,7 @@ function createClimberRepeaterTestTable(data, tableDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.style.backgroundColor = "red";
     deleteButton.classList.add("deleteButton");
-    deleteButton.innerHTML = "Delete";
+    deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
 
@@ -589,7 +620,7 @@ function createClimberSmallestEdgeTestTable(data, tableDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.style.backgroundColor = "red";
     deleteButton.classList.add("deleteButton");
-    deleteButton.innerHTML = "Delete";
+    deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
 
@@ -644,7 +675,7 @@ function createClimberCampusBoardTestTable(data, tableDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.style.backgroundColor = "red";
     deleteButton.classList.add("deleteButton");
-    deleteButton.innerHTML = "Delete";
+    deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTest(data[i].id, data[i].testId);
     deleteCell.appendChild(deleteButton);
 

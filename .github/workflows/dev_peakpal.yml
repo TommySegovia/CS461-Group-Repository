@@ -26,6 +26,10 @@ jobs:
         run: dotnet build --configuration Release
         working-directory: ./SourceCode/PeakPals/PeakPals_Project
 
+      - name: Rune unit tests on the main project
+        working-directory: ./SourceCode/PeakPals/PeakPals_Project
+        run: dotnet test --no-restore --no-build
+
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
         working-directory: ./SourceCode/PeakPals/PeakPals_Project

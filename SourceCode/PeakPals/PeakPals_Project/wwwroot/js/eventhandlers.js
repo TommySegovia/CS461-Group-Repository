@@ -17,7 +17,7 @@ export async function locationsSearchButtonClicked(e, searchType) {
     validationWarning.textContent = "";
 
     const searchInput = document.getElementById("search-input");
-    const query = searchInput.value;
+    const query = searchInput.value.trim();
     const isValidLength = query.length >= 3;
     const isValid = /^[a-z0-9 ]+$/i.test(query);
 
@@ -157,6 +157,8 @@ export async function handleClimbAttemptFormSubmit() {
     const form = document.getElementById("climb-attempt-form");
     var climbAttemptModalElement = document.getElementById('climbAttemptModal');
 
+    
+
 
     document.getElementById("climb-attempt-form").addEventListener("submit", async function (event) {
         event.preventDefault();
@@ -166,15 +168,28 @@ export async function handleClimbAttemptFormSubmit() {
         const climbId = document.getElementById("climb-id").dataset.id;
         const climbName = document.getElementById("climb-id").dataset.name;
 
+        
+        if (suggestedGrade.length < 1 || suggestedGrade.length > 9) {
+            alert("Please enter a valid grade");
+            return;
+        }
+
         console.log('Before postClimbAttempt');
-        await postClimbAttempt(climbId, climbName, suggestedGrade, attempts, rating);
+        try {
+            await postClimbAttempt(climbId, climbName, suggestedGrade, attempts, rating);
+            localStorage.setItem('formSubmitted', 'true');
+
+            location.reload();
+            console.log("log submitted!");
+        }
+        catch (error) {
+            console.error(error);
+            
+        }
         console.log('After postClimbAttempt');
 
 
-        localStorage.setItem('formSubmitted', 'true');
-
-        location.reload();
-        console.log("log submitted!");
+        
     });
 }
 
@@ -248,7 +263,7 @@ export async function displayClimbingLog(user) {
             if (tagsElement) {
                 if (tags.length === 0) {
                     const noTagsElement = document.createElement('span');
-                    noTagsElement.className = "badge bg-secondary climbTagBadge";
+                    noTagsElement.className = "badge climbTagBadge";
                     noTagsElement.textContent = "No Tags";
                     tagsElement.appendChild(noTagsElement);
                 }
@@ -256,8 +271,58 @@ export async function displayClimbingLog(user) {
                     tags.forEach(tag => {
                         console.log(tag);
                         const tagElement = document.createElement('span');
-                        tagElement.className = "badge bg-secondary climbTagBadge";
+                        tagElement.className = "badge climbTagBadge";
                         tagElement.textContent = tag;
+                        switch (tag) {
+                            case "Crimpy":
+                                tagElement.style.backgroundColor = "#ff0000";
+                                break;
+                            case "Slopers":
+                                tagElement.style.backgroundColor = "#ff4000";
+                                break;
+                            case "Pockets":
+                                tagElement.style.backgroundColor = "#ff8000";
+                                break;
+                            case "Juggy":
+                                tagElement.style.backgroundColor = "#ffbf00";
+                                break;
+                            case "Pinches":
+                                tagElement.style.backgroundColor = "#80ff00";
+                                break;
+                            case "Technical":
+                                tagElement.style.backgroundColor = "#ff00ff";
+                                break;
+                            case "Powerful":
+                                tagElement.style.backgroundColor = "#00ff00";
+                                break;
+                            case "Compression":
+                                tagElement.style.backgroundColor = "#00ff80";
+                                break;
+                            case "Highball":
+                                tagElement.style.backgroundColor = "#8000ff";
+                                break;
+                            case "Slab":
+                                tagElement.style.backgroundColor = "#0000ff";
+                                break;
+                            case "Tension":
+                                tagElement.style.backgroundColor = "#ff8000";
+                                break;
+                            case "Pumpy":
+                                tagElement.style.backgroundColor = "#0080ff";
+                                break;
+                            case "Dyno":
+                                tagElement.style.backgroundColor = "#00ffff";
+                                break;
+                            case "Classic":
+                                tagElement.style.backgroundColor = "#aaaaaa";
+                                break;
+                            case "Unique":
+                                tagElement.style.backgroundColor = "#ff0080";
+                                break;
+                        
+                            default:
+                                break;
+                        }
                         tagsElement.appendChild(tagElement);
                     });
                 }
@@ -434,7 +499,7 @@ export async function displayGroupClimbingLog(logs) {
             if (tagsElement) {
                 if (tags.length === 0) {
                     const noTagsElement = document.createElement('span');
-                    noTagsElement.className = "badge bg-secondary climbTagBadge";
+                    noTagsElement.className = "badge climbTagBadge";
                     noTagsElement.textContent = "No Tags";
                     tagsElement.appendChild(noTagsElement);
                 }
@@ -442,8 +507,58 @@ export async function displayGroupClimbingLog(logs) {
                     tags.forEach(tag => {
                         console.log(tag);
                         const tagElement = document.createElement('span');
-                        tagElement.className = "badge bg-secondary climbTagBadge";
+                        tagElement.className = "badge climbTagBadge";
                         tagElement.textContent = tag;
+                        switch (tag) {
+                            case "Crimpy":
+                                tagElement.style.backgroundColor = "#ff0000";
+                                break;
+                            case "Slopers":
+                                tagElement.style.backgroundColor = "#ff4000";
+                                break;
+                            case "Pockets":
+                                tagElement.style.backgroundColor = "#ff8000";
+                                break;
+                            case "Juggy":
+                                tagElement.style.backgroundColor = "#ffbf00";
+                                break;
+                            case "Pinches":
+                                tagElement.style.backgroundColor = "#80ff00";
+                                break;
+                            case "Technical":
+                                tagElement.style.backgroundColor = "#ff00ff";
+                                break;
+                            case "Powerful":
+                                tagElement.style.backgroundColor = "#00ff00";
+                                break;
+                            case "Compression":
+                                tagElement.style.backgroundColor = "#00ff80";
+                                break;
+                            case "Highball":
+                                tagElement.style.backgroundColor = "#8000ff";
+                                break;
+                            case "Slab":
+                                tagElement.style.backgroundColor = "#0000ff";
+                                break;
+                            case "Tension":
+                                tagElement.style.backgroundColor = "#ff8000";
+                                break;
+                            case "Pumpy":
+                                tagElement.style.backgroundColor = "#0080ff";
+                                break;
+                            case "Dyno":
+                                tagElement.style.backgroundColor = "#00ffff";
+                                break;
+                            case "Classic":
+                                tagElement.style.backgroundColor = "#aaaaaa";
+                                break;
+                            case "Unique":
+                                tagElement.style.backgroundColor = "#ff0080";
+                                break;
+                        
+                            default:
+                                break;
+                        }
                         tagsElement.appendChild(tagElement);
                     });
                 }

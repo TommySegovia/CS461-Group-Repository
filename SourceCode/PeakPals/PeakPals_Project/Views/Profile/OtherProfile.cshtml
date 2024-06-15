@@ -4,7 +4,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    string? aspnetId = Model.AspnetIdentityId;
+    string aspnetId = Model.AspnetIdentityId ?? "";
     var user = await UserManager.FindByIdAsync(aspnetId);
     // Ensure that the user is not null before accessing properties
 }
@@ -14,7 +14,7 @@
     <div class="profile-box justify-context-center flex-nowrap">
         <div class="container">
             <div class="row align-items-start">
-                <div class="col-3">
+                <div class="col-lg-3 col-md-3 col-sm-12">
                     @if (@Model.ImageLink == null){
                         <img src="~/images/blank_profile.png" alt="Blank profile image" class="profile-image">
                     }
@@ -34,7 +34,7 @@
                     <div id="joinedCommunityGroupsHeader"></div>
                     <div style="display: none;" id="joinedCommunityGroupsDiv"></div>
                 </div>
-                <div class="col-9">
+                <div class="col-lg-9 col-md-9 col-sm-12">
                      @* <div class="row align-items-start my-2">
                         <div class="col-4">
                             <button class="btn btn-black text-white" id="btn-tabs">Biography</button>

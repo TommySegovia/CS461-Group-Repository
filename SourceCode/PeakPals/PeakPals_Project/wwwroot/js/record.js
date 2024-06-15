@@ -8,19 +8,25 @@ function initializePage() {
 function handleFormSubmit(formId, testId, testType) {
   document.getElementById(formId).addEventListener("submit", function (event) {
     event.preventDefault();
-    var result = document.getElementById(`${testType}-test-input`).value;
+    var resultInput = document.getElementById(`${testType}-test-input`).value;
+    var bodyWeightInput = document.getElementById(`${testType}-test-bodyweight-input`);
     //set bodyweight to 0 if the input is null
-    if (document.getElementById(`${testType}-test-bodyweight-input`) === null) {
-      var bodyWeight = 0;
+    var result = resultInput.value.trim();
+    var bodyWeight = bodyWeightInput ? bodyWeightInput.value.trim() : "0";
+
+    // Convert to integers and validate
+    result = parseInt(result, 10);
+    bodyWeight = parseInt(bodyWeight, 10);
+
+    if (isNaN(result) || isNaN(bodyWeight)) {
+      console.error("Invalid input");
+      return; // Handle error appropriately
     }
-    else{
-      var bodyWeight = document.getElementById(`${testType}-test-bodyweight-input`).value;
-    }
-    
+    console.log("recording now...")
     recordTest(testId, result, bodyWeight);
-    document.getElementById(`${testType}-test-input`).value = "";
-    if (bodyWeight !== 0){
-      document.getElementById(`${testType}-test-bodyweight-input`).value = "";
+    resultInput.value = "";
+    if (bodyWeightInput) {
+      bodyWeightInput.value = "";
     }
     
   });

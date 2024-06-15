@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using PeakPals_Project.Data;
 using PeakPals_Project.ExtensionMethods;
+#nullable enable
 
 namespace PeakPals_Project.DAL.Concrete
 {
@@ -29,28 +30,22 @@ namespace PeakPals_Project.DAL.Concrete
           .ToList();
     }
 
-    public ClimbAttempt ViewClimbingAttempt(int climberId, string climbId)
+    public ClimbAttempt? ViewClimbingAttempt(int climberId, string climbId)
     {
       var climbingAttempt = _climbAttempt.SingleOrDefault(f => f.ClimberId == climberId && f.ClimbId == climbId);
-      if (climbingAttempt != null)
-      {
-        return climbingAttempt;
-      }
-      else
-      {
-        return null;
-      }
+      return climbingAttempt;
+      
     }
 
-    public int RecordClimbingAttempt(int climberId, string climberName, string climbId, string? climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating)
+    public int RecordClimbingAttempt(int climberId, string? climberName, string climbId, string? climbName, string? suggestedGrade, DateTime entryDate, int attempts, int rating)
     {
       var newClimbAttempt = ViewClimbingAttempt(climberId, climbId) ?? new ClimbAttempt();
 
       newClimbAttempt.ClimberId = climberId;
-      newClimbAttempt.ClimberName = climberName;
-      newClimbAttempt.ClimbId = climbId;
-      newClimbAttempt.ClimbName = climbName;
-      newClimbAttempt.SuggestedGrade = suggestedGrade;
+      newClimbAttempt.ClimberName = climberName ?? "";
+      newClimbAttempt.ClimbId = climbId  ?? "";
+      newClimbAttempt.ClimbName = climbName ?? "";
+      newClimbAttempt.SuggestedGrade = suggestedGrade ?? "";
       newClimbAttempt.EntryDate = entryDate;
       newClimbAttempt.Attempts = attempts;
       newClimbAttempt.Rating = rating;
@@ -71,7 +66,7 @@ namespace PeakPals_Project.DAL.Concrete
 
     }
 
-    public ClimbAttempt ViewClimbingAttemptByClimbAttemptID(int climbAttemptID)
+    public ClimbAttempt? ViewClimbingAttemptByClimbAttemptID(int climbAttemptID)
     {
       var climbingAttempt = _climbAttempt.SingleOrDefault(f => f.Id == climbAttemptID);
       if (climbingAttempt != null)
@@ -89,7 +84,7 @@ namespace PeakPals_Project.DAL.Concrete
     {
       return _climbAttempt
           .Where(f => f.ClimbId == climbId)
-          .OrderBy(f => f.EntryDate)
+          .OrderByDescending(f => f.EntryDate)
           .Select(f => f.ToDTO())
           .ToList();
     }

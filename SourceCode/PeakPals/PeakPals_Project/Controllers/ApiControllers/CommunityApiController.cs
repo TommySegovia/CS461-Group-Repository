@@ -17,14 +17,14 @@ using PeakPals_Project.Areas.Identity.Data;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Castle.Components.DictionaryAdapter.Xml;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-
+#nullable enable
 namespace PeakPals_Project.Controllers
 {
     [Route("api/community")]
     [ApiController]
     public class CommunityApiController : ControllerBase
     {
-        private readonly IFitnessDataEntryService _fitnessDataEntryService;
+        //private readonly IFitnessDataEntryService _fitnessDataEntryService;
         private readonly IClimberService _climberService;
         private readonly IClimberRepository _climberRepository;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -53,7 +53,7 @@ namespace PeakPals_Project.Controllers
             }
 
             // Fetch users with usernames containing the search username
-            var users = await _userManager.Users.Where(u => u.UserName.Contains(username)).ToListAsync();
+            var users = await _userManager.Users.Where(u => u != null && u.UserName != null && u.UserName.Contains(username!)).ToListAsync();
 
             if (users == null || users.Count == 0)
             {
@@ -244,7 +244,7 @@ namespace PeakPals_Project.Controllers
         //get number of members in a group
         [HttpGet("members/group/{groupID}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-        public async Task<ActionResult<int>> GetGroupMemberCount(int groupID)
+        public ActionResult<int> GetGroupMemberCount(int groupID)
         {
             // Get the group list entries for the group
             var numberOfMembers = _groupListRepository.GetGroupMemberCountByGroupID(groupID);
@@ -255,7 +255,7 @@ namespace PeakPals_Project.Controllers
         //get members of a group
         [HttpGet("members/group/{groupID}/list")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Climber>))]
-        public async Task<ActionResult<List<Climber>>> GetGroupMembers(int groupID)
+        public ActionResult<List<Climber>> GetGroupMembers(int groupID)
         {
             // Get the group list entries for the group
             var groupListEntries = _groupListRepository.GetGroupListByGroupID(groupID);
@@ -532,7 +532,7 @@ namespace PeakPals_Project.Controllers
             }
 
             int.TryParse(groupId, out int id);
-            var messages = _communityMessageRepository.GetMessagesById(id);
+            var messages = await _communityMessageRepository.GetMessagesById(id);
 
             if (messages == null)
             {

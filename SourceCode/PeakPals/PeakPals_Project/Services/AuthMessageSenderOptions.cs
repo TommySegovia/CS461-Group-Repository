@@ -1,4 +1,5 @@
 namespace WebPWrecover.Services;
+#nullable enable
 
 public class AuthMessageSenderOptions
 {

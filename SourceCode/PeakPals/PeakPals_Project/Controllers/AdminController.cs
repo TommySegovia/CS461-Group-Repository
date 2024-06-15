@@ -38,7 +38,7 @@ public class AdminController : Controller
             UserClimberPairs = users.Select(user => new UserClimberPair
             {
                 User = user,
-                Climber = _context.Climber.FirstOrDefault(c => c.AspnetIdentityId == user.Id)
+                Climber = _context.Climber.FirstOrDefault(c => c.AspnetIdentityId == user.Id) ?? new Climber()
             })
             .ToList()
         };

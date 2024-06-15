@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
+#nullable enable
 namespace PeakPals_Project.Models;
 
 [Table("ClimbAttempt")]
@@ -19,22 +20,22 @@ public partial class ClimbAttempt
     public int ClimberId { get; set; }
 
     [StringLength(50)]
-    public string ClimbId { get; set; }
+    public string? ClimbId { get; set; }
 
     [JsonIgnore]
     [StringLength(200)]
-    public string ClimbName { get; set; } = null!;
+    public string? ClimbName { get; set; }
 
     [JsonIgnore]
     [StringLength(8)] 
-    public string SuggestedGrade { get; set; } = null!;
+    public string? SuggestedGrade { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime EntryDate { get; set; }
 
     [JsonIgnore]
     [StringLength(50)]
-    public string ClimberName { get; set; }
+    public string? ClimberName { get; set; }
     public int Attempts { get; set; }
     public int Rating { get; set; }
 

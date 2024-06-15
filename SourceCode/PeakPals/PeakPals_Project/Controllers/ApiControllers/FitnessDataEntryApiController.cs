@@ -14,7 +14,7 @@ using PeakPals_Project.Services;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using PeakPals_Project.Areas.Identity.Data;
-
+#nullable enable
 
 namespace PeakPals_Project.Controllers
 {
@@ -42,6 +42,10 @@ namespace PeakPals_Project.Controllers
         [HttpGet("Test/Results/{testId}")]
         public ActionResult<List<FitnessDataEntryDTO>> GetUserResultsWithTimesInChronologicalOrder(int testId)
         {
+            if (User.Identity == null)
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
             if (User.Identity.IsAuthenticated)
             {
 
@@ -64,6 +68,10 @@ namespace PeakPals_Project.Controllers
         [HttpDelete("Test/Results/Delete/{id}/{testId}")]
         public ActionResult DeleteTestResult(int id, int testId)
         {
+            if (User.Identity == null)
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
             if (User.Identity.IsAuthenticated)
             {
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -84,6 +92,10 @@ namespace PeakPals_Project.Controllers
         [HttpGet("Test/Results/MostRecent/{testId}")]
         public ActionResult<object> GetMostRecentUserTestValueAndBodyWeight(int testId)
         {
+            if (User.Identity == null)
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
             if (User.Identity.IsAuthenticated)
             {
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -115,6 +127,10 @@ namespace PeakPals_Project.Controllers
         [HttpGet("Test/Results/Average/All/PercentageOfBodyweight/{testId}/{minAge}/{maxAge}/{gender}/{climbingExperience}/{minimumClimbingGrade}/{maximumClimbingGrade}")]
         public ActionResult<double> GetAveragePercentageOfBodyweight(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
+            if (User.Identity == null)
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
             if (User.Identity.IsAuthenticated)
             {
                 if (_fitnessDataEntryRepository == null)
@@ -132,6 +148,10 @@ namespace PeakPals_Project.Controllers
         [HttpGet("Test/Results/Average/All/{testId}/{minAge}/{maxAge}/{gender}/{climbingExperience}/{minimumClimbingGrade}/{maximumClimbingGrade}")]
         public ActionResult<double> GetAverageResult(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
+            if (User.Identity == null)
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
             if (User.Identity.IsAuthenticated)
             {
                 if (_fitnessDataEntryRepository == null)
@@ -149,6 +169,10 @@ namespace PeakPals_Project.Controllers
         [HttpGet("Test/Results/MostCommon/All/CampusBoard/{testId}/{minAge}/{maxAge}/{gender}/{climbingExperience}/{minimumClimbingGrade}/{maximumClimbingGrade}")]
         public ActionResult<double> GetMostCommonResultCampusBoard(int testId, int minAge, int maxAge, string gender, string climbingExperience, int minimumClimbingGrade, int maximumClimbingGrade)
         {
+            if (User.Identity == null)
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
             if (User.Identity.IsAuthenticated)
             {
                 if (_fitnessDataEntryRepository == null)
@@ -168,13 +192,25 @@ namespace PeakPals_Project.Controllers
         [HttpPost("RecordTestResult")]
         public async Task<ActionResult> RecordTestResult(FitnessDataEntryDTO fitnessDataEntryDTO)
         {
+            if (User.Identity == null)
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
             if (User.Identity.IsAuthenticated)
             {
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 string? aspNetIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 //pulls the age int column from the PeakPalsAuthDb identity, AspNetUsers table for the currently logged in user
+                if (aspNetIdentityId == null)
+                {
+                    return BadRequest(new { Message = "User not authenticated" });
+                }
                 var user = await _userManager.FindByIdAsync(aspNetIdentityId);
+                if (user == null)
+                {
+                    return BadRequest(new { Message = "User not authenticated" });
+                }
                 int? age = user.Age;
                 string? gender = user.Gender;
                 string? climbingExperience = user.ClimbingExperience;
@@ -216,6 +252,10 @@ namespace PeakPals_Project.Controllers
         [HttpGet("Test/Results/All/RadarChart")]
         public async Task<ActionResult> GenerateRadarChart()
         {
+            if (User.Identity == null)
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
             if (User.Identity.IsAuthenticated)
             {
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -258,7 +298,7 @@ namespace PeakPals_Project.Controllers
                 }
 
                 _fitnessDataEntryService.GenerateRadarChart(userTests, averageTests, climberDTO.Id);
-                return Ok(new { Message = "Radar Chart Generated" });
+                return await Task.FromResult(Ok(new { Message = "Radar Chart Generated" }));
             }
             else
             {
@@ -270,6 +310,10 @@ namespace PeakPals_Project.Controllers
         [HttpGet("Test/Results/All/StrongestStats")]
         public ActionResult<object> GetUsersStrongestStats()
         {
+            if (User.Identity == null)
+            {
+                return BadRequest(new { Message = "User not authenticated" });
+            }
             if (User.Identity.IsAuthenticated)
             {
                 var climberDTO = _climberRepository.GetClimberByAspNetIdentityId(User.FindFirstValue(ClaimTypes.NameIdentifier));

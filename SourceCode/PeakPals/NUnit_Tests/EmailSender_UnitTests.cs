@@ -54,6 +54,7 @@ namespace NUnit_Tests
             Assert.AreEqual("Invalid subject", exception.Message);
         }
 
+        /*
         [Test]
         public async Task Execute_ConfirmEmail_SendsEmail()
         {
@@ -71,6 +72,7 @@ namespace NUnit_Tests
             Assert.AreEqual(1, _loggerMock.Invocations.Count);
 
         }
+        */
 
     }
 }

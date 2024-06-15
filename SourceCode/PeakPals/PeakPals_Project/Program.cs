@@ -26,19 +26,34 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        string keyVaultName = Environment.GetEnvironmentVariable("KEY_VAULT_NAME");
-        var kvUri = "https://" + "peakpalsvaults" + ".vault.azure.net";
-        var secretClient = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
-        var connectionAppSecret = secretClient.GetSecret("AppConnectString");
-        var connectionAuthSecret = secretClient.GetSecret("AuthConnectString");
-        var sendGridApiKeySecret = secretClient.GetSecret("SendGridApiKey");
+        // builder.Host.ConfigureLogging(logging =>
+        // {
+        //     logging.ClearProviders();
+        //     logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
+        //     logging.AddConsole();
+        //     logging.AddDebug();
+        // });
+
+         string keyVaultName = Environment.GetEnvironmentVariable("KEY_VAULT_NAME");
+         var kvUri = "https://" + "peakpalsvaults" + ".vault.azure.net";
+         var secretClient = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+         var connectionAppSecret = secretClient.GetSecret("AppConnectString");
+         var connectionAuthSecret = secretClient.GetSecret("AuthConnectString");
+         var sendGridApiKeySecret = secretClient.GetSecret("SendGridApiKey");
 
         // Add services to the container.
-        // var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
-        // var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
+        //var connectionStringApp = builder.Configuration.GetConnectionString("PeakPalsAppDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAppDB' not found.");
+        //var connectionStringAuth = builder.Configuration.GetConnectionString("PeakPalsAuthDB") ?? throw new InvalidOperationException("Connection string 'PeakPalsAuthDB' not found.");
         var connectionStringAuth = connectionAuthSecret.Value.Value;
         var connectionStringApp = connectionAppSecret.Value.Value;
         var SendGridKey = sendGridApiKeySecret.Value.Value;
+
+        builder.Services.AddLogging(config =>
+        {
+            config.AddDebug();
+            config.AddConsole();
+            // You can add other built-in providers here
+        });
 
         builder.Services.AddDbContext<ApplicationDbContext>(options => options
                                     .UseSqlServer(connectionStringAuth)
@@ -50,7 +65,7 @@ public class Program
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+        builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
@@ -77,7 +92,7 @@ public class Program
 
         builder.Services.AddTransient<IEmailSender, EmailSender>();
         builder.Services.Configure<AuthMessageSenderOptions>(options => { options.SendGridKey = SendGridKey; });
-        // builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+        //builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
         builder.Services.AddScoped(sp => new GraphQLHttpClient("https://api.openbeta.io", new NewtonsoftJsonSerializer()));
 
@@ -107,19 +122,26 @@ public class Program
             //}
         }
 
+        /* Re-enable these for continued development 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+
+            
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseMigrationsEndPoint();
-        }
+            
+    }
         else
         {
             app.UseExceptionHandler("/Home/Error");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
+        */
+        app.UseExceptionHandler("/Home/Error"); 
+        app.UseHsts();
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();

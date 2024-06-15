@@ -5,7 +5,6 @@
     background-repeat: no-repeat;
     justify-content: center;
     align-items: flex-start;
-    height: 80vh;
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
 }
@@ -13,13 +12,11 @@
 
 @media screen and (min-width: 992px) {
     .profile-box {
-        height: 80vh;
     }
 }
 
 @media screen and (max-width: 991px) {
     .profile-box {
-        height: 80vh;
     }
 }
 
@@ -42,6 +39,12 @@
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #000000 white;
+}
+
+@media (max-width: 800px) {
+    #joinedGroupLink {
+        font-size: 0.1em;
+    }
 }
 
 

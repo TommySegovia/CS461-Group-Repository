@@ -86,6 +86,7 @@ public class ProfileController : Controller
         {
             return NotFound();
         }
+        
 
         currentUser.DisplayName = model.DisplayName;
         currentUser.ImageLink = model.ImageLink;

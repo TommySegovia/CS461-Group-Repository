@@ -20,40 +20,59 @@ public class LocationsController : Controller
 
     public IActionResult Search()
     {
-        return View();
+        if (User.Identity.IsAuthenticated)
+        {
+            return View();
+        }
+        else
+        {
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+        }
     }
 
     [HttpGet("Locations/Areas/{id}")]
     public IActionResult GetArea(string id)
     {
-        Task<OBArea> area = _openBetaApiService.FindAreaById(id);
-
-        if (area == null)
+        if (User.Identity.IsAuthenticated)
         {
-            return NotFound();
+            Task<OBArea> area = _openBetaApiService.FindAreaById(id);
+            if (area == null)
+            {
+                return NotFound();
+            }
+            return View("Areas", area.Result);
         }
-
-        return View("Areas", area.Result);
+        else
+        {
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+        }
     }
 
     [HttpGet("Locations/Climbs/{id}")]
     public async Task<IActionResult> GetClimb(string id)
     {
-        try
+        if (User.Identity.IsAuthenticated)
         {
-            OBClimb climb = await _openBetaApiService.FindClimbById(id);
-
-            if (climb == null)
+            try
             {
-                return NotFound();
-            }
+                OBClimb climb = await _openBetaApiService.FindClimbById(id);
+                if (climb == null)
+                {
+                    return NotFound();
+                }
 
-            return View("Climbs", climb);
+                return View("Climbs", climb);
+            }
+            catch (GraphQLHttpRequestException ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching climb with id {Id}", id);
+                return StatusCode(502); // Bad Gateway
+            }
         }
-        catch (GraphQLHttpRequestException ex)
+        else
         {
-            _logger.LogError(ex, "Error occurred while fetching climb with id {Id}", id);
-            return StatusCode(502); // Bad Gateway
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
         }
+
     }
 }

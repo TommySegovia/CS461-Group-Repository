@@ -1,5 +1,5 @@
 
-
+#nullable enable
 namespace PeakPals_Project.Models;
 
 public class OBArea
@@ -16,7 +16,7 @@ public class OBArea
         public Metadata? Metadata { get; set; }
         public AuthorMetadata? AuthorMetadata { get; set; }
         public Content? Content { get; set; }
-        public List<Organizations> Organizations { get; set; }
+        public List<Organizations> Organizations { get; set; } = new List<Organizations>();
         public List<Media>? Media { get; set;}
         public List<Children>? Children { get; set; }
         public List<Climb>? Climbs { get; set; }
@@ -47,7 +47,7 @@ public class OBArea
 
     public class OrganizationContent
     {
-        public string Website { get; set; }
+        public string Website { get; set; } = "";
     }
 
     public class Media

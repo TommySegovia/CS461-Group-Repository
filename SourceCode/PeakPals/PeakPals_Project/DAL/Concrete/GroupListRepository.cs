@@ -50,7 +50,7 @@ namespace PeakPals_Project.DAL.Concrete
         {
             // Search the GroupList table for GroupList objects with the specified community group ID
             // Return the count of the GroupList objects
-            return _groupList.Where(c => c.CommunityGroupID == communityGroupID).Count();
+            return  _groupList.Where(c => c.CommunityGroupID == communityGroupID).Count();
         }
 
         public List<GroupList> GetGroupListByGroupID(int communityGroupID)

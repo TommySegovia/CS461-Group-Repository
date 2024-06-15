@@ -24,8 +24,8 @@ async function searchButtonClicked(e)
     validationWarning.textContent = "";
 
     const searchInput = document.getElementById("search-input");
-    const username = searchInput.value;
-    const isValid = /^[a-z0-9 ,.!?]+$/i.test(username);
+    const username = searchInput.value.trim();
+    const isValid = /^[a-z0-9 ,!?]+$/i.test(username);
 
     if(!isValid)
     {
@@ -100,8 +100,8 @@ async function communityGroupSearchButtonClicked(e){
     validationWarning.textContent = "";
 
     const searchInput = document.getElementById("community-group-search-input");
-    const groupName = searchInput.value;
-    const isValid = /^[a-z0-9 ,.!?]+$/i.test(groupName);
+    const groupName = searchInput.value.trim();
+    const isValid = /^[a-z0-9 ,!?]+$/i.test(groupName);
 
     if(!isValid)
     {
@@ -172,8 +172,8 @@ async function createGroupButtonClicked(e){
     const groupName = document.getElementById("groupName").value;
     const groupDescription = document.getElementById("groupDescription").value;
 
-    const nameIsValid = /^[a-z0-9 ,.!?]+$/i.test(groupName);
-    const descriptionIsValid = /^[a-z0-9 ,.!?]+$/i.test(groupDescription);
+    const nameIsValid = /^[a-z0-9 ,!?]+$/i.test(groupName);
+    const descriptionIsValid = /^[a-z0-9 .,!?]+$/i.test(groupDescription);
 
     if(!nameIsValid)
     {
